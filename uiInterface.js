@@ -451,7 +451,7 @@ async function getListRoomTypesApi(cdm)
 		{
 			if(arr[i].id !== floor[i2].userData.id) continue;
 			
-			floor[i].userData.room.zone.id = (arr[i].zone == undefined) ? infProject.settings.room.type[0].id : arr[i].zone;
+			floor[i].userData.room.zone.id = arr[i].zone;
 			
 			if(infProject.settings.floor.label.visible)  
 			{ 				 
@@ -480,6 +480,7 @@ function assignRoomType(cdm)
 	
 	obj.label.visible = false;
 	
+	if(!id) return;
 	if(!obj) return;
 	if(type.length == 0) return;
 	

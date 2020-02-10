@@ -99,7 +99,17 @@ function changeDepthColor()
 	{
 		for ( var i = 0; i < floor.length; i++ )
 		{ 
-			floor[i].label.visible = visible; 
+			if(visible)
+			{
+				if(floor[i].userData.room.zone.id !== undefined)
+				{
+					floor[i].label.visible = visible;
+				}
+			}
+			else
+			{
+				floor[i].label.visible = visible;
+			}			 
 		}		
 	}
 	

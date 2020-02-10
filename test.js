@@ -2500,17 +2500,7 @@ function fname_s_064()
 	{
 		for ( var i = 0; i < floor.length; i++ )
 		{ 
-			if(visible)
-			{
-				if(floor[i].userData.room.zone.id !== undefined)
-				{
-					floor[i].label.visible = visible;
-				}
-			}
-			else
-			{
-				floor[i].label.visible = visible;
-			}			 
+			floor[i].label.visible = visible; 
 		}		
 	}
 	
@@ -13131,7 +13121,7 @@ async function fname_s_0297(cdm)
 		{
 			if(arr[i].id !== floor[i2].userData.id) continue;
 			
-			floor[i].userData.room.zone.id = arr[i].zone;
+			floor[i].userData.room.zone.id = (arr[i].zone == undefined) ? infProject.settings.room.type[0].id : arr[i].zone;
 			
 			if(infProject.settings.floor.label.visible)  
 			{ 				 
@@ -13160,7 +13150,6 @@ function fname_s_0298(cdm)
 	
 	obj.label.visible = false;
 	
-	if(!id) return;
 	if(!obj) return;
 	if(type.length == 0) return;
 	
