@@ -83,6 +83,7 @@ function changeDepthColor()
 	var wall = infProject.scene.array.wall;
 	var window = infProject.scene.array.window;
 	var door = infProject.scene.array.door;	
+	var floor = infProject.scene.array.floor;
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{
@@ -92,6 +93,14 @@ function changeDepthColor()
 		{
 			wall[i].label[i2].visible = visible;
 		}
+	}
+
+	if(infProject.settings.floor.label.visible)
+	{
+		for ( var i = 0; i < floor.length; i++ )
+		{ 
+			floor[i].label.visible = visible; 
+		}		
 	}
 	
 	for ( var i = 0; i < point.length; i++ )

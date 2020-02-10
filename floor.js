@@ -43,7 +43,14 @@ function createFloor(cdm)
 	 
 	floor.userData.tag = 'room';
 	floor.userData.id = id;
-	floor.userData.room = { areaTxt : 0, p : floor.p, w : floor.w, s : floor.s, outline : null };
+	floor.userData.room = {};
+	floor.userData.room.areaTxt = 0;
+	floor.userData.room.p = floor.p;
+	floor.userData.room.w = floor.w;
+	floor.userData.room.s = floor.s;
+	floor.userData.room.zone = { id: 0, name: '' };
+	floor.userData.room.zone.id = (infProject.settings.room.type.length > 0) ? infProject.settings.room.type[0].id : undefined;
+	floor.userData.room.outline = null;
 	floor.userData.room.height = infProject.settings.floor.height;
 	floor.userData.material = { tag: 'room', color: floor.material.color, img: null };	
 	
@@ -57,7 +64,7 @@ function createFloor(cdm)
 	ceil.userData.material = { tag: 'ceiling', color: ceil.material.color, img: null };
 
 	
-	//infProject.settings.floor.material = { img: infProject.path+"img/load/floor_1.jpg" };
+	
 	if(infProject.settings.floor.material)
 	{	
 		setTexture({obj: floor, material: infProject.settings.floor.material});	
@@ -65,9 +72,21 @@ function createFloor(cdm)
 	
 	if(infProject.settings.floor.o)
 	{ 	
-		floor.label = createLabelCameraWall({ count : 1, text : 0, size : 65, ratio : {x:256*4, y:256}, geometry : infProject.geometry.labelFloor, opacity : 0.5 })[0];
+		floor.label = createLabelCameraWall({ count : 1, text : 0, size : 65, ratio : {x:256*4*0.7, y:256*0.7}, geometry : infProject.geometry.labelFloor, opacity : 0.5 })[0];
+		floor.label.visible = false;
 		
-		if(!infProject.settings.floor.label) floor.label.visible = false; 
+		if(infProject.settings.floor.label.visible) 
+		{ 
+			if(infProject.settings.floor.label.type == 'zone')
+			{
+				assignRoomType({id: floor.userData.room.zone.id, obj: floor});
+			}
+			
+			if(infProject.settings.floor.label.type == 'area')
+			{
+				floor.label.visible = true;
+			}			 
+		} 
 			
 		getYardageSpace([floor]); 
 		scene.add(floor); 

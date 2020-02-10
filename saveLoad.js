@@ -369,7 +369,9 @@ function compileJsonFile()
 		rooms[i].contour = [];
 		var s = 0; for ( var i2 = floor[i].p.length - 1; i2 >= 1; i2-- ) { rooms[i].contour[s] = floor[i].p[i2].userData.id; s++; } 
 		
-		rooms[i].material = [floor[i].userData.material, ceiling[i].userData.material];						
+		rooms[i].material = [floor[i].userData.material, ceiling[i].userData.material];	
+
+		rooms[i].zone = floor[i].userData.room.zone.id;
 	}
 	
 
@@ -590,7 +592,7 @@ function loadFile(cdm)
 
 
 
-function loadFilePL(arr) 
+async function loadFilePL(arr) 
 {     
 	resetScene();					
 	if(!arr) return;
@@ -650,42 +652,10 @@ function loadFilePL(arr)
 			wall[i].arrO[i2].type = arrO[i2].type;
 		} 	
 	}
-	
-
+		
 
 	//-------------
 	 
-	// удаляем стены, которые пересекаются с друг другом (стена в стене)
-	for ( var i = wall.length - 1; i >= 0; i-- )
-	{
-		for ( var i2 = 0; i2 < wall.length; i2++ )
-		{
-			if(wall[i] == wall[i2]) continue;			
-			
-			var count = 0;
-			var pos1 = [];
-			var pos2 = [];
-			if(wall[i].points[0].id == wall[i2].points[0].id) { count++; pos1 = [wall[i].points[0].pos, wall[i].points[1].pos]; pos2 = [wall[i2].points[0].pos, wall[i2].points[1].pos]; }
-			if(wall[i].points[0].id == wall[i2].points[1].id) { count++; pos1 = [wall[i].points[0].pos, wall[i].points[1].pos]; pos2 = [wall[i2].points[1].pos, wall[i2].points[0].pos]; }
-			if(wall[i].points[1].id == wall[i2].points[0].id) { count++; pos1 = [wall[i].points[1].pos, wall[i].points[0].pos]; pos2 = [wall[i2].points[0].pos, wall[i2].points[1].pos]; }
-			if(wall[i].points[1].id == wall[i2].points[1].id) { count++; pos1 = [wall[i].points[1].pos, wall[i].points[0].pos]; pos2 = [wall[i2].points[1].pos, wall[i2].points[0].pos]; }
-			
-			if(count == 2) { wall.splice(i, 1); }
-			else if(count == 1)
-			{
-				var dir1 = new THREE.Vector3().subVectors( pos1[0], pos1[1] ).normalize();
-				var dir2 = new THREE.Vector3().subVectors( pos2[0], pos2[1] ).normalize();
-				
-				if(!comparePos(dir1, dir2)) { continue; }
-				
-				var d1 = pos1[0].distanceTo( pos1[1] );
-				var d2 = pos2[0].distanceTo( pos2[1] );
-				
-				if(d1 > d2) { wall.splice(i, 1); } 
-			}
-		}
-	}
-	
 	// создаем и устанавливаем все стены (без окон/дверей)
 	var arrW = [];
 	
@@ -762,6 +732,8 @@ function loadFilePL(arr)
 		loadTextureInBase({arr: arrTexture});
 	}
 	
+	
+	getListRoomTypesApi({arr: rooms});	// получаем типы помещений, добавляем в меню и назначаем всем построеннным комнатам тип помещения
 	
 	loadObjInBase({furn: furn});
 

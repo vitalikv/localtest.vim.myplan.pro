@@ -414,3 +414,91 @@ function clickButtonLoadProjectUI(el)
 }
 
 
+// получаем типы помещений из api, добавляем в меню и назначаем всем построеннным комнатам тип помещения
+async function getListRoomTypesApi(cdm)
+{
+	var url = infProject.settings.api.type.room;
+
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+
+	infProject.settings.room.type = json;	
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var str = 
+		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
+			<div class="right_panel_1_1_list_item_text">'
+			+json[i].title+
+			'</div>\
+		</div>';
+		
+		
+		var el = $(str).appendTo('[list_ui="room_type"]');
+		var id = json[i].id;
+		(function(id) 
+		{
+			el.on('mousedown', function(){ assignRoomType({button: true, id: id}); });	
+		}(id));		
+	}
+
+	var arr = cdm.arr;
+	var floor = infProject.scene.array.floor;
+	
+	for ( var i = 0; i < arr.length; i++ )
+	{
+		for ( var i2 = 0; i2 < floor.length; i2++ )
+		{
+			if(arr[i].id !== floor[i2].userData.id) continue;
+			
+			floor[i].userData.room.zone.id = (arr[i].zone == undefined) ? infProject.settings.room.type[0].id : arr[i].zone;
+			
+			if(infProject.settings.floor.label.visible)  
+			{ 				 
+				assignRoomType({id: floor[i].userData.room.zone.id, obj: floor[i]});			
+			}
+			
+			break;
+		}		
+	}
+	
+	renderCamera();
+		
+}
+
+
+
+function assignRoomType(cdm)
+{ 
+	var type = infProject.settings.room.type;	
+	
+	var id = cdm.id;
+	var obj = null;
+	
+	if(cdm.button) { obj = clickO.last_obj; }
+	if(cdm.obj) { obj = cdm.obj; }
+	
+	obj.label.visible = false;
+	
+	if(!obj) return;
+	if(type.length == 0) return;
+	
+	for(var i = 0; i < type.length; i++)
+	{ 
+		if(type[i].id !== id) continue;
+		//console.log(type[i]);
+		obj.userData.room.zone.id = type[i].id;
+		obj.userData.room.zone.name = type[i].title;
+		
+		upLabelArea2(obj.label, type[i].title, '80', 'rgba(255,255,255,1)', true);
+		
+		break;
+	}
+	
+	obj.label.visible = true;
+	
+	renderCamera();
+}
+
+
+

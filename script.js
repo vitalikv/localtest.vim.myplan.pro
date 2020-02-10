@@ -142,6 +142,7 @@ infProject.project = null;
 infProject.settings.active = { pg: 'pivot' };
 infProject.settings.door = { width: 1, height: 2.2 };
 infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
+infProject.settings.room = { type: [] };
 infProject.camera = { d3: { theta: 0, phi: 75, targetPos: new THREE.Vector3() } };
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
@@ -291,6 +292,7 @@ var offset = new THREE.Vector3();
 
 	//getAutoBuildingJson();
 
+	//getListRoomTypesApi();
 	getListObjTypesApi();
 }
 
@@ -1568,7 +1570,7 @@ document.body.addEventListener("keydown", function (e)
 	if(e.keyCode == 66) { loadUrlFile(); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
 	if(e.keyCode == 89) { saveFile({txt: true}); } 			// y
-	if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
+	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
 } );
 
 document.body.addEventListener("keydown", function (e) 

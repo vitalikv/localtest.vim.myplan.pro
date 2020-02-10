@@ -104,6 +104,7 @@ function objActiveColor_2D(obj)
 	else if(tag == 'point'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	 
 	else if(tag == 'wall'){ obj.material[3].color = new THREE.Color(infProject.listColor.active2D); } 	
 	else if(tag == 'door'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	
+	//else if(tag == 'room'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); console.log(555555);}
 	
 	if(clickO.hover == obj) { clickO.hover = null; }
 }

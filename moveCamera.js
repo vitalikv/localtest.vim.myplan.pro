@@ -420,8 +420,8 @@ function cameraZoomTop( delta )
 		upLabelPlan_1( infProject.scene.array.wall, true );
 
 
-		var n1 = 1 * k;
-		var n2 = 0.25 * k;
+		var n1 = 1 * k * 0.7;
+		var n2 = 0.25 * k * 0.7;
 		var v = infProject.geometry.labelFloor.vertices;
 		v[ 0 ].x = v[ 1 ].x = -n1;
 		v[ 2 ].x = v[ 3 ].x = n1;

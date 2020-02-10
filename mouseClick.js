@@ -256,7 +256,7 @@ function clickMouseActive(cdm)
 	{	
 		if( tag == 'wall' && camera == camera3D ) {  }
 		else if( tag == 'obj' && camera == camera3D ) { clickObject3D( obj ); }
-		else if( tag == 'room' && camera == cameraTop ) { clickO.last_obj = obj; activeObjRightPanelUI_1({obj: obj}); }
+		else if( tag == 'room' && camera == cameraTop ) { activeObjRightPanelUI_1({obj: obj}); }
 		else { flag = false; }
 	}	
 

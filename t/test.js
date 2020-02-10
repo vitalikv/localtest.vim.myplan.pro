@@ -435,9 +435,16 @@ function fname_s_09( room )
 		
 		if(res < 0.5) { res = ''; }
 		
-		fname_s_0173(room[u].label, res, '80', 'rgba(255,255,255,1)', true);
 		
-		if(infProject.settings.floor.label) room[u].label.visible = true;
+		
+		if(infProject.settings.floor.label.visible) 
+		{						
+			if(infProject.settings.floor.label.type == 'area')
+			{
+				room[u].label.visible = true;
+				fname_s_0173(room[u].label, res, '80', 'rgba(255,255,255,1)', true);
+			}						
+		}
 	}
 
 	return contour;
@@ -2137,7 +2144,7 @@ function fname_s_057(cdm)
 	if(cdm.type == 'down')
 	{  
 		if(fname_s_050(clickO.move)) { flag = false; }
-		else if( tag == 'substrate_tool' && camera == cameraTop ) { fname_s_0314({intersect: rayhit}); }
+		else if( tag == 'substrate_tool' && camera == cameraTop ) { fname_s_0316({intersect: rayhit}); }
 		else if( tag == 'pivot' ) { fname_s_0244( rayhit ); }
 		else if( tag == 'gizmo' ) { fname_s_0260( rayhit ); } 
 		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0110( rayhit ); }
@@ -2153,7 +2160,7 @@ function fname_s_057(cdm)
 	{	
 		if( tag == 'wall' && camera == camera3D ) {  }
 		else if( tag == 'obj' && camera == camera3D ) { fname_s_0251( obj ); }
-		else if( tag == 'room' && camera == cameraTop ) { clickO.last_obj = obj; fname_s_0287({obj: obj}); }
+		else if( tag == 'room' && camera == cameraTop ) { fname_s_0287({obj: obj}); }
 		else { flag = false; }
 	}	
 
@@ -2201,7 +2208,7 @@ function fname_s_058( event )
 	{
 		var tag = obj.userData.tag;
 			
-		if ( tag == 'substrate_tool' ) { fname_s_0315(event); }	
+		if ( tag == 'substrate_tool' ) { fname_s_0317(event); }	
 		else if ( tag == 'pivot' ) { fname_s_0245( event ); }
 		else if ( tag == 'gizmo' ) { fname_s_0262( event ); }
 		else if ( tag == 'wall' ) { fname_s_0113( event, obj ); }
@@ -2416,7 +2423,7 @@ function fname_s_063(cam)
 		fname_s_078( camera.zoom );
 		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 
-		fname_s_0299();	
+		fname_s_0301();	
 		
 		fname_s_0286({current: true});
 	}
@@ -2435,8 +2442,8 @@ function fname_s_063(cam)
 		}		
 		
 		
-		fname_s_0297();
-		fname_s_0298();
+		fname_s_0299();
+		fname_s_0300();
 		
 		fname_s_0286({current: true});
 	}
@@ -2477,6 +2484,7 @@ function fname_s_064()
 	var wall = infProject.scene.array.wall;
 	var window = infProject.scene.array.window;
 	var door = infProject.scene.array.door;	
+	var floor = infProject.scene.array.floor;
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{
@@ -2486,6 +2494,14 @@ function fname_s_064()
 		{
 			wall[i].label[i2].visible = visible;
 		}
+	}
+
+	if(infProject.settings.floor.label.visible)
+	{
+		for ( var i = 0; i < floor.length; i++ )
+		{ 
+			floor[i].label.visible = visible; 
+		}		
 	}
 	
 	for ( var i = 0; i < point.length; i++ )
@@ -2770,7 +2786,7 @@ function fname_s_071( event )
 			
 			if(gizmo.visible) fname_s_0259(gizmo.userData.gizmo.obj);
 			
-			fname_s_0298();
+			fname_s_0300();
 		}
 		if ( isMouseDown3 )    
 		{
@@ -2781,7 +2797,7 @@ function fname_s_071( event )
 			camera.position.add( offset );
 			infProject.camera.d3.targetPos.add( offset );
 			
-			fname_s_0298();
+			fname_s_0300();
 		}
 	}
 	else if ( camera3D.userData.camera.type == 'first' )
@@ -3013,8 +3029,8 @@ function fname_s_078( delta )
 		fname_s_07( infProject.scene.array.wall, true );
 
 
-		var n1 = 1 * k;
-		var n2 = 0.25 * k;
+		var n1 = 1 * k * 0.7;
+		var n2 = 0.25 * k * 0.7;
 		var v = infProject.geometry.labelFloor.vertices;
 		v[ 0 ].x = v[ 1 ].x = -n1;
 		v[ 2 ].x = v[ 3 ].x = n1;
@@ -5670,7 +5686,14 @@ function fname_s_0139(cdm)
 	 
 	floor.userData.tag = 'room';
 	floor.userData.id = id;
-	floor.userData.room = { areaTxt : 0, p : floor.p, w : floor.w, s : floor.s, outline : null };
+	floor.userData.room = {};
+	floor.userData.room.areaTxt = 0;
+	floor.userData.room.p = floor.p;
+	floor.userData.room.w = floor.w;
+	floor.userData.room.s = floor.s;
+	floor.userData.room.zone = { id: 0, name: '' };
+	floor.userData.room.zone.id = (infProject.settings.room.type.length > 0) ? infProject.settings.room.type[0].id : undefined;
+	floor.userData.room.outline = null;
 	floor.userData.room.height = infProject.settings.floor.height;
 	floor.userData.material = { tag: 'room', color: floor.material.color, img: null };	
 	
@@ -5692,9 +5715,21 @@ function fname_s_0139(cdm)
 	
 	if(infProject.settings.floor.o)
 	{ 	
-		floor.label = fname_s_0171({ count : 1, text : 0, size : 65, ratio : {x:256*4, y:256}, geometry : infProject.geometry.labelFloor, opacity : 0.5 })[0];
+		floor.label = fname_s_0171({ count : 1, text : 0, size : 65, ratio : {x:256*4*0.7, y:256*0.7}, geometry : infProject.geometry.labelFloor, opacity : 0.5 })[0];
+		floor.label.visible = false;
 		
-		if(!infProject.settings.floor.label) floor.label.visible = false; 
+		if(infProject.settings.floor.label.visible) 
+		{ 
+			if(infProject.settings.floor.label.type == 'zone')
+			{
+				fname_s_0298({id: floor.userData.room.zone.id, obj: floor});
+			}
+			
+			if(infProject.settings.floor.label.type == 'area')
+			{
+				floor.label.visible = true;
+			}			 
+		} 
 			
 		fname_s_09([floor]); 
 		scene.add(floor); 
@@ -7162,16 +7197,14 @@ function fname_s_0173(label, area, text2, size, color, border)
 	ctx.textAlign = "center";
 	ctx.textBaseline = "bottom";
 	
-	if(infProject.settings.unit.floor == 1) 
+	if(infProject.settings.floor.label.type == 'area') 
 	{
 		ctx.fillText('площадь : '+area+ ' м2', canvs.width / 2, canvs.height / 2 - 10 );
 		ctx.fillText('объем : '+Math.round((area * infProject.settings.height) * 100) / 100 +' м3', canvs.width / 2, canvs.height / 2 + 110 );			
 	}
-	else if(infProject.settings.unit.floor == 0.01)
+	else if(infProject.settings.floor.label.type == 'zone')
 	{
-		var value = Math.round(area*infProject.settings.unit.floor * 100) / 100;
-		ctx.fillText('площадь участка', canvs.width / 2, canvs.height / 2 - 10 );
-		ctx.fillText(value+' (сотка)', canvs.width / 2, canvs.height / 2 + 110 );			
+	 	ctx.fillText(area, canvs.width / 2, canvs.height / 2 + 50 );	
 	}
 	
 	label.material.map.needsUpdate = true;
@@ -7363,6 +7396,7 @@ function fname_s_0177(obj)
 	else if(tag == 'point'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	 
 	else if(tag == 'wall'){ obj.material[3].color = new THREE.Color(infProject.listColor.active2D); } 	
 	else if(tag == 'door'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	
+	
 	
 	if(clickO.hover == obj) { clickO.hover = null; }
 }
@@ -7790,7 +7824,9 @@ function fname_s_0185()
 		rooms[i].contour = [];
 		var s = 0; for ( var i2 = floor[i].p.length - 1; i2 >= 1; i2-- ) { rooms[i].contour[s] = floor[i].p[i2].userData.id; s++; } 
 		
-		rooms[i].material = [floor[i].userData.material, ceiling[i].userData.material];						
+		rooms[i].material = [floor[i].userData.material, ceiling[i].userData.material];	
+
+		rooms[i].zone = floor[i].userData.room.zone.id;
 	}
 	
 
@@ -8011,7 +8047,7 @@ function fname_s_0189(cdm)
 
 
 
-function fname_s_load_f(arr) 
+async function fname_s_load_f(arr) 
 {     
 	fname_s_0181();					
 	if(!arr) return;
@@ -8071,42 +8107,10 @@ function fname_s_load_f(arr)
 			wall[i].arrO[i2].type = arrO[i2].type;
 		} 	
 	}
-	
-
+		
 
 	
 	 
-	
-	for ( var i = wall.length - 1; i >= 0; i-- )
-	{
-		for ( var i2 = 0; i2 < wall.length; i2++ )
-		{
-			if(wall[i] == wall[i2]) continue;			
-			
-			var count = 0;
-			var pos1 = [];
-			var pos2 = [];
-			if(wall[i].points[0].id == wall[i2].points[0].id) { count++; pos1 = [wall[i].points[0].pos, wall[i].points[1].pos]; pos2 = [wall[i2].points[0].pos, wall[i2].points[1].pos]; }
-			if(wall[i].points[0].id == wall[i2].points[1].id) { count++; pos1 = [wall[i].points[0].pos, wall[i].points[1].pos]; pos2 = [wall[i2].points[1].pos, wall[i2].points[0].pos]; }
-			if(wall[i].points[1].id == wall[i2].points[0].id) { count++; pos1 = [wall[i].points[1].pos, wall[i].points[0].pos]; pos2 = [wall[i2].points[0].pos, wall[i2].points[1].pos]; }
-			if(wall[i].points[1].id == wall[i2].points[1].id) { count++; pos1 = [wall[i].points[1].pos, wall[i].points[0].pos]; pos2 = [wall[i2].points[1].pos, wall[i2].points[0].pos]; }
-			
-			if(count == 2) { wall.splice(i, 1); }
-			else if(count == 1)
-			{
-				var dir1 = new THREE.Vector3().subVectors( pos1[0], pos1[1] ).normalize();
-				var dir2 = new THREE.Vector3().subVectors( pos2[0], pos2[1] ).normalize();
-				
-				if(!fname_s_034(dir1, dir2)) { continue; }
-				
-				var d1 = pos1[0].distanceTo( pos1[1] );
-				var d2 = pos2[0].distanceTo( pos2[1] );
-				
-				if(d1 > d2) { wall.splice(i, 1); } 
-			}
-		}
-	}
-	
 	
 	var arrW = [];
 	
@@ -8183,6 +8187,8 @@ function fname_s_load_f(arr)
 		fname_s_0191({arr: arrTexture});
 	}
 	
+	
+	fname_s_0297({arr: rooms});	
 	
 	fname_s_0192({furn: furn});
 
@@ -8444,6 +8450,7 @@ infProject.project = null;
 infProject.settings.active = { pg: 'pivot' };
 infProject.settings.door = { width: 1, height: 2.2 };
 infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
+infProject.settings.room = { type: [] };
 infProject.camera = { d3: { theta: 0, phi: 75, targetPos: new THREE.Vector3() } };
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
@@ -8457,7 +8464,7 @@ infProject.geometry.labelWall = fname_s_0204(0.25 * 2, 0.125 * 2);
 infProject.geometry.labelFloor = fname_s_0204(1.0 * kof_rd, 0.25 * kof_rd);
 infProject.geometry.labelWD = fname_s_0205(0.25 * kof_rd, 0.125 * kof_rd);
 infProject.scene.substrate = { ruler: [], floor: [], active: null };
-infProject.scene.substrate.ruler = fname_s_0301(); 
+infProject.scene.substrate.ruler = fname_s_0303(); 
 infProject.scene.size = { wd_1: {} };	
 infProject.scene.size.wd_1.line = fname_s_0170({count : 6, color : 0x616161});	
 infProject.scene.size.wd_1.label = fname_s_0171({ count: 6, text: 0, size: 50, ratio: {x:256*2, y:256}, border: 'border line', geometry: infProject.geometry.labelWD, opacity : 0.5 });
@@ -8581,7 +8588,7 @@ var offset = new THREE.Vector3();
 
 {
 	fname_s_0202();
-	fname_s_0304({ pos: {y: 0.01} }); 	
+	fname_s_0306({ pos: {y: 0.01} }); 	
 	fname_s_070({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
 	
 	fname_s_0281();		
@@ -8593,6 +8600,7 @@ var offset = new THREE.Vector3();
 
 	
 
+	
 	fname_s_0265();
 }
 
@@ -9870,7 +9878,7 @@ document.body.addEventListener("keydown", function (e)
 	if(e.keyCode == 66) { fname_s_0278(); } 	
 	
 	if(e.keyCode == 89) { fname_s_0188({txt: true}); } 			
-	if(e.keyCode == 86) { fname_s_0181(); fname_s_0325(); } 
+	
 } );
 
 document.body.addEventListener("keydown", function (e) 
@@ -10105,8 +10113,8 @@ $('[nameId="button_wrap_plan"]').mousedown(function () { fname_s_0286({el: this}
 $('[nameId="showHideWall_1"]').on('mousedown', function(e) { fname_s_068(); });
 
 	
-$('[nameId="select_pivot"]').mousedown(function () { fname_s_0254({mode:'pivot'}); });
-$('[nameId="select_gizmo"]').mousedown(function () { fname_s_0254({mode:'gizmo'}); });
+$('[nameId="select_pivot"]').mousedown(function () { fname_s_tools_handle({mode:'pivot'}); });
+$('[nameId="select_gizmo"]').mousedown(function () { fname_s_tools_handle({mode:'gizmo'}); });
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0257(); });	
 $('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0256(); });
@@ -10508,14 +10516,14 @@ function fname_s_0238(cdm)
 
 
 $('#load_substrate_1').change(fname_s_0239);	
-$('[nameId="assign_size_substrate"]').mousedown(function () { fname_s_0321(); });
-$('[nameId="button_delete_substrate"]').mousedown(function () { fname_s_0324(); }); 
+$('[nameId="assign_size_substrate"]').mousedown(function () { fname_s_0323(); });
+$('[nameId="button_delete_substrate"]').mousedown(function () { fname_s_0326(); }); 
 
-$('[nameId="input_rotate_substrate_45"]').mousedown(function () { fname_s_0322({angle: 45}); });
-$('[nameId="input_rotate_substrate_90"]').mousedown(function () { fname_s_0322({angle: 90}); });
+$('[nameId="input_rotate_substrate_45"]').mousedown(function () { fname_s_0324({angle: 45}); });
+$('[nameId="input_rotate_substrate_90"]').mousedown(function () { fname_s_0324({angle: 90}); });
 
 
-$('[nameId="input_transparency_substrate"]').on("input", function() { fname_s_0323({value: $(this).val()}); }); 
+$('[nameId="input_transparency_substrate"]').on("input", function() { fname_s_0325({value: $(this).val()}); }); 
 
 
 function fname_s_0239(e) 
@@ -10529,7 +10537,7 @@ function fname_s_0239(e)
 			{
 				$('#substrate_img').attr('src', e.target.result);						
 				
-				fname_s_0312({image: e.target.result});					
+				fname_s_0314({image: e.target.result});					
 			}				
 
 			reader.readAsDataURL(this.files[0]);  					
@@ -11080,7 +11088,7 @@ function fname_s_0253(obj)
 
 
 
-function fname_s_0254(cdm)
+function fname_s_tools_handle(cdm)
 {
 	var obj = fname_s_0255();
 	
@@ -12807,7 +12815,7 @@ function fname_s_0286(cdm)
 	$('[nameId="wrap_plan"]').hide();
 	
 	infProject.scene.substrate.active = null;
-	fname_s_0309({visible: false});
+	fname_s_0311({visible: false});
 	
 	var name = '';
 	
@@ -12822,7 +12830,7 @@ function fname_s_0286(cdm)
 		$('[nameId="wrap_img"]').show();
 		fname_s_0220();
 		infProject.scene.substrate.active = infProject.scene.substrate.floor[0].plane;
-		fname_s_0309({visible: true});
+		fname_s_0311({visible: true});
 	}	
 	if(name == "button_wrap_catalog") 
 	{
@@ -13077,11 +13085,99 @@ function fname_s_0296(el)
 
 
 
+async function fname_s_0297(cdm)
+{
+	var url = infProject.settings.api.type.room;
+
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+
+	infProject.settings.room.type = json;	
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var str = 
+		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
+			<div class="right_panel_1_1_list_item_text">'
+			+json[i].title+
+			'</div>\
+		</div>';
+		
+		
+		var el = $(str).appendTo('[list_ui="room_type"]');
+		var id = json[i].id;
+		(function(id) 
+		{
+			el.on('mousedown', function(){ fname_s_0298({button: true, id: id}); });	
+		}(id));		
+	}
+
+	var arr = cdm.arr;
+	var floor = infProject.scene.array.floor;
+	
+	for ( var i = 0; i < arr.length; i++ )
+	{
+		for ( var i2 = 0; i2 < floor.length; i2++ )
+		{
+			if(arr[i].id !== floor[i2].userData.id) continue;
+			
+			floor[i].userData.room.zone.id = (arr[i].zone == undefined) ? infProject.settings.room.type[0].id : arr[i].zone;
+			
+			if(infProject.settings.floor.label.visible)  
+			{ 				 
+				fname_s_0298({id: floor[i].userData.room.zone.id, obj: floor[i]});			
+			}
+			
+			break;
+		}		
+	}
+	
+	fname_s_0196();
+		
+}
+
+
+
+function fname_s_0298(cdm)
+{ 
+	var type = infProject.settings.room.type;	
+	
+	var id = cdm.id;
+	var obj = null;
+	
+	if(cdm.button) { obj = clickO.last_obj; }
+	if(cdm.obj) { obj = cdm.obj; }
+	
+	obj.label.visible = false;
+	
+	if(!obj) return;
+	if(type.length == 0) return;
+	
+	for(var i = 0; i < type.length; i++)
+	{ 
+		if(type[i].id !== id) continue;
+		
+		obj.userData.room.zone.id = type[i].id;
+		obj.userData.room.zone.name = type[i].title;
+		
+		fname_s_0173(obj.label, type[i].title, '80', 'rgba(255,255,255,1)', true);
+		
+		break;
+	}
+	
+	obj.label.visible = true;
+	
+	fname_s_0196();
+}
+
+
+
+
 
 var wallVisible = [];
 
 
-function fname_s_0297()
+function fname_s_0299()
 {
 	wallVisible = [];
 	var wall = infProject.scene.array.wall;
@@ -13107,7 +13203,7 @@ function fname_s_0297()
 
 
 
-function fname_s_0298()
+function fname_s_0300()
 { 
 	var camPos = camera.getWorldDirection(new THREE.Vector3());
 	
@@ -13123,7 +13219,7 @@ function fname_s_0298()
 		if ( res > 0.5 )  
 		{ 	
 			wall.renderOrder = Math.abs(res);
-			fname_s_0300({obj: wall, value: 1 - Math.abs(res)});
+			fname_s_0302({obj: wall, value: 1 - Math.abs(res)});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13133,7 +13229,7 @@ function fname_s_0298()
 		else
 		{
 			wall.renderOrder = 0;
-			fname_s_0300({obj: wall, value: 1});
+			fname_s_0302({obj: wall, value: 1});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13144,14 +13240,14 @@ function fname_s_0298()
 }
 
 
-function fname_s_0299()
+function fname_s_0301()
 {		
 	for ( var i = 0; i < wallVisible.length; i++ ) 
 	{ 
 		var wall = wallVisible[i].wall;
 
 		wall.renderOrder = 0;
-		fname_s_0300({obj: wall, value: 1});
+		fname_s_0302({obj: wall, value: 1});
 		
 		for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 		{
@@ -13161,7 +13257,7 @@ function fname_s_0299()
 }
 
 
-function fname_s_0300(cdm)
+function fname_s_0302(cdm)
 {
 	var obj = cdm.obj;
 	
@@ -13195,7 +13291,7 @@ function fname_s_0300(cdm)
 
 
 
-function fname_s_0301()
+function fname_s_0303()
 {	
 	var ruler = [];
 	
@@ -13237,7 +13333,7 @@ function fname_s_0301()
 	ruler[1].userData.subtool.line = line;
 	 	 
 	
-	fname_s_0302({ruler: ruler});
+	fname_s_0304({ruler: ruler});
 
 	return ruler;
 }
@@ -13245,7 +13341,7 @@ function fname_s_0301()
 
 
 
-function fname_s_0302(cdm)
+function fname_s_0304(cdm)
 {
 	var ruler = cdm.ruler;
 	var line = ruler[0].userData.subtool.line;
@@ -13275,7 +13371,7 @@ function fname_s_0302(cdm)
 
 
 
-function fname_s_0303()
+function fname_s_0305()
 {
 	var plane = infProject.scene.substrate.active;
 	if(!plane) return;
@@ -13284,12 +13380,12 @@ function fname_s_0303()
 	ruler[0].position.set(plane.position.x + 0.5, plane.position.y + 0.01, plane.position.z);
 	ruler[1].position.set(plane.position.x - 0.5, plane.position.y + 0.01, plane.position.z);
 
-	fname_s_0302({ruler: ruler});	
+	fname_s_0304({ruler: ruler});	
 }
 
 
 
-function fname_s_0304(cdm)
+function fname_s_0306(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
@@ -13299,7 +13395,7 @@ function fname_s_0304(cdm)
 	obj.userData.tag = "substrate";
 	obj.userData.substrate = { p: [], active: false, img: false };
 	obj.visible = false;
-	fname_s_0311({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
+	fname_s_0313({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
 	scene.add( obj );	
 	
 	if(cdm.pos)
@@ -13309,7 +13405,7 @@ function fname_s_0304(cdm)
 		if(cdm.pos.z) obj.position.z = cdm.pos.z;
 	}
 		
-	var p = fname_s_0305({plane: obj});
+	var p = fname_s_0307({plane: obj});
 	
 	p[0].userData.subpoint = {plane: obj, x: p[1], z: p[3], p2: p[2], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
 	p[1].userData.subpoint = {plane: obj, x: p[0], z: p[2], p2: p[3], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
@@ -13327,11 +13423,11 @@ function fname_s_0304(cdm)
 
 
 
-function fname_s_0305(cdm)
+function fname_s_0307(cdm)
 {	
 	var plane = cdm.plane;
 	
-	function fname_s_0306()
+	function fname_s_0308()
 	{
 		var count = 48;
 		var circle = [];
@@ -13349,7 +13445,7 @@ function fname_s_0305(cdm)
 		return circle;
 	}
 	
-	var circle = fname_s_0306();
+	var circle = fname_s_0308();
 	
 	var n = 0;
 	var v = [];
@@ -13396,7 +13492,7 @@ function fname_s_0305(cdm)
 
 
 
-function fname_s_0307(cdm)
+function fname_s_0309(cdm)
 {
 	var plane = cdm.plane;
 	var point = plane.userData.substrate.p;
@@ -13439,7 +13535,7 @@ function fname_s_0307(cdm)
 
 
 
-function fname_s_0308(cdm)
+function fname_s_0310(cdm)
 {
 	if(!infProject.scene.substrate.active) return;
 	 	
@@ -13459,14 +13555,14 @@ function fname_s_0308(cdm)
 	
 	plane.visible = visible;
 	
-	fname_s_0309({visible: visible});
+	fname_s_0311({visible: visible});
 	
 	fname_s_0196();
 }
 
 
 
-function fname_s_0309(cdm)
+function fname_s_0311(cdm)
 {
 	var visible = cdm.visible;
 	var plane = infProject.scene.substrate.active;
@@ -13485,7 +13581,7 @@ function fname_s_0309(cdm)
 
 
 
-function fname_s_0310(cdm)
+function fname_s_0312(cdm)
 {
 	if(!cdm) return;
 
@@ -13509,8 +13605,8 @@ function fname_s_0310(cdm)
 	ruler[0].position.y = plane.position.y + 0.01;
 	ruler[1].position.y = plane.position.y + 0.01;
 
-	fname_s_0302({ruler: ruler});
-	fname_s_0307({plane: plane});
+	fname_s_0304({ruler: ruler});
+	fname_s_0309({plane: plane});
 	
 	fname_s_0196();	
 }
@@ -13518,7 +13614,7 @@ function fname_s_0310(cdm)
 
 
 
-function fname_s_0311(cdm)
+function fname_s_0313(cdm)
 {
 	
 	
@@ -13544,18 +13640,18 @@ function fname_s_0311(cdm)
 		
 		if(cdm.scale)
 		{
-			fname_s_0320({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
+			fname_s_0322({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
 		}
 		else
 		{
-			fname_s_0320({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+			fname_s_0322({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		}		
 				
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
 		var z = (Math.abs(obj.geometry.boundingBox.max.z) + Math.abs(obj.geometry.boundingBox.min.z));		
 		
-		fname_s_0307({plane: obj});
+		fname_s_0309({plane: obj});
 		
 		fname_s_0213( obj );		
 		
@@ -13578,7 +13674,7 @@ function fname_s_0311(cdm)
 
 
 
-function fname_s_0312(cdm)
+function fname_s_0314(cdm)
 {
 	
 	
@@ -13605,7 +13701,7 @@ function fname_s_0312(cdm)
 		
 		var ratioImg = texture.image.width/texture.image.height;
 
-		fname_s_0320({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+		fname_s_0322({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
@@ -13614,10 +13710,10 @@ function fname_s_0312(cdm)
 		
 		if(camera == cameraTop)
 		{
-			fname_s_0303();			
+			fname_s_0305();			
 		}
 
-		fname_s_0307({plane: obj});	
+		fname_s_0309({plane: obj});	
 		
 		fname_s_0213( obj );
 		
@@ -13633,9 +13729,9 @@ function fname_s_0312(cdm)
 		material.lightMap = lightMap_1;
 		material.needsUpdate = true; 					
 		
-		fname_s_0323({value: 100});
+		fname_s_0325({value: 100});
 		
-		fname_s_0308({visible: true});
+		fname_s_0310({visible: true});
 		
 		fname_s_0196();
 	};
@@ -13678,44 +13774,6 @@ function fname_s_0213( obj )
 
 
 
-function fname_s_0314(cdm)
-{	
-	var intersect = cdm.intersect;
-	var obj = clickO.move = cdm.intersect.object;  
-	
-	clickO.offset = new THREE.Vector3().subVectors( obj.position, intersect.point );	
-	
-	planeMath.position.copy( intersect.point );  
-	planeMath.rotation.set( Math.PI/2, 0, 0 );
-}
-
-
-
-
-function fname_s_0315( event ) 
-{	
-	var intersects = fname_s_0216( event, planeMath, 'one' ); 
-	
-	if(intersects.length == 0) return;
-	
-	var obj = clickO.move;	
-	
-	var pos = new THREE.Vector3().addVectors( intersects[ 0 ].point, clickO.offset );	
-	
-	var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
-	obj.position.add( pos2 );
-
-
-	
-	if(1==1)
-	{
-		fname_s_0302({ruler: infProject.scene.substrate.ruler});	
-	}
-}
-
-
-
-
 function fname_s_0316(cdm)
 {	
 	var intersect = cdm.intersect;
@@ -13747,6 +13805,44 @@ function fname_s_0317( event )
 	
 	if(1==1)
 	{
+		fname_s_0304({ruler: infProject.scene.substrate.ruler});	
+	}
+}
+
+
+
+
+function fname_s_0318(cdm)
+{	
+	var intersect = cdm.intersect;
+	var obj = clickO.move = cdm.intersect.object;  
+	
+	clickO.offset = new THREE.Vector3().subVectors( obj.position, intersect.point );	
+	
+	planeMath.position.copy( intersect.point );  
+	planeMath.rotation.set( Math.PI/2, 0, 0 );
+}
+
+
+
+
+function fname_s_0319( event ) 
+{	
+	var intersects = fname_s_0216( event, planeMath, 'one' ); 
+	
+	if(intersects.length == 0) return;
+	
+	var obj = clickO.move;	
+	
+	var pos = new THREE.Vector3().addVectors( intersects[ 0 ].point, clickO.offset );	
+	
+	var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
+	obj.position.add( pos2 );
+
+
+	
+	if(1==1)
+	{
 		for (var i = 0; i < obj.userData.substrate.p.length; i++)
 		{
 			obj.userData.substrate.p[i].position.add( pos2 );
@@ -13762,7 +13858,7 @@ function fname_s_0317( event )
 
 
 
-function fname_s_0318(cdm)
+function fname_s_0320(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13776,7 +13872,7 @@ function fname_s_0318(cdm)
 
 
 
-function fname_s_0319( event ) 
+function fname_s_0321( event ) 
 {	
 	var intersects = fname_s_0216( event, planeMath, 'one' ); 
 	
@@ -13833,7 +13929,7 @@ function fname_s_0319( event )
 		var x = new THREE.Vector3().subVectors( ps3, ps1 ).x;
 		var z = new THREE.Vector3().subVectors( ps2, ps1 ).z;
 		
-		fname_s_0320({obj: plane, size: {x: x/2, z: z/2}});
+		fname_s_0322({obj: plane, size: {x: x/2, z: z/2}});
 		
 		plane.position.add( pos2.clone().divideScalar( 2 ) );
 	}
@@ -13844,7 +13940,7 @@ function fname_s_0319( event )
 
 
 
-function fname_s_0320(cdm)
+function fname_s_0322(cdm)
 {
 	var obj = cdm.obj; 
 	var size = cdm.size;
@@ -13870,7 +13966,7 @@ function fname_s_0320(cdm)
 
 
 
-function fname_s_0321()
+function fname_s_0323()
 {
 	var size = $('[nameId="input_size_substrate"]').val();
 	var value = fname_s_0232({ value: size, unit: 1, abs: true, limit: {min: 0.01, max: 1000} });
@@ -13898,7 +13994,7 @@ function fname_s_0321()
 	x /= 2;
 	z /= 2;
 	
-	fname_s_0320({obj: plane, size: {x: x*ratio, z: z*ratio}});
+	fname_s_0322({obj: plane, size: {x: x*ratio, z: z*ratio}});
 		
 	
 	if(1==1)
@@ -13917,12 +14013,12 @@ function fname_s_0321()
 		ruler[1].position.x = v2.x;
 		ruler[1].position.z = v2.z;	
 
-		fname_s_0302({ruler: ruler});
+		fname_s_0304({ruler: ruler});
 	}
 	
 	$('[nameId="input_size_substrate"]').val( value.num );
 	
-	fname_s_0307({plane: plane});
+	fname_s_0309({plane: plane});
 	
 	fname_s_0196();
 }
@@ -13930,7 +14026,7 @@ function fname_s_0321()
 
 
 
-function fname_s_0322(cdm)
+function fname_s_0324(cdm)
 {
 	if(!cdm) return;
 
@@ -13961,7 +14057,7 @@ function fname_s_0322(cdm)
 
 	$('[nameId="input_rotate_substrate"]').val( rot );
 	
-	fname_s_0307({plane: plane});
+	fname_s_0309({plane: plane});
 	
 	fname_s_0196();
 }
@@ -13970,7 +14066,7 @@ function fname_s_0322(cdm)
 
 
 
-function fname_s_0323(cdm)
+function fname_s_0325(cdm)
 {
 	var value = cdm.value;
 	
@@ -13988,7 +14084,7 @@ function fname_s_0323(cdm)
 
 
 
-function fname_s_0324(cdm)
+function fname_s_0326(cdm)
 {
 	if(!cdm) cdm = {}; 
 	
@@ -13996,7 +14092,7 @@ function fname_s_0324(cdm)
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;		
 	
-	fname_s_0308({visible: false});	
+	fname_s_0310({visible: false});	
 	
 	
 	plane.userData.substrate.img = false;
@@ -14012,7 +14108,7 @@ function fname_s_0324(cdm)
 
 
 
-function fname_s_0325()
+function fname_s_0327()
 {
 	$.ajax
 	({
@@ -14021,14 +14117,14 @@ function fname_s_0325()
 		dataType: 'json',
 		success: function(json)
 		{ 
-			fname_s_0326({json: json});
+			fname_s_0328({json: json});
 		},
 	});	
 }
 
 
 
-function fname_s_0326(cdm)
+function fname_s_0328(cdm)
 {
 	var rooms = cdm.json.rooms;
 	var middle_wall = cdm.json.middle_wall;
@@ -14131,14 +14227,14 @@ function fname_s_0326(cdm)
 	
 	fname_s_080();
 	
-	fname_s_0327();
+	fname_s_0329();
 	
 	fname_s_0196();
 }
 
 
 
-function fname_s_0327()
+function fname_s_0329()
 {
 	var floor = infProject.scene.array.floor;
 	var inf = [];
@@ -14150,7 +14246,7 @@ function fname_s_0327()
 			var wall = floor[i].userData.room.w[i2];
 			var side = floor[i].userData.room.s[i2];
 			
-			var line = fname_s_0328({wall: wall, side: side});
+			var line = fname_s_0330({wall: wall, side: side});
 			
 			for ( var i3 = 0; i3 < floor.length; i3++ )
 			{
@@ -14160,7 +14256,7 @@ function fname_s_0327()
 				
 				for ( var i4 = 0; i4 < floor[i3].userData.room.w.length; i4++ )
 				{
-					var res = fname_s_0329({dir: line, w2: floor[i3].userData.room.w[i4]});
+					var res = fname_s_0331({dir: line, w2: floor[i3].userData.room.w[i4]});
 					
 					if(res) { cross[cross.length] = res; }
 				}
@@ -14171,7 +14267,7 @@ function fname_s_0327()
 	}
 	
 	
-	function fname_s_0328(cdm)
+	function fname_s_0330(cdm)
 	{
 		var wall = cdm.wall;
 		var side = cdm.side;
@@ -14197,7 +14293,7 @@ function fname_s_0327()
 	
 	
 	
-	function fname_s_0329(cdm)
+	function fname_s_0331(cdm)
 	{
 		var dir = cdm.dir;
 		var w2 = cdm.w2;
@@ -14209,7 +14305,7 @@ function fname_s_0327()
 		
 		if( !fname_s_026(p0, p1, p2, p3) ) { return null; }		
 		
-		var pos = fname_s_0330(p0, p1, p2, p3);
+		var pos = fname_s_0332(p0, p1, p2, p3);
 		
 		if(pos && 1==2)
 		{ 
@@ -14224,7 +14320,7 @@ function fname_s_0327()
 
 
 	
-	function fname_s_0330(a1, a2, b1, b2)
+	function fname_s_0332(a1, a2, b1, b2)
 	{
 		var t1 = fname_s_024(a1.x, a1.z, a2.x, a2.z);
 		var t2 = fname_s_024(b1.x, b1.z, b2.x, b2.z);

@@ -280,9 +280,16 @@ function getYardageSpace( room )
 		
 		if(res < 0.5) { res = ''; }
 		
-		upLabelArea2(room[u].label, res, '80', 'rgba(255,255,255,1)', true);
 		
-		if(infProject.settings.floor.label) room[u].label.visible = true;
+		
+		if(infProject.settings.floor.label.visible) 
+		{						
+			if(infProject.settings.floor.label.type == 'area')
+			{
+				room[u].label.visible = true;
+				upLabelArea2(room[u].label, res, '80', 'rgba(255,255,255,1)', true);
+			}						
+		}
 	}
 
 	return contour;
