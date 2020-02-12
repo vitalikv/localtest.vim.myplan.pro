@@ -342,11 +342,7 @@ function setObjInWD(inf, cdm)
 	objPop.geometry.computeBoundingBox();
 	objPop.geometry.computeBoundingSphere();
 	
-	var center = objPop.geometry.boundingSphere.center;
-	
-	console.log(center.clone());
-	console.log(objPop.geometry.boundingBox);
-	console.log(objPop.scale);
+	var center = objPop.geometry.boundingSphere.center;	
 	
 	objPop.position.set(0,0,0);
 	objPop.rotation.set(0,0,0);
@@ -384,7 +380,6 @@ function changeWidthWD(obj, wall)
 	
 	var width = wall.userData.wall.width; 
 	wall.geometry.computeBoundingBox();
-	console.log(width);
 	
 	for ( var i = 0; i < minZ.length; i++ ) { v[minZ[i]].z = wall.geometry.boundingBox.min.z; }
 	for ( var i = 0; i < maxZ.length; i++ ) { v[maxZ[i]].z = wall.geometry.boundingBox.max.z; }

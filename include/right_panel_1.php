@@ -244,7 +244,7 @@
 						</div>						
 					</div>
 
-					<div class="flex_column_1">
+					<div class="flex_column_1" nameId="rp_button_side_texture_1" style="display: none;">
 						<div class="right_panel_1_1_h">
 							Текстура
 						</div>
@@ -261,7 +261,7 @@
 					</div>
 
 					<div style="display: none;" nameId="rp_catalog_texture_1">
-						<div class="button1 button_gradient_1" style="margin-top: 20px;" nameId="but_back_catalog_texture_1">Закрыть</div>
+						<div class="button1 button_gradient_1" style="margin-top: 20px;" nameId="but_back_catalog_texture_1" style="display: none;">Закрыть</div>
 						<div class="rp_1_1_list">
 							<div class="rp_1_2_list" list_ui="catalog_texture_1">
 								

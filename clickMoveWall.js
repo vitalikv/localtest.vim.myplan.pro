@@ -45,6 +45,27 @@ function clickWall_2D( intersect )
 	}
 }
 
+// кликнули на стену в 3D режиме
+function clickWall_3D(cdm)
+{
+	var intersect = cdm.rayhit;
+	
+	//if(camera != cameraWall) return;
+	if(!intersect) return;
+	if(!intersect.face) return;
+	var index = intersect.face.materialIndex;	
+	
+	if(index == 1 || index == 2) { } 
+	else { return; }
+	
+	var obj = intersect.object;	
+	
+	clickO.obj = obj;
+	clickO.index = index;  	
+
+	activeObjRightPanelUI_1({obj: obj, side: index});
+}
+
 
 // собираем инфу для undo/redo
 function getInfoUndoWall(wall)

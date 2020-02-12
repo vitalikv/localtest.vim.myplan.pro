@@ -296,8 +296,6 @@ function getYardageSpace( room )
 		res = Math.abs( res ) / 2;
 		res = Math.round(res / 10) / 100;	
 		
-		console.log(room[u].userData.id, res);
-		
 		room[u].updateMatrixWorld();
 		room[u].geometry.computeBoundingSphere();
 		var pos = room[u].localToWorld( room[u].geometry.boundingSphere.center.clone() );

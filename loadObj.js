@@ -695,7 +695,7 @@ function loadObjServer(cdm)
 { 
 	// cdm - информация, которая пришла из вне
 	// inf - статическая инфа из базы
-	console.log(cdm);
+	//console.log(cdm);
 	
 	if(!cdm.lotid) return;
 	

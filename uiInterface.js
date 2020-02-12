@@ -208,14 +208,28 @@ function activeObjRightPanelUI_1(cdm)
 	}	
 	else if(obj.userData.tag == 'wall')
 	{
+		console.log(cdm);
+		if(cdm.side)
+		{
+			$('[nameId="rp_button_side_texture_1"]').hide();
+			$('[nameId="but_back_catalog_texture_1"]').hide();
+			$('[nameId="rp_catalog_texture_1"]').show();
+		}
+		else
+		{
+			$('[nameId="rp_button_side_texture_1"]').show();
+			$('[nameId="but_back_catalog_texture_1"]').show();
+			$('[nameId="rp_catalog_texture_1"]').hide();
+			showHideMenuTexture_1({type: 1});
+			
+			changeTextureWall_UI_1({obj: obj});
+			
+			upLabelCameraWall({label : obj.label[1], text : "A", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});
+			upLabelCameraWall({label : obj.label[0], text : "B", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});			
+		}
+		
 		$('[nameId="rp_menu_wall"]').show();
-		$('[nameId="size_wall_width_1"]').val(obj.userData.wall.width);
-		
-		showHideMenuTexture_1({type: 1});
-		changeTextureWall_UI_1({obj: obj});
-		
-		upLabelCameraWall({label : obj.label[1], text : "A", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});
-		upLabelCameraWall({label : obj.label[0], text : "B", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});
+		$('[nameId="size_wall_width_1"]').val(obj.userData.wall.width);				
 	}
 	else if(obj.userData.tag == 'door')
 	{

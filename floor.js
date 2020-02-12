@@ -13,10 +13,7 @@ function createFloor(cdm)
 	for ( var i = 0; i < arrP.length - 1; i++ ) 
 	{  
 		point_room[i] = new THREE.Vector2 ( arrP[i].position.x, arrP[i].position.z );		
-	}
-	
-	//var str = ''; for ( var i = 0; i < arrP.length; i++ ) { str += ' | ' + arrP[i].userData.id; } console.log(str);
-	console.log('-------------');	 
+	}	 
 	
 	var shape = new THREE.Shape( point_room );
 	var geometry = new THREE.ShapeGeometry( shape );

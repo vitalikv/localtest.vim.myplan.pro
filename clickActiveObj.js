@@ -139,23 +139,6 @@ function objDeActiveColor_2D()
 
 
 
-// кликнули на стену в 3D режиме
-function clickWall_3D( intersect )
-{
-	//if(camera != cameraWall) return;
-	if(!intersect) return;
-	if(!intersect.face) return;
-	var index = intersect.face.materialIndex;	
-	
-	if(index == 1 || index == 2) { } 
-	else { return; }
-	
-	var object = intersect.object;	
-	
-	clickO.obj = object;
-	clickO.index = index;  	
-}
-
 
 
 

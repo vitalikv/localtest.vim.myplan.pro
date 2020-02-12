@@ -204,7 +204,17 @@ $('[nameId="but_back_catalog_texture_2"]').mousedown(function ()
 
 $('[add_texture]').mousedown(function () 
 { 
-	setTexture({obj: clickO.click.o, material: {img: this.attributes.add_texture.value, index: clickO.click.side_wall}, ui: true} ); 
+	var inf = {obj: clickO.click.o, material: {img: this.attributes.add_texture.value, index: clickO.click.side_wall}, ui: true};
+	if(camera == camera3D)
+	{ 
+		if(clickO.index) 
+		{ 
+			inf.obj = clickO.last_obj;
+			inf.material.index = clickO.index; 
+		};
+	}
+	
+	setTexture(inf); 
 }); 
 // texture UI
 

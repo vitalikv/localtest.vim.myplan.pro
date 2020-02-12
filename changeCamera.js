@@ -172,8 +172,8 @@ function blockActiveObj(cdm)
 	var visible_1 = cdm.visible_1;
 	var visible_2 = cdm.visible_2;
 	
-	infProject.scene.block.click.wall = visible_1;
-	infProject.scene.block.hover.wall = visible_1;
+	//infProject.scene.block.click.wall = visible_1;
+	//infProject.scene.block.hover.wall = visible_1;
 
 	infProject.scene.block.click.point = visible_1;
 	infProject.scene.block.hover.point = visible_1;
