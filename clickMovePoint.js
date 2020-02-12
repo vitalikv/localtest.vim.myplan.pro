@@ -98,7 +98,7 @@ function movePoint( event, obj )
 	
 		upLineYY(obj);			
 		
-		upLabelPlan_1(param_wall.wallR); 
+		upLabelPlan_1(obj.w); 
 	}
 	
 }
@@ -596,7 +596,13 @@ function undoRedoChangeMovePoint( point, walls )
 
 function clickPointMouseUp(obj)
 {  	
+	if(comparePos(obj.userData.point.last.pos, obj.position)) { return; }		// не двигали
+	
 	obj.userData.point.last.pos = obj.position.clone();
+	
+	upLineYY(obj);			
+	
+	upLabelPlan_1(param_wall.wallR);	 
 }
 
 

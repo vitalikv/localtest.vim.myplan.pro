@@ -347,8 +347,8 @@ function onDocumentMouseUp( event )
 		if(tag == 'point') 
 		{  		
 			var point = clickO.move;
-			if(!clickO.move.userData.point.type) { clickCreateWall(clickO.move); }			
-			clickPointMouseUp(point);
+			clickPointMouseUp(point); 
+			if(!clickO.move.userData.point.type) { clickCreateWall(clickO.move); }						
 		}
 		else if(tag == 'wall') { clickWallMouseUp(obj); }
 		else if(tag == 'window' || obj.userData.tag == 'door') { clickWDMouseUp(obj); }	

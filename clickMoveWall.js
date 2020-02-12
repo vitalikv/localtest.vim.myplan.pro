@@ -150,7 +150,8 @@ function moveWall( event, obj )
 		upLineYY(obj.userData.wall.p[0]);
 		upLineYY(obj.userData.wall.p[1]);
 		
-		upLabelPlan_1(param_wall.wallR); 
+		upLabelPlan_1(obj.userData.wall.p[0].w);
+		upLabelPlan_1(obj.userData.wall.p[1].w);
 	}	
 }
 
