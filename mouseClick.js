@@ -256,7 +256,7 @@ function clickMouseActive(cdm)
 	{	
 		if( tag == 'wall' && camera == camera3D ) {  }
 		else if( tag == 'obj' && camera == camera3D ) { clickObject3D( obj ); }
-		else if( tag == 'room' && camera == cameraTop ) { activeObjRightPanelUI_1({obj: obj}); }
+		else if( tag == 'room' && camera == cameraTop ) { clickFloor({obj: obj}); }
 		else { flag = false; }
 	}	
 
@@ -406,11 +406,12 @@ function hideMenuObjUI_2D(cdm)
 			else if(tag == 'window' && camera == cameraTop) { hideSizeWD(obj); hideMenuUI(obj); }
 			else if(tag == 'door' && camera == cameraTop) { hideSizeWD(obj); hideMenuUI(obj); }
 			else if(tag == 'obj' && camera == cameraTop) { hidePivotGizmo(obj); }
+			else if(tag == 'room' && camera == cameraTop) { hideMenuUI(obj); outlineRemoveObj(); }
 			else { flag = false; }
 		}
 		else if(cdm.type == 'up')
 		{
-			if(tag == 'room' && camera == cameraTop) { hideMenuUI(obj); }
+			if(tag == 'room' && camera == cameraTop) { hideMenuUI(obj); outlineRemoveObj(); }
 			else if(tag == 'obj' && camera == camera3D) { hidePivotGizmo(obj); }
 			else { flag = false; }
 		}

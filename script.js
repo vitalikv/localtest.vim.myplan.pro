@@ -162,7 +162,7 @@ infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});
 infProject.scene.size.wd_1.label = createLabelCameraWall({ count: 6, text: 0, size: 50, ratio: {x:256*2, y:256}, border: 'border line', geometry: infProject.geometry.labelWD, opacity : 0.5 });
 // controllWD контроллеры для изменения ширины/длины wd
 infProject.tools = { pivot: createPivot(), gizmo: createGizmo360(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
-
+infProject.tools.floorPl = createPlaneOutlineFloor();
 infProject.catalog = { obj: [], texture: infoListTexture() }; 
 infProject.listColor = resetPop.listColor(); 
 infProject.start = true; 
@@ -171,9 +171,10 @@ infProject.ui = {}
 infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
 
-console.log(infProject);
+console.log(infProject); 
 
 
+ 
 
 
 
@@ -251,20 +252,19 @@ var offset = new THREE.Vector3();
 	}	
 	
 
-	outlinePass.visibleEdgeColor.set( '#25db00' );
-	outlinePass.hiddenEdgeColor.set( '#25db00' );
+	outlinePass.visibleEdgeColor.set( 'rgb(255, 162, 23)' );
+	outlinePass.hiddenEdgeColor.set( 'rgb(255, 162, 23)' );
 	outlinePass.edgeStrength = Number( 5 );		// сила/прочность
 	outlinePass.edgeThickness = Number( 0.01 );	// толщина
 
 	outlinePass.selectedObjects = [];
 
 
-	function outlineAddObj( obj, cdm )
+	function outlineAddObj( cdm )
 	{	
 		if(!cdm) cdm = {};
 		
-		var arr = [obj];
-		if(cdm.arrO) { var arr = cdm.arrO; }	
+		var arr = cdm.arr;	
 		
 		outlinePass.selectedObjects = arr;  
 	}
@@ -1552,7 +1552,7 @@ document.body.addEventListener("keydown", function (e)
 	if(e.keyCode == 46) { detectDeleteObj(); }
 	
 	if(clickO.keys[18] && e.keyCode == 90) { loadFile({json: true}); }		// alt + z
-	if(clickO.keys[18] && e.keyCode == 72) { getConsoleRendererInfo(); }		// alt + h
+	if(clickO.keys[18] && e.keyCode == 72) { disposeHierchy(scene, disposeNode); getConsoleRendererInfo(); }		// alt + h
 	if(clickO.keys[18] && e.keyCode == 77) { inputLoadProject(); }				// alt + m
 	if(clickO.keys[18] && e.keyCode == 84) { saveFile({json: true}); }			// alt + t
 	if(clickO.keys[18] && e.keyCode == 86) { console.log(infProject); }

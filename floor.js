@@ -51,6 +51,7 @@ function createFloor(cdm)
 	floor.userData.room.zone = { id: 0, name: '' };
 	floor.userData.room.zone.id = (infProject.settings.room.type.length > 0) ? infProject.settings.room.type[0].id : undefined;
 	floor.userData.room.outline = null;
+	floor.userData.room.contour = [];
 	floor.userData.room.height = infProject.settings.floor.height;
 	floor.userData.material = { tag: 'room', color: floor.material.color, img: null };	
 	
@@ -239,6 +240,44 @@ function findNumberInArrRoom_2(cdm)
 	}	
 	
 	return result;
+}
+
+
+
+// создаем плоскость для пола, которая будет принемать ее форму и виделяться Outline
+function createPlaneOutlineFloor()
+{
+	var shape = new THREE.Shape( [new THREE.Vector2(-2, 1), new THREE.Vector2(2, 1), new THREE.Vector2(2, -1), new THREE.Vector2(-2, -1)] );
+	var geometry = new THREE.ShapeGeometry( shape );
+
+	var plane = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0x0000ff, transparent: true, opacity: 0 } ) );
+	plane.position.set( 0, infProject.settings.floor.posY, 0 );
+	plane.rotation.set( -Math.PI / 2, 0, 0 );
+	scene.add(plane);
+
+	return plane;
+}
+
+// кликнули на пол
+function clickFloor(cdm)
+{
+	var obj = cdm.obj;
+	
+	var contour = obj.userData.room.contour;
+	var contour2 = [];
+	
+	for(var i = 0; i < contour.length; i++)
+	{
+		contour2[i] = new THREE.Vector2(contour[i].x, -contour[i].z);
+	}
+
+	// меняем форму плоскости под форму пола и выделяем outline
+	var plane = infProject.tools.floorPl;	
+	plane.geometry.dispose();
+	plane.geometry = new THREE.ShapeGeometry( new THREE.Shape(contour2) );	
+	outlineAddObj({arr: [plane]});
+	 
+	activeObjRightPanelUI_1({obj: obj});
 }
 
 

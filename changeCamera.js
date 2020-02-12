@@ -12,7 +12,7 @@ function changeCamera(cam)
 	renderPass.camera = cam;
 	outlinePass.renderCamera = cam;
 	if(saoPass) saoPass.camera = cam;
-	
+	outlineRemoveObj();
 	
 	if(camera == cameraTop)
 	{				

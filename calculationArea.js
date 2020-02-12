@@ -200,41 +200,43 @@ function getYardageSpace( room )
 			
 			for (i = 0; i < n; i++) 
 			{
-				var ch = (arrS[i] == 0) ? 4 : 6;
-				
-				var p1 = arrW[i].localToWorld( arrW[i].userData.wall.v[ ch ].clone() );		
+				var ch = (arrS[i] == 0) ? 4 : 6;				
+				var p1 = arrW[i].localToWorld( arrW[i].userData.wall.v[ ch ].clone() );						
 				
 				if (i == 0) 
 				{
-					var ch1 = (arrS[ n-1 ] == 0) ? 4 : 6; 
-					var ch2 = (arrS[ i+1 ] == 0) ? 4 : 6;
-					
-					var p2 = arrW[n-1].localToWorld( arrW[n-1].userData.wall.v[ ch1 ].clone() );
-					var p3 = arrW[i+1].localToWorld( arrW[i+1].userData.wall.v[ ch2 ].clone() );						
+					var num2 = n-1;
+					var num3 = i+1;
 				}
-				else if (i == n-1) 
+				else if (i == n-1)
 				{
-					var ch1 = (arrS[ i-1 ] == 0) ? 4 : 6;
-					var ch2 = (arrS[ 0 ] == 0) ? 4 : 6;
-					
-					var p2 = arrW[i-1].localToWorld( arrW[i-1].userData.wall.v[ ch1 ].clone() );
-					var p3 = arrW[0].localToWorld( arrW[0].userData.wall.v[ ch2 ].clone() );									
+					var num2 = i-1;
+					var num3 = 0;					
 				}
-				else 
+				else
 				{
-					var ch1 = (arrS[ i-1 ] == 0) ? 4 : 6;
-					var ch2 = (arrS[ i+1 ] == 0) ? 4 : 6;
-					
-					var p2 = arrW[i-1].localToWorld( arrW[i-1].userData.wall.v[ ch1 ].clone() );
-					var p3 = arrW[i+1].localToWorld( arrW[i+1].userData.wall.v[ ch2 ].clone() );							
+					var num2 = i-1;
+					var num3 = i+1;					
 				}
 				
-				var sum = p1.x*(p2.z - p3.z); 
-				sum = Math.round(sum * 100) * 10;
-				res += sum;	
+				var ch1 = (arrS[ num2 ] == 0) ? 4 : 6;
+				var ch2 = (arrS[ num3 ] == 0) ? 4 : 6;
+				
+				var p2 = arrW[num2].localToWorld( arrW[num2].userData.wall.v[ ch1 ].clone() );
+				var p3 = arrW[num3].localToWorld( arrW[num3].userData.wall.v[ ch2 ].clone() );							
 
 				contour[u][contour[u].length] = p1;
-			}			
+				
+				var ch = (arrS[i] == 0) ? 10 : 0;					
+				var p4 = arrW[i].localToWorld( arrW[i].userData.wall.v[ ch ].clone() );	
+				
+				// если первая и вторая не имеют точки соприкосновения. значит у них разные ширина
+				// тогда высчитваем конец первой стены и добавляем эту точку в массив
+				if(!comparePos(p3, p4, {kof: 0.001}))
+				{					
+					contour[u][contour[u].length] = p4;
+				}
+			}
 		}
 		else
 		{
@@ -258,29 +260,53 @@ function getYardageSpace( room )
 					var p3 = (arrS[ i+1 ] == 0) ? arrW[i+1].userData.wall.p[0].position : arrW[i+1].userData.wall.p[1].position; 						
 				}
 				
-				var sum = p1.x*(p2.z - p3.z); 
-				sum = Math.round(sum * 100) * 10;
-				res += sum;				
+				contour[u][contour[u].length] = p1;				
 			}			
 		}
+		
+		room[u].userData.room.contour = contour[u];
 
+		for (i = 0; i < contour[u].length; i++)
+		{
+			if (i == 0) 
+			{
+				var num2 = contour[u].length - 1;
+				var num3 = i+1;
+			}
+			else if (i == contour[u].length - 1)
+			{
+				var num2 = i-1;
+				var num3 = 0;					
+			}
+			else
+			{
+				var num2 = i-1;
+				var num3 = i+1;					
+			}
+			
+			var p1 = contour[u][i];
+			var p3 = contour[u][num2];
+			var p2 = contour[u][num3];
+			
+			var sum = p1.x*(p2.z - p3.z); 
+			sum = Math.round(sum * 100) * 10;
+			res += sum;				
+		}
 		
 		res = Math.abs( res ) / 2;
-		res = Math.round(res / 10) / 100;
+		res = Math.round(res / 10) / 100;	
 		
-		var sumX = 0;
-		var sumZ = 0;
-		for (i = 0; i < n; i++) { sumX += arrP[i].position.x; }
-		for (i = 0; i < n; i++) { sumZ += arrP[i].position.z; }		
+		console.log(room[u].userData.id, res);
 		
+		room[u].updateMatrixWorld();
+		room[u].geometry.computeBoundingSphere();
+		var pos = room[u].localToWorld( room[u].geometry.boundingSphere.center.clone() );
 		
-		room[u].label.position.set(sumX / n, 0.2, sumZ / n);
+		room[u].label.position.set(pos.x, 0.2, pos.z);			
 		
 		room[u].userData.room.areaTxt = res;
 		
 		if(res < 0.5) { res = ''; }
-		
-		
 		
 		if(infProject.settings.floor.label.visible) 
 		{						
