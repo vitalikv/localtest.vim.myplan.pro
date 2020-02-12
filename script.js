@@ -266,6 +266,8 @@ var offset = new THREE.Vector3();
 		
 		var arr = cdm.arr;	
 		
+		if(cdm.type == 'hover') { if(clickO.last_obj) { arr.push(clickO.last_obj); } }
+		
 		outlinePass.selectedObjects = arr;  
 	}
 

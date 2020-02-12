@@ -54,19 +54,20 @@ function activeHover2D( event )
 		if ( clickO.last_obj == object ) { activeHover2D_2(); return; }	// объект активирован (крансый цвет), поэтому не подсвечиваем
 		if ( clickO.hover == object ) { return; }				// объект уже подсвечен
 
-		if ( tag == 'window' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
-		else if ( tag == 'door' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
-		else if ( tag == 'point' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
-		else if ( tag == 'wall' ) { object.material[ 3 ].color = new THREE.Color(infProject.listColor.hover2D); }		
-		else if ( tag == 'controll_wd' ) { if(clickO.last_obj == object.obj) { activeHover2D_2(); return; } }
-		
-		activeHover2D_2();
+		if ( tag == 'window' ) { outlineAddObj({arr: [object], type: 'hover'}); }
+		else if ( tag == 'door' ) { outlineAddObj({arr: [object], type: 'hover'}); }
+		else if ( tag == 'point' ) { outlineAddObj({arr: [object], type: 'hover'}); }
+		else if ( tag == 'wall' ) { outlineAddObj({arr: [object], type: 'hover'}); }		
+		else if ( tag == 'controll_wd' ) { if(clickO.last_obj == object.obj) { return; } }
+		else { outlineAddObj({arr: [], type: 'hover'}); }
+		//activeHover2D_2();
 
 		clickO.hover = object;
 	}
 	else
 	{
-		activeHover2D_2();
+		outlineAddObj({arr: [], type: 'hover'});
+		clickO.hover = null;
 	}
 }
 
@@ -80,10 +81,10 @@ function activeHover2D_2()
 	var object = clickO.hover;
 	var tag = object.userData.tag;  	
 	
-	if ( tag == 'window' ) { object.material.color = object.userData.door.color; } 
-	else if ( tag == 'door' ) { object.material.color = object.userData.door.color; }	
-	else if ( tag == 'wall' ) { object.material[ 3 ].color = object.userData.material[ 3 ].color; }
-	else if ( tag == 'point' ) { object.material.color = object.userData.point.color; }
+	if ( tag == 'window' ) { outlineRemoveObj(); } 
+	else if ( tag == 'door' ) { outlineRemoveObj(); }	
+	else if ( tag == 'wall' ) { outlineRemoveObj(); }
+	else if ( tag == 'point' ) { outlineRemoveObj(); }
 	
 	clickO.hover = null;
 }
@@ -100,10 +101,10 @@ function objActiveColor_2D(obj)
 			
 	var tag = obj.userData.tag;
 	
-	if(tag == 'window'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }
-	else if(tag == 'point'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	 
-	else if(tag == 'wall'){ obj.material[3].color = new THREE.Color(infProject.listColor.active2D); } 	
-	else if(tag == 'door'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); }	
+	if(tag == 'window'){ outlineAddObj({arr: [obj]}); }
+	else if(tag == 'point'){ outlineAddObj({arr: [obj]}); }	 
+	else if(tag == 'wall'){ outlineAddObj({arr: [obj]}); } 	
+	else if(tag == 'door'){ outlineAddObj({arr: [obj]}); }	
 	//else if(tag == 'room'){ obj.material.color = new THREE.Color(infProject.listColor.active2D); console.log(555555);}
 	
 	if(clickO.hover == obj) { clickO.hover = null; }
@@ -126,11 +127,11 @@ function objDeActiveColor_2D()
 		if(clickO.rayhit.object.userData.tag == 'controll_wd'){ if(clickO.rayhit.object.userData.controll_wd.obj == o) { return; } }      		
 	}
 	 
-	if(o.userData.tag == 'wall'){ o.material[3].color = o.userData.material[3].color; getCalcWall({wall: o}); }	
-	else if(o.userData.tag == 'point'){ o.material.color = o.userData.point.color; }	
-	else if(o.userData.tag == 'window'){ o.material.color = new THREE.Color(infProject.listColor.window2D); }
-	else if(o.userData.tag == 'door'){ o.material.color = new THREE.Color(infProject.listColor.door2D); }	
-	else if(o.userData.tag == 'room'){ scene.remove(o.userData.room.outline); o.userData.room.outline = null; } 
+	if(o.userData.tag == 'wall'){ outlineRemoveObj(); getCalcWall({wall: o}); }	
+	else if(o.userData.tag == 'point'){ outlineRemoveObj(); }	
+	else if(o.userData.tag == 'window'){ outlineRemoveObj(); }
+	else if(o.userData.tag == 'door'){ outlineRemoveObj(); }	
+	//else if(o.userData.tag == 'room'){ scene.remove(o.userData.room.outline); o.userData.room.outline = null; } 
 	
 	if(clickO.hover == clickO.last_obj) { clickO.hover = null; }
 } 
