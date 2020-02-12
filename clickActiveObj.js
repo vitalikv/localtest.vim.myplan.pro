@@ -2,7 +2,7 @@
 
 // при наведение мыши над объектом (без клика) меняем цвет
 function activeHover2D( event )
-{
+{ return;
 	if (camera != cameraTop) { return; }
 	if (isMouseDown1) { return; }
 	if (infProject.scene.substrate.active) return;
@@ -54,20 +54,19 @@ function activeHover2D( event )
 		if ( clickO.last_obj == object ) { activeHover2D_2(); return; }	// объект активирован (крансый цвет), поэтому не подсвечиваем
 		if ( clickO.hover == object ) { return; }				// объект уже подсвечен
 
-		if ( tag == 'window' ) { outlineAddObj({arr: [object], type: 'hover'}); }
-		else if ( tag == 'door' ) { outlineAddObj({arr: [object], type: 'hover'}); }
-		else if ( tag == 'point' ) { outlineAddObj({arr: [object], type: 'hover'}); }
-		else if ( tag == 'wall' ) { outlineAddObj({arr: [object], type: 'hover'}); }		
-		else if ( tag == 'controll_wd' ) { if(clickO.last_obj == object.obj) { return; } }
-		else { outlineAddObj({arr: [], type: 'hover'}); }
-		//activeHover2D_2();
+		if ( tag == 'window' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
+		else if ( tag == 'door' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
+		else if ( tag == 'point' ) { object.material.color = new THREE.Color(infProject.listColor.hover2D); }
+		else if ( tag == 'wall' ) { object.material[ 3 ].color = new THREE.Color(infProject.listColor.hover2D); }		
+		else if ( tag == 'controll_wd' ) { if(clickO.last_obj == object.obj) { activeHover2D_2(); return; } }
+		
+		activeHover2D_2();
 
 		clickO.hover = object;
 	}
 	else
 	{
-		outlineAddObj({arr: [], type: 'hover'});
-		clickO.hover = null;
+		activeHover2D_2();
 	}
 }
 
@@ -81,10 +80,10 @@ function activeHover2D_2()
 	var object = clickO.hover;
 	var tag = object.userData.tag;  	
 	
-	if ( tag == 'window' ) { outlineRemoveObj(); } 
-	else if ( tag == 'door' ) { outlineRemoveObj(); }	
-	else if ( tag == 'wall' ) { outlineRemoveObj(); }
-	else if ( tag == 'point' ) { outlineRemoveObj(); }
+	if ( tag == 'window' ) { object.material.color = object.userData.door.color; } 
+	else if ( tag == 'door' ) { object.material.color = object.userData.door.color; }	
+	else if ( tag == 'wall' ) { object.material[ 3 ].color = object.userData.material[ 3 ].color; }
+	else if ( tag == 'point' ) { object.material.color = object.userData.point.color; }
 	
 	clickO.hover = null;
 }
