@@ -158,7 +158,7 @@ function updateShapeFloor(arrRoom)
 		var shape = new THREE.Shape( point );				
 
 		var geometry = new THREE.ExtrudeGeometry( shape, { bevelEnabled: false, depth: infProject.settings.floor.height } ); 
-		
+				
 		arrRoom[i].geometry.vertices = geometry.vertices;
 		arrRoom[i].geometry.faces = geometry.faces;		
 		arrRoom[i].geometry.verticesNeedUpdate = true;
@@ -167,6 +167,8 @@ function updateShapeFloor(arrRoom)
 		arrRoom[i].geometry.computeBoundingSphere();
 		arrRoom[i].geometry.computeBoundingBox();
 		arrRoom[i].geometry.computeFaceNormals();
+		
+		geometry.dispose();
 		
 		arrRoom[i].position.y = infProject.settings.floor.posY;
 		upUvs_1( arrRoom[i] );
@@ -177,6 +179,7 @@ function updateShapeFloor(arrRoom)
 		for ( var i2 = 0; i2 < room.length; i2++ ) { if(room[i2].userData.id == arrRoom[i].userData.id) { num = i2; break; } }	// находим потолок	
 		
 		var geometry = new THREE.ShapeGeometry( shape );
+		
 		ceiling[num].geometry.vertices = geometry.vertices;
 		ceiling[num].geometry.faces = geometry.faces;			
 		ceiling[num].geometry.verticesNeedUpdate = true;
@@ -184,7 +187,9 @@ function updateShapeFloor(arrRoom)
 		
 		ceiling[num].geometry.computeBoundingSphere();
 		ceiling[num].geometry.computeBoundingBox();
-		ceiling[num].geometry.computeFaceNormals();		
+		ceiling[num].geometry.computeFaceNormals();
+
+		geometry.dispose();
 	}
 	
 	//getSkeleton_1(arrRoom);

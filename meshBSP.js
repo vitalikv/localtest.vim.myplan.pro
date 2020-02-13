@@ -99,10 +99,11 @@ function MeshBSP( wd, objsBSP, wall )
 	var wallBSP = new ThreeBSP( wallClone ); 			// копируем выбранную стену	
 	var newBSP = wallBSP.subtract( wdBSP );				// вычитаем из стены объект нужной формы
 	
+	
+	wallClone.geometry.dispose();
 	wall.geometry.dispose();	
 	
-	wall.geometry = newBSP.toGeometry();	
-	
+	wall.geometry = newBSP.toGeometry();		
 	wall.geometry.computeFaceNormals();
  
 	for ( var i = 0; i < wall.geometry.faces.length; i++ )

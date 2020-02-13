@@ -63,6 +63,7 @@ function clickWall_3D(cdm)
 	clickO.obj = obj;
 	clickO.index = index;  	
 
+	outlineAddObj({arr: [obj]});
 	activeObjRightPanelUI_1({obj: obj, side: index});
 }
 
