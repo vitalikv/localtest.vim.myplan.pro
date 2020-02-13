@@ -3,7 +3,8 @@
 
 
 
-$list = 'meshBSP.js 	
+$list = 'uiInterface.js
+meshBSP.js 	
 calculationArea.js
 createGrid.js
 crossWall.js
@@ -29,7 +30,6 @@ clickMovePivot.js
 clickObj.js
 clickMoveGizmo.js
 loadObj.js
-uiInterface.js
 hideWall.js
 substrate.js
 autoBuilding.js
@@ -97,14 +97,17 @@ for ($i = 0; $i < count($arrF); $i++)
 	
 	//echo 'fname_s_0'.($i+1).'|'.$arrF[$i].'<br>';
 	
-	if (preg_match('#\b'.$arrF[$i].'\b#Us', 'switchPivotGizmo')) 
+	if (preg_match('#\b'.$arrF[$i].'\b#Us', 'renderCamera')) 
+	{
+		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
+	}	
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'switchPivotGizmo')) 
 	{
 		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";
 		
 		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_tools_handle',$file2);
-	}	
-	
-	if (preg_match('#\b'.$arrF[$i].'\b#Us', 'loadFilePL')) 
+	}		
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'loadFilePL')) 
 	{
 		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";
 		
