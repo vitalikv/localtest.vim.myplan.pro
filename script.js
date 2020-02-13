@@ -34,6 +34,7 @@ cameraTop.lookAt(scene.position);
 cameraTop.zoom = infProject.settings.camera.zoom;
 cameraTop.updateMatrixWorld();
 cameraTop.updateProjectionMatrix();
+cameraTop.userData.camera = { save: { pos: cameraTop.position.clone(), zoom: cameraTop.zoom } };
 //----------- cameraTop
 
 
@@ -54,7 +55,6 @@ camera3D.userData.camera.click = { pos : new THREE.Vector3() };
 var cameraWall = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
 cameraWall.zoom = 2
 //----------- cameraWall
-
 
 
 
@@ -81,7 +81,7 @@ function animate()
 function renderCamera()
 {
 	camera.updateMatrixWorld();	
-	
+	upPosLabels();
 	composer.render();
 }
 //----------- render
@@ -301,6 +301,66 @@ var offset = new THREE.Vector3();
 //----------- start
 
 
+infProject.html = { label: [] };
+
+function createHtmlLabelWall()
+{
+	var labelContainerElem = document.querySelector('#labels');
+	var elem = document.createElement('div');
+	elem.textContent = '0 м';
+	elem.style.cssText = 'position: absolute; z-index: 1; width: 120px; height: 20px; font-size: 36px; text-align: center; font-family: arial, sans-serif; color: rgb(65, 65, 65); color: white; -webkit-text-stroke: 1px black;';
+	labelContainerElem.appendChild(elem);
+	
+	elem.userData = { elem: { pos: new THREE.Vector3() } };
+	
+	infProject.html.label[infProject.html.label.length] = elem;
+	
+	return elem;
+}
+
+
+
+function upPosLabels(cdm)
+{
+	if(camera != cameraTop) return;
+	
+	var stop = true;
+	if(cameraTop.userData.camera.save.zoom - cameraTop.zoom !== 0) { stop = false; }
+	if(cameraTop.userData.camera.save.pos.x - cameraTop.position.x !== 0) { stop = false; }
+	else if(cameraTop.userData.camera.save.pos.z - cameraTop.position.z !== 0) { stop = false; }
+	
+	if(stop) return;
+	
+	cameraTop.userData.camera.save.pos = cameraTop.position.clone();
+	cameraTop.userData.camera.save.zoom = cameraTop.zoom;
+	
+	for ( var i = 0; i < infProject.html.label.length; i++ )
+	{
+		var elem = infProject.html.label[i];
+		
+		//camera.updateProjectionMatrix();
+		var tempV = elem.userData.elem.pos.clone().project(camera);
+
+		var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+		//var x = Math.round((0.5 + tempV.x / 2) * (canvas.width / window.devicePixelRatio));
+		//var y = Math.round((0.5 - tempV.y / 2) * (canvas.height / window.devicePixelRatio));	
+		//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
+		
+		if(1==2)
+		{
+			elem.style.transform = 'translate(-50%, -50%) translate('+x+'px,'+y+'px)';
+		}
+		else
+		{
+			elem.style.top = `${y}px`;
+			elem.style.left = `${x}px`;	
+			//elem.style.transform = 'rotate(45deg)';
+		}	
+		
+	}		
+}
 
 
   
@@ -1030,7 +1090,8 @@ function crtW( cdm )
 	wall.userData.wall.area = { top : 0 }; 
 	//wall.userData.wall.active = { click: true, hover: true };	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
-	
+	wall.userData.wall.html = {};
+	wall.userData.wall.html.label = [createHtmlLabelWall(), createHtmlLabelWall()];
 	
 	var v = wall.geometry.vertices;
 	wall.userData.wall.v = [];

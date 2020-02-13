@@ -392,7 +392,7 @@ function cameraZoomTopLoop()
 function cameraZoomTop( delta )
 {
 	if(camera == cameraTop)
-	{
+	{		
 		camera.zoom = delta;
 		camera.updateProjectionMatrix();		
 	}

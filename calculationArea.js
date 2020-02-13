@@ -97,7 +97,10 @@ function upLabelPlan_1(arrWall, Zoom)
 				var d2 = Math.abs( v[10].x - v[4].x );
 
 				upLabelCameraWall({label : label_1, text : Math.round(d1 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-				upLabelCameraWall({label : label_2, text : Math.round(d2 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});				
+				upLabelCameraWall({label : label_2, text : Math.round(d2 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
+
+				wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
+				wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
 			}			
 		}		
 		
@@ -138,13 +141,23 @@ function upLabelPlan_1(arrWall, Zoom)
 			label_1.rotation.set( 0, rotY, 0 );
 			label_2.rotation.set( 0, rotY, 0 );
 
+
+			wall.userData.wall.html.label[0].userData.elem.pos = pos;
+			wall.userData.wall.html.label[1].userData.elem.pos = pos;
+			
 			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - (v1[1].z - v1[0].z) / 2 );
 			dir.y = 0.05;
 			label_1.position.copy( new THREE.Vector3().addVectors( pos, dir ) );
 
 			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + (v1[1].z - v1[0].z) / 2 );
 			dir.y = 0.05;
-			label_2.position.copy( new THREE.Vector3().addVectors( pos, dir ) );			
+			label_2.position.copy( new THREE.Vector3().addVectors( pos, dir ) );
+		
+			
+			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) translateY(-10px) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
+			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) translateY(-10px) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
+			
+			console.log(wall.userData.wall.html.label[0], wall.userData.wall.html.label[0].style.transform); 
 		}		 
 
 
