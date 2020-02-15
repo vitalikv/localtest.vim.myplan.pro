@@ -103,7 +103,7 @@ function upLabelPlan_1(arrWall, Zoom)
 				wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
 			}			
 		}		
-		console.log(label_2.visible);
+		
 		var dir = new THREE.Vector3().subVectors( p2, p1 );
 		var rotY = Math.atan2(dir.x, dir.z);
 		var pos = dir.divideScalar ( 2 ).add( p1 );
@@ -158,7 +158,9 @@ function upLabelPlan_1(arrWall, Zoom)
 			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			
-			console.log(wall.userData.wall.html.label[0], wall.userData.wall.html.label[0].style.transform); 
+			upPosLabels_2({elem: wall.userData.wall.html.label[0]});
+			upPosLabels_2({elem: wall.userData.wall.html.label[1]});
+			//console.log(wall.userData.wall.html.label[0], wall.userData.wall.html.label[0].style.transform);  
 		}		 
 
 

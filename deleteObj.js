@@ -83,6 +83,13 @@ function deleteWall_2(wall)
 	deleteOneOnPointValue(p1, wall);
 	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
 	
+	
+	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+	{
+		deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		wall.userData.wall.html.label[i].remove();
+	}
+	
 	for ( var i = 0; i < wall.label.length; i ++ ){ scene.remove(wall.label[i]); } 
 	scene.remove( wall );
 	
@@ -130,6 +137,12 @@ function deleteWall_3(wall, cdm)
 	deleteOneOnPointValue(p0, wall);
 	deleteOneOnPointValue(p1, wall);
 	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
+	
+	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+	{
+		deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		wall.userData.wall.html.label[i].remove();
+	}	
 	
 	for ( var i = 0; i < wall.label.length; i ++ ){ scene.remove(wall.label[i]); }	
 	scene.remove( wall );

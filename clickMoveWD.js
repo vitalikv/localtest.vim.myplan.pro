@@ -231,15 +231,15 @@ function hideSizeWD( obj )
 			{
 				if(camera == camera3D)
 				{
-					obj.userData.door.wall.label[0].visible = true; 
-					obj.userData.door.wall.label[1].visible = true;	 
+					//obj.userData.door.wall.label[0].visible = true; 
+					//obj.userData.door.wall.label[1].visible = true;	 
 				}
 				else
 				{
 					for ( var i = 0; i < arrWallFront.wall.length; i++ )
 					{
-						arrWallFront.wall[i].obj.label[0].visible = true;
-						arrWallFront.wall[i].obj.label[1].visible = true;		
+						arrWallFront.wall[i].obj.userData.wall.html.label[0].style.display = 'block';
+						arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'block';
 					}					
 				}
 			}			
@@ -257,6 +257,7 @@ function hideSizeWD( obj )
 		}	
 	}
 	for ( var i = 0; i < infProject.scene.size.wd_1.label.length; i++ ){ infProject.scene.size.wd_1.label[i].visible = false; }
+	for ( var i = 0; i < infProject.html.wd.length; i++ ){ infProject.html.wd[i].style.display = 'none'; }
 }
 
 

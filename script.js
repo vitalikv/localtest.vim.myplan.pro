@@ -160,6 +160,9 @@ infProject.scene.substrate.ruler = createToolRulerSubstrate();
 infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/мебели
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
 infProject.scene.size.wd_1.label = createLabelCameraWall({ count: 6, text: 0, size: 50, ratio: {x:256*2, y:256}, border: 'border line', geometry: infProject.geometry.labelWD, opacity : 0.5 });
+infProject.html = {};
+infProject.html.label = [];	// хранятся все html label
+infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none'}); 
 // controllWD контроллеры для изменения ширины/длины wd
 infProject.tools = { pivot: createPivot(), gizmo: createGizmo360(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
 infProject.tools.floorPl = createPlaneOutlineFloor();
@@ -301,21 +304,33 @@ var offset = new THREE.Vector3();
 //----------- start
 
 
-infProject.html = { label: [] };
 
-function createHtmlLabelWall()
+
+function createHtmlLabelWall(cdm)
 {
-	var labelContainerElem = document.querySelector('.frame');
-	var elem = document.createElement('div');
-	elem.textContent = '0 м';
-	elem.style.cssText = 'position: absolute; width: 120px; font-size: 36px; text-align: center; font-family: arial, sans-serif; color: rgb(65, 65, 65); color: white; -webkit-text-stroke: 1px black;';
-	labelContainerElem.appendChild(elem); 
+	var arr = [];
 	
-	elem.userData = { elem: { pos: new THREE.Vector3() } };
+	for ( var i = 0; i < cdm.count; i++ )
+	{
+		var labelContainerElem = document.querySelector('.frame');
+		var elem = document.createElement('div');
+		elem.textContent = '0 м';
+		elem.style.cssText = 'position: absolute; width: 120px; font-size: 18px; text-align: center; font-family: arial, sans-serif; color: #3c3c3c;';
+		labelContainerElem.appendChild(elem); 
+		
+		elem.userData = { elem: { pos: new THREE.Vector3() } };
+		
+		infProject.html.label[infProject.html.label.length] = elem;	
+
+		arr[arr.length] = elem;
+		
+		if(cdm.display)
+		{
+			elem.style.display = cdm.display;
+		}
+	}
 	
-	infProject.html.label[infProject.html.label.length] = elem;
-	
-	return elem;
+	return arr;
 }
 
 
@@ -348,18 +363,24 @@ function upPosLabels(cdm)
 		//var y = Math.round((0.5 - tempV.y / 2) * (canvas.height / window.devicePixelRatio));	
 		//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
 		
-		if(1==2)
-		{
-			elem.style.transform = 'translate(-50%, -50%) translate('+x+'px,'+y+'px)';
-		}
-		else
-		{
-			elem.style.top = `${y}px`;
-			elem.style.left = `${x}px`;	
-			//elem.style.transform = 'rotate(45deg)';
-		}	
+		elem.style.top = `${y}px`;
+		elem.style.left = `${x}px`;	
 		
 	}		
+}
+
+
+function upPosLabels_2(cdm) 
+{
+	var elem = cdm.elem;
+
+	var tempV = elem.userData.elem.pos.clone().project(camera);
+
+	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;		
+	
+	elem.style.top = `${y}px`;
+	elem.style.left = `${x}px`;		
 }
 
 
@@ -1058,7 +1079,7 @@ function crtW( cdm )
 	
 	if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside') 
 	{
-		//wall.label[0].visible = true;
+		wall.label[0].visible = true;
 	}
 	else if(infProject.settings.wall.label == 'double') 
 	{
@@ -1091,7 +1112,7 @@ function crtW( cdm )
 	//wall.userData.wall.active = { click: true, hover: true };	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
-	wall.userData.wall.html.label = [createHtmlLabelWall(), createHtmlLabelWall()];
+	wall.userData.wall.html.label = createHtmlLabelWall({count: 2});
 	
 	var v = wall.geometry.vertices;
 	wall.userData.wall.v = [];
