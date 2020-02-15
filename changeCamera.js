@@ -86,12 +86,10 @@ function changeDepthColor()
 	var floor = infProject.scene.array.floor;
 	
 	for ( var i = 0; i < wall.length; i++ )
-	{
-		if(wall[i].children[0]) wall[i].children[0].visible = visible_2;	// скрываем штукатурку 
-				
+	{				
 		for ( var i2 = 0; i2 < wall[i].label.length; i2++ )
 		{
-			wall[i].label[i2].visible = visible;
+			//wall[i].label[i2].visible = false;
 		}
 	}
 

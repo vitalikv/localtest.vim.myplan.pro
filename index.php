@@ -71,9 +71,7 @@
 	</div>	
 
 
-	<div id="labels" style="position: absolute; z-index: 1;">
-	
-	</div>
+
 	
 	<script src="<?=$path?>autoBuilding.js"></script>
 	<script src="<?=$path?>meshBSP.js"></script> 	

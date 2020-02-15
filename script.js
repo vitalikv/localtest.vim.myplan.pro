@@ -305,11 +305,11 @@ infProject.html = { label: [] };
 
 function createHtmlLabelWall()
 {
-	var labelContainerElem = document.querySelector('#labels');
+	var labelContainerElem = document.querySelector('.frame');
 	var elem = document.createElement('div');
 	elem.textContent = '0 м';
-	elem.style.cssText = 'position: absolute; z-index: 1; width: 120px; height: 20px; font-size: 36px; text-align: center; font-family: arial, sans-serif; color: rgb(65, 65, 65); color: white; -webkit-text-stroke: 1px black;';
-	labelContainerElem.appendChild(elem);
+	elem.style.cssText = 'position: absolute; width: 120px; font-size: 36px; text-align: center; font-family: arial, sans-serif; color: rgb(65, 65, 65); color: white; -webkit-text-stroke: 1px black;';
+	labelContainerElem.appendChild(elem); 
 	
 	elem.userData = { elem: { pos: new THREE.Vector3() } };
 	
@@ -1058,12 +1058,12 @@ function crtW( cdm )
 	
 	if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside') 
 	{
-		wall.label[0].visible = true;
+		//wall.label[0].visible = true;
 	}
 	else if(infProject.settings.wall.label == 'double') 
 	{
-		wall.label[0].visible = true;
-		wall.label[1].visible = true;
+		//wall.label[0].visible = true;
+		//wall.label[1].visible = true;
 	}
 	
 	
