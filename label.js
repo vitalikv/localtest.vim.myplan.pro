@@ -119,52 +119,6 @@ function createLabelCameraWall(cdm)
 
 
 
-// обновляем label 
-function upLabelCameraWall(cdm)  
-{		
-	//if(!label){ return; }
-	var canvs = cdm.label.material.map.image; 
-	var ctx = canvs.getContext("2d");
-	
-	ctx.clearRect(0, 0, canvs.width, canvs.height);
-	ctx.font = (cdm.sizeText) ? cdm.sizeText+'pt Courier New' : '50pt Courier New';
-	
-	if(cdm.border == 'border line')
-	{
-		ctx.fillStyle = 'rgba(0,0,0,1)';
-		ctx.fillRect(0, 0, canvs.width, canvs.height);
-		ctx.fillStyle = 'rgba(255,255,255,1)';
-		ctx.fillRect(1, 1, canvs.width - 2, canvs.height - 2);		
-	}
-	else if(cdm.border == 'white')
-	{
-		ctx.fillStyle = 'rgba(255,255,255,1)';
-		ctx.fillRect(0, 0, canvs.width, canvs.height);		
-	}
-	
-	
-	if(cdm.str)
-	{
-		var value = cdm.text;		
-	}
-	else 
-	{
-		var value = cdm.text * infProject.settings.unit.wall;
-		if(infProject.settings.unit.wall == 1) { value += ' м'; } 		
-	}
-	
-	ctx.fillStyle = cdm.color;
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	ctx.fillText(value, canvs.width / 2, canvs.height / 2 );
-	
-	cdm.label.material.map.needsUpdate = true;
-}
-
-
-
-
-
 
 // room
 function upLabelArea2(label, area, text2, size, color, border) 

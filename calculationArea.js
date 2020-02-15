@@ -50,18 +50,7 @@ function upLabelPlan_1(arrWall, Zoom)
 	
 	for ( var i = 0; i < arrWall.length; i ++ )
 	{
-		var wall = arrWall[i];
-		
-		if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside')
-		{
-			var label_1 = wall.label[0]; 
-		}
-		else
-		{
-			var label_2 = wall.label[0];  
-			var label_1 = wall.label[1];			
-		}
-		
+		var wall = arrWall[i];		
 		
 		if(Zoom) { var v = wall.userData.wall.v; }		// если это zoom, то берем старые значения	
 		else { var v = wall.geometry.vertices; }
@@ -73,37 +62,14 @@ function upLabelPlan_1(arrWall, Zoom)
 		
 		if(!Zoom)
 		{
-			if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside')
-			{
-				if(infProject.settings.wall.dist == 'inside')
-				{
-					var dist = Math.abs( v[10].x - v[4].x );
-				}
-				else if(infProject.settings.wall.dist == 'outside')
-				{
-					var dist = Math.abs( v[6].x - v[0].x );
-				}				
-				else
-				{
-					var dist = p1.distanceTo( p2 );
-				}							
-				
-				upLabelCameraWall({label : label_1, text : Math.round(dist * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-			}
-			else
-			{
-				var v = wall.geometry.vertices;
-				var d1 = Math.abs( v[6].x - v[0].x );		
-				var d2 = Math.abs( v[10].x - v[4].x );
+			var v = wall.geometry.vertices;
+			var d1 = Math.abs( v[6].x - v[0].x );		
+			var d2 = Math.abs( v[10].x - v[4].x );
 
-				//upLabelCameraWall({label : label_1, text : Math.round(d1 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-				//upLabelCameraWall({label : label_2, text : Math.round(d2 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-
-				wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
-				wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
-			}			
+			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
+			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';			
 		}		
-		
+		 
 		var dir = new THREE.Vector3().subVectors( p2, p1 );
 		var rotY = Math.atan2(dir.x, dir.z);
 		var pos = dir.divideScalar ( 2 ).add( p1 );
@@ -111,49 +77,33 @@ function upLabelPlan_1(arrWall, Zoom)
 		if(rotY <= 0.001){ rotY += Math.PI / 2;  }
 		else { rotY -= Math.PI / 2; }
 		
-		 
-		var v1 = wall.label[0].geometry.vertices;
 		
 		var x1 = p2.z - p1.z;
-		var z1 = p1.x - p2.x;		 
-		 
+		var z1 = p1.x - p2.x;		 		 
 		 
 		if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside')
-		{
-			label_1.rotation.set( 0, rotY, 0 );
-			
+		{			
 			var side = (infProject.settings.wall.label == 'outside') ? 1 : 2;
 			
 			if(wall.userData.wall.room.side2[side])
 			{ 
-				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + (v1[1].z - v1[0].z) / 2 );
+				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z );
 			}
 			else
 			{
-				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - (v1[1].z - v1[0].z) / 2 );
-			}
-			
-			dir.y = 0.05;
-			label_1.position.copy( new THREE.Vector3().addVectors( pos, dir ) );				
+				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z );
+			}						
 		}
 		else
 		{
-			label_1.rotation.set( 0, rotY, 0 );
-			label_2.rotation.set( 0, rotY, 0 );
+			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - 0.08 );
+			var pos1 = new THREE.Vector3().addVectors( pos, dir );
 
-
-
-			
-			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - (v1[1].z - v1[0].z) / 4 );
-			dir.y = 0.05;
-			label_1.position.copy( new THREE.Vector3().addVectors( pos, dir ) );
-
-			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + (v1[1].z - v1[0].z) / 4 );
-			dir.y = 0.05;
-			label_2.position.copy( new THREE.Vector3().addVectors( pos, dir ) );
+			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + 0.08 );
+			var pos2 = new THREE.Vector3().addVectors( pos, dir );
 		 
-			wall.userData.wall.html.label[0].userData.elem.pos = label_1.position;
-			wall.userData.wall.html.label[1].userData.elem.pos = label_2.position;
+			wall.userData.wall.html.label[0].userData.elem.pos = pos1;
+			wall.userData.wall.html.label[1].userData.elem.pos = pos2;
 			
 			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
@@ -177,18 +127,17 @@ function upLabelPlan_1(arrWall, Zoom)
 
 function getCalcWall(cdm)
 {
-	var wall = cdm.wall;
-	
-	var label_2 = wall.label[0];
-	var label_1 = wall.label[1];	
-	
+	var wall = cdm.wall;		
 	var v = wall.userData.wall.v;
 	//var v = wall.geometry.vertices;
 	var d1 = Math.abs( v[6].x - v[0].x );		
 	var d2 = Math.abs( v[10].x - v[4].x );
 
-	//upLabelCameraWall({label : label_1, text : Math.round(d1 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-	//upLabelCameraWall({label : label_2, text : Math.round(d2 * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});	
+	wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
+	wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
+				
+	upPosLabels_2({elem: wall.userData.wall.html.label[0]});
+	upPosLabels_2({elem: wall.userData.wall.html.label[1]});	
 }
 
 

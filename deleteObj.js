@@ -89,8 +89,7 @@ function deleteWall_2(wall)
 		deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
 		wall.userData.wall.html.label[i].remove();
 	}
-	
-	for ( var i = 0; i < wall.label.length; i ++ ){ scene.remove(wall.label[i]); } 
+	 
 	scene.remove( wall );
 	
 	if(p0.w.length == 0){ deletePointFromArr( p0 ); scene.remove( p0 ); }
@@ -144,7 +143,7 @@ function deleteWall_3(wall, cdm)
 		wall.userData.wall.html.label[i].remove();
 	}	
 	
-	for ( var i = 0; i < wall.label.length; i ++ ){ scene.remove(wall.label[i]); }	
+	
 	scene.remove( wall );
 	
 	if(p0.w.length == 0){ deletePointFromArr( p0 ); scene.remove( p0 ); }
@@ -301,12 +300,6 @@ function deleteWinDoor( obj )
 	
 	clickO = resetPop.clickO();
 	hideSizeWD( obj ); 
-
-	if(camera == camera3D)
-	{
-		wall.label[0].visible = false; 
-		//wall.label[1].visible = false;	 			
-	}
 	
 	
 	if(obj.userData.cubeCam)

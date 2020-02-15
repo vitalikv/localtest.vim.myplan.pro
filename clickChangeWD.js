@@ -134,9 +134,6 @@ function showRulerWD(obj)
 	
 	for ( var i = 0; i < arrWallFront.wall.length; i++ )
 	{
-		//arrWallFront.wall[i].obj.label[0].visible = false;
-		//arrWallFront.wall[i].obj.label[1].visible = false;
-
 		arrWallFront.wall[i].obj.userData.wall.html.label[0].style.display = 'none';
 		arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'none';		
 	}
@@ -168,8 +165,7 @@ function showRulerWD_2D(wd)
 	
 	var wall = wd.userData.door.wall;
 	
-	var line = infProject.scene.size.wd_1.line;
-	var label = infProject.scene.size.wd_1.label;	
+	var line = infProject.scene.size.wd_1.line;	
 	var label_2 = infProject.html.wd;
 	
 	var p1 = wall.userData.wall.p[0].position;
@@ -248,24 +244,16 @@ function showRulerWD_2D(wd)
 		}
 		
 		line[i].position.copy(pos).add(arrP[i].offset);
-		line[i].rotation.copy(wall.rotation);
-
-		label[i].position.copy(pos).add(arrP[i].offset.clone().multiplyScalar( 2 ));	 		
-		label[i].rotation.set(-Math.PI / 2, 0, ang2);
-		
+		line[i].rotation.copy(wall.rotation);		
 					
 		label_2[i].textContent = Math.round(d * 100) / 100 + ' м';
-		label_2[i].userData.elem.pos = label[i].position;		
+		label_2[i].userData.elem.pos = pos.clone().add(arrP[i].offset.clone().multiplyScalar( 2 ));		
 		label_2[i].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-ang2)+'deg)';
 		label_2[i].style.display = 'block';
 		
 		upPosLabels_2({elem: label_2[i]});		
 		
-		upLabelCameraWall({label : label[i], text : Math.round(d * 100) / 100, sizeText : 85, color : 'rgba(0,0,0,1)'});
-		
-		line[i].visible = true;	
-		//label[i].visible = true;
-		
+		line[i].visible = true;			
 		line[i].updateMatrixWorld();
 		
 		for ( var i2 = 0; i2 < line[i].userData.rulerwd.cone.length; i2++ )

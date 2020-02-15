@@ -427,7 +427,7 @@ canvas
 {
 	position: relative;
 	width: 100%;
-
+	z-index: 1;
 	margin-top: 15px;
 }
 

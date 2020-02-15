@@ -159,7 +159,6 @@ infProject.scene.substrate = { ruler: [], floor: [], active: null };
 infProject.scene.substrate.ruler = createToolRulerSubstrate(); 
 infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/мебели
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
-infProject.scene.size.wd_1.label = createLabelCameraWall({ count: 6, text: 0, size: 50, ratio: {x:256*2, y:256}, border: 'border line', geometry: infProject.geometry.labelWD, opacity : 0.5 });
 infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
 infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none'}); 
@@ -1068,25 +1067,7 @@ function crtW( cdm )
 	
 	var geometry = createGeometryWall(d, height, width, offsetZ);	
 	var wall = new THREE.Mesh( geometry, materials ); 
- 	infProject.scene.array.wall[infProject.scene.array.wall.length] = wall;
-	
-	wall.label = [];
-	wall.label[0] = createLabelCameraWall({ count : 1, text : 0, size : 85, ratio : {x:256*2, y:256}, geometry : infProject.geometry.labelWall, opacity : 0.5 })[0];	
-	wall.label[0].visible = false;
-	
-	wall.label[1] = createLabelCameraWall({ count : 1, text : 0, size : 85, ratio : {x:256*2, y:256}, geometry : infProject.geometry.labelWall, opacity : 0.5 })[0]; 
-	wall.label[1].visible = false;
-	
-	if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside') 
-	{
-		wall.label[0].visible = true;
-	}
-	else if(infProject.settings.wall.label == 'double') 
-	{
-		//wall.label[0].visible = true;
-		//wall.label[1].visible = true;
-	}
-	
+ 	infProject.scene.array.wall[infProject.scene.array.wall.length] = wall;		
 	
 	wall.position.copy( p1 );
 	

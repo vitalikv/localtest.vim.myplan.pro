@@ -222,10 +222,13 @@ function activeObjRightPanelUI_1(cdm)
 			$('[nameId="rp_catalog_texture_1"]').hide();
 			showHideMenuTexture_1({type: 1});
 			
-			changeTextureWall_UI_1({obj: obj});
-			
-			upLabelCameraWall({label : obj.label[1], text : "A", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});
-			upLabelCameraWall({label : obj.label[0], text : "B", sizeText : 85, color : 'rgba(0,0,0,1)', str: true});			
+			changeTextureWall_UI_1({obj: obj});			
+
+			obj.userData.wall.html.label[0].textContent = 'A';
+			obj.userData.wall.html.label[1].textContent = 'B';
+						
+			upPosLabels_2({elem: obj.userData.wall.html.label[0]});
+			upPosLabels_2({elem: obj.userData.wall.html.label[1]});			
 		}
 		
 		$('[nameId="rp_menu_wall"]').show();

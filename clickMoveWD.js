@@ -231,8 +231,7 @@ function hideSizeWD( obj )
 			{
 				if(camera == camera3D)
 				{
-					//obj.userData.door.wall.label[0].visible = true; 
-					//obj.userData.door.wall.label[1].visible = true;	 
+					
 				}
 				else
 				{
@@ -256,7 +255,7 @@ function hideSizeWD( obj )
 			line.userData.rulerwd.cone[i2].visible = false; 
 		}	
 	}
-	for ( var i = 0; i < infProject.scene.size.wd_1.label.length; i++ ){ infProject.scene.size.wd_1.label[i].visible = false; }
+	
 	for ( var i = 0; i < infProject.html.wd.length; i++ ){ infProject.html.wd[i].style.display = 'none'; }
 }
 

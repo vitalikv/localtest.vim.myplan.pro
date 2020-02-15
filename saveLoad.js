@@ -89,17 +89,13 @@ function resetScene()
 	var cubeCam = infProject.scene.array.cubeCam;
 	
 	for ( var i = 0; i < wall.length; i++ )
-	{ 
-		disposeNode(wall[i]);
-		disposeNode(wall[i].label[0]);
-		disposeNode(wall[i].label[1]);
+	{ 		
+		wall[i].userData.wall.html.label[0].remove();
+		wall[i].userData.wall.html.label[1].remove();
 		
-		scene.remove(wall[i].label[0]); 
-		scene.remove(wall[i].label[1]);
 		if(wall[i].userData.wall.outline) { scene.remove(wall[i].userData.wall.outline); }
 		if(wall[i].userData.wall.zone) { disposeNode(wall[i].userData.wall.zone.label); scene.remove(wall[i].userData.wall.zone.label); }			
 		
-		wall[i].label = [];
 		wall[i].userData.wall.p = [];
 		wall[i].userData.wall.outline = null;
 		wall[i].userData.wall.zone = null;
@@ -177,7 +173,7 @@ function resetScene()
 	for ( var i = 0; i < cube.length; i++ ) { cube[i].visible = false; }
 	
 	var line = infProject.scene.size.wd_1.line;
-	var label = infProject.scene.size.wd_1.label;
+	
 	for ( var i = 0; i < line.length; i++ ) 
 	{ 
 		line[i].visible = false; 
@@ -186,8 +182,8 @@ function resetScene()
 			line[i].userData.rulerwd.cone[i2].visible = false; 
 		}
 	}
-	for ( var i = 0; i < label.length; i++ ) { label[i].visible = false; }
-	
+		
+	for ( var i = 0; i < infProject.html.wd.length; i++ ) { infProject.html.wd[i].style.display = 'none'; }
 	
 	
 	camera3D.userData.camera = { type : 'fly', height : camera3D.position.y, startProject : true };
