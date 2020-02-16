@@ -395,6 +395,49 @@ function deletePointZone(arrRoom)
 }
 
 
+// проверяем если зона с такими же точками (нужно saveLoad.js , загрузка файла)
+function detectSameZone_2( arrRoom, arrP )
+{
+	var flag = false;
+	var ln = 0;
+	
+	if(arrRoom.p.length - 1 != arrP.length) { return flag; }
+		
+	for ( var i2 = 0; i2 < arrRoom.p.length - 1; i2++ )
+	{
+		for ( var i3 = 0; i3 < arrP.length; i3++ )
+		{
+			if(arrRoom.p[i2].userData.id == arrP[i3]) { ln++; }
+		}
+	}
+	
+	if(arrRoom.p.length - 1 == ln) 
+	{ 
+		//console.log(ln);
+		//var txt = '---p---'; for ( var i3 = 0; i3 < arrP.length; i3++ ) { txt += ' | ' + arrP[i3]; } console.log(txt);	
+		//var txt = '---zone---'; for ( var i3 = 0; i3 < arrRoom.p.length - 1; i3++ ) { txt += ' | ' + arrRoom.p[i3].userData.id; } console.log(txt); 
+		flag = true; 
+	}
+	
+	return flag;
+}
+
+
+
+// пускаем луч и определяем к какой комнате принадлежит объект
+function rayDetectedRoom(cdm) 
+{	
+	var ray = new THREE.Raycaster();
+	ray.set( new THREE.Vector3(cdm.pos.x, 1, cdm.pos.z), new THREE.Vector3(0, -1, 0) );
+	
+	var intersects = ray.intersectObject( cdm.obj );	
+	
+	var floor = (!intersects[0]) ? null : intersects[0].object;				
+	
+	return { o: floor };
+}
+
+
 
 // при добавлении или удалении точки, передаем параметры страх зон новым 
 // находим одинаковые зоны (старые(которые были удалены) и новые (которые были созданны)), сравниванием кол-во совпавших точек

@@ -9,6 +9,7 @@ function createPivot()
 	pivot.userData.pivot = {};
 	pivot.userData.pivot.active = { axis: '', startPos: new THREE.Vector3(), dir: new THREE.Vector3(), qt: new THREE.Quaternion() };
 	pivot.userData.pivot.obj = null;
+	pivot.userData.pivot.axs = [];
 	
 	var param = [];
 	param[0] = {axis: 'x', size_1: new THREE.Vector3(0.6, 0.1, 0.1), size_2: new THREE.Vector3(0.6, 0.2, 0.2), rot: new THREE.Vector3(0, 0, 0), color: 'rgb(247, 72, 72)', opacity: 0};
@@ -41,9 +42,17 @@ function createPivot()
 		}
 	}	
 		
-	pivot.add( createCone({axis: 'z', pos: new THREE.Vector3(0,0,-0.6), rot: new THREE.Vector3(-Math.PI/2,0,0), color: 0x0000ff}) );
-	pivot.add( createCone({axis: 'x', pos: new THREE.Vector3(0.6,0,0), rot: new THREE.Vector3(0,0,-Math.PI/2), color: 0xff0000}) );
-	pivot.add( createCone({axis: 'y', pos: new THREE.Vector3(0,0.6,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00}) );
+	var z = createCone({axis: 'z', pos: new THREE.Vector3(0,0,-0.6), rot: new THREE.Vector3(-Math.PI/2,0,0), color: 0x0000ff});
+	var x = createCone({axis: 'x', pos: new THREE.Vector3(0.6,0,0), rot: new THREE.Vector3(0,0,-Math.PI/2), color: 0xff0000});
+	var y = createCone({axis: 'y', pos: new THREE.Vector3(0,0.6,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00});
+	
+	pivot.add( x );
+	pivot.add( y );
+	pivot.add( z );
+	
+	pivot.userData.pivot.axs.x = x;
+	pivot.userData.pivot.axs.y = y;
+	pivot.userData.pivot.axs.z = z;
 	
 	scene.add( pivot );
 
@@ -163,33 +172,22 @@ function clickPivot( intersect )
 	
 	var axis = obj.userData.axis;
 	pivot.userData.pivot.active.axis = axis;	
-		
+	pivot.updateMatrixWorld();	
+	
 	
 	if(axis == 'x')
 	{ 
-		var dir = new THREE.Vector3();
-		var dir = pivot.getWorldDirection(dir); 		
-		pivot.userData.pivot.active.dir = new THREE.Vector3(-dir.z, 0, dir.x).normalize();	
-		pivot.userData.pivot.active.qt = quaternionDirection( pivot.userData.pivot.active.dir ); 	
+		var axisO = pivot.userData.pivot.axs.x; 	
 	}
 	else if(axis == 'z')
 	{ 
-		var dir = new THREE.Vector3();
-		pivot.userData.pivot.active.dir = pivot.getWorldDirection(dir); 
-		pivot.userData.pivot.active.qt = quaternionDirection( pivot.userData.pivot.active.dir ); 	
+		var axisO = pivot.userData.pivot.axs.z; 	
 	}
 	else if(axis == 'y')
 	{ 
-		//planeMath.rotation.set( 0, 0, 0 ); 
-		
-		pivot.updateMatrixWorld();
-		var dir = pivot.getWorldDirection(new THREE.Vector3());	   		
-		var dir = new THREE.Vector3(-dir.z, 0, dir.x).normalize().cross( dir )
-		
-		pivot.userData.pivot.active.dir = dir;  
-		pivot.userData.pivot.active.qt = quaternionDirection( pivot.userData.pivot.active.dir );	
+		var axisO = pivot.userData.pivot.axs.y;	
 	}	
-	
+		
 	
 	if(axis == 'xz' || axis == 'center')
 	{ 
@@ -197,8 +195,12 @@ function clickPivot( intersect )
 	}		 
 	else
 	{
+		axisO.updateMatrixWorld();
+		pivot.userData.pivot.active.dir = new THREE.Vector3().subVectors( pivot.position, axisO.getWorldPosition(new THREE.Vector3()) ).normalize();	
+		pivot.userData.pivot.active.qt = quaternionDirection( pivot.userData.pivot.active.dir );	
+		
 		planeMath.quaternion.copy( pivot.userData.pivot.active.qt ); 
-		planeMath.quaternion.multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI/2, 0, 0)));			
+		planeMath.quaternion.multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI/2, 0, 0)));
 	}
 	
 	planeMath.position.copy( intersect.point );

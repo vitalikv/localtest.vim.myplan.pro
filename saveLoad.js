@@ -86,6 +86,7 @@ function resetScene()
 	var door = infProject.scene.array.door;
 	var obj = infProject.scene.array.obj;
 	var floor = infProject.scene.array.floor;
+	var ceiling = infProject.scene.array.ceiling;
 	var cubeCam = infProject.scene.array.cubeCam;
 	
 	for ( var i = 0; i < wall.length; i++ )
@@ -683,7 +684,35 @@ async function loadFilePL(arr)
 
 	detectRoomZone();
 	
-
+	// новый вариант, пол считается из планировки, а затем ищутся одинаковые зоны из файла 
+	for ( var n = 0; n < infProject.scene.array.floor.length; n++ )
+	{
+		for ( var i = 0; i < rooms.length; i++ )
+		{
+			if(rooms[i].reference)
+			{
+				var floor = rayDetectedRoom({pos: rooms[i].reference, obj: infProject.scene.array.floor[n]});
+				
+				if(floor.o == infProject.scene.array.floor[n])
+				{
+					infProject.scene.array.floor[n].userData.id = rooms[i].id;
+					infProject.scene.array.ceiling[n].userData.id = rooms[i].id;
+					console.log(rooms[i].id);
+					break;
+				}
+			}
+			else if(rooms[i].contour)
+			{
+				if(!detectSameZone_2( infProject.scene.array.floor[n], rooms[i].contour )) continue;
+				
+				infProject.scene.array.floor[n].userData.id = rooms[i].id;
+				infProject.scene.array.ceiling[n].userData.id = rooms[i].id;
+				
+				break;				
+			}
+		}
+	}		
+	// восстанавливаем пол 
 	
 	// устанавливаем окна/двери
 	for ( var i = 0; i < wall.length; i++ )
