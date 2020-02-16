@@ -42,10 +42,7 @@ $('[nameId="button_wrap_plan"]').mousedown(function () { changeRightMenuUI_1({el
 	
 
 $('[nameId="showHideWall_1"]').on('mousedown', function(e) { showHideWallHeight_1(); });
-
 	
-$('[nameId="select_pivot"]').mousedown(function () { switchPivotGizmo({mode:'pivot'}); });
-$('[nameId="select_gizmo"]').mousedown(function () { switchPivotGizmo({mode:'gizmo'}); });
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { objRotateReset(); });	
 $('[nameId="button_copy_obj"]').mousedown(function () { copyObj(); });

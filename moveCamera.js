@@ -171,11 +171,7 @@ function cameraMove3D( event )
 			camera.position.z = radious * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
 
 			camera.position.add( infProject.camera.d3.targetPos );  
-			camera.lookAt( infProject.camera.d3.targetPos );
-			
-			var gizmo = infProject.tools.gizmo;
-			
-			if(gizmo.visible) clippingGizmo360(gizmo.userData.gizmo.obj);
+			camera.lookAt( infProject.camera.d3.targetPos );			
 			
 			wallAfterRender_2();
 		}

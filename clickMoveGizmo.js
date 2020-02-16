@@ -1,119 +1,51 @@
 
 
- 
-
-// создаем Gizmo360
-function createGizmo360()
+function createGizmo360_2()
 {
-	var count = 68; 
-	var circle = [];
-	var g = (Math.PI * 2) / count;
+	var n = 0;
+	var v = [];
+	var circle = infProject.geometry.circle;
 	
-	for ( var i = 0; i < count; i++ )
+	for ( var i = 0; i < circle.length; i++ )
 	{
-		var angle = g * i;
-		circle[i] = new THREE.Vector3();
-		circle[i].x = Math.sin(angle)*0.5;
-		circle[i].z = Math.cos(angle)*0.5;
-		//circle[i].y = 0;
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 1 );
+		v[n].y = 0;		
+		n++;		
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.9 );
+		v[n].y = 0;
+		n++;
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.99 );
+		v[n].y = 0.01;
+		n++;	
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.9 );
+		v[n].y = 0.01;
+		n++;		
 	}	
 
-	
-	var pipeSpline = new THREE.CatmullRomCurve3(circle);
-	pipeSpline.curveType = 'catmullrom';
-	pipeSpline.tension = 0;
-	
-	var geometry_1 = new THREE.TubeBufferGeometry( pipeSpline, circle.length, 0.03, 12, true );	
-	var geometry_2 = new THREE.TubeBufferGeometry( pipeSpline, circle.length, 0.01, 12, true );
-	
-	
 	var gizmo = new THREE.Object3D();
 	gizmo.userData.gizmo = {};
 	gizmo.userData.gizmo.obj = null;
 	gizmo.userData.gizmo.active = { axis: '', startPos: new THREE.Vector3(), rotY: 0 };
-
 	
-	var param = [];
-	param[0] = {axis: 'x', rot: new THREE.Vector3(0, 0, 0), color: 'rgb(17, 255, 0)'};
-	param[1] = {axis: 'y', rot: new THREE.Vector3(0, 0, Math.PI/2), color: 'rgb(247, 72, 72)'};
-	param[2] = {axis: 'z', rot: new THREE.Vector3(Math.PI/2, 0, 0), color: 'rgb(72, 116, 247)'};	
+	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
+	var cdm = {axis: 'x', pos: new THREE.Vector3(0,0.0,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00};
 	
-	for ( var i = 0; i < param.length; i++ )
-	{
-		var material = new THREE.MeshBasicMaterial({ color: param[i].color, depthTest: false, transparent: true, opacity: 1.0 });
-		material.visible = false;
-		//var material = new THREE.MeshBasicMaterial({ color: param[i].color });
-		var obj = new THREE.Mesh( geometry_1, material );
-		obj.userData.tag = 'gizmo'; 
-		obj.userData.axis = param[i].axis;		
-		obj.rotation.set( param[i].rot.x, param[i].rot.y, param[i].rot.z );	
-		
-	
-		var obj2 = new THREE.Mesh( geometry_2, new THREE.MeshPhongMaterial({ color: param[i].color, depthTest: false, transparent: true, clippingPlanes : [ new THREE.Plane() ], lightMap: lightMap_1 }) );
-		obj2.renderOrder = 3;
-		//obj2.visible = false;
-		obj2.material.clippingPlanes[0].copy(new THREE.Plane());
-		obj.add( obj2 );
-		
-		
-		gizmo.add( obj );
-	}
-	
-	scene.add( gizmo );
-
+	var obj = new THREE.Mesh( createGeometryCircle(v), material ); 
+	obj.userData.tag = 'gizmo';
+	obj.userData.axis = cdm.axis;
+	obj.renderOrder = 2;
+	obj.position.copy(cdm.pos);
+	obj.rotation.set(cdm.rot.x, cdm.rot.y, cdm.rot.z);		
+	gizmo.add( obj );
 	
 	gizmo.visible = false;
-	
-	// Sphere
-	var geometry = new THREE.SphereGeometry( 0.98*0.5, 32, 32 );
-	var material = new THREE.MeshPhongMaterial( {color: 0x000000, depthTest: false, transparent: true, opacity: 0.1} );
-	var sphere = new THREE.Mesh( geometry, material );
-	sphere.renderOrder = 3;
-	gizmo.add( sphere );
+	scene.add( gizmo );
 	
 	return gizmo;
-}
-
-
-
-
-
-// прячем текстуру если она находится за плоскостью 
-function clippingGizmo360( objPop ) 
-{
-	var plane = new THREE.Plane();	
-	
-	if(camera == cameraTop)
-	{
-		plane = new THREE.Plane(new THREE.Vector3(0,1,0), 100);
-		infProject.tools.gizmo.children[0].children[0].material.clippingPlanes[0].copy(plane);		
-	}
-	else
-	{
-		var group = new THREE.Group();
-		group.position.copy(infProject.tools.gizmo.position);		
-		group.lookAt(camera.position);
-		group.rotateOnAxis(new THREE.Vector3(0,1,0), -Math.PI / 2);
-		group.updateMatrixWorld();
-		
-		
-		//var dir = new THREE.Vector3().subVectors( camera.position, objPop.position ).normalize();
-		//var qt = quaternionDirection(dir.clone());
-		//var mx = new THREE.Matrix4().compose(objPop.position, qt, new THREE.Vector3(1,1,1));
-		//plane.applyMatrix4(mx);	
-		plane.applyMatrix4(group.matrixWorld);	
-		
-		infProject.tools.gizmo.children[0].children[0].material.clippingPlanes[0].copy(plane);
-		infProject.tools.gizmo.children[1].children[0].material.clippingPlanes[0].copy(plane);
-		infProject.tools.gizmo.children[2].children[0].material.clippingPlanes[0].copy(plane);	
-		
-
-		//scene.add( new THREE.PlaneHelper( plane, 15, 0xff0000 ) );	
-	}
-
-}
-
-
+}	
 
 
 
@@ -193,6 +125,7 @@ function moveGizmo( event )
 	
 	
 	var gizmo = infProject.tools.gizmo;
+	var pivot = infProject.tools.pivot;
 	
 	var obj = gizmo.userData.gizmo.obj;  
 	var axis = gizmo.userData.gizmo.active.axis;
@@ -244,25 +177,12 @@ function moveGizmo( event )
 	
 	gizmo.userData.gizmo.active.rotY = rotY; 
 	
-	// поворот самого gizmo
-	if(camera != cameraTop) 
-	{ 
-		gizmo.rotation.copy( obj.rotation );		 
-	}
+	gizmo.rotation.copy( obj.rotation );
+	pivot.rotation.copy( obj.rotation );
+
 	
-	
-	upMenuRotateObjPop(obj);
 }
 
 
-
-
-// обновляем в меню rotate
-function upMenuRotateObjPop(obj) 
-{				
-	$('[nameId="object_rotate_X"]').val( Math.round( THREE.Math.radToDeg(obj.rotation.x) ) );
-	$('[nameId="object_rotate_Y"]').val( Math.round( THREE.Math.radToDeg(obj.rotation.y) ) );
-	$('[nameId="object_rotate_Z"]').val( Math.round( THREE.Math.radToDeg(obj.rotation.z) ) );	
-}
 
 

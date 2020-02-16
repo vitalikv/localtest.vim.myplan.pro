@@ -65,59 +65,32 @@ function clickObject3D( obj )
 	{					
 		var qt = obj.quaternion.clone();	 		
 	}		
-	
-	
-	
-	if(infProject.settings.active.pg == 'pivot')
-	{
-		var pivot = infProject.tools.pivot;	
-		pivot.visible = true;	
-		pivot.userData.pivot.obj = obj;
-		pivot.position.copy(pos);
-		pivot.quaternion.copy(qt);
 		
-		if(camera == cameraTop)
-		{
-			pivot.children[1].visible = false;
-			pivot.children[7].visible = false;
-		}
-		else
-		{
-			pivot.children[1].visible = true;
-			pivot.children[7].visible = true;
-		}
+	
+	var pivot = infProject.tools.pivot;	
+	pivot.visible = true;	
+	pivot.userData.pivot.obj = obj;
+	pivot.position.copy(pos);
+	pivot.quaternion.copy(qt);
+	
+	if(camera == cameraTop)
+	{
+		pivot.userData.pivot.axs.y.visible = false;
 	}
-	
-	if(infProject.settings.active.pg == 'gizmo')
+	else
 	{
-		var gizmo = infProject.tools.gizmo;
-					
-		gizmo.position.copy( pos );
-		
-		gizmo.visible = true;
-		gizmo.userData.gizmo.obj = obj;
-		
-		if(camera == cameraTop)
-		{
-			gizmo.children[1].visible = false;
-			gizmo.children[2].visible = false;
-			
-			//gizmo.rotation.set(0,0,0);
-		}
-		else
-		{
-			gizmo.children[1].visible = true;
-			gizmo.children[2].visible = true;			
-		}
-
-		gizmo.quaternion.copy( qt );
-		
-		upMenuRotateObjPop(obj);
-		
-		clippingGizmo360(obj); 		
-	}		
+		pivot.userData.pivot.axs.y.visible = true;
+	}	
+	
+	var gizmo = infProject.tools.gizmo;					
+	gizmo.position.copy( pos );		
+	gizmo.visible = true;
+	gizmo.userData.gizmo.obj = obj;
+	gizmo.quaternion.copy( qt );			
 	
 	setScalePivotGizmo();
+	
+	outlineAddObj({arr: [obj]});
 	
 	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI 
 }
@@ -201,28 +174,6 @@ function hidePivotGizmo(obj)
 
  
 
-
-
-// переключаем Pivot/Gizmo/joint
-function switchPivotGizmo(cdm)
-{
-	var obj = getObjFromPivotGizmo();
-	
-	if(!obj) return;			
-	
-	infProject.settings.active.pg = cdm.mode;
-	
-	infProject.tools.pivot.visible = false;
-	infProject.tools.gizmo.visible = false;
-	
-	if(infProject.settings.active.pg == 'pivot'){ infProject.tools.pivot.visible = true; }	
-	if(infProject.settings.active.pg == 'gizmo'){ infProject.tools.gizmo.visible = true; }		
-
-	infProject.tools.pivot.userData.pivot.obj = null;
-	infProject.tools.gizmo.userData.gizmo.obj = null;
-
-	clickObject3D( obj ); 
-}
 
 
 // получаем активный объект

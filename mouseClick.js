@@ -160,7 +160,7 @@ function clickRayHit(event)
 	if(infProject.tools.gizmo.visible)
 	{
 		var arr = [];
-		for ( var i = 0; i < 3; i++ ){ arr[i] = infProject.tools.gizmo.children[i]; }
+		for ( var i = 0; i < infProject.tools.gizmo.children.length; i++ ){ arr[i] = infProject.tools.gizmo.children[i]; }
 		
 		var ray = rayIntersect( event, arr, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; return rayhit; }		

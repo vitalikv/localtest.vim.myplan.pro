@@ -372,21 +372,6 @@
 					</div>
 				
 				
-					<div class="flex_1 w_1">						
-						<div class="button1 button_gradient_1" nameId="select_pivot">
-							<img src="<?=$path?>img/move_1.png">	
-						</div>	
-						<div class="button1 button_gradient_1" nameId="select_gizmo">
-							<img src="<?=$path?>img/rotate_1.png">		
-						</div>							
-					</div>
-
-					<div class="flex_1 input_rotate">
-						<input type="text" nameId="object_rotate_X" value="0">
-						<input type="text" nameId="object_rotate_Y" value="0">
-						<input type="text" nameId="object_rotate_Z" value="0">
-					</div>
-				
 					<div class="button1 button_gradient_1" nameId="obj_rotate_reset" style="display: none;">
 						reset	
 					</div>

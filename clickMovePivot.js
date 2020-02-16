@@ -1,6 +1,52 @@
 
 
-
+function createPivot_2()
+{
+	var pivot = new THREE.Object3D();
+	pivot.userData.pivot = {};
+	pivot.userData.pivot.active = { axis: '', startPos: new THREE.Vector3(), dir: new THREE.Vector3(), qt: new THREE.Quaternion() };
+	pivot.userData.pivot.obj = null;
+	pivot.userData.pivot.axs = [];
+	
+	var param = [];
+	param[0] = {axis: 'x', pos: new THREE.Vector3(0.6, 0.0, 0.0), rot: new THREE.Vector3(0, 0, 0)};
+	param[1] = {axis: 'x', pos: new THREE.Vector3(-0.6, 0.0, 0.0), rot: new THREE.Vector3(0, Math.PI, 0)};
+	param[2] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, -0.6), rot: new THREE.Vector3(0, Math.PI/2, 0)};
+	param[3] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, 0.6), rot: new THREE.Vector3(0, -Math.PI/2, 0)};
+	
+	var geometry = createGeometryWD({x: 0.35, y: 0.01, z: 0.35});
+	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
+	
+	for ( var i = 0; i < param.length; i++ )
+	{
+		var obj = new THREE.Mesh( geometry, material );
+		obj.userData.tag = 'pivot';
+		obj.userData.axis = param[i].axis;	
+		obj.renderOrder = 2;
+		
+		if(param[i].pos) obj.position.set( param[i].pos.x, param[i].pos.y, param[i].pos.z );
+		if(param[i].rot) obj.rotation.set( param[i].rot.x, param[i].rot.y, param[i].rot.z );
+		
+		param[i].o = obj;
+		
+		pivot.add( obj );
+	}
+	
+	var y = createCone({axis: 'y', pos: new THREE.Vector3(0,0.1,0), rot: new THREE.Vector3(0,0,0), color: 0xcccccc});
+	pivot.add( y );
+	
+	pivot.visible = false;
+	scene.add( pivot );
+	
+	
+	pivot.userData.pivot.axs.x = param[0].o;
+	pivot.userData.pivot.axs.y = y;
+	pivot.userData.pivot.axs.z = param[2].o;	
+		
+	
+	
+	return pivot;
+}
 
 // создаем Pivot
 function createPivot()
@@ -46,9 +92,9 @@ function createPivot()
 	var x = createCone({axis: 'x', pos: new THREE.Vector3(0.6,0,0), rot: new THREE.Vector3(0,0,-Math.PI/2), color: 0xff0000});
 	var y = createCone({axis: 'y', pos: new THREE.Vector3(0,0.6,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00});
 	
+	pivot.add( z );
 	pivot.add( x );
 	pivot.add( y );
-	pivot.add( z );
 	
 	pivot.userData.pivot.axs.x = x;
 	pivot.userData.pivot.axs.y = y;
@@ -222,6 +268,8 @@ function movePivot( event )
 	}		
 	
 	var pivot = infProject.tools.pivot;
+	var gizmo = infProject.tools.gizmo;
+	
 	var obj = pivot.userData.pivot.obj;
 	var pos = new THREE.Vector3().addVectors( intersects[ 0 ].point, clickO.offset );
 
@@ -243,7 +291,7 @@ function movePivot( event )
 	
 	var pos2 = new THREE.Vector3().subVectors( pos, pivot.position );
 	pivot.position.add( pos2 );
-	
+	gizmo.position.add( pos2 );
 	
 	obj.position.add( pos2 ); 
 }
@@ -257,33 +305,29 @@ function setScalePivotGizmo()
 	var gizmo = infProject.tools.gizmo;
 	
 	var pVis = false;
-	var gVis = false;
-
 	
 	if(pivot.visible) { pVis = true; }
-	if(gizmo.visible) { gVis = true; }	
-	if(!pVis && !gVis) { return; }
+	if(!pVis) { return; }
 	
 	var obj = null;
 	
 	if(pVis) obj = pivot.userData.pivot.obj;
-	if(gVis) obj = gizmo.userData.gizmo.obj;
 	if(!obj) return;
 	
 	if(camera == cameraTop)
 	{		
-		var scale = 1/camera.zoom+0.5;	
+		var scale = 1/camera.zoom+0.0;	
 		
-		if(pVis) pivot.scale.set( scale,scale,scale );
-		if(gVis) gizmo.scale.set( scale,scale,scale );
+		pivot.scale.set( scale,scale,scale );
+		gizmo.scale.set( scale,scale,scale );
 	}
 	else
 	{
 		var dist = camera.position.distanceTo(obj.position); 					
 		var scale = dist/6;	
 		
-		if(pVis) pivot.scale.set( scale,scale,scale );
-		if(gVis) gizmo.scale.set( scale,scale,scale );		
+		pivot.scale.set( scale,scale,scale );
+		gizmo.scale.set( scale,scale,scale );		
 	}
 }
 

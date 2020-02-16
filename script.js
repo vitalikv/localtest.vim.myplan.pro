@@ -163,7 +163,7 @@ infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
 infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none'}); 
 // controllWD контроллеры для изменения ширины/длины wd
-infProject.tools = { pivot: createPivot(), gizmo: createGizmo360(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
+infProject.tools = { pivot: createPivot_2(), gizmo: createGizmo360_2(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
 infProject.tools.floorPl = createPlaneOutlineFloor();
 infProject.catalog = { obj: [], texture: infoListTexture() }; 
 infProject.listColor = resetPop.listColor(); 
@@ -718,6 +718,79 @@ function createGeometryCube(x, y, z, cdm)
 }
 
 
+
+
+function createGeometryWD(cdm)  
+{
+	var x = cdm.x;
+	var y = cdm.y;
+	var z = cdm.z;
+	var zC = 0;
+	
+	var geometry = new THREE.Geometry();
+	x /= 2;
+	y /= 2;
+	z /= 2;
+	var f = 0.9;
+	
+	var vertices = [
+				new THREE.Vector3(-x,-y,z),
+				new THREE.Vector3(-x*f,y,z*f),
+				new THREE.Vector3(x*f,y,zC*f),
+				new THREE.Vector3(x,-y,zC),
+				new THREE.Vector3(x,-y,-zC),
+				new THREE.Vector3(x*f,y,-zC*f),
+				new THREE.Vector3(-x*f,y,-z*f),
+				new THREE.Vector3(-x,-y,-z),
+			];	
+			
+	var faces = [
+				new THREE.Face3(0,3,2),
+				new THREE.Face3(2,1,0),
+				new THREE.Face3(4,7,6),
+				new THREE.Face3(6,5,4),				
+				new THREE.Face3(0,1,6),
+				new THREE.Face3(6,7,0),					
+				new THREE.Face3(1,2,5),
+				new THREE.Face3(5,6,1),				
+				new THREE.Face3(2,3,4),
+				new THREE.Face3(4,5,2),				
+				new THREE.Face3(3,0,7),
+				new THREE.Face3(7,4,3),
+			];
+	
+	var uvs3 = [
+				new THREE.Vector2(0,0),
+				new THREE.Vector2(1,0),
+				new THREE.Vector2(1,1),
+			];
+	var uvs4 = [
+				new THREE.Vector2(1,1),
+				new THREE.Vector2(0,1),
+				new THREE.Vector2(0,0),
+			];	
+
+	var uvs1 = [
+				new THREE.Vector2(0,0),
+				new THREE.Vector2(1,0),
+				new THREE.Vector2(0.95,1),
+			];
+	var uvs2 = [
+				new THREE.Vector2(0.95,1),
+				new THREE.Vector2(1-0.95,1),
+				new THREE.Vector2(0,0),
+			];				
+
+
+			
+	geometry.vertices = vertices;
+	geometry.faces = faces;
+	geometry.faceVertexUvs[0] = [uvs3, uvs4, uvs3, uvs4, uvs3, uvs4, uvs1, uvs2, uvs3, uvs4, uvs3, uvs4];
+	geometry.computeFaceNormals();	
+	geometry.uvsNeedUpdate = true;		
+	
+	return geometry;
+}
 
 
 function createGeometryWall(x, y, z, pr_offsetZ)
