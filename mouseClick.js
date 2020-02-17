@@ -248,13 +248,14 @@ function clickMouseActive(cdm)
 		else if( tag == 'window' ) { clickWD( rayhit ); }
 		else if( tag == 'door' ) { clickWD( rayhit ); }
 		else if( tag == 'controll_wd' ) { clickToggleChangeWin( rayhit ); }
-		else if( tag == 'obj' && camera == cameraTop ) { clickObject3D( obj ); }		
+		else if( tag == 'obj' && camera == cameraTop ) { clickObject3D({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { clickObject3D({obj: obj, rayhit: rayhit}); }
 		else { flag = false; }
 	}
 	else if(cdm.type == 'up')
 	{	
 		if( tag == 'wall' && camera == camera3D ) { clickWall_3D({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'obj' && camera == camera3D ) { clickObject3D( obj ); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { clickObject3D({obj: obj, rayhit: rayhit}); }
 		else if( tag == 'room' && camera == cameraTop ) { clickFloor({obj: obj}); }
 		else if( tag == 'room' && camera == camera3D ) { clickFloor({obj: obj}); }
 		else { flag = false; }

@@ -1,56 +1,12 @@
 
 
-// кликнули на 3D объект в 2D режиме, подготавляем к перемещению
-function clickObject2D( obj, intersect )
-{	
-	var obj = clickO.move = intersect.object;  
-	
-	clickO.offset = new THREE.Vector3().subVectors( obj.position, intersect.point );	
-	
-	planeMath.position.copy( intersect.point );
-	planeMath.rotation.set( Math.PI/2, 0, 0 );
-}
-
-
-
-// перемещение по 2D плоскости 
-function moveObjectPop( event )
-{	
-	var intersects = rayIntersect( event, planeMath, 'one' ); 
-	
-	if(intersects.length == 0) return;
-	
-	var obj = clickO.move;
-	
-	if(!clickO.actMove)
-	{
-		clickO.actMove = true;
-	}		
-	
-	var pos = new THREE.Vector3().addVectors( intersects[ 0 ].point, clickO.offset );	
-	
-	var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
-	obj.position.add( pos2 );	
-}
-
-
-
-
-function clickMouseUpObject(obj)
-{ 
-	if(clickO.actMove)
-	{		 
-		updateCubeCam({obj: obj});	// CubeCamera (material Reflection)
-	}	
-}
-
-
-
 
 
 // активируем 3D объект или разъем, ставим pivot/gizmo
-function clickObject3D( obj )
+function clickObject3D(cdm)
 {
+	var obj = cdm.obj;
+	var rayhit = cdm.rayhit;
 	
 	obj.updateMatrixWorld();
 	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );			 
@@ -65,7 +21,17 @@ function clickObject3D( obj )
 	{					
 		var qt = obj.quaternion.clone();	 		
 	}		
-		
+	
+ 
+	// объект уже выбран
+	if(infProject.tools.pivot.userData.pivot.obj == obj)
+	{
+		clickO.move = obj;		
+		clickO.offset = new THREE.Vector3().subVectors( obj.position, rayhit.point );
+	
+		planeMath.position.copy( rayhit.point );
+		planeMath.rotation.set( Math.PI/2, 0, 0 );
+	}
 	
 	var pivot = infProject.tools.pivot;	
 	pivot.visible = true;	
@@ -97,6 +63,42 @@ function clickObject3D( obj )
 
 
 
+
+
+// перемещение по 2D плоскости 
+function moveObjectPop( event )
+{	
+	var intersects = rayIntersect( event, planeMath, 'one' ); 
+	
+	if(intersects.length == 0) return;
+	
+	var obj = clickO.move;
+	
+	if(!clickO.actMove)
+	{
+		clickO.actMove = true;
+	}		
+	
+	var pos = new THREE.Vector3().addVectors( intersects[ 0 ].point, clickO.offset );	
+	
+	var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
+	obj.position.add( pos2 );
+
+	infProject.tools.pivot.position.add( pos2 );
+	infProject.tools.gizmo.position.add( pos2 );
+
+	setScalePivotGizmo();
+}
+
+
+
+function clickMouseUpObject(obj)
+{ 
+	if(clickO.actMove)
+	{		 
+		updateCubeCam({obj: obj});	// CubeCamera (material Reflection)
+	}	
+}
 
 
 	

@@ -48,119 +48,7 @@ function createPivot_2()
 	return pivot;
 }
 
-// создаем Pivot
-function createPivot()
-{
-	var pivot = new THREE.Object3D();
-	pivot.userData.pivot = {};
-	pivot.userData.pivot.active = { axis: '', startPos: new THREE.Vector3(), dir: new THREE.Vector3(), qt: new THREE.Quaternion() };
-	pivot.userData.pivot.obj = null;
-	pivot.userData.pivot.axs = [];
-	
-	var param = [];
-	param[0] = {axis: 'x', size_1: new THREE.Vector3(0.6, 0.1, 0.1), size_2: new THREE.Vector3(0.6, 0.2, 0.2), rot: new THREE.Vector3(0, 0, 0), color: 'rgb(247, 72, 72)', opacity: 0};
-	param[1] = {axis: 'y', size_1: new THREE.Vector3(0.6, 0.1, 0.1), size_2: new THREE.Vector3(0.6, 0.2, 0.2), rot: new THREE.Vector3(0, 0, Math.PI/2), color: 'rgb(17, 255, 0)', opacity: 0};
-	param[2] = {axis: 'z', size_1: new THREE.Vector3(0.6, 0.1, 0.1), size_2: new THREE.Vector3(0.6, 0.2, 0.2), rot: new THREE.Vector3(0, Math.PI/2, 0), color: 'rgb(72, 116, 247)', opacity: 0};
-	param[3] = {axis: 'xz', size_1: new THREE.Vector3(0.3, 0.001, 0.3), pos: new THREE.Vector3(0.01, 0.0, -0.16), color: 'rgb(194, 194, 194)', opacity: 0.4};
-	param[4] = {axis: 'center', size_1: new THREE.Vector3(0.03, 0.03, 0.03), pos: new THREE.Vector3(-0.015, 0.0, 0.0), color: 'rgb(102, 102, 102)', opacity: 1};
-	
-	
-	for ( var i = 0; i < param.length; i++ )
-	{
-		var geometry = createGeometryPivot(param[i].size_1.x, param[i].size_1.y, param[i].size_1.z);
-		
-		var obj = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({ color: param[i].color, transparent: true, opacity: param[i].opacity, depthTest: false }) );
-		obj.userData.tag = 'pivot';
-		obj.userData.axis = param[i].axis;	
-		obj.renderOrder = 2;
-		
-		if(param[i].pos) obj.position.set( param[i].pos.x, param[i].pos.y, param[i].pos.z );
-		if(param[i].rot) obj.rotation.set( param[i].rot.x, param[i].rot.y, param[i].rot.z );
-		
-		pivot.add( obj );
-		
-		if(param[i].size_2)
-		{
-			var axis = new THREE.Mesh( createGeometryPivot(0.6, 0.02, 0.02), new THREE.MeshPhongMaterial({ color: param[i].color, depthTest: false, transparent: true, lightMap: lightMap_1 }) );	
-			axis.renderOrder = 2;
-			//axis.rotation.set( arr[i][1].x, arr[i][1].y, arr[i][1].z );		
-			obj.add( axis );					
-		}
-	}	
-		
-	var z = createCone({axis: 'z', pos: new THREE.Vector3(0,0,-0.6), rot: new THREE.Vector3(-Math.PI/2,0,0), color: 0x0000ff});
-	var x = createCone({axis: 'x', pos: new THREE.Vector3(0.6,0,0), rot: new THREE.Vector3(0,0,-Math.PI/2), color: 0xff0000});
-	var y = createCone({axis: 'y', pos: new THREE.Vector3(0,0.6,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00});
-	
-	pivot.add( z );
-	pivot.add( x );
-	pivot.add( y );
-	
-	pivot.userData.pivot.axs.x = x;
-	pivot.userData.pivot.axs.y = y;
-	pivot.userData.pivot.axs.z = z;
-	
-	scene.add( pivot );
 
-	//pivot.rotation.set(0.2, 0.5, 0);
-	pivot.visible = false;
-	
-	return pivot;
-}
-
-
-
-function createGeometryPivot(x, y, z)
-{
-	var geometry = new THREE.Geometry();
-	y /= 2;
-	z /= 2;
-	var vertices = [
-				new THREE.Vector3(0,-y,z),
-				new THREE.Vector3(0,y,z),
-				new THREE.Vector3(x,y,z),
-				new THREE.Vector3(x,-y,z),
-				new THREE.Vector3(x,-y,-z),
-				new THREE.Vector3(x,y,-z),
-				new THREE.Vector3(0,y,-z),
-				new THREE.Vector3(0,-y,-z),
-			];	
-			
-	var faces = [
-				new THREE.Face3(0,3,2),
-				new THREE.Face3(2,1,0),
-				new THREE.Face3(4,7,6),
-				new THREE.Face3(6,5,4),				
-				new THREE.Face3(0,1,6),
-				new THREE.Face3(6,7,0),					
-				new THREE.Face3(1,2,5),
-				new THREE.Face3(5,6,1),				
-				new THREE.Face3(2,3,4),
-				new THREE.Face3(4,5,2),				
-				new THREE.Face3(3,0,7),
-				new THREE.Face3(7,4,3),
-			];
-	
-	var uvs1 = [
-				new THREE.Vector2(0,0),
-				new THREE.Vector2(1,0),
-				new THREE.Vector2(1,1),
-			];
-	var uvs2 = [
-				new THREE.Vector2(1,1),
-				new THREE.Vector2(0,1),
-				new THREE.Vector2(0,0),
-			];	
-
-			
-	geometry.vertices = vertices;
-	geometry.faces = faces;
-	geometry.faceVertexUvs[0] = [uvs1, uvs2, uvs1, uvs2, uvs1, uvs2, uvs1, uvs2, uvs1, uvs2, uvs1, uvs2];
-	geometry.computeFaceNormals();	
-	geometry.uvsNeedUpdate = true;		
-	
-	return geometry;
-}
 
 
 // создаем конусы для Pivot
@@ -201,6 +89,7 @@ function createCone(cdm)
 	
 	return obj;
 }
+
 
 
 // кликнули на pivot
@@ -286,14 +175,14 @@ function movePivot( event )
 		pos = new THREE.Vector3().addVectors( pivot.userData.pivot.active.startPos, v1 );			
 	}
 	
-	 
-	
 	
 	var pos2 = new THREE.Vector3().subVectors( pos, pivot.position );
 	pivot.position.add( pos2 );
 	gizmo.position.add( pos2 );
 	
 	obj.position.add( pos2 ); 
+	
+	setScalePivotGizmo();
 }
 
 

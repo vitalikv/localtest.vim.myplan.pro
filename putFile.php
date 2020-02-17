@@ -3,11 +3,11 @@
 
 
 
-$list = 'uiInterface.js
+$list = 'crossWall.js
+uiInterface.js
 meshBSP.js 	
 calculationArea.js
 createGrid.js
-crossWall.js
 addPoint.js
 addWD.js
 mouseClick.js

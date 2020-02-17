@@ -111,6 +111,7 @@ function onWindowResize()
 	cameraWall.updateProjectionMatrix();
 	
 	renderer.setSize(window.innerWidth, window.innerHeight);
+	upPosLabels({resize: true});
 	
 	renderCamera();
 }
@@ -338,10 +339,13 @@ function upPosLabels(cdm)
 {
 	if(camera != cameraTop) return;
 	
+	if(!cdm) cdm = {};
+		
 	var stop = true;
 	if(cameraTop.userData.camera.save.zoom - cameraTop.zoom !== 0) { stop = false; }
 	if(cameraTop.userData.camera.save.pos.x - cameraTop.position.x !== 0) { stop = false; }
 	else if(cameraTop.userData.camera.save.pos.z - cameraTop.position.z !== 0) { stop = false; }
+	else if(cdm.resize) { stop = false; }
 	
 	if(stop) return;
 	
