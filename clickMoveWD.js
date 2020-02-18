@@ -239,6 +239,9 @@ function hideSizeWD( obj )
 					{
 						arrWallFront.wall[i].obj.userData.wall.html.label[0].style.display = 'block';
 						arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'block';
+						
+						arrWallFront.wall[i].obj.userData.wall.html.label[0].userData.elem.show = true;
+						arrWallFront.wall[i].obj.userData.wall.html.label[1].userData.elem.show = true;						
 					}					
 				}
 			}			
@@ -256,7 +259,11 @@ function hideSizeWD( obj )
 		}	
 	}
 	
-	for ( var i = 0; i < infProject.html.wd.length; i++ ){ infProject.html.wd[i].style.display = 'none'; }
+	for ( var i = 0; i < infProject.html.wd.length; i++ )
+	{ 
+		infProject.html.wd[i].style.display = 'none'; 
+		infProject.html.wd[i].userData.elem.show = false;
+	}
 }
 
 

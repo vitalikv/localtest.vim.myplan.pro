@@ -94,6 +94,7 @@ function changeDepthColor()
 		for ( var i2 = 0; i2 <  wall[i].userData.wall.html.label.length; i2++ )
 		{
 			wall[i].userData.wall.html.label[i2].style.display = str; 
+			wall[i].userData.wall.html.label[i2].userData.elem.show = visible; 
 		}
 	}	
 		

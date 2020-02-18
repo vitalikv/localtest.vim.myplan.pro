@@ -184,7 +184,11 @@ function resetScene()
 		}
 	}
 		
-	for ( var i = 0; i < infProject.html.wd.length; i++ ) { infProject.html.wd[i].style.display = 'none'; }
+	for ( var i = 0; i < infProject.html.wd.length; i++ ) 
+	{ 
+		infProject.html.wd[i].style.display = 'none'; 
+		infProject.html.wd[i].userData.elem.show = false;
+	}
 	
 	
 	camera3D.userData.camera = { type : 'fly', height : camera3D.position.y, startProject : true };

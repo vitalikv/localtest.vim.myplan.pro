@@ -135,7 +135,10 @@ function showRulerWD(obj)
 	for ( var i = 0; i < arrWallFront.wall.length; i++ )
 	{
 		arrWallFront.wall[i].obj.userData.wall.html.label[0].style.display = 'none';
-		arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'none';		
+		arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'none';
+		
+		arrWallFront.wall[i].obj.userData.wall.html.label[0].userData.elem.show = false;
+		arrWallFront.wall[i].obj.userData.wall.html.label[1].userData.elem.show = false;
 	}
 	
 	var v = wall.userData.wall.v;
@@ -250,6 +253,7 @@ function showRulerWD_2D(wd)
 		label_2[i].userData.elem.pos = pos.clone().add(arrP[i].offset.clone().multiplyScalar( 2 ));		
 		label_2[i].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-ang2)+'deg)';
 		label_2[i].style.display = 'block';
+		label_2[i].userData.elem.show = true;
 		
 		upPosLabels_2({elem: label_2[i]});		
 		

@@ -162,7 +162,7 @@ infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/м�
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
 infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
-infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none'}); 
+infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none', tag: 'elem_wd_size'}); 
 // controllWD контроллеры для изменения ширины/длины wd
 infProject.tools = { pivot: createPivot_2(), gizmo: createGizmo360_2(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
 infProject.tools.floorPl = createPlaneOutlineFloor();
@@ -318,7 +318,11 @@ function createHtmlLabelWall(cdm)
 		elem.style.cssText = 'position: absolute; width: 120px; font-size: 18px; text-align: center; font-family: arial, sans-serif; color: #3c3c3c;';
 		labelContainerElem.appendChild(elem); 
 		
-		elem.userData = { elem: { pos: new THREE.Vector3() } };
+		elem.userData = {};
+		elem.userData.tag = cdm.tag;
+		elem.userData.elem = {};
+		elem.userData.elem.pos = new THREE.Vector3();
+		elem.userData.elem.show = true;
 		
 		infProject.html.label[infProject.html.label.length] = elem;	
 
@@ -327,6 +331,7 @@ function createHtmlLabelWall(cdm)
 		if(cdm.display)
 		{
 			elem.style.display = cdm.display;
+			elem.userData.elem.show = false;
 		}
 	}
 	
@@ -352,6 +357,7 @@ function upPosLabels(cdm)
 	cameraTop.userData.camera.save.pos = cameraTop.position.clone();
 	cameraTop.userData.camera.save.zoom = cameraTop.zoom;
 	
+	
 	for ( var i = 0; i < infProject.html.label.length; i++ )
 	{
 		var elem = infProject.html.label[i];
@@ -369,6 +375,11 @@ function upPosLabels(cdm)
 		elem.style.top = `${y}px`;
 		elem.style.left = `${x}px`;	
 		
+		if(elem.userData.elem.show)
+		{
+			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; }
+			else { elem.style.display = 'block'; }			
+		}
 	}		
 }
 
@@ -1170,7 +1181,7 @@ function crtW( cdm )
 	//wall.userData.wall.active = { click: true, hover: true };	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
-	wall.userData.wall.html.label = createHtmlLabelWall({count: 2});
+	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
 	
 	var v = wall.geometry.vertices;
 	wall.userData.wall.v = [];
