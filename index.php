@@ -46,7 +46,7 @@
 	<script src="<?=$path?>js/BufferGeometryUtils.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>js/export/GLTFExporter.js?<?=$vrs?>"></script>
 	
-	<div id="canvasFrame" style="position: fixed; width: 100%; height: 550px; top: 0; right: 0;">
+	<div id="canvasFrame" style="position: fixed; width: 100%; height: 100%; top: 0; right: 0; overflow: hidden;">
 		<div class="frame">
 				
 			<div class="flex_1 top_panel_1 button_gradient_1" data-action ='top_panel_1' style="display: none;">
