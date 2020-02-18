@@ -1,10 +1,7 @@
 
+var containerF = document.getElementById( 'canvasFrame' );
+//var containerF = document;
 
-
-var w_w = window.innerWidth;
-var w_h = window.innerHeight;
-var aspect = window.innerWidth/window.innerHeight;
-var d = infProject.settings.cam2D;
 
 var canvas = document.createElement( 'canvas' );
 var context = canvas.getContext( 'webgl2' );
@@ -19,14 +16,18 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
 //renderer.autoClear = false;
 renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setSize( containerF.clientWidth, containerF.clientHeight );
 //renderer.setClearColor (0xffffff, 1);
 //renderer.setClearColor (0x9c9c9c, 1);
-document.body.appendChild( renderer.domElement );
+containerF.appendChild( renderer.domElement );
 
 var scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xdefbff );
 scene.fog = new THREE.Fog('lightblue', 100, 200);
+
+var aspect = containerF.clientWidth/containerF.clientHeight;
+var d = infProject.settings.cam2D;
+
 //----------- cameraTop
 var cameraTop = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
 cameraTop.position.set(0, 10, 0);
@@ -39,7 +40,7 @@ cameraTop.userData.camera = { save: { pos: cameraTop.position.clone(), zoom: cam
 
 
 //----------- camera3D
-var camera3D = new THREE.PerspectiveCamera( 65, window.innerWidth / window.innerHeight, 0.01, 1000 );  
+var camera3D = new THREE.PerspectiveCamera( 65, containerF.clientWidth / containerF.clientHeight, 0.01, 1000 );  
 camera3D.rotation.order = 'YZX';		//'ZYX'
 camera3D.position.set(5, 7, 5);
 camera3D.lookAt(scene.position);
@@ -91,7 +92,7 @@ function renderCamera()
 window.addEventListener( 'resize', onWindowResize, false );
 function onWindowResize() 
 { 
-	var aspect = window.innerWidth / window.innerHeight;
+	var aspect = containerF.clientWidth / containerF.clientHeight;
 	var d = infProject.settings.cam2D;
 	
 	cameraTop.left = -d * aspect;
@@ -110,7 +111,7 @@ function onWindowResize()
 	cameraWall.bottom = -d;
 	cameraWall.updateProjectionMatrix();
 	
-	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setSize(containerF.clientWidth, containerF.clientHeight);
 	upPosLabels({resize: true});
 	
 	renderCamera();
@@ -219,9 +220,9 @@ var offset = new THREE.Vector3();
 {
 	var composer = new THREE.EffectComposer( renderer );
 	var renderPass = new THREE.RenderPass( scene, cameraTop );
-	var outlinePass = new THREE.OutlinePass( new THREE.Vector2( window.innerWidth, window.innerHeight ), scene, cameraTop );	
+	var outlinePass = new THREE.OutlinePass( new THREE.Vector2( containerF.clientWidth, containerF.clientHeight ), scene, cameraTop );	
 	
-	composer.setSize( window.innerWidth, window.innerHeight );
+	composer.setSize( containerF.clientWidth, containerF.clientHeight );
 	composer.addPass( renderPass );
 	composer.addPass( outlinePass );
 
@@ -247,8 +248,8 @@ var offset = new THREE.Vector3();
 	if(infProject.settings.shader.fxaaPass !== undefined)
 	{
 		var fxaaPass = new THREE.ShaderPass( THREE.FXAAShader );	
-		fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * window.devicePixelRatio );
-		fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * window.devicePixelRatio );	
+		fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( containerF.clientWidth * window.devicePixelRatio );
+		fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( containerF.clientHeight * window.devicePixelRatio );	
 		fxaaPass.enabled = false;
 		
 		composer.addPass( fxaaPass ); 	
@@ -1239,8 +1240,8 @@ function crtW( cdm )
 
 function rayIntersect( event, obj, t ) 
 {
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	mouse.x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+	mouse.y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
 	raycaster.setFromCamera( mouse, camera );
 	
 	var intersects = null;
@@ -1547,18 +1548,18 @@ function saveAsImagePreview()
 { 
 	try 
 	{		
-		var rd = 400/window.innerWidth;
+		var rd = 400/containerF.clientWidth;
 		var flag = infProject.scene.grid.obj.visible;
 		
 		if(flag) { infProject.scene.grid.obj.visible = false; }
-		renderer.setSize( 400, window.innerHeight *rd );
+		renderer.setSize( 400, containerF.clientHeight *rd );
 		renderer.antialias = true;
 		renderer.render( scene, camera );
 		
 		var imgData = renderer.domElement.toDataURL("image/jpeg", 0.7);	
 
 		if(flag) { infProject.scene.grid.obj.visible = true; }
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( containerF.clientWidth, containerF.clientHeight );
 		renderer.antialias = false;
 		renderer.render( scene, camera );
 		
@@ -1575,15 +1576,15 @@ function saveAsImagePreview()
 // открыть или сохранить screenshot
 var openFileImage = function (strData, filename) 
 {
-	var link = document.createElement('a');
+	var link = containerF.createElement('a');
 	
 	if(typeof link.download === 'string') 
 	{		
-		document.body.appendChild(link); //Firefox requires the link to be in the body
+		containerF.appendChild(link); //Firefox requires the link to be in the body
 		link.download = filename;
 		link.href = strData;
 		link.click();
-		document.body.removeChild(link); //remove the link when done
+		containerF.removeChild(link); //remove the link when done
 	} 
 	else 
 	{
@@ -1653,21 +1654,21 @@ renderCamera();
 
 
 
-document.body.addEventListener('contextmenu', function(event) { event.preventDefault() });
-document.body.addEventListener( 'mousedown', onDocumentMouseDown, false );
-document.body.addEventListener( 'mousemove', onDocumentMouseMove, false );
-document.body.addEventListener( 'mouseup', onDocumentMouseUp, false );
+containerF.addEventListener('contextmenu', function(event) { event.preventDefault() });
+containerF.addEventListener( 'mousedown', onDocumentMouseDown, false );
+containerF.addEventListener( 'mousemove', onDocumentMouseMove, false );
+containerF.addEventListener( 'mouseup', onDocumentMouseUp, false );
 
 
-document.body.addEventListener( 'touchstart', onDocumentMouseDown, false );
-document.body.addEventListener( 'touchmove', onDocumentMouseMove, false );
-document.body.addEventListener( 'touchend', onDocumentMouseUp, false );
+containerF.addEventListener( 'touchstart', onDocumentMouseDown, false );
+containerF.addEventListener( 'touchmove', onDocumentMouseMove, false );
+containerF.addEventListener( 'touchend', onDocumentMouseUp, false );
 
-document.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);
-document.addEventListener('mousewheel', onDocumentMouseWheel, false);	
+containerF.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);
+containerF.addEventListener('mousewheel', onDocumentMouseWheel, false);	
 
 
-document.body.addEventListener("keydown", function (e) 
+containerF.addEventListener("keydown", function (e) 
 { 
 	if(clickO.keys[e.keyCode]) return;
 	
@@ -1726,7 +1727,7 @@ document.body.addEventListener("keydown", function (e)
 	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
 } );
 
-document.body.addEventListener("keydown", function (e) 
+containerF.addEventListener("keydown", function (e) 
 { 
 	clickO.keys[e.keyCode] = true;
 	if(e.keyCode == 61) { zoomLoop = 'zoomIn'; }
@@ -1734,7 +1735,7 @@ document.body.addEventListener("keydown", function (e)
 	if(e.keyCode == 187) { zoomLoop = 'zoomIn'; }
 	if(e.keyCode == 189) { zoomLoop = 'zoomOut'; }	
 });
-document.body.addEventListener("keyup", function (e) 
+containerF.addEventListener("keyup", function (e) 
 { 
 	clickO.keys[e.keyCode] = false;
 	if(e.keyCode == 173) { zoomLoop = ''; }

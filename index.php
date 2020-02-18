@@ -46,30 +46,31 @@
 	<script src="<?=$path?>js/BufferGeometryUtils.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>js/export/GLTFExporter.js?<?=$vrs?>"></script>
 	
-	<div class="frame">
-			
-		<div class="flex_1 top_panel_1 button_gradient_1" data-action ='top_panel_1' style="display: none;">
-			<div class="go_home align_items">
-				<div class="go_home_txt">
-					Меню
+	<div id="canvasFrame" style="position: fixed; width: 100%; height: 550px; top: 0; right: 0;">
+		<div class="frame">
+				
+			<div class="flex_1 top_panel_1 button_gradient_1" data-action ='top_panel_1' style="display: none;">
+				<div class="go_home align_items">
+					<div class="go_home_txt">
+						Меню
+					</div>
 				</div>
+				<div class="title_1"><h1><?=$h1?></h1></div>				
+			</div>	
+			
+			<div class="flex_1 height100">
+				
+				<div style="flex-grow:1; position: relative;">
+					<? require_once("include/top_1.php"); ?>										 					
+					<? require_once("include/modal_window_3.php"); ?>		
+				</div>
+				
+				<? require_once("include/right_panel_1.php"); ?>
+				
 			</div>
-			<div class="title_1"><h1><?=$h1?></h1></div>				
-		</div>	
 		
-		<div class="flex_1 height100">
-			
-			<div style="flex-grow:1; position: relative;">
-				<? require_once("include/top_1.php"); ?>										 					
-				<? require_once("include/modal_window_3.php"); ?>		
-			</div>
-			
-			<? require_once("include/right_panel_1.php"); ?>
-			
-		</div>
-	
-	</div>	
-
+		</div>	
+	</div>
 
 
 	
