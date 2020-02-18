@@ -316,7 +316,10 @@ function createHtmlLabelWall(cdm)
 		var labelContainerElem = document.querySelector('#canvasFrame');
 		var elem = document.createElement('div');
 		elem.textContent = '0 м';
-		elem.style.cssText = 'position: absolute; width: 120px; font-size: 18px; text-align: center; font-family: arial, sans-serif; color: #3c3c3c;';
+		elem.style.cssText = 'position: absolute; width: 120px; text-align: center;';
+		elem.style.cssText += infProject.settings.html.fonts.wall.size; 
+		elem.style.cssText += infProject.settings.html.fonts.wall.type;
+		elem.style.cssText += infProject.settings.html.fonts.wall.color;
 		labelContainerElem.appendChild(elem); 
 		
 		elem.userData = {};
