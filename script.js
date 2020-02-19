@@ -1671,7 +1671,7 @@ containerF.addEventListener('DOMMouseScroll', onDocumentMouseWheel, false);
 containerF.addEventListener('mousewheel', onDocumentMouseWheel, false);	
 
 
-containerF.addEventListener("keydown", function (e) 
+document.addEventListener("keydown", function (e) 
 { 
 	if(clickO.keys[e.keyCode]) return;
 	
@@ -1730,7 +1730,7 @@ containerF.addEventListener("keydown", function (e)
 	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
 } );
 
-containerF.addEventListener("keydown", function (e) 
+document.addEventListener("keydown", function (e) 
 { 
 	clickO.keys[e.keyCode] = true;
 	if(e.keyCode == 61) { zoomLoop = 'zoomIn'; }
@@ -1738,7 +1738,7 @@ containerF.addEventListener("keydown", function (e)
 	if(e.keyCode == 187) { zoomLoop = 'zoomIn'; }
 	if(e.keyCode == 189) { zoomLoop = 'zoomOut'; }	
 });
-containerF.addEventListener("keyup", function (e) 
+document.addEventListener("keyup", function (e) 
 { 
 	clickO.keys[e.keyCode] = false;
 	if(e.keyCode == 173) { zoomLoop = ''; }
