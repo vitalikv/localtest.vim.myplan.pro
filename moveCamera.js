@@ -400,44 +400,7 @@ function cameraZoomTop( delta )
 	// zoom label
 	var k = 1 / delta;
 	if(k <= infProject.settings.camera.limitZoom && 1==2) 
-	{
-		k *= kof_rd;
-
-		// wall label 
-		var n1 = 0.25 * k *2;
-		var n2 = 0.125 * k *2;		
-		var v1 = infProject.geometry.labelWall.vertices;
-		v1[ 0 ].x = v1[ 1 ].x = -n1;
-		v1[ 2 ].x = v1[ 3 ].x = n1;
-		v1[ 1 ].z = v1[ 2 ].z = n2;
-		v1[ 0 ].z = v1[ 3 ].z = -n2;
-		infProject.geometry.labelWall.verticesNeedUpdate = true;
-		infProject.geometry.labelWall.elementsNeedUpdate = true;
-		upLabelPlan_1( infProject.scene.array.wall, true );
-
-
-		var n1 = 1 * k * 0.7;
-		var n2 = 0.25 * k * 0.7;
-		var v = infProject.geometry.labelFloor.vertices;
-		v[ 0 ].x = v[ 1 ].x = -n1;
-		v[ 2 ].x = v[ 3 ].x = n1;
-		v[ 1 ].z = v[ 2 ].z = n2;
-		v[ 0 ].z = v[ 3 ].z = -n2;
-		infProject.geometry.labelFloor.verticesNeedUpdate = true;
-		infProject.geometry.labelFloor.elementsNeedUpdate = true;
-		
-		// wd label 
-		var n1 = 0.25 * k *2;
-		var n2 = 0.125 * k *2;	
-		var v1 = infProject.geometry.labelWD.vertices;
-		v1[ 0 ].x = v1[ 1 ].x = -n1;
-		v1[ 2 ].x = v1[ 3 ].x = n1;
-		v1[ 1 ].y = v1[ 2 ].y = n2;
-		v1[ 0 ].y = v1[ 3 ].y = -n2;
-		infProject.geometry.labelWD.verticesNeedUpdate = true;
-		infProject.geometry.labelWD.elementsNeedUpdate = true;	
-
-
+	{		
 		// point geometry
 		var point = infProject.tools.point;	
 		var v = point.geometry.vertices;

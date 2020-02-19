@@ -154,9 +154,6 @@ infProject.scene.block.click = {wall: false, point: false, door: false, window: 
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.geometry = { circle : createCircleSpline() }
 infProject.geometry.cone = [createGeometryCone_1({r1: 0.003, r2: 0.03, h: 0.25}), createGeometryCone_1({r1: 0.001, r2: 0.04, h: 0.1})];
-infProject.geometry.labelWall = createGeometryPlan(0.25 * 2, 0.125 * 2);
-infProject.geometry.labelFloor = createGeometryPlan(1.0 * kof_rd, 0.25 * kof_rd);
-infProject.geometry.labelWD = createGeometryPlan2(0.25 * kof_rd, 0.125 * kof_rd);
 infProject.scene.substrate = { ruler: [], floor: [], active: null };
 infProject.scene.substrate.ruler = createToolRulerSubstrate(); 
 infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/мебели
@@ -315,7 +312,7 @@ function createHtmlLabelWall(cdm)
 	{
 		var labelContainerElem = document.querySelector('#canvasFrame');
 		var elem = document.createElement('div');
-		elem.textContent = '0 м';
+		elem.textContent = '';
 		elem.style.cssText = 'position: absolute; width: 120px; text-align: center;';
 		elem.style.cssText += infProject.settings.html.fonts.wall.size; 
 		elem.style.cssText += infProject.settings.html.fonts.wall.type;
@@ -586,76 +583,6 @@ function createPlaneMath()
 }
 
 
-
-function createGeometryPlan(x, y)
-{
-	var geometry = new THREE.Geometry();
-	var vertices = [
-				new THREE.Vector3(-x,0,-y),
-				new THREE.Vector3(-x,0,y),
-				new THREE.Vector3(x,0,y),
-				new THREE.Vector3(x,0,-y),
-			];
-
-	var faces = [
-				new THREE.Face3(0,1,2),
-				new THREE.Face3(2,3,0),
-			];
-	var uvs1 = [
-				new THREE.Vector2(0,1),
-				new THREE.Vector2(0,0),
-				new THREE.Vector2(1,0),
-			];
-	var uvs2 = [
-				new THREE.Vector2(1,0),
-				new THREE.Vector2(1,1),
-				new THREE.Vector2(0,1),
-			];			
-	geometry.vertices = vertices;
-	geometry.faces = faces;
-	geometry.faceVertexUvs[0] = [uvs1, uvs2];
-	geometry.computeFaceNormals();
-	
-	geometry.uvsNeedUpdate = true;
-	
-	return geometry;
-}
-
-
-
-function createGeometryPlan2(x, y)
-{
-	var geometry = new THREE.Geometry();
-	var vertices = [
-				new THREE.Vector3(-x,-y,0),
-				new THREE.Vector3(-x,y,0),
-				new THREE.Vector3(x,y,0),
-				new THREE.Vector3(x,-y,0),
-			];
-
-	var faces = [
-				new THREE.Face3(0,3,2),
-				new THREE.Face3(2,1,0),
-			];
-	var uvs1 = [
-				new THREE.Vector2(0,0),
-				new THREE.Vector2(1,0),
-				new THREE.Vector2(1,1),
-			];
-	var uvs2 = [
-				new THREE.Vector2(1,1),
-				new THREE.Vector2(0,1),
-				new THREE.Vector2(0,0),
-			];			
-	geometry.vertices = vertices;
-	geometry.faces = faces;
-	geometry.faceVertexUvs[0] = [uvs1, uvs2];
-	geometry.computeFaceNormals();
-	
-	geometry.uvsNeedUpdate = true;
-	
-	return geometry;
-}
 
 
 
@@ -972,6 +899,49 @@ function createGeometryCircle( vertices )
 
 	return geometry;
 }
+
+
+// линейки для окон/мебели (создается при старте)
+// линейки для отображения длины/высоты стены в режиме cameraWall
+function createRulerWin(cdm)
+{
+	var arr = [];
+	
+	if(cdm.material == 'standart') { var mat = { color: cdm.color }; }
+	else { var mat = { color: cdm.color, transparent: true, depthTest : false }; }
+	
+	var material = new THREE.LineBasicMaterial( mat );
+	
+	
+	for ( var i = 0; i < cdm.count; i++ )
+	{
+		arr[i] = new THREE.Mesh( createGeometryCube(1, 0.025, 0.025), material );
+		var v = arr[i].geometry.vertices; 
+		v[0].x = v[1].x = v[6].x = v[7].x = -0.5;
+		v[3].x = v[2].x = v[5].x = v[4].x = 0.5;
+		
+		v[0].y = v[3].y = v[4].y = v[7].y = -0.025/2;
+		v[1].y = v[2].y = v[5].y = v[6].y = 0.025/2;
+		
+		arr[i].geometry.verticesNeedUpdate = true;			
+		arr[i].visible = false;	 
+		arr[i].renderOrder = 1;
+		arr[i].userData = {rulerwd: {cone:[]}};
+		scene.add( arr[i] );
+		
+		for ( var i2 = 0; i2 < cdm.count; i2++ )
+		{
+			var cone = new THREE.Mesh(infProject.geometry.cone[1], material); 
+			cone.visible = false;
+			scene.add( cone );	
+			
+			arr[i].userData.rulerwd.cone[i2] = cone;			
+		}
+	}
+	
+	return arr;
+}
+
 
 
 

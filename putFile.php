@@ -20,8 +20,7 @@ clickMoveWD.js
 deleteObj.js
 floor.js
 detectZone.js
-inputWall.js
-label.js  	
+inputWall.js  	
 clickActiveObj.js    
 saveLoad.js
 script.js

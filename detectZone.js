@@ -362,9 +362,15 @@ function deleteArrZone(arrRoom)
 		room.splice(arrN[i], 1); 
 		
 		var ceil = ceiling[arrN[i]];
-		ceiling.splice(arrN[i], 1);	
+		ceiling.splice(arrN[i], 1);	 
 		
-		scene.remove( floor.label );
+		
+		deleteValueFromArrya({arr: infProject.html.label, o: floor.userData.room.html.label});
+		floor.userData.room.html.label.remove();
+	
+		disposeNode( floor );
+		disposeNode( ceil );		
+		
 		scene.remove( floor );
 		scene.remove( ceil );		
 	}
@@ -522,35 +528,6 @@ function assignOldToNewZones_2(newZones, oldZ, addId)
 
 
 
-
-function detectParamZone_1( wall )
-{	
-	var arrRoom = detectCommonZone_1( wall );
-
-	// добавляемая точка будет лежать на стене, между двумя точками
-	// нужно найти первую точку в массиве и полчуить номер, следующей на за ней точку
-	// чтобы потом добавить в массив между этими двумя точками, нашу новую точку
-	// получаем индекс первой точки в массиве, между точками должны будем добавить новую точку
-	var num = [];
-	for ( var i = 0; i < arrRoom.length; i++ ) 
-	{
-		for ( var i2 = 0; i2 < arrRoom[i].p.length; i2++ ) 
-		{ 			
-			if(arrRoom[i].p[i2] == wall.userData.wall.p[0])  
-			{ 
-				if(arrRoom[i].p[i2 + 1] == wall.userData.wall.p[1]) { num[i] = i2 + 1; break; } 		
-			}
-			if(arrRoom[i].p[i2] == wall.userData.wall.p[1]) 
-			{ 
-				if(arrRoom[i].p[i2 + 1] == wall.userData.wall.p[0]) { num[i] = i2 + 1; break; }					
-			}			
-		}
-	}
-
-	return [arrRoom, num];
-} 
-
-
 // находим у стены две общие зоны (если есть, а то может быть только одна зона)
 // получаем зоны, к которой примыкает стена (0, 1, 2 - зоны)
 function detectCommonZone_1( wall )
@@ -568,130 +545,6 @@ function detectCommonZone_1( wall )
 	}
 
 	return arrRoom;
-}
-
-
-// 1. создаем 2 массива в которые заносим точки, которые не повторяются в 2-х зонах, 
-// 1.1 в 1-й массив все уникальные точки из 1 зоны 
-// 1.2 во 2-й массив все уникальные точки из 2 зоны
-// 2. находим 2 точки, которые разделяют 2 зоны
-// 3. добавляем в 1-й массив 2 точки (которые разделяют 2 зоны) и добавляем в 1-й массив все точки из 2-ого массива
-function detectSamePointInTwoZone( arrRoom )
-{	
-	if(arrRoom.length != 2) { return []; } 
-	
-	//for ( var i = 0; i < arrRoom[0].p.length; i++ ) { console.log(arrRoom[0].p[i].userData.id); } console.log('-----------');
-	//for ( var i = 0; i < arrRoom[1].p.length; i++ ) { console.log(arrRoom[1].p[i].userData.id); } 
-	
-	// 1
-	var arr_1 = [];
-	
-	for ( var i = 0; i < arrRoom[0].p.length - 1; i++ )	// 1.1
-	{
-		var flag = true;
-		
-		for ( var i2 = 0; i2 < arrRoom[1].p.length - 1; i2++ )
-		{
-			if(arrRoom[0].p[i] == arrRoom[1].p[i2]) { flag = false; break; }
-		}
-		
-		if(flag)
-		{
-			arr_1[arr_1.length] = arrRoom[0].p[i];
-		}
-	}
-	
-	//console.log('----arr_1----'); for ( var i = 0; i < arr_1.length; i++ ) { console.log(arr_1[i].userData.id); } 
-	
-	var arr_2 = [];
-	
-	for ( var i = 0; i < arrRoom[1].p.length - 1; i++ )	// 1.2
-	{
-		var flag = true;
-		
-		for ( var i2 = 0; i2 < arrRoom[0].p.length - 1; i2++ )
-		{
-			if(arrRoom[1].p[i] == arrRoom[0].p[i2]) { flag = false; break; }
-		}
-		
-		if(flag)
-		{
-			arr_2[arr_2.length] = arrRoom[1].p[i];
-		}
-	}	
-	
-	//console.log('----arr_2----'); for ( var i = 0; i < arr_2.length; i++ ) { console.log(arr_2[i].userData.id); } 
-	
-	// 2	
-	var arr_3 = [];
-	
-	if(arr_1.length > 0)
-	{
-		var n1 = -1;
-		var n2 = -1;
-		for ( var i = 0; i < arrRoom[0].p.length; i++ ) { if(arrRoom[0].p[i] == arr_1[0]) { n1 = i; break; } }
-		for ( var i = 0; i < arrRoom[0].p.length; i++ ) { if(arrRoom[0].p[i] == arr_1[arr_1.length - 1]) { n2 = i; break; } }
-		
-		if(n1 != -1) arr_3[0] = arrRoom[0].p[n1 - 1];
-		if(n2 != -1) arr_3[1] = arrRoom[0].p[n2 + 1];		
-	}
-	else if(arr_2.length > 0)
-	{
-		var n1 = -1;
-		var n2 = -1;
-		for ( var i = 0; i < arrRoom[1].p.length; i++ ) { if(arrRoom[1].p[i] == arr_2[0]) { n1 = i; break; } }
-		for ( var i = 0; i < arrRoom[1].p.length; i++ ) { if(arrRoom[1].p[i] == arr_2[arr_2.length - 1]) { n2 = i; break; } }
-		
-		if(n1 != -1) arr_3[0] = arrRoom[1].p[n1 - 1];
-		if(n2 != -1) arr_3[1] = arrRoom[1].p[n2 + 1];		
-	}
-	
-	// 3
-	arr_1[arr_1.length] = arr_3[0];
-	arr_1[arr_1.length] = arr_3[1];
-	
-	//console.log('----arr_3----'); for ( var i = 0; i < arr_3.length; i++ ) { console.log(arr_3[i].userData.id); }  
-	
-	for ( var i = 0; i < arr_2.length; i++ ) { arr_1[arr_1.length] = arr_2[i]; }
-	
-	//console.log('----zicl----'); for ( var i = 0; i < arr_1.length; i++ ) { console.log(arr_1[i].userData.id); }  console.log('-----------');
-	
-	return arr_1;
-}
-
-
-
-// находим в массиве arrRoom зону, у которой совпадают все точки с arrP, если да, то удаляем эту зону
-// отличается от detectSameZone ( var i3 = 0; i3 < arrP.length; i3++ )  ( var i3 = 0; i3 < arrP.length - 1; i3++ )
-function deleteOneSameZone( arrRoom, arrP, arrRoom_2 )
-{
-	
-	for ( var i = 0; i < arrRoom.length; i++ )
-	{
-		if(arrRoom[i].p.length - 1 != arrP.length) { continue; }
-		
-		var ln = 0;
-		
-		for ( var i2 = 0; i2 < arrRoom[i].p.length - 1; i2++ )
-		{
-			for ( var i3 = 0; i3 < arrP.length; i3++ )
-			{
-				if(arrRoom[i].p[i2] == arrP[i3]) { ln++; }
-			}
-		}
-		
-		if(ln == arrRoom[i].p.length - 1) 
-		{ 
-			arrRoom_2[0].userData.room.roomType = arrRoom[i].userData.room.roomType; 
-			arrRoom_2[1].userData.room.roomType = arrRoom[i].userData.room.roomType;
-			
-			upLabelArea2(arrRoom_2[0].label, arrRoom_2[0].userData.room.areaTxt + ' м2', '85', 'rgba(255,255,255,1)', false);
-			upLabelArea2(arrRoom_2[1].label, arrRoom_2[1].userData.room.areaTxt + ' м2', '85', 'rgba(255,255,255,1)', false);
-			
-			deleteArrZone([arrRoom[i]]);  
-			break; 
-		}
-	}
 }
 
 

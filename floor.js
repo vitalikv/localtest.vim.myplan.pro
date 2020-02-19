@@ -50,6 +50,8 @@ function createFloor(cdm)
 	floor.userData.room.outline = null;
 	floor.userData.room.contour = [];
 	floor.userData.room.height = infProject.settings.floor.height;
+	floor.userData.room.html = {};
+	floor.userData.room.html.label = null; 
 	floor.userData.material = { tag: 'room', color: floor.material.color, img: null };	
 	
 	var ceil = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color : 0xffffff, lightMap : lightMap_1, dithering: true } ) );
@@ -61,29 +63,15 @@ function createFloor(cdm)
 	ceil.userData.id = id;
 	ceil.userData.material = { tag: 'ceiling', color: ceil.material.color, img: null };
 
-	
-	
-	if(infProject.settings.floor.material)
-	{	
-		setTexture({obj: floor, material: infProject.settings.floor.material});	
-	}
+
 	
 	if(infProject.settings.floor.o)
 	{ 	
-		floor.label = createLabelCameraWall({ count : 1, text : 0, size : 65, ratio : {x:256*4*0.7, y:256*0.7}, geometry : infProject.geometry.labelFloor, opacity : 0.5 })[0];
-		floor.label.visible = false;
+		floor.userData.room.html.label = createHtmlLabelWall({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
 		
 		if(infProject.settings.floor.label.visible) 
 		{ 
-			if(infProject.settings.floor.label.type == 'zone')
-			{
-				assignRoomType({id: floor.userData.room.zone.id, obj: floor});
-			}
-			
-			if(infProject.settings.floor.label.type == 'area')
-			{
-				floor.label.visible = true;
-			}			 
+			assignRoomType({id: floor.userData.room.zone.id, obj: floor});			 
 		} 
 			
 		getYardageSpace([floor]); 

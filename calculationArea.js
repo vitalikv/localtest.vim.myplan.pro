@@ -264,20 +264,20 @@ function getYardageSpace( room )
 		room[u].updateMatrixWorld();
 		room[u].geometry.computeBoundingSphere();
 		var pos = room[u].localToWorld( room[u].geometry.boundingSphere.center.clone() );
-		
-		room[u].label.position.set(pos.x, 0.2, pos.z);			
+					
 		
 		room[u].userData.room.areaTxt = res;
 		
 		if(res < 0.5) { res = ''; }
 		
 		if(infProject.settings.floor.label.visible) 
-		{						
-			if(infProject.settings.floor.label.type == 'area')
-			{
-				room[u].label.visible = true;
-				upLabelArea2(room[u].label, res, '80', 'rgba(255,255,255,1)', true);
-			}						
+		{		
+			var elem = room[u].userData.room.html.label;
+			
+			elem.userData.elem.pos = new THREE.Vector3(pos.x, 0.2, pos.z);			
+			elem.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+			
+			upPosLabels_2({elem: elem});						
 		}
 	}
 

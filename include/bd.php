@@ -47,7 +47,7 @@ $infProject['settings']['light']['type'] = 'global';
 //$infProject['settings']['shader']['saoPass'] = true;
 $infProject['settings']['shader']['fxaaPass'] = false;		
 $infProject['settings']['height'] = 3.2;
-$infProject['settings']['floor'] = [ 'o' => false, 'posY' => 0.0, 'height' => 0.01, 'changeY' => false, 'areaPoint' => 'center', 'material' => null ];
+$infProject['settings']['floor'] = [ 'o' => false, 'posY' => 0.0, 'height' => 0.01, 'changeY' => false, 'areaPoint' => 'center' ];
 $infProject['settings']['wall'] = [ 'width' => 0.3, 'label' => '', 'dist' => 'center', 'material' => null, 'block' => null ];
 $infProject['settings']['land'] = [ 'o' => false ];
 $infProject['settings']['unit'] = [ 'wall' => 1, 'floor' => 1 ];

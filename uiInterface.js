@@ -495,7 +495,9 @@ function assignRoomType(cdm)
 	if(cdm.button) { obj = clickO.last_obj; }
 	if(cdm.obj) { obj = cdm.obj; }
 	
-	obj.label.visible = false;
+	var elem = obj.userData.room.html.label;
+	elem.style.display = 'none';
+	elem.userData.elem.show = false;
 	
 	if(!id) return;
 	if(!obj) return;
@@ -504,16 +506,16 @@ function assignRoomType(cdm)
 	for(var i = 0; i < type.length; i++)
 	{ 
 		if(type[i].id !== id) continue;
-		//console.log(type[i]);
-		obj.userData.room.zone.id = type[i].id;
-		obj.userData.room.zone.name = type[i].title;
 		
-		upLabelArea2(obj.label, type[i].title, '80', 'rgba(255,255,255,1)', true);
+		obj.userData.room.zone.id = type[i].id;
+		obj.userData.room.zone.name = type[i].title;		
+		
+		elem.textContent = type[i].title;
+		elem.style.display = 'block';
+		elem.userData.elem.show = true;
 		
 		break;
 	}
-	
-	obj.label.visible = true;
 	
 	renderCamera();
 }

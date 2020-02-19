@@ -107,12 +107,14 @@ function changeDepthColor()
 			{
 				if(floor[i].userData.room.zone.id !== undefined)
 				{
-					floor[i].label.visible = visible;
+					floor[i].userData.room.html.label.style.display = str; 
+					floor[i].userData.room.html.label.userData.elem.show = visible; 
 				}
 			}
 			else
 			{
-				floor[i].label.visible = visible;
+				floor[i].userData.room.html.label.style.display = str; 
+				floor[i].userData.room.html.label.userData.elem.show = visible;
 			}			 
 		}		
 	}
