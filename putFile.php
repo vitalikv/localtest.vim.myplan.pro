@@ -3,7 +3,8 @@
 
 
 
-$list = 'crossWall.js
+$list = 'inputWall.js
+crossWall.js
 uiInterface.js
 meshBSP.js 	
 calculationArea.js
@@ -19,8 +20,7 @@ clickMoveWall.js
 clickMoveWD.js
 deleteObj.js
 floor.js
-detectZone.js
-inputWall.js  	
+detectZone.js  	
 clickActiveObj.js    
 saveLoad.js
 script.js
@@ -99,23 +99,25 @@ for ($i = 0; $i < count($arrF); $i++)
 	if (preg_match('#\b'.$arrF[$i].'\b#Us', 'renderCamera')) 
 	{
 		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
+	}
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'clickInterface')) 
+	{
+		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		
+		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_active_int',$file2);
 	}	
 	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'switchPivotGizmo')) 
 	{
-		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";
-		
+		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		
 		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_tools_handle',$file2);
 	}		
 	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'loadFilePL')) 
 	{
-		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";
-		
+		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		
 		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_load_f',$file2);
 	}
 	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'getJsonProject')) 
 	{
-		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";
-		
+		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		
 		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_get_json',$file2);
 	} 	
 	else 

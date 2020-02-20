@@ -3,7 +3,473 @@
 
 
 
-function fname_s_01(n) 
+
+function fname_s_01(cdm)
+{
+	var wall = infProject.scene.array.wall[0];
+	
+	
+	
+	 
+	cdm.wall = wall;
+	cdm.type = 'wallRedBlue';
+	cdm.side = 'wall_length_1';
+	
+	var x = $('[nameId="size-wall-length"]').val();
+	var y = $('[nameId="size-wall-height"]').val();
+	var z = $('[nameId="size-wall-width"]').val();
+	
+	
+	if(1==1)
+	{
+		var v = wall.userData.wall.v;
+		
+		if(x == undefined) { x = '' + (v[6].x - v[0].x); }
+		if(y == undefined) { y = '' + (v[1].y - v[0].y); }		
+		if(z == undefined) { z = '' + (Math.abs(v[4].z) + Math.abs(v[0].z)); }		
+		
+		x = x.replace(",", ".");
+		y = y.replace(",", ".");
+		z = z.replace(",", ".");
+		
+		var x2 = v[6].x - v[0].x;
+		var y2 = v[1].y - v[0].y;		
+		var z2 = Math.abs(v[4].z) + Math.abs(v[0].z);
+		
+		x = (fname_s_06(x)) ? x : x2;
+		y = (fname_s_06(y)) ? y : y2;
+		z = (fname_s_06(z)) ? z : z2;  
+	}
+	
+	
+	
+	if(1==1)
+	{
+		if(x > 30) { x = 30; }
+		else if(x < 0.5) { x = 0.5; }
+
+		if(y > 10) { y = 10; }
+		else if(y < 0.1) { y = 0.1; }	
+		
+		if(z > 10) { z = 10; }
+		else if(z < 0.02) { z = 0.02; }		
+	}	
+	
+	cdm.length = x;
+	cdm.height = y;
+	cdm.width = z;	
+	
+	
+	fname_s_02(cdm);	
+	
+	renderCamera();
+}
+
+
+
+function fname_s_02(cdm)
+{
+	var wall = cdm.wall;
+	var value = cdm.length;
+	
+	var wallR = fname_s_0125(wall);
+	fname_s_044(wallR);
+
+	var p1 = wall.userData.wall.p[1];
+	var p0 = wall.userData.wall.p[0];
+
+	var walls = [...new Set([...p0.w, ...p1.w])];	
+	
+	
+	
+	if(cdm.height)
+	{
+		var h2 = Number(cdm.height);
+		
+		var v = wall.geometry.vertices;	
+		v[1].y = h2;
+		v[3].y = h2;
+		v[5].y = h2;
+		v[7].y = h2;
+		v[9].y = h2;
+		v[11].y = h2;
+		wall.geometry.verticesNeedUpdate = true; 
+		wall.geometry.elementsNeedUpdate = true;
+
+		wall.userData.wall.height_1 = Math.round(h2 * 100) / 100;
+	}
+ 
+	
+	if(cdm.width)
+	{
+		var z = cdm.width/2;
+		
+		var v = wall.geometry.vertices;	
+		v[0].z = v[1].z = v[6].z = v[7].z = z;
+		v[4].z = v[5].z = v[10].z = v[11].z = -z;	
+		wall.geometry.verticesNeedUpdate = true;
+		wall.geometry.elementsNeedUpdate = true;
+		
+		
+		
+		for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
+		{ 
+			var wd = wall.userData.wall.arrO[i];	
+			var v = wd.geometry.vertices;
+			var f = wd.userData.door.form.v;
+			var v2 = wall.geometry.vertices;
+			
+			for ( var i2 = 0; i2 < f.minZ.length; i2++ ) { v[f.minZ[i2]].z = v2[4].z; }
+			for ( var i2 = 0; i2 < f.maxZ.length; i2++ ) { v[f.maxZ[i2]].z = v2[0].z; }	
+
+			wd.geometry.verticesNeedUpdate = true; 
+			wd.geometry.elementsNeedUpdate = true;
+			wd.geometry.computeBoundingSphere();
+			wd.geometry.computeBoundingBox();
+			wd.geometry.computeFaceNormals();		
+		}
+
+		wall.userData.wall.width = Math.round(cdm.width * 100) / 100;;
+	}
+ 
+	
+	var ns = 0;
+	var flag = true;
+	while ( flag )
+	{	 
+		var v = wall.userData.wall.v;
+
+		var d = 0;
+		
+		if(cdm.side == 'wall_length_1'){ d = Math.abs( v[6].x - v[0].x );  } 
+		else if(cdm.side == 'wall_length_2'){ d = Math.abs( v[10].x - v[4].x );  }
+		
+		
+		var sub = (value - d) / 1;
+		if(cdm.type == 'wallRedBlue') { sub /= 2; }	
+		
+		var dir = new THREE.Vector3().subVectors(p1.position, p0.position).normalize();
+		var dir = new THREE.Vector3().addScaledVector( dir, sub );	
+
+		if(cdm.type == 'wallBlueDot')
+		{ 
+			var offset = new THREE.Vector3().addVectors( p1.position, dir ); 
+			p1.position.copy( offset ); 
+		}
+		else if(cdm.type == 'wallRedDot')
+		{ 
+			var offset = new THREE.Vector3().subVectors( p0.position, dir ); 
+			p0.position.copy( offset ); 
+			wall.position.copy( offset );
+		}
+		else if(cdm.type == 'wallRedBlue')
+		{ 			
+			var offset = new THREE.Vector3().subVectors( p0.position, dir ); 
+			p0.position.copy( offset );
+			wall.position.copy( offset );
+			
+			p1.position.copy( new THREE.Vector3().addVectors( p1.position, dir ) );				
+		}
+
+		
+		for ( var i = 0; i < walls.length; i++ )
+		{
+			fname_s_03(walls[i]);
+		}			 		 
+		
+		fname_s_0127(p0);
+		fname_s_0127(p1);
+		fname_s_047( [wall] );
+		if(cdm.side == 'wall_length_1'){ d = Math.abs( v[6].x - v[0].x ); }
+		else if(cdm.side == 'wall_length_2'){ d = Math.abs( v[10].x - v[4].x ); }
+		
+
+		if(value - d == 0){ flag = false; }
+		
+		if(ns > 5){ flag = false; }
+		ns++;
+	} 	
+	 
+	fname_s_047( wallR );		
+	fname_s_0167( fname_s_0137(wall) );  				 			
+	
+	fname_s_029({obj: wall});
+
+	fname_s_045(wallR);
+}
+
+	
+
+
+
+
+function fname_s_03(wall, cdm) 
+{
+	
+	var v = wall.geometry.vertices;
+	var p = wall.userData.wall.p;
+	
+	
+	var f1 = false;	
+	var f2 = false;	
+	
+	f1 = !fname_s_021(p[0].userData.point.last.pos, p[0].position); 	
+	f2 = !fname_s_021(p[1].userData.point.last.pos, p[1].position); 	
+	
+	
+	if(f1 && f2)
+	{
+		var offset_1 = new THREE.Vector3().subVectors(p[0].position, p[0].userData.point.last.pos);
+		var offset_2 = new THREE.Vector3().subVectors(p[1].position, p[1].userData.point.last.pos);
+		
+		var equal = fname_s_021(offset_1, offset_2);
+		
+		
+		if(equal)
+		{
+			var offset = new THREE.Vector3().subVectors(p[0].position, wall.position);
+			
+			wall.position.copy(p[0].position);
+						
+			for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
+			{
+				wall.userData.wall.arrO[i].position.add(offset);
+			}
+			
+			return;
+		}
+	}	
+	
+	
+	var dist = p[0].position.distanceTo(p[1].position);
+	
+	v[0].x = v[1].x = v[2].x = v[3].x = v[4].x = v[5].x = 0;
+	v[6].x = v[7].x = v[8].x = v[9].x = v[10].x = v[11].x = dist;
+ 
+	wall.geometry.verticesNeedUpdate = true; 
+	wall.geometry.elementsNeedUpdate = true;
+	wall.geometry.computeBoundingBox();	
+	wall.geometry.computeBoundingSphere();	
+	wall.geometry.computeFaceNormals();	
+
+	var dir = new THREE.Vector3().subVectors(p[0].position, p[1].position).normalize();
+	var angleDeg = Math.atan2(dir.x, dir.z);
+	wall.rotation.set(0, angleDeg + Math.PI / 2, 0);
+
+	wall.position.copy( p[0].position );
+
+
+	
+	
+	if(cdm)
+	{
+		if(cdm.point)	
+		{
+			if(cdm.point == p[0]) { f1 = true; }
+			if(cdm.point == p[1]) { f2 = true; }
+		}
+	}
+	
+	
+	if(f2){ var dir = new THREE.Vector3().subVectors( p[0].position, p[1].position ).normalize(); }
+	else { var dir = new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize(); }
+	
+	for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
+	{
+		var wd = wall.userData.wall.arrO[i];	
+
+		if(f2)
+		{
+			var startPos = new THREE.Vector3(p[0].position.x, 0, p[0].position.z);
+			var p1 = p[0].position;			
+		}
+		else
+		{
+			var startPos = new THREE.Vector3(p[1].position.x, 0, p[1].position.z);
+			var p1 = p[1].position;
+		}
+		
+		var dist = startPos.distanceTo(new THREE.Vector3(wd.position.x, 0, wd.position.z));
+		
+		
+		var pos = new THREE.Vector3().addScaledVector( dir, -dist );
+		pos = new THREE.Vector3().addVectors( p1, pos );
+		
+		wd.position.x = pos.x;
+		wd.position.z = pos.z;
+		wd.rotation.copy( wall.rotation );
+	}			
+}
+
+
+
+
+
+
+function fname_s_04(cdm) 
+{
+	var wall = cdm.wall;
+	
+	var width = cdm.width.value;
+	var offset = cdm.offset;
+	
+	if(!wall){ return; } 
+	if(wall.userData.tag != 'wall'){ return; } 
+	
+	var width = fname_s_0248({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
+	
+	if(!width) 
+	{
+		$('[nameid="size_wall_width_1"]').val(wall.userData.wall.width);
+		
+		return;
+	}		
+
+	var width = width.num; 
+	
+	var wallR = fname_s_0125(wall);
+	
+	fname_s_044(wallR);
+			
+	var v = wall.geometry.vertices;
+	
+	var z = [0,0];
+	
+	if(offset == 'wallRedBlueArrow')
+	{ 	
+		width = (width < 0.01) ? 0.01 : width;
+		width /= 2;		
+		z = [width, -width];		
+		var value = Math.round(width * 2 * 1000);
+	}
+	else if(offset == 'wallBlueArrow')
+	{ 
+		width = (Math.abs(Math.abs(v[4].z) + Math.abs(width)) < 0.01) ? 0.01 - Math.abs(v[4].z) : width;   		
+		z = [width, v[4].z];
+		var value = width * 1000;
+	}
+	else if(offset == 'wallRedArrow')
+	{		 
+		width = (Math.abs(Math.abs(v[0].z) + Math.abs(width)) < 0.01) ? 0.01 - Math.abs(v[0].z) : width;    		
+		z = [v[0].z, -width];
+		var value = width * 1000;
+	}
+
+	v[0].z = v[1].z = v[6].z = v[7].z = z[0];
+	v[4].z = v[5].z = v[10].z = v[11].z = z[1];	
+
+	wall.geometry.verticesNeedUpdate = true; 
+	wall.geometry.elementsNeedUpdate = true;
+	
+	wall.geometry.computeBoundingSphere();
+	wall.geometry.computeBoundingBox();
+	wall.geometry.computeFaceNormals();	
+	
+	var width = Math.abs(v[0].z) + Math.abs(v[4].z);	
+	wall.userData.wall.width = Math.round(width * 100) / 100;
+	wall.userData.wall.offsetZ = (v[0].z + v[4].z)/2;	 
+
+	
+	var p0 = wall.userData.wall.p[0];
+	var p1 = wall.userData.wall.p[1];
+	fname_s_0128(p0);	
+    fname_s_0128(p1);	
+	
+	
+	for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
+	{ 
+		var wd = wall.userData.wall.arrO[i];	
+		var v = wd.geometry.vertices;
+		var f = wd.userData.door.form.v;
+		var v2 = wall.geometry.vertices;
+		
+		for ( var i2 = 0; i2 < f.minZ.length; i2++ ) { v[f.minZ[i2]].z = v2[4].z; }
+		for ( var i2 = 0; i2 < f.maxZ.length; i2++ ) { v[f.maxZ[i2]].z = v2[0].z; }	
+
+		wd.geometry.verticesNeedUpdate = true; 
+		wd.geometry.elementsNeedUpdate = true;
+		wd.geometry.computeBoundingSphere();
+		wd.geometry.computeBoundingBox();
+		wd.geometry.computeFaceNormals();		
+	}	
+	
+	fname_s_047( wallR );	 				
+	fname_s_049( fname_s_0137(wall) );
+	
+	fname_s_045(wallR);
+	
+	$('[nameId="size_wall_width_1"]').val(wall.userData.wall.width);
+	
+	renderCamera();
+}
+
+
+
+
+
+
+
+function fname_s_05(cdm)
+{  	
+	var height = fname_s_0248({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
+	
+	if(!height) 
+	{
+		return;
+	}		
+	
+	if(cdm.load)
+	{
+		
+	}
+	else
+	{	
+		fname_s_044( infProject.scene.array.wall );
+		
+		for ( var i = 0; i < infProject.scene.array.wall.length; i++ )
+		{
+			var v = infProject.scene.array.wall[i].geometry.vertices;
+			
+			v[1].y = height.num;
+			v[3].y = height.num;
+			v[5].y = height.num;
+			v[7].y = height.num;
+			v[9].y = height.num;
+			v[11].y = height.num;
+			infProject.scene.array.wall[i].geometry.verticesNeedUpdate = true;
+			infProject.scene.array.wall[i].geometry.elementsNeedUpdate = true;
+			
+			infProject.scene.array.wall[i].userData.wall.height_1 = height.num;
+		}
+		
+		fname_s_047( infProject.scene.array.wall );
+		fname_s_045( infProject.scene.array.wall );			
+	}
+	
+	if(cdm.input)
+	{  
+		$('[nameId="rp_floor_height"]').val(height.num);
+	}
+	
+	if(cdm.globalHeight)
+	{
+		infProject.settings.height = height.num;  
+	}		
+	
+	renderCamera();
+}
+	
+	
+
+
+
+
+
+
+
+
+
+function fname_s_06(n) 
 {   
    return !isNaN(parseFloat(n)) && isFinite(n);   
    
@@ -14,7 +480,7 @@ function fname_s_01(n)
 
 
 
-function fname_s_02(point)
+function fname_s_07(point)
 {
 	var wall = infProject.scene.array.wall;
 	
@@ -31,7 +497,7 @@ function fname_s_02(point)
 			var p2 = wall[i2].userData.wall.p[0].position;
 			var p3 = wall[i2].userData.wall.p[1].position;
 			
-			if(fname_s_0126(p0, p1, p2, p3)) { return true; }	
+			if(fname_s_0131(p0, p1, p2, p3)) { return true; }	
 		}
 	}
 	
@@ -41,18 +507,18 @@ function fname_s_02(point)
 
 
 
-function fname_s_03(a1, a2, b1, b2)
+function fname_s_08(a1, a2, b1, b2)
 {
-	var t1 = fname_s_06(a1.x, a1.z, a2.x, a2.z);
-	var t2 = fname_s_06(b1.x, b1.z, b2.x, b2.z);
+	var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
+	var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
 
 	var point = new THREE.Vector3();
-	var f1 = fname_s_07(t1[0], t1[1], t2[0], t2[1]);
+	var f1 = fname_s_012(t1[0], t1[1], t2[0], t2[1]);
 	
 	if(Math.abs(f1) < 0.0001){ return new THREE.Vector3(a2.x, 0, a2.z); } 
 	
-	point.x = fname_s_07(-t1[2], t1[1], -t2[2], t2[1]) / f1;
-	point.z = fname_s_07(t1[0], -t1[2], t2[0], -t2[2]) / f1;	
+	point.x = fname_s_012(-t1[2], t1[1], -t2[2], t2[1]) / f1;
+	point.z = fname_s_012(t1[0], -t1[2], t2[0], -t2[2]) / f1;	
 	
 	
 	
@@ -62,11 +528,11 @@ function fname_s_03(a1, a2, b1, b2)
 
 
 
-function fname_s_04(a1, a2, b1, b2)
+function fname_s_09(a1, a2, b1, b2)
 {
-	var t1 = fname_s_06(a1.x, a1.z, a2.x, a2.z);
-	var t2 = fname_s_06(b1.x, b1.z, b2.x, b2.z);
-	var f1 = fname_s_07(t1[0], t1[1], t2[0], t2[1]);
+	var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
+	var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
+	var f1 = fname_s_012(t1[0], t1[1], t2[0], t2[1]);
 	
 	if(Math.abs(f1) < 0.0001)
 	{ 
@@ -77,8 +543,8 @@ function fname_s_04(a1, a2, b1, b2)
 	} 
 	
 	var point = new THREE.Vector3();
-	point.x = fname_s_07(-t1[2], t1[1], -t2[2], t2[1]) / f1;
-	point.z = fname_s_07(t1[0], -t1[2], t2[0], -t2[2]) / f1;	
+	point.x = fname_s_012(-t1[2], t1[1], -t2[2], t2[1]) / f1;
+	point.z = fname_s_012(t1[0], -t1[2], t2[0], -t2[2]) / f1;	
 	
 	
 	
@@ -88,25 +554,25 @@ function fname_s_04(a1, a2, b1, b2)
 
 
 
-function fname_s_05(a1, a2, b1, b2)
+function fname_s_010(a1, a2, b1, b2)
 {
-	var t1 = fname_s_06(a1.x, a1.z, a2.x, a2.z);
-	var t2 = fname_s_06(b1.x, b1.z, b2.x, b2.z);
+	var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
+	var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
 
 	var point = new THREE.Vector3();
-	var f1 = fname_s_07(t1[0], t1[1], t2[0], t2[1]);
+	var f1 = fname_s_012(t1[0], t1[1], t2[0], t2[1]);
 	
 	if(Math.abs(f1) < 0.0001){ return [new THREE.Vector3(a2.x, 0, a2.z), true]; } 
 	
-	point.x = fname_s_07(-t1[2], t1[1], -t2[2], t2[1]) / f1;
-	point.z = fname_s_07(t1[0], -t1[2], t2[0], -t2[2]) / f1;			 
+	point.x = fname_s_012(-t1[2], t1[1], -t2[2], t2[1]) / f1;
+	point.z = fname_s_012(t1[0], -t1[2], t2[0], -t2[2]) / f1;			 
 	
 	return [point, false];
 }
 
 
 
-function fname_s_06(x1, y1, x2, y2)
+function fname_s_011(x1, y1, x2, y2)
 {
 	var a = y1 - y2;
 	var b = x2 - x1;
@@ -116,29 +582,29 @@ function fname_s_06(x1, y1, x2, y2)
 }
 
 	
-function fname_s_07(x1, y1, x2, y2)
+function fname_s_012(x1, y1, x2, y2)
 {
 	return x1 * y2 - x2 * y1;
 }
 
 
 
-function fname_s_08(a, b, c, d)
+function fname_s_013(a, b, c, d)
 {
-	return fname_s_09(a.x, b.x, c.x, d.x) && fname_s_09(a.z, b.z, c.z, d.z) && fname_s_010(a, b, c) * fname_s_010(a, b, d) <= 0 && fname_s_010(c, d, a) * fname_s_010(c, d, b) <= 0;
+	return fname_s_014(a.x, b.x, c.x, d.x) && fname_s_014(a.z, b.z, c.z, d.z) && fname_s_015(a, b, c) * fname_s_015(a, b, d) <= 0 && fname_s_015(c, d, a) * fname_s_015(c, d, b) <= 0;
 }
 
-function fname_s_09(a, b, c, d)
+function fname_s_014(a, b, c, d)
 {
-	if (a > b) { var res = fname_s_011(a, b); a = res[0]; b = res[1]; }
-	if (c > d) { var res = fname_s_011(c, d); c = res[0]; d = res[1]; }
+	if (a > b) { var res = fname_s_016(a, b); a = res[0]; b = res[1]; }
+	if (c > d) { var res = fname_s_016(c, d); c = res[0]; d = res[1]; }
 	return Math.max(a, c) <= Math.min(b, d);
 }
 
-function fname_s_010(a, b, c) { return (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x - a.x); }
+function fname_s_015(a, b, c) { return (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x - a.x); }
 
 
-function fname_s_011(a, b) { var c; c = a; a = b; b = c; return [a, b]; }
+function fname_s_016(a, b) { var c; c = a; a = b; b = c; return [a, b]; }
 
 
 
@@ -147,7 +613,7 @@ function fname_s_011(a, b) { var c; c = a; a = b; b = c; return [a, b]; }
 
  
 
-function fname_s_012(A,B,C){
+function fname_s_017(A,B,C){
     var x1=A.x, y1=A.z, x2=B.x, y2=B.z, x3=C.x, y3=C.z;
     var px = x2-x1, py = y2-y1, dAB = px*px + py*py;
     var u = ((x3 - x1) * px + (y3 - y1) * py) / dAB;
@@ -157,7 +623,7 @@ function fname_s_012(A,B,C){
 
 
 
-function fname_s_013(A,B,C)
+function fname_s_018(A,B,C)
 {	
 	var AB = { x : B.x - A.x, y : B.z - A.z }
 	var CD = { x : C.x - A.x, y : C.z - A.z }
@@ -174,9 +640,9 @@ function fname_s_013(A,B,C)
 
  
 
-function fname_s_014(p1, p2, M)
+function fname_s_019(p1, p2, M)
 {	
-	var urv = fname_s_06(p1.x, p1.z, p2.x, p2.z);
+	var urv = fname_s_011(p1.x, p1.z, p2.x, p2.z);
 	
 	var A = urv[0];
 	var B = urv[1];
@@ -191,7 +657,7 @@ function fname_s_014(p1, p2, M)
 
 
 
-function fname_s_015(point, arrP)
+function fname_s_020(point, arrP)
 {
 	var p = arrP;
 	var result = false;
@@ -209,7 +675,7 @@ function fname_s_015(point, arrP)
 
 
 
-function fname_s_016(pos1, pos2, cdm)
+function fname_s_021(pos1, pos2, cdm)
 {
 	if(!cdm) cdm = {};
 	
@@ -235,7 +701,7 @@ function fname_s_016(pos1, pos2, cdm)
 
 
 
-function fname_s_017(cdm)
+function fname_s_022(cdm)
 {
 	
 	for(var i = 0; i < infProject.catalog.obj.length; i++)
@@ -256,7 +722,7 @@ function fname_s_017(cdm)
 		var n = o.lotid;
 		(function(n) 
 		{
-			el.on('mousedown', function(){ fname_s_0235({button: 'add_lotid', value: n}); });	
+			el.on('mousedown', function(){ fname_s_active_int({button: 'add_lotid', value: n}); });	
 		}(n));		
 	}
 	
@@ -265,7 +731,7 @@ function fname_s_017(cdm)
 
 
 
-function fname_s_018(cdm)
+function fname_s_023(cdm)
 {
 	
 	for(var i = 0; i < infProject.catalog.texture.length; i++)
@@ -281,7 +747,7 @@ function fname_s_018(cdm)
 	}	
 }
 
-function fname_s_019(cdm)
+function fname_s_024(cdm)
 {
 	
 	for(var i = 0; i < infProject.catalog.texture.length; i++)
@@ -298,7 +764,7 @@ function fname_s_019(cdm)
 }
 
 
-function fname_s_020(cdm)
+function fname_s_025(cdm)
 {
 	if(cdm.type == 1)
 	{
@@ -313,7 +779,7 @@ function fname_s_020(cdm)
 }
 
 
-function fname_s_021(cdm)
+function fname_s_026(cdm)
 {
 	if(cdm.type == 1)
 	{
@@ -329,7 +795,7 @@ function fname_s_021(cdm)
 
 
 
-function fname_s_022(cdm)
+function fname_s_027(cdm)
 {
 	if(cdm.type == 'add')
 	{
@@ -368,7 +834,7 @@ function fname_s_022(cdm)
 
 
 
-function fname_s_023(cdm)
+function fname_s_028(cdm)
 {
 	$('[nameId="wrap_img"]').hide();
 	$('[nameId="wrap_catalog"]').hide();
@@ -416,7 +882,7 @@ function fname_s_023(cdm)
 
 
 
-function fname_s_024(cdm) 
+function fname_s_029(cdm) 
 {
 	$('[nameId="wrap_object_1"]').hide();
 	
@@ -452,9 +918,9 @@ function fname_s_024(cdm)
 			$('[nameId="rp_button_side_texture_1"]').show();
 			$('[nameId="but_back_catalog_texture_1"]').show();
 			$('[nameId="rp_catalog_texture_1"]').hide();
-			fname_s_020({type: 1});
+			fname_s_025({type: 1});
 			
-			fname_s_029({obj: obj});			
+			fname_s_034({obj: obj});			
 
 			obj.userData.wall.html.label[0].textContent = 'A';
 			obj.userData.wall.html.label[1].textContent = 'B';
@@ -489,8 +955,8 @@ function fname_s_024(cdm)
 	{
 		$('[nameId="rp_menu_room"]').show();
 		
-		fname_s_021({type: 1});
-		fname_s_030({obj: obj});
+		fname_s_026({type: 1});
+		fname_s_035({obj: obj});
 	}		
 
 	$('[nameId="wrap_object_1"]').show(); 	
@@ -500,7 +966,7 @@ function fname_s_024(cdm)
 
 
 
-function fname_s_025(cdm)
+function fname_s_030(cdm)
 {
 	if(!cdm) { cdm = {}; }	
 	if(!cdm.obj) return;
@@ -513,7 +979,7 @@ function fname_s_025(cdm)
 
 
 
-function fname_s_026(cdm)
+function fname_s_031(cdm)
 {
 	var obj = cdm.obj;
 	var nameId = cdm.nameId;
@@ -533,7 +999,7 @@ function fname_s_026(cdm)
 
 
 
-function fname_s_027(cdm)
+function fname_s_032(cdm)
 {
 	
 	$('[nameId="rp_wall_width_1"]').val(infProject.settings.wall.width);
@@ -550,7 +1016,7 @@ function fname_s_027(cdm)
 
 
 
-function fname_s_028(cdm) 
+function fname_s_033(cdm) 
 {
 	var el = cdm.el;
 	var value = el.val();
@@ -580,7 +1046,7 @@ function fname_s_028(cdm)
 
 
 
-function fname_s_029(cdm) 
+function fname_s_034(cdm) 
 {
 	$('[nameId="wall_texture_1img"]').attr('src', cdm.obj.userData.material[1].img);  
 	$('[nameId="wall_texture_2img"]').attr('src', cdm.obj.userData.material[2].img);
@@ -589,9 +1055,9 @@ function fname_s_029(cdm)
 
 
 
-function fname_s_030(cdm) 
+function fname_s_035(cdm) 
 {
-	var res = fname_s_0164({obj: cdm.obj});
+	var res = fname_s_0169({obj: cdm.obj});
 	
 	$('[nameId="wall_texture_1img"]').attr('src', res.floor.userData.material.img);  
 	if(res.ceiling.userData.material) { $('[nameId="wall_texture_2img"]').attr('src', res.ceiling.userData.material.img); }
@@ -600,7 +1066,7 @@ function fname_s_030(cdm)
 
 
 
-function fname_s_031(cdm)
+function fname_s_036(cdm)
 {  
 	$.ajax
 	({
@@ -638,14 +1104,14 @@ function fname_s_031(cdm)
 			$('[nameId="wm_list_load"]').html(html_load); 
 	
 			
-			$('[nameId="save_pr_1"]').on('mousedown', function(){ fname_s_032(this); });
-			$('[nameId="load_pr_1"]').on('mousedown', function(){ fname_s_033(this); });
+			$('[nameId="save_pr_1"]').on('mousedown', function(){ fname_s_037(this); });
+			$('[nameId="load_pr_1"]').on('mousedown', function(){ fname_s_038(this); });
 		}
 	});	
 }
 
 
-function fname_s_032(el)
+function fname_s_037(el)
 {
 	fname_s_0201({id: el.attributes.projectid.value, upUI: true}); 
 	
@@ -655,7 +1121,7 @@ function fname_s_032(el)
 
 
 
-function fname_s_033(el)
+function fname_s_038(el)
 {
 	fname_s_0202({id: el.attributes.projectid.value}); 
 	
@@ -664,7 +1130,7 @@ function fname_s_033(el)
 
 
 
-async function fname_s_034(cdm)
+async function fname_s_039(cdm)
 {
 	var url = infProject.settings.api.type.room;
 
@@ -687,7 +1153,7 @@ async function fname_s_034(cdm)
 		var id = json[i].id;
 		(function(id) 
 		{
-			el.on('mousedown', function(){ fname_s_035({button: true, id: id}); });	
+			el.on('mousedown', function(){ fname_s_040({button: true, id: id}); });	
 		}(id));		
 	}
 
@@ -704,7 +1170,7 @@ async function fname_s_034(cdm)
 			
 			if(infProject.settings.floor.label.visible)  
 			{ 				 
-				fname_s_035({id: floor[i].userData.room.zone.id, obj: floor[i]});			
+				fname_s_040({id: floor[i].userData.room.zone.id, obj: floor[i]});			
 			}
 			
 			break;
@@ -717,7 +1183,7 @@ async function fname_s_034(cdm)
 
 
 
-function fname_s_035(cdm)
+function fname_s_040(cdm)
 { 
 	var type = infProject.settings.room.type;	
 	
@@ -757,7 +1223,7 @@ function fname_s_035(cdm)
 
 
 
-function fname_s_036( wd, wall )  
+function fname_s_041( wd, wall )  
 {
 	
 	
@@ -780,7 +1246,7 @@ function fname_s_036( wd, wall )
 	{
 		if(arrO[n] == wd) continue;
 		
-		var objClone = fname_s_037( arrO[n] ); 
+		var objClone = fname_s_042( arrO[n] ); 
 
 		var wdBSP = new ThreeBSP( objClone );    
 		var wallBSP = new ThreeBSP( wall ); 					var newBSP = wallBSP.subtract( wdBSP );				wall.geometry = newBSP.toGeometry();	
@@ -806,7 +1272,7 @@ function fname_s_036( wd, wall )
 
 
 
-function fname_s_037( wd )
+function fname_s_042( wd )
 {
 		var obj = new THREE.Mesh();
 	obj.geometry = wd.geometry.clone(); 
@@ -826,7 +1292,7 @@ function fname_s_037( wd )
 
 
 
-function fname_s_038( wd, objsBSP, wall )
+function fname_s_043( wd, objsBSP, wall )
 {  
 	if(!wall) wall = wd.userData.door.wall;
 	
@@ -858,7 +1324,7 @@ function fname_s_038( wd, objsBSP, wall )
  
  
  
- function fname_s_039( arrW ) 
+ function fname_s_044( arrW ) 
 {
 	
 	
@@ -882,7 +1348,7 @@ function fname_s_038( wd, objsBSP, wall )
 }
  
  
-function fname_s_040( arrW )   
+function fname_s_045( arrW )   
 {
 	
 	
@@ -894,11 +1360,11 @@ function fname_s_040( arrW )
 		{
 			var wd = wall.userData.wall.arrO[i2];
 			
-			var wdClone = fname_s_037( wd );
+			var wdClone = fname_s_042( wd );
 			
 			objsBSP = { wall : wall, wd : wdClone };		
 			
-			fname_s_038( wd, objsBSP );			
+			fname_s_043( wd, objsBSP );			
 		}
 		
 		fname_s_0237( wall ); 
@@ -913,7 +1379,7 @@ function fname_s_040( arrW )
  
 
 
-function fname_s_041( wall, index )
+function fname_s_046( wall, index )
 {
 	wall.updateMatrixWorld();
 	
@@ -954,7 +1420,7 @@ function fname_s_041( wall, index )
 
 
 
-function fname_s_042(arrWall, Zoom)
+function fname_s_047(arrWall, Zoom)
 {
 	
 	if(Zoom){}
@@ -1037,7 +1503,7 @@ function fname_s_042(arrWall, Zoom)
 
 
 
-function fname_s_043(cdm)
+function fname_s_048(cdm)
 {
 	var wall = cdm.wall;		
 	var v = wall.userData.wall.v;
@@ -1055,7 +1521,7 @@ function fname_s_043(cdm)
 
 
 
-function fname_s_044( room ) 
+function fname_s_049( room ) 
 {	 
 	if(!infProject.settings.floor.o) { return; }	
 	
@@ -1109,7 +1575,7 @@ function fname_s_044( room )
 				
 				
 				
-				if(!fname_s_016(p3, p4, {kof: 0.001}))
+				if(!fname_s_021(p3, p4, {kof: 0.001}))
 				{					
 					contour[u][contour[u].length] = p4;
 				}
@@ -1199,7 +1665,7 @@ function fname_s_044( room )
 
 
 
-function fname_s_045( arrP )
+function fname_s_050( arrP )
 {  
 	var res = 0;
 	var n = arrP.length;
@@ -1246,7 +1712,7 @@ function fname_s_045( arrP )
 
 
 
-function fname_s_046(cdm)
+function fname_s_051(cdm)
 {
 	var lineGrid = new THREE.Group();
 	
@@ -1302,7 +1768,7 @@ function fname_s_046(cdm)
 }
 
 
-function fname_s_047(cdm)
+function fname_s_052(cdm)
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1324,13 +1790,13 @@ function fname_s_047(cdm)
 	
 	scene.remove( grid );
 	
-	infProject.scene.grid.obj = fname_s_046({pos: pos, color: color, size: size, uColor : uColor});
+	infProject.scene.grid.obj = fname_s_051({pos: pos, color: color, size: size, uColor : uColor});
 	
 	renderCamera();
 }
 
 
-function fname_s_048()
+function fname_s_053()
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1338,7 +1804,7 @@ function fname_s_048()
 	{
 		grid.visible = false;
 		
-		if(infProject.scene.grid.active) { fname_s_049(); }
+		if(infProject.scene.grid.active) { fname_s_054(); }
 		
 		infProject.scene.grid.show = false;
 	}
@@ -1351,7 +1817,7 @@ function fname_s_048()
 
 
 
-function fname_s_049()
+function fname_s_054()
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1377,7 +1843,7 @@ function fname_s_049()
 
 
 
-function fname_s_050(event)
+function fname_s_055(event)
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1390,7 +1856,7 @@ function fname_s_050(event)
 }
 
 
-function fname_s_051(event)
+function fname_s_056(event)
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1408,7 +1874,7 @@ function fname_s_051(event)
 
 
 
-function fname_s_052()
+function fname_s_057()
 {
 	var grid = infProject.scene.grid.obj;
 	
@@ -1417,7 +1883,7 @@ function fname_s_052()
 
 
 
-function fname_s_053()
+function fname_s_058()
 {
 	var flag = !infProject.scene.grid.link;
 	
@@ -1431,7 +1897,7 @@ function fname_s_053()
 
 
 
-function fname_s_054( obj ) 
+function fname_s_059( obj ) 
 {
 	obj.updateMatrixWorld();
 	obj.geometry.computeBoundingSphere();
@@ -1456,7 +1922,7 @@ function fname_s_054( obj )
 
 
 
-function fname_s_055(point) 
+function fname_s_060(point) 
 {
 	var obj = point.userData.point.cross;
 	
@@ -1464,27 +1930,27 @@ function fname_s_055(point)
 	
 	if(point.userData.point.type == 'create_wall')
 	{ 
-		if(obj.userData.tag == 'planeMath') { fname_s_066( point ); } 
-		else if(obj.userData.tag == 'point') { fname_s_063( point ); }
-		else if(obj.userData.tag == 'wall') { fname_s_065( obj, point ); } 
+		if(obj.userData.tag == 'planeMath') { fname_s_071( point ); } 
+		else if(obj.userData.tag == 'point') { fname_s_068( point ); }
+		else if(obj.userData.tag == 'wall') { fname_s_070( obj, point ); } 
 	}
 	else if(point.userData.point.type == 'continue_create_wall') 
 	{ 
-		if(obj.userData.tag == 'planeMath') { fname_s_063( point ); }
-		else if(obj.userData.tag == 'wall') { fname_s_065( obj, point ); }
-		else if(obj.userData.tag == 'point') { fname_s_063( point ); }
+		if(obj.userData.tag == 'planeMath') { fname_s_068( point ); }
+		else if(obj.userData.tag == 'wall') { fname_s_070( obj, point ); }
+		else if(obj.userData.tag == 'point') { fname_s_068( point ); }
 	}	
 	else if(point.userData.point.type == 'add_point')
 	{  
-		if(obj.userData.tag == 'wall') { fname_s_065( obj, point ); } 
+		if(obj.userData.tag == 'wall') { fname_s_070( obj, point ); } 
 	}
 	else
 	{   
-		if(!fname_s_057(point))
+		if(!fname_s_062(point))
 		{ 
-			if(obj.userData.tag == 'planeMath') { fname_s_056(point); }
-			else if(obj.userData.tag == 'point') { fname_s_063( point ); }
-			else if(obj.userData.tag == 'wall') { fname_s_065( obj, point ); }	 		
+			if(obj.userData.tag == 'planeMath') { fname_s_061(point); }
+			else if(obj.userData.tag == 'point') { fname_s_068( point ); }
+			else if(obj.userData.tag == 'wall') { fname_s_070( obj, point ); }	 		
 		}
 	}
 	
@@ -1493,16 +1959,16 @@ function fname_s_055(point)
 
 
 
-function fname_s_056(point) 
+function fname_s_061(point) 
 {
-	fname_s_0162(point.zone); 
+	fname_s_0167(point.zone); 
 	
-	fname_s_040(param_wall.wallR);
+	fname_s_045(param_wall.wallR);
 }
 
 
 
-function fname_s_057(point)
+function fname_s_062(point)
 {
 	var flag = false;
 	var crossObj = point.userData.point.cross;
@@ -1516,12 +1982,12 @@ function fname_s_057(point)
 	}
 		
 	
-	if(fname_s_02(point)) { flag = true; }	
+	if(fname_s_07(point)) { flag = true; }	
 	
 	
 	if(flag)
 	{
-		fname_s_0127( point, param_wall.wallR ); 			
+		fname_s_0132( point, param_wall.wallR ); 			
 		
 				
 	}
@@ -1533,7 +1999,7 @@ function fname_s_057(point)
 
 
 
-function fname_s_058(point1, point2)
+function fname_s_063(point1, point2)
 {
 	var wall = null;
 	
@@ -1548,7 +2014,7 @@ function fname_s_058(point1, point2)
 
 
 
-function fname_s_059()
+function fname_s_064()
 {
 	var wall = clickO.obj;
 	clickO.obj = null;
@@ -1560,12 +2026,12 @@ function fname_s_059()
 	var pos = new THREE.Vector3().subVectors( pos2, pos1 ).divideScalar( 2 ).add(pos1); 
 	var point = fname_s_0230( pos, 0 );
 	
-	fname_s_060( wall, point );
+	fname_s_065( wall, point );
 }
 
 
 
-function fname_s_060( wall, point )
+function fname_s_065( wall, point )
 {	 
 	clickO.move = null;					
 	infProject.tools.axis[0].visible = false;
@@ -1573,7 +2039,7 @@ function fname_s_060( wall, point )
 	  
 	point.userData.point.last.cdm = 'add_point';
 	
-	var walls = fname_s_062( wall, point )	
+	var walls = fname_s_067( wall, point )	
 
 	point.userData.point.type = null; 
 
@@ -1583,7 +2049,7 @@ function fname_s_060( wall, point )
 
 
 
-function fname_s_061(wall, posx)
+function fname_s_066(wall, posx)
 {
 	var arrL = [], arrR = [];
 	
@@ -1602,7 +2068,7 @@ function fname_s_061(wall, posx)
 
 
 
-function fname_s_062( wall, point )
+function fname_s_067( wall, point )
 {
 	
 	var width = wall.userData.wall.width;
@@ -1634,29 +2100,29 @@ function fname_s_062( wall, point )
 	var wallC = point.w[0];
 	var point_0 = point.p[0];
 	
-	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall] : fname_s_0121(wallC);
-	fname_s_039( arrW );	
+	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall] : fname_s_0126(wallC);
+	fname_s_044( arrW );	
 	
 	
 	wall.updateMatrixWorld();
 	var ps = wall.worldToLocal( point.position.clone() );	
-	var wd = fname_s_061(wall, ps.x);	
+	var wd = fname_s_066(wall, ps.x);	
 
 	
 	if(point.userData.point.last.cdm == 'new_point_2' || point.userData.point.last.cdm == 'new_point')
 	{	
-		var zone = fname_s_054( point.w[0] ).obj;
-		var oldZ_1 = fname_s_0163(zone);
+		var zone = fname_s_059( point.w[0] ).obj;
+		var oldZ_1 = fname_s_0168(zone);
 	}
 
 	var v2 = wall.userData.wall.v;
 	for ( var i2 = 0; i2 < wall.userData.wall.v.length; i2++ ) { v2[i2] = wall.userData.wall.v[i2].clone(); }
 
-	var oldZones = fname_s_0185( wall );   	
-	var oldZ = fname_s_0163( oldZones );
-	fname_s_0178( oldZones );						
+	var oldZones = fname_s_0190( wall );   	
+	var oldZ = fname_s_0168( oldZones );
+	fname_s_0183( oldZones );						
 	
-	fname_s_0152( wall, {dw : 'no delete'} );  							
+	fname_s_0157( wall, {dw : 'no delete'} );  							
 	
 	
 	var point1 = fname_s_0244( 'point', p1.id );
@@ -1681,29 +2147,29 @@ function fname_s_062( wall, point )
 	for ( var i = v2.length/2; i < v2.length; i++ ) { v2[i].x -= sub; } 
 	for ( var i = v2.length/2; i < v2.length; i++ ) { wall_2.userData.wall.v[i] = v2[i].clone(); wall_2.geometry.vertices[i] = v2[i].clone(); }
 	
-	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall_1, wall_2] : fname_s_0121(wallC);
+	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall_1, wall_2] : fname_s_0126(wallC);
 	
 	if(point.userData.point.last.cdm == 'add_point')
 	{
-		fname_s_0123(point);
+		fname_s_0128(point);
 	}
 	else
 	{
-		fname_s_0123(point);
-		fname_s_0123(point_0);
+		fname_s_0128(point);
+		fname_s_0128(point_0);
 	}
 	
-	fname_s_042(arrW); 	
-	fname_s_040( arrW );
+	fname_s_047(arrW); 	
+	fname_s_045( arrW );
 	
-	var newZones = fname_s_0167();		
+	var newZones = fname_s_0172();		
 	
 	
 	var flag = false;
 	if(point.userData.point.last.cdm == 'new_point_2' || point.userData.point.last.cdm == 'new_point') { if(zone) { flag = true; } }	
 	
-	if(flag) { fname_s_0184(newZones, oldZ_1[0], true); } 
-	else { fname_s_0182(oldZ, newZones, 'add'); }		
+	if(flag) { fname_s_0189(newZones, oldZ_1[0], true); } 
+	else { fname_s_0187(oldZ, newZones, 'add'); }		
 	
 	
 	
@@ -1714,8 +2180,8 @@ function fname_s_062( wall, point )
 		obj.userData.door.wall = wall_1;
 		wall_1.userData.wall.arrO[wall_1.userData.wall.arrO.length] = obj; 
 		
-		objsBSP = { wall : wall_1, wd : fname_s_037( obj ) };				
-		fname_s_038( obj, objsBSP ); 		
+		objsBSP = { wall : wall_1, wd : fname_s_042( obj ) };				
+		fname_s_043( obj, objsBSP ); 		
 	} 
 	
 	for ( var i = 0; i < wd.wall_2.length; i++ ) 
@@ -1725,8 +2191,8 @@ function fname_s_062( wall, point )
 		obj.userData.door.wall = wall_2;
 		wall_2.userData.wall.arrO[wall_2.userData.wall.arrO.length] = obj; 
 		
-		objsBSP = { wall : wall_2, wd : fname_s_037( obj ) };				
-		fname_s_038( obj, objsBSP ); 	
+		objsBSP = { wall : wall_2, wd : fname_s_042( obj ) };				
+		fname_s_043( obj, objsBSP ); 	
 	} 	
 	
 	
@@ -1741,9 +2207,9 @@ function fname_s_062( wall, point )
 
 
 
-function fname_s_063( point )
+function fname_s_068( point )
 { 	
-	if(Math.abs(point.position.y - point.userData.point.cross.position.y) > 0.3) { fname_s_056(point); return; }
+	if(Math.abs(point.position.y - point.userData.point.cross.position.y) > 0.3) { fname_s_061(point); return; }
 	
 	if(point.userData.point.type == 'create_wall')			
 	{		 	
@@ -1751,25 +2217,25 @@ function fname_s_063( point )
 		point.userData.point.type = 'continue_create_wall';
 		point.userData.point.cross.userData.point.last.cdm = 'new_wall_from_point';
 		clickO.move = point;
-		fname_s_039( point.userData.point.cross.w );	
+		fname_s_044( point.userData.point.cross.w );	
 		
 	}
 	else if(point.userData.point.type == 'continue_create_wall') 
 	{ 
 		if(point.userData.point.cross == planeMath)		
 		{	
-			if(fname_s_02(point)) return; 	
+			if(fname_s_07(point)) return; 	
 			
 			point.userData.point.type = null; 			
 			var point2 = fname_s_0230( point.position, 0 );			
 			var wall = fname_s_0231({ p: [point, point2] }); 			
 			clickO.move = point2;
-			fname_s_042( point.p[0].w );			
+			fname_s_047( point.p[0].w );			
 			point2.userData.point.type = 'continue_create_wall'; 
 
 			if(point.p[0].userData.point.last.cdm == 'new_point_1' || point.p[0].userData.point.last.cdm == 'new_wall_from_point')
 			{
-				fname_s_040( point.p[0].w );				
+				fname_s_045( point.p[0].w );				
 			}			
 			
 			
@@ -1778,30 +2244,30 @@ function fname_s_063( point )
 		{			
 			if(point.userData.point.cross.userData.point.last.cdm == 'new_point_1' && clickO.move.userData.point.cross == point || point.userData.point.cross == point.p[0])
 			{ 
-				fname_s_0151(point.w[0]);
+				fname_s_0156(point.w[0]);
 				clickO.move = null;
 				clickO = resetPop.clickO();
 			}						
 			else
 			{
-				fname_s_064(point);
+				fname_s_069(point);
 			}			
 		}
 	} 
 	else if(!point.userData.point.type) 	
 	{ 	
-		fname_s_064(point);		
+		fname_s_069(point);		
 	}
 
 	param_wall.wallR = point.w;
 }
 
 
-function fname_s_064(point)
+function fname_s_069(point)
 {	
-	if(fname_s_057(point)) { return; }		
+	if(fname_s_062(point)) { return; }		
 
-	fname_s_039( point.userData.point.cross.w );
+	fname_s_044( point.userData.point.cross.w );
 	
 	var wall = point.w[0];
 	var point1 = point.userData.point.cross;
@@ -1820,14 +2286,14 @@ function fname_s_064(point)
 	var m = (wall.userData.wall.p[0] == point) ? 0 : 1;	
 	wall.userData.wall.p[m] = point1;
 	
-	fname_s_0157(point2, wall);			
-	fname_s_0158(point);
+	fname_s_0162(point2, wall);			
+	fname_s_0163(point);
 	scene.remove(point);
 
-	fname_s_0123(point1);
-	fname_s_042( point1.w ); 
+	fname_s_0128(point1);
+	fname_s_047( point1.w ); 
 
-	fname_s_0183(wall);   
+	fname_s_0188(wall);   
 	
 	if(!point.userData.point.type) 
 	{ 
@@ -1860,7 +2326,7 @@ function fname_s_064(point)
 		}		
 	}
 	
-	fname_s_040( arrW );
+	fname_s_045( arrW );
 	
 	clickO.move = null;
 }
@@ -1873,13 +2339,13 @@ function fname_s_064(point)
 
 
 
-function fname_s_065( wall, point )
+function fname_s_070( wall, point )
 { 
-	if(Math.abs(point.position.y - point.userData.point.cross.position.y) > 0.3) { fname_s_056(point); return; }
+	if(Math.abs(point.position.y - point.userData.point.cross.position.y) > 0.3) { fname_s_061(point); return; }
 	
 	if(point.userData.point.type == 'add_point')			
 	{    
-		fname_s_060( wall, point ); 
+		fname_s_065( wall, point ); 
 		
 	}
 	else if(point.userData.point.type == 'continue_create_wall')			
@@ -1888,7 +2354,7 @@ function fname_s_065( wall, point )
 
 		point.userData.point.last.cdm = 'new_point_2'; 
 		
-		var arrW = fname_s_062( wall, point );
+		var arrW = fname_s_067( wall, point );
 		
 		
 		point.userData.point.last.cross = 
@@ -1919,7 +2385,7 @@ function fname_s_065( wall, point )
 		point2.userData.point.cross = point1;
 		
 		var newWall = fname_s_0231({p: [point1, point2] }); 
-		var arrW = fname_s_062( wall, point1 );
+		var arrW = fname_s_067( wall, point1 );
 		
 		
 		point.userData.point.last.cross = 
@@ -1935,7 +2401,7 @@ function fname_s_065( wall, point )
 			} 
 		};			
 		
-		fname_s_039( point1.w );
+		fname_s_044( point1.w );
 
 		clickO.move = point2;
 		point2.userData.point.type = 'continue_create_wall'; 				 
@@ -1949,7 +2415,7 @@ function fname_s_065( wall, point )
 		
 		point.userData.point.last.cdm = 'new_point';
 		
-		var arrW = fname_s_062( wall, point );		 
+		var arrW = fname_s_067( wall, point );		 
 		
 		var arrW2 = p1.w;
 		
@@ -1965,7 +2431,7 @@ function fname_s_065( wall, point )
 			if(flag) arrW2[arrW2.length] = p1.w[i];
 		}
 		
-		fname_s_040( arrW2 );	
+		fname_s_045( arrW2 );	
 
 		
 		point.userData.point.last.cross = 
@@ -1992,7 +2458,7 @@ function fname_s_065( wall, point )
 
 
 
-function fname_s_066( point1 )
+function fname_s_071( point1 )
 {  		
 	point1.userData.point.type = null;		
 	var point2 = fname_s_0230( point1.position.clone(), 0 );			
@@ -2016,7 +2482,7 @@ function fname_s_066( point1 )
 
 
 
-function fname_s_067(cdm)
+function fname_s_072(cdm)
 {
 	if(!cdm) { cdm = {} };
 	
@@ -2162,8 +2628,8 @@ function fname_s_067(cdm)
 		
 		obj.position.y += (obj.geometry.boundingBox.max.y - obj.geometry.boundingBox.min.y) / 2; 	
 		
-		fname_s_072(obj, cdm.wall);		
-		fname_s_070({ obj: obj });
+		fname_s_077(obj, cdm.wall);		
+		fname_s_075({ obj: obj });
 	}
 	else
 	{
@@ -2174,7 +2640,7 @@ function fname_s_067(cdm)
 
 
 
-function fname_s_068( event, obj ) 
+function fname_s_073( event, obj ) 
 { 
 	var arrDp = [];
 	
@@ -2230,12 +2696,12 @@ function fname_s_068( event, obj )
 		obj.position.set( pos.x, obj.userData.door.h1, pos.z ); 
 	}		
 
-	fname_s_072(obj, wall);	
+	fname_s_077(obj, wall);	
 }
 
 
 
-function fname_s_069(obj)
+function fname_s_074(obj)
 { 
 	  
 	if(obj)
@@ -2247,7 +2713,7 @@ function fname_s_069(obj)
 			if(!obj.userData.door.wall) { return true; }
 			
 			clickO.last_obj = null;
-			fname_s_070({ obj : obj });  
+			fname_s_075({ obj : obj });  
 			return true; 
 		}
 	}
@@ -2260,7 +2726,7 @@ function fname_s_069(obj)
 
 
 
-function fname_s_070( cdm )
+function fname_s_075( cdm )
 {	
 	var obj = cdm.obj;
 	var wall = obj.userData.door.wall;
@@ -2307,8 +2773,8 @@ function fname_s_070( cdm )
 	
 	if(1==1)
 	{  
-		objsBSP = { wall : wall, wd : fname_s_037( obj ) };				
-		fname_s_038( obj, objsBSP ); 
+		objsBSP = { wall : wall, wd : fname_s_042( obj ) };				
+		fname_s_043( obj, objsBSP ); 
 	}	
 
 
@@ -2336,7 +2802,7 @@ function fname_s_070( cdm )
 
 
 
-function fname_s_071(inf, cdm)
+function fname_s_076(inf, cdm)
 {
 	var wd = cdm.wd;
 	var objPop = inf.obj;
@@ -2384,7 +2850,7 @@ function fname_s_071(inf, cdm)
 
 
 
-function fname_s_072(obj, wall)
+function fname_s_077(obj, wall)
 {
 	if(obj.userData.door.wall == wall) return;
 	
@@ -2427,7 +2893,7 @@ var vk_click = '';
 
 
 
-function fname_s_073()
+function fname_s_078()
 {
 	
 	clickO.buttonAct = null;
@@ -2441,17 +2907,17 @@ function fname_s_073()
 		
 		if(obj.userData.tag == 'point') 
 		{ 	
-			if(obj.w.length == 0){ fname_s_0153(obj); }  
+			if(obj.w.length == 0){ fname_s_0158(obj); }  
 			else 
 			{ 
 				if(obj.userData.point.type == 'continue_create_wall')
 				{
 					var point = obj.p[0]; 
-					fname_s_0151(obj.w[0]); 
+					fname_s_0156(obj.w[0]); 
 					
 				}
 				
-				if(point.userData.point.last.cdm == 'new_point_1') { fname_s_0154( point ).wall.userData.id = point.userData.point.last.cross.walls.old; }
+				if(point.userData.point.last.cdm == 'new_point_1') { fname_s_0159( point ).wall.userData.id = point.userData.point.last.cross.walls.old; }
 			}
 		}
 		else if(obj.userData.tag == 'obj')
@@ -2467,7 +2933,7 @@ function fname_s_073()
 
 
 
-function fname_s_074( event ) 
+function fname_s_079( event ) 
 {
 	
 
@@ -2502,29 +2968,29 @@ function fname_s_074( event )
 	infProject.tools.axis[0].visible = false;
 	infProject.tools.axis[1].visible = false;
 
-	fname_s_091( event, vk_click );
-	fname_s_092( event, vk_click );
+	fname_s_096( event, vk_click );
+	fname_s_097( event, vk_click );
 
 
-	if ( vk_click == 'right' ) { fname_s_073( event ); return; } 
+	if ( vk_click == 'right' ) { fname_s_078( event ); return; } 
 
 	
-	if(infProject.scene.grid.active) { fname_s_050(event); return; }
+	if(infProject.scene.grid.active) { fname_s_055(event); return; }
 
 
 	if(clickO.move)
 	{
 		if(clickO.move.userData.tag == 'point') 
 		{			
-			if(clickO.move.userData.point.type) { fname_s_055( clickO.move ); return; }  
+			if(clickO.move.userData.point.type) { fname_s_060( clickO.move ); return; }  
 		}
 	}
 	 
 	clickO.obj = null; 	
 	clickO.actMove = false;	
-	clickO.rayhit = fname_s_075(event); 
+	clickO.rayhit = fname_s_080(event); 
 	
-	fname_s_076({type: 'down'});
+	fname_s_081({type: 'down'});
 	
 	renderCamera();
 }
@@ -2533,7 +2999,7 @@ function fname_s_074( event )
 
 
 
-function fname_s_075(event)
+function fname_s_080(event)
 { 
 	var rayhit = null;	
 		
@@ -2645,9 +3111,9 @@ function fname_s_075(event)
 }
 
 
-function fname_s_076(cdm)
+function fname_s_081(cdm)
 {
-	fname_s_079(cdm);
+	fname_s_084(cdm);
 	
 	if(!clickO.rayhit) return; 
 
@@ -2659,25 +3125,25 @@ function fname_s_076(cdm)
 	
 	if(cdm.type == 'down')
 	{  
-		if(fname_s_069(clickO.move)) { flag = false; }
+		if(fname_s_074(clickO.move)) { flag = false; }
 		else if( tag == 'substrate_tool' && camera == cameraTop ) { fname_s_0308({intersect: rayhit}); }
 		else if( tag == 'pivot' ) { fname_s_0259( rayhit ); }
 		else if( tag == 'gizmo' ) { fname_s_0272( rayhit ); } 
-		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0129( rayhit ); }
-		else if( tag == 'point' ) { fname_s_0112( rayhit ); }
-		else if( tag == 'window' ) { fname_s_0139( rayhit ); }
-		else if( tag == 'door' ) { fname_s_0139( rayhit ); }
-		else if( tag == 'controll_wd' ) { fname_s_0108( rayhit ); }
+		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0134( rayhit ); }
+		else if( tag == 'point' ) { fname_s_0117( rayhit ); }
+		else if( tag == 'window' ) { fname_s_0144( rayhit ); }
+		else if( tag == 'door' ) { fname_s_0144( rayhit ); }
+		else if( tag == 'controll_wd' ) { fname_s_0113( rayhit ); }
 		else if( tag == 'obj' && camera == cameraTop ) { fname_s_0263({obj: obj, rayhit: rayhit}); }
 		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { fname_s_0263({obj: obj, rayhit: rayhit}); }
 		else { flag = false; }
 	}
 	else if(cdm.type == 'up')
 	{	
-		if( tag == 'wall' && camera == camera3D ) { fname_s_0130({obj: obj, rayhit: rayhit}); }
+		if( tag == 'wall' && camera == camera3D ) { fname_s_0135({obj: obj, rayhit: rayhit}); }
 		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { fname_s_0263({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'room' && camera == cameraTop ) { fname_s_0166({obj: obj}); }
-		else if( tag == 'room' && camera == camera3D ) { fname_s_0166({obj: obj}); }
+		else if( tag == 'room' && camera == cameraTop ) { fname_s_0171({obj: obj}); }
+		else if( tag == 'room' && camera == camera3D ) { fname_s_0171({obj: obj}); }
 		else { flag = false; }
 	}	
 
@@ -2694,12 +3160,12 @@ function fname_s_076(cdm)
 		
 		clickO.last_obj = obj;
 		
-		fname_s_081( obj );
+		fname_s_086( obj );
 	}
 }
 
 
-function fname_s_077( event ) 
+function fname_s_082( event ) 
 { 
 	if(event.changedTouches)
 	{
@@ -2712,7 +3178,7 @@ function fname_s_077( event )
 	
 	if(infProject.scene.grid.active)	
 	{
-		if(fname_s_051(event)) renderCamera();
+		if(fname_s_056(event)) renderCamera();
 		
 		return;
 	}	
@@ -2728,20 +3194,20 @@ function fname_s_077( event )
 		if ( tag == 'substrate_tool' ) { fname_s_0309(event); }	
 		else if ( tag == 'pivot' ) { fname_s_0260( event ); }
 		else if ( tag == 'gizmo' ) { fname_s_0274( event ); }
-		else if ( tag == 'wall' ) { fname_s_0133( event, obj ); }
-		else if ( tag == 'window' ) { fname_s_0143( event, obj ); }
-		else if ( tag == 'door' ) { fname_s_0143( event, obj ); }
-		else if ( tag == 'controll_wd' ) { fname_s_0109( event, obj ); }
-		else if ( tag == 'point' ) { fname_s_0114( event, obj ); }
-		else if ( tag == 'room' ) { fname_s_090( event ); }		
-		else if ( tag == 'free_dw' ) { fname_s_068( event, obj ); }
+		else if ( tag == 'wall' ) { fname_s_0138( event, obj ); }
+		else if ( tag == 'window' ) { fname_s_0148( event, obj ); }
+		else if ( tag == 'door' ) { fname_s_0148( event, obj ); }
+		else if ( tag == 'controll_wd' ) { fname_s_0114( event, obj ); }
+		else if ( tag == 'point' ) { fname_s_0119( event, obj ); }
+		else if ( tag == 'room' ) { fname_s_095( event ); }		
+		else if ( tag == 'free_dw' ) { fname_s_073( event, obj ); }
 		else if ( tag == 'obj' ) { fname_s_0264( event ); }
 	}
 	else 
 	{
-		if ( camera == camera3D ) { fname_s_090( event ); }
-		else if ( camera == cameraTop ) { fname_s_093( event ); }
-		else if ( camera == cameraWall ) { fname_s_094( event ); }
+		if ( camera == camera3D ) { fname_s_095( event ); }
+		else if ( camera == cameraTop ) { fname_s_098( event ); }
+		else if ( camera == cameraWall ) { fname_s_099( event ); }
 	}
 	
 
@@ -2749,12 +3215,12 @@ function fname_s_077( event )
 }
 
 
-function fname_s_078( event )  
+function fname_s_083( event )  
 {
 
 	if(!long_click) 
 	{ 
-		fname_s_076({type: 'up'}); 
+		fname_s_081({type: 'up'}); 
 	}	
 	
 	var obj = clickO.move;	
@@ -2766,12 +3232,12 @@ function fname_s_078( event )
 		if(tag == 'point') 
 		{  		
 			var point = clickO.move;
-			fname_s_0128(point); 
-			if(!clickO.move.userData.point.type) { fname_s_055(clickO.move); }						
+			fname_s_0133(point); 
+			if(!clickO.move.userData.point.type) { fname_s_060(clickO.move); }						
 		}
-		else if(tag == 'wall') { fname_s_0138(obj); }
-		else if(tag == 'window' || obj.userData.tag == 'door') { fname_s_0148(obj); }	
-		else if(tag == 'controll_wd') { fname_s_0111(obj); } 
+		else if(tag == 'wall') { fname_s_0143(obj); }
+		else if(tag == 'window' || obj.userData.tag == 'door') { fname_s_0153(obj); }	
+		else if(tag == 'controll_wd') { fname_s_0116(obj); } 
 		else if(tag == 'obj') { fname_s_0265(obj); }
 		else if(tag == 'pivot') { fname_s_0262(); }
 		
@@ -2784,7 +3250,7 @@ function fname_s_078( event )
 		else { clickO.move = null; }		
 	}
 
-	if(infProject.scene.grid.active) { fname_s_052(); }		
+	if(infProject.scene.grid.active) { fname_s_057(); }		
 	
 	param_win.click = false;
 	isMouseDown1 = false;
@@ -2804,7 +3270,7 @@ function fname_s_078( event )
 
 
 
-function fname_s_079(cdm)
+function fname_s_084(cdm)
 {
 	var obj = clickO.last_obj;
 	if(!cdm) { cdm = {type: ''}; }
@@ -2820,28 +3286,28 @@ function fname_s_079(cdm)
 		
 		if(cdm.type == 'down')
 		{
-			if(tag == 'wall' && camera == cameraTop) { fname_s_080(obj); }
-			else if(tag == 'point' && camera == cameraTop) { fname_s_080(obj); }
-			else if(tag == 'window' && camera == cameraTop) { fname_s_0145(obj); fname_s_080(obj); }
-			else if(tag == 'door' && camera == cameraTop) { fname_s_0145(obj); fname_s_080(obj); }
+			if(tag == 'wall' && camera == cameraTop) { fname_s_085(obj); }
+			else if(tag == 'point' && camera == cameraTop) { fname_s_085(obj); }
+			else if(tag == 'window' && camera == cameraTop) { fname_s_0150(obj); fname_s_085(obj); }
+			else if(tag == 'door' && camera == cameraTop) { fname_s_0150(obj); fname_s_085(obj); }
 			else if(tag == 'obj' && camera == cameraTop) { fname_s_0267(obj); }			
 			else { flag = false; }
 		}
 		else if(cdm.type == 'up')
 		{
-			if(tag == 'wall' && camera == camera3D) { fname_s_080(obj); fname_s_0212(); }
-			else if(tag == 'room' && camera == cameraTop) { fname_s_080(obj); fname_s_0212(); }
-			else if(tag == 'room' && camera == camera3D) { fname_s_080(obj); fname_s_0212(); }
+			if(tag == 'wall' && camera == camera3D) { fname_s_085(obj); fname_s_0212(); }
+			else if(tag == 'room' && camera == cameraTop) { fname_s_085(obj); fname_s_0212(); }
+			else if(tag == 'room' && camera == camera3D) { fname_s_085(obj); fname_s_0212(); }
 			else if(tag == 'obj' && camera == camera3D) { fname_s_0267(obj); }
 			else { flag = false; }
 		}
 		else
 		{
-			if(tag == 'wall') { fname_s_080(obj); }
-			else if(tag == 'point') { fname_s_080(obj); }
-			else if(tag == 'window') { fname_s_0145(obj); fname_s_080(obj); }
-			else if(tag == 'door') { fname_s_0145(obj); fname_s_080(obj); }
-			else if(tag == 'room') { fname_s_080(obj); }
+			if(tag == 'wall') { fname_s_085(obj); }
+			else if(tag == 'point') { fname_s_085(obj); }
+			else if(tag == 'window') { fname_s_0150(obj); fname_s_085(obj); }
+			else if(tag == 'door') { fname_s_0150(obj); fname_s_085(obj); }
+			else if(tag == 'room') { fname_s_085(obj); }
 			else if(tag == 'obj') { fname_s_0267(obj); }
 			else { flag = false; }
 		}
@@ -2853,7 +3319,7 @@ function fname_s_079(cdm)
 
 
 
-function fname_s_080(obj) 
+function fname_s_085(obj) 
 {
 	if(!obj) return;  
 	if(!obj.userData) return;
@@ -2861,18 +3327,18 @@ function fname_s_080(obj)
 	
 	var tag = obj.userData.tag;
 	
-	if(tag == 'wall') { fname_s_024(); }
-	else if(tag == 'point') { fname_s_024(); }
-	else if(tag == 'window') { fname_s_024(); }
-	else if(tag == 'door') { fname_s_024(); }
-	else if(tag == 'room') { fname_s_024(); }
+	if(tag == 'wall') { fname_s_029(); }
+	else if(tag == 'point') { fname_s_029(); }
+	else if(tag == 'window') { fname_s_029(); }
+	else if(tag == 'door') { fname_s_029(); }
+	else if(tag == 'room') { fname_s_029(); }
 }
 
 
 
 
 
-function fname_s_081( obj )
+function fname_s_086( obj )
 {
 	
 	if(!obj) return;
@@ -2922,7 +3388,7 @@ function fname_s_081( obj )
 
 
 
-function fname_s_082(cam)
+function fname_s_087(cam)
 {  
 	fname_s_0236();
 	
@@ -2934,22 +3400,22 @@ function fname_s_082(cam)
 	
 	if(camera == cameraTop)
 	{				
-		fname_s_086({visible_1: false, visible_2: false});
+		fname_s_091({visible_1: false, visible_2: false});
 		
-		fname_s_083();			
-		fname_s_097( camera.zoom );
+		fname_s_088();			
+		fname_s_0102( camera.zoom );
 		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 
 		fname_s_0293();	
 		
-		fname_s_023({current: true});
+		fname_s_028({current: true});
 	}
 	else if(camera == camera3D)
 	{	
-		fname_s_086({visible_1: true, visible_2: true});
+		fname_s_091({visible_1: true, visible_2: true});
 				 
-		fname_s_097( cameraTop.zoom );
-		fname_s_083();
+		fname_s_0102( cameraTop.zoom );
+		fname_s_088();
 		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 		
 		for( var i = 0; i < infProject.scene.array.cubeCam.length; i++ )
@@ -2961,7 +3427,7 @@ function fname_s_082(cam)
 		fname_s_0291();
 		fname_s_0292();
 		
-		fname_s_023({current: true});
+		fname_s_028({current: true});
 	}
 	
 	infProject.tools.axis[0].visible = false;
@@ -2978,7 +3444,7 @@ function fname_s_082(cam)
 
 
 
-function fname_s_083()
+function fname_s_088()
 {
 	if(camera == cameraTop)
 	{
@@ -3041,14 +3507,14 @@ function fname_s_083()
 		point[i].visible = visible; 
 	}		
 
-	fname_s_084(window, visible_2);
-	fname_s_084(door, visible_2);
+	fname_s_089(window, visible_2);
+	fname_s_089(door, visible_2);
 	
 }
 
 
 
-function fname_s_084(arr, visible)
+function fname_s_089(arr, visible)
 {	
 	if(arr.length == 0) return;
 	
@@ -3060,7 +3526,7 @@ function fname_s_084(arr, visible)
 
 
 
-function fname_s_085()  
+function fname_s_090()  
 { 	
 	cameraWall.zoom = 2;
 	camera.updateMatrixWorld();
@@ -3090,7 +3556,7 @@ function fname_s_085()
 
 
 
-function fname_s_086(cdm)
+function fname_s_091(cdm)
 {
 	var visible_1 = cdm.visible_1;
 	var visible_2 = cdm.visible_2;
@@ -3117,7 +3583,7 @@ function fname_s_086(cdm)
 
 
 
-function fname_s_087(cdm)
+function fname_s_092(cdm)
 { 
 	if(!cdm) cdm = {};
 	
@@ -3134,17 +3600,17 @@ function fname_s_087(cdm)
 	}
 	
 	
-	if(txtButton == 'Спрятать стены') { fname_s_0190({height: 0.3}); }
-	else { fname_s_0190({height: infProject.settings.height}); }
+	if(txtButton == 'Спрятать стены') { fname_s_05({height: 0.3}); }
+	else { fname_s_05({height: infProject.settings.height}); }
 }
 
 
 
-var type_browser = fname_s_0103();
+var type_browser = fname_s_0108();
 var newCameraPosition = null;
 
 
-function fname_s_088() 
+function fname_s_093() 
 {
 	
 	
@@ -3283,7 +3749,7 @@ function fname_s_088()
 
 
 
-function fname_s_089(cdm)
+function fname_s_094(cdm)
 {
 	camera3D.position.x = 0;
 	camera3D.position.y = cdm.radious * Math.sin( cdm.phi * Math.PI / 360 );
@@ -3294,7 +3760,7 @@ function fname_s_089(cdm)
 
 
 
-function fname_s_090( event )
+function fname_s_095( event )
 { 
 	if ( camera3D.userData.camera.type == 'fly' )
 	{
@@ -3358,7 +3824,7 @@ function fname_s_090( event )
 
 
 
-function fname_s_091( event, click )
+function fname_s_096( event, click )
 {
 	if ( camera == cameraTop || camera == cameraWall) { }
 	else { return; }
@@ -3400,7 +3866,7 @@ function fname_s_091( event, click )
 
 
 
-function fname_s_092( event, click )
+function fname_s_097( event, click )
 {
 	if ( camera != camera3D ) { return; }
 
@@ -3440,7 +3906,7 @@ function fname_s_092( event, click )
 
 
 
-function fname_s_093( event ) 
+function fname_s_098( event ) 
 {
 	if(isMouseRight1 || isMouseDown1) {}
 	else { return; }
@@ -3456,7 +3922,7 @@ function fname_s_093( event )
 
 
 
-function fname_s_094( event )
+function fname_s_099( event )
 {
 	if ( !isMouseRight1 ) { return; }
 
@@ -3471,7 +3937,7 @@ function fname_s_094( event )
 
 
 
-function fname_s_095( e )
+function fname_s_0100( e )
 {
 	
 	var delta = e.wheelDelta ? e.wheelDelta / 120 : e.detail ? e.detail / 3 : 0;
@@ -3480,11 +3946,11 @@ function fname_s_095( e )
 
 	if(camera == cameraTop) 
 	{ 
-		fname_s_097( camera.zoom - ( delta * 0.1 * ( camera.zoom / 2 ) ) ); 
+		fname_s_0102( camera.zoom - ( delta * 0.1 * ( camera.zoom / 2 ) ) ); 
 	}
 	else if(camera == camera3D) 
 	{ 
-		fname_s_098( delta, 1 ); 
+		fname_s_0103( delta, 1 ); 
 	}
 	
 	fname_s_0261();
@@ -3497,19 +3963,19 @@ function fname_s_095( e )
 
 
 var zoomLoop = '';
-function fname_s_096() 
+function fname_s_0101() 
 {
 	var flag = false;
 	
 	if ( camera == cameraTop )
 	{
-		if ( zoomLoop == 'zoomOut' ) { fname_s_097( camera.zoom - ( 0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
-		if ( zoomLoop == 'zoomIn' ) { fname_s_097( camera.zoom - ( -0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
+		if ( zoomLoop == 'zoomOut' ) { fname_s_0102( camera.zoom - ( 0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
+		if ( zoomLoop == 'zoomIn' ) { fname_s_0102( camera.zoom - ( -0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
 	}
 	else if ( camera == camera3D )
 	{
-		if ( zoomLoop == 'zoomOut' ) { fname_s_098( 0.3, 0.3 ); flag = true; }
-		if ( zoomLoop == 'zoomIn' ) { fname_s_098( -0.3, 0.3 ); flag = true; }
+		if ( zoomLoop == 'zoomOut' ) { fname_s_0103( 0.3, 0.3 ); flag = true; }
+		if ( zoomLoop == 'zoomIn' ) { fname_s_0103( -0.3, 0.3 ); flag = true; }
 	}
 	else if ( camera == cameraWall )
 	{
@@ -3526,7 +3992,7 @@ function fname_s_096()
 
 
 
-function fname_s_097( delta )
+function fname_s_0102( delta )
 {
 	if(camera == cameraTop)
 	{		
@@ -3564,7 +4030,7 @@ function fname_s_097( delta )
 
 
 
-function fname_s_098( delta, z )
+function fname_s_0103( delta, z )
 {
 	if ( camera != camera3D ) return;
 
@@ -3600,7 +4066,7 @@ function fname_s_098( delta, z )
 
 
 
-function fname_s_099()
+function fname_s_0104()
 {
 	if ( camera != cameraTop ) return;
 
@@ -3641,7 +4107,7 @@ function fname_s_099()
 }
 
 
-function fname_s_0100()
+function fname_s_0105()
 {
 	if ( camera != camera3D ) return;
 
@@ -3658,7 +4124,7 @@ function fname_s_0100()
 }
 
 
-function fname_s_0101()
+function fname_s_0106()
 {
 
 	if ( !newCameraPosition ) return;
@@ -3676,7 +4142,7 @@ function fname_s_0101()
 			camera3D.position.add( pos2 );			
 		}
 		
-		if(fname_s_016(camera.position, newCameraPosition.position2D)) { newCameraPosition = null; if(camera3D.userData.camera.startProject) { camera3D.userData.camera.startProject = false; }; };		
+		if(fname_s_021(camera.position, newCameraPosition.position2D)) { newCameraPosition = null; if(camera3D.userData.camera.startProject) { camera3D.userData.camera.startProject = false; }; };		
 	}
 	
 	else if ( camera === camera3D && newCameraPosition.position3D )
@@ -3692,7 +4158,7 @@ function fname_s_0101()
 		camera.position.add( infProject.camera.d3.targetPos );
 		camera.lookAt( infProject.camera.d3.targetPos );
 		
-		if(fname_s_016(infProject.camera.d3.targetPos, newCameraPosition.position3D)) { newCameraPosition = null; };		
+		if(fname_s_021(infProject.camera.d3.targetPos, newCameraPosition.position3D)) { newCameraPosition = null; };		
 	}
 
 	else if ( camera === camera3D && newCameraPosition.positionFirst || camera === camera3D && newCameraPosition.positionFly )
@@ -3703,7 +4169,7 @@ function fname_s_0101()
 		
 		camera.lookAt( infProject.camera.d3.targetPos ); 
 		
-		if(fname_s_016(camera.position, pos)) { newCameraPosition = null; };		
+		if(fname_s_021(camera.position, pos)) { newCameraPosition = null; };		
 	}
 	else
 	{
@@ -3715,7 +4181,7 @@ function fname_s_0101()
 
 
 
-function fname_s_0102(value)
+function fname_s_0107(value)
 {
 	if(camera3D.userData.camera.type != 'first') return;
 	
@@ -3725,7 +4191,7 @@ function fname_s_0102(value)
 }
 
 
-function fname_s_0103()
+function fname_s_0108()
 {
 	var ua = navigator.userAgent;
 
@@ -3750,7 +4216,7 @@ function fname_s_0103()
 
 
 
-function fname_s_0104() 
+function fname_s_0109() 
 {
 	var arr = []; 
 	
@@ -3782,7 +4248,7 @@ function fname_s_0104()
 
 
 
-function fname_s_0105( wall, obj )
+function fname_s_0110( wall, obj )
 {	
 	var p = [];	
 	
@@ -3853,29 +4319,29 @@ function fname_s_0105( wall, obj )
 		
 
 
-function fname_s_0106(obj)
+function fname_s_0111(obj)
 {
 	var wall = obj.userData.door.wall;   
 
-	fname_s_0105( wall, obj );		
+	fname_s_0110( wall, obj );		
 	
 	
 	var boundPos = [];
 	
 	if(camera == cameraWall)
 	{
-		var arr = fname_s_0135(wall, arrWallFront.wall[0].index, fname_s_0137(wall, (arrWallFront.wall[0].index == 1) ? 1 : 0));
+		var arr = fname_s_0140(wall, arrWallFront.wall[0].index, fname_s_0142(wall, (arrWallFront.wall[0].index == 1) ? 1 : 0));
 		boundPos[0] = arr[0].clone();
 		boundPos[1] = arr[2].clone();		
 	}
 	else	
 	{
 		
-		var arr = fname_s_0135(wall, 1, fname_s_0137(wall, 1));	
+		var arr = fname_s_0140(wall, 1, fname_s_0142(wall, 1));	
 		boundPos[0] = arr[0].clone();
 		boundPos[1] = arr[2].clone();
 		
-		var arr = fname_s_0135(wall, 2, fname_s_0137(wall, 0));
+		var arr = fname_s_0140(wall, 2, fname_s_0142(wall, 0));
 		boundPos[2] = arr[0].clone();
 		boundPos[3] = arr[2].clone();  		
 	}	
@@ -3905,13 +4371,13 @@ function fname_s_0106(obj)
 		obj.userData.door.ruler.faceIndex = clickO.rayhit.face.normal.z;
 	}	 
 	
-	fname_s_0107(obj);  
+	fname_s_0112(obj);  
 }
 
 
 
 
-function fname_s_0107(wd)
+function fname_s_0112(wd)
 {
 	if(camera != cameraTop) return;
 	
@@ -4036,7 +4502,7 @@ function fname_s_0107(wd)
 
 
 
-function fname_s_0108( intersect, cdm )
+function fname_s_0113( intersect, cdm )
 {
 	clickO.move = intersect.object; 
 	var controll = intersect.object;	
@@ -4104,7 +4570,7 @@ function fname_s_0108( intersect, cdm )
 
  
 
-function fname_s_0109( event, controll )
+function fname_s_0114( event, controll )
 {	
 	var intersects = fname_s_0232( event, planeMath, 'one' ); 	
 	if ( intersects.length < 1 ) return; 
@@ -4117,11 +4583,11 @@ function fname_s_0109( event, controll )
 	{ 
 		param_win.click = false; 
 
-		wallClone.geometry = fname_s_036( wd ).geometry.clone(); 
+		wallClone.geometry = fname_s_041( wd ).geometry.clone(); 
 		wallClone.position.copy( wd.userData.door.wall.position ); 
 		wallClone.rotation.copy( wd.userData.door.wall.rotation );
 		
-		objsBSP = { wall : wallClone, wd : fname_s_037( wd ) };
+		objsBSP = { wall : wallClone, wd : fname_s_042( wd ) };
 		
 		
 		wd.material.depthTest = false;  
@@ -4139,7 +4605,7 @@ function fname_s_0109( event, controll )
 	{		
 		var pos2 = wall.worldToLocal( v1.clone() );	
 
-		function fname_s_0110(pos, pos2)
+		function fname_s_0115(pos, pos2)
 		{
 			var res = Math.floor((pos2 - pos) * 10)/10;
 			
@@ -4148,7 +4614,7 @@ function fname_s_0109( event, controll )
  
 		if(controll.userData.controll_wd.id == 0)
 		{  
-			pos2.x = fname_s_0110(pos2.x, wd.userData.door.wall.controll.arrPos[1].x);
+			pos2.x = fname_s_0115(pos2.x, wd.userData.door.wall.controll.arrPos[1].x);
 			
 			var x_min = wd.userData.door.bound.min.x;  
 			if(pos2.x < x_min){ pos2.x = x_min; } 	
@@ -4156,7 +4622,7 @@ function fname_s_0109( event, controll )
 		}		
 		else if(controll.userData.controll_wd.id == 1)
 		{
-			pos2.x = fname_s_0110(pos2.x, wd.userData.door.wall.controll.arrPos[0].x);
+			pos2.x = fname_s_0115(pos2.x, wd.userData.door.wall.controll.arrPos[0].x);
 			
 			var x_max = wd.userData.door.bound.max.x;
 			if(pos2.x > x_max){ pos2.x = x_max; }
@@ -4164,7 +4630,7 @@ function fname_s_0109( event, controll )
 		}
 		else if(controll.userData.controll_wd.id == 2)
 		{
-			pos2.y = fname_s_0110(pos2.y, wd.userData.door.wall.controll.arrPos[3].y);
+			pos2.y = fname_s_0115(pos2.y, wd.userData.door.wall.controll.arrPos[3].y);
 			
 			var y_min = wd.userData.door.bound.min.y + 0.1;
 			if(pos2.y < y_min){ pos2.y = y_min; }
@@ -4172,7 +4638,7 @@ function fname_s_0109( event, controll )
 		}		
 		else if(controll.userData.controll_wd.id == 3)
 		{
-			pos2.y = fname_s_0110(pos2.y, wd.userData.door.wall.controll.arrPos[2].y);
+			pos2.y = fname_s_0115(pos2.y, wd.userData.door.wall.controll.arrPos[2].y);
 			
 			var y_max = wd.userData.door.bound.max.y;
 			if(pos2.y > y_max){ pos2.y = y_max; }
@@ -4211,23 +4677,23 @@ function fname_s_0109( event, controll )
 	}	
 	
 	 
-	fname_s_0146(wd);
+	fname_s_0151(wd);
 	
-	fname_s_0107(wd);
+	fname_s_0112(wd);
 }
 
 
 
 
-function fname_s_0111( controll )
+function fname_s_0116( controll )
 {
 	if(param_win.click) { param_win.click = false; return; }
 	
 	var wd = controll.userData.controll_wd.obj;
 	
-	objsBSP.wd = fname_s_037( wd );
+	objsBSP.wd = fname_s_042( wd );
 	
-	fname_s_038( wd, objsBSP );
+	fname_s_043( wd, objsBSP );
 	
 	if(camera == cameraTop)
 	{ 
@@ -4248,7 +4714,7 @@ function fname_s_0111( controll )
 
 
 
-function fname_s_0112( intersect )
+function fname_s_0117( intersect )
 {
 	if(clickO.move)
 	{
@@ -4264,7 +4730,7 @@ function fname_s_0112( intersect )
 	planeMath.rotation.set(-Math.PI/2, 0, 0);	
 
 	param_win.click = true;	
-	param_wall.wallR = fname_s_0119([], clickO.move);
+	param_wall.wallR = fname_s_0124([], clickO.move);
 
 	
 	if(1==1)
@@ -4283,12 +4749,12 @@ function fname_s_0112( intersect )
 		}		 			
 	}
 
-	fname_s_024({obj: obj}); 	
+	fname_s_029({obj: obj}); 	
 }
 
 
 
-function fname_s_0113()
+function fname_s_0118()
 {
 	var arr = [];
 	
@@ -4311,17 +4777,17 @@ function fname_s_0113()
 
 
 
-function fname_s_0114( event, obj )
+function fname_s_0119( event, obj )
 {
 	if(obj.userData.point.type) 
 	{ 
 		if(obj.userData.point.type == 'continue_create_wall') {  } 
-		else { fname_s_0116( event, obj ); return; } 
+		else { fname_s_0121( event, obj ); return; } 
 	}	
 	
 	if(param_win.click) 
 	{
-		fname_s_039(param_wall.wallR);
+		fname_s_044(param_wall.wallR);
 		param_win.click = false;
 	}	
 	
@@ -4335,23 +4801,23 @@ function fname_s_0114( event, obj )
 		var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
 		
 		obj.position.copy( pos );				
-		fname_s_0116( event, obj );	
+		fname_s_0121( event, obj );	
 				
 		 
 		for ( var i = 0; i < obj.w.length; i++ )
 		{			
-			fname_s_0188(obj.w[i]);	
+			fname_s_03(obj.w[i]);	
 		}		
 	
-		fname_s_0122(obj);			
+		fname_s_0127(obj);			
 		
-		fname_s_042(obj.w); 
+		fname_s_047(obj.w); 
 	}
 	
 }
 
 
-function fname_s_0115(point, point2, wall, side, pos2)
+function fname_s_0120(point, point2, wall, side, pos2)
 {
 	var v = wall.userData.wall.v;
 	
@@ -4386,7 +4852,7 @@ function fname_s_0115(point, point2, wall, side, pos2)
 
 
 
-function fname_s_0116( event, obj )
+function fname_s_0121( event, obj )
 {	
 	var arrDp = [];
 	var wall = infProject.scene.array.wall;
@@ -4458,7 +4924,7 @@ function fname_s_0116( event, obj )
 	{ 
 		obj.userData.point.cross = plane;
 		
-		fname_s_0117( obj );		
+		fname_s_0122( obj );		
 	}
 	else
 	{ 
@@ -4471,7 +4937,7 @@ function fname_s_0116( event, obj )
 		infProject.tools.axis[0].visible = false;
 		infProject.tools.axis[1].visible = false;
 
-		fname_s_0117( obj );
+		fname_s_0122( obj );
 	}
 }
 
@@ -4480,7 +4946,7 @@ function fname_s_0116( event, obj )
 
 
 
-function fname_s_0117( point )
+function fname_s_0122( point )
 { 
 	var pX = [];
 	var pZ = [];
@@ -4489,8 +4955,8 @@ function fname_s_0117( point )
 	{
 		if(obj_point[i] == point) { continue; }		
 
-		var p1 = fname_s_012(obj_point[i].position, new THREE.Vector3().addVectors(obj_point[i].position, new THREE.Vector3(10,0,0)), point.position);	
-		var p2 = fname_s_012(obj_point[i].position, new THREE.Vector3().addVectors(obj_point[i].position, new THREE.Vector3(0,0,10)), point.position);
+		var p1 = fname_s_017(obj_point[i].position, new THREE.Vector3().addVectors(obj_point[i].position, new THREE.Vector3(10,0,0)), point.position);	
+		var p2 = fname_s_017(obj_point[i].position, new THREE.Vector3().addVectors(obj_point[i].position, new THREE.Vector3(0,0,10)), point.position);
 		
 		var x = Math.abs( obj_point[i].position.x - p1.x );
 		var z = Math.abs( obj_point[i].position.z - p2.z );
@@ -4504,14 +4970,14 @@ function fname_s_0117( point )
 	{
 		var v = [];
 		for ( var i = 0; i < pX.length; i++ ){ v[i] = obj_point[pX[i]].position; }
-		var n1 = pX[fname_s_0142(v, point.position)];		 
+		var n1 = pX[fname_s_0147(v, point.position)];		 
 	} 
 	
 	if(pZ.length > 0)
 	{
 		var v = [];
 		for ( var i = 0; i < pZ.length; i++ ){ v[i] = obj_point[pZ[i]].position; }
-		var n2 = pZ[fname_s_0142(v, point.position)]; 		
+		var n2 = pZ[fname_s_0147(v, point.position)]; 		
 	}	
 	
 	
@@ -4519,13 +4985,13 @@ function fname_s_0117( point )
 	{ 
 		point.position.x = obj_point[n1].position.x; 
 		point.position.z = obj_point[n2].position.z; 		
-		fname_s_0118(point, obj_point[n1].position, infProject.tools.axis[0], 'xz'); 
-		fname_s_0118(point, obj_point[n2].position, infProject.tools.axis[1], 'xz'); 
+		fname_s_0123(point, obj_point[n1].position, infProject.tools.axis[0], 'xz'); 
+		fname_s_0123(point, obj_point[n2].position, infProject.tools.axis[1], 'xz'); 
 	}
 	else
 	{
-		(pX.length > 0) ? fname_s_0118(point, obj_point[n1].position, infProject.tools.axis[0], 'x') : infProject.tools.axis[0].visible = false;
-		(pZ.length > 0) ? fname_s_0118(point, obj_point[n2].position, infProject.tools.axis[1], 'z') : infProject.tools.axis[1].visible = false;
+		(pX.length > 0) ? fname_s_0123(point, obj_point[n1].position, infProject.tools.axis[0], 'x') : infProject.tools.axis[0].visible = false;
+		(pZ.length > 0) ? fname_s_0123(point, obj_point[n2].position, infProject.tools.axis[1], 'z') : infProject.tools.axis[1].visible = false;
 	}
 }
 
@@ -4533,7 +4999,7 @@ function fname_s_0117( point )
 
 
 
-function fname_s_0118(point, pos2, lineAxis, axis)
+function fname_s_0123(point, pos2, lineAxis, axis)
 {
 	
 	if(axis == 'x') { point.position.x = pos2.x; }
@@ -4553,7 +5019,7 @@ function fname_s_0118(point, pos2, lineAxis, axis)
 
 
 
-function fname_s_0119(arr, point) 
+function fname_s_0124(arr, point) 
 {	
 	for ( var i = 0; i < point.p.length; i++ )
 	{				
@@ -4576,7 +5042,7 @@ function fname_s_0119(arr, point)
 
 
 
-function fname_s_0120(wall) 
+function fname_s_0125(wall) 
 {	
 	var arr = [];
 
@@ -4603,7 +5069,7 @@ function fname_s_0120(wall)
 
 
 
-function fname_s_0121(wall) 
+function fname_s_0126(wall) 
 {	
 	var arr = [];
 
@@ -4627,10 +5093,10 @@ function fname_s_0121(wall)
 
 
 
-function fname_s_0122(point)
+function fname_s_0127(point)
 {		
 	
-	fname_s_0123(point);	
+	fname_s_0128(point);	
 
 	
 	
@@ -4638,13 +5104,13 @@ function fname_s_0122(point)
 	for ( var j = 0; j < arrP.length; j++ )
 	{
 		
-		if(arrP[j].p.length > 1) { fname_s_0123(arrP[j]); }		
+		if(arrP[j].p.length > 1) { fname_s_0128(arrP[j]); }		
 	}
 	
 }
 
 
-function fname_s_0123(point)
+function fname_s_0128(point)
 {
 	var point = point;
 	var arrP = point.p;
@@ -4686,18 +5152,18 @@ function fname_s_0123(point)
 	
 	for ( var i = 0; i < arrD.length - 1; i++ )
 	{ 
-		fname_s_0124(arrW[arrD[i][1]], arrW[arrD[i + 1][1]], arrS[arrD[i][1]], arrS[arrD[i + 1][1]], point.position); 
+		fname_s_0129(arrW[arrD[i][1]], arrW[arrD[i + 1][1]], arrS[arrD[i][1]], arrS[arrD[i + 1][1]], point.position); 
 	}	
 	var i2 = arrD.length - 1; 
 	if(arrD[i2]) 
 	{
-		fname_s_0124(arrW[arrD[i2][1]], arrW[arrD[0][1]], arrS[arrD[i2][1]], arrS[arrD[0][1]], point.position);		
+		fname_s_0129(arrW[arrD[i2][1]], arrW[arrD[0][1]], arrS[arrD[i2][1]], arrS[arrD[0][1]], point.position);		
 	}
 }
 
 
 
-function fname_s_0124(line1, line2, s1, s2, pointC)
+function fname_s_0129(line1, line2, s1, s2, pointC)
 {
 	var v1 = line1.geometry.vertices;
 	var v2 = line2.geometry.vertices;
@@ -4720,11 +5186,11 @@ function fname_s_0124(line1, line2, s1, s2, pointC)
 	var m2b = line2.localToWorld( v2[f2].clone() );
 
 	
-	var crossP = fname_s_04(m1a, m1b, m2a, m2b);
+	var crossP = fname_s_09(m1a, m1b, m2a, m2b);
 
 	var cross = false;
 	
-	if(!crossP[1]) { if(fname_s_0125(m1a, m1b, m2a, m2b)) { cross = true; } }	
+	if(!crossP[1]) { if(fname_s_0130(m1a, m1b, m2a, m2b)) { cross = true; } }	
 	
 	if(cross)
 	{		
@@ -4745,13 +5211,13 @@ function fname_s_0124(line1, line2, s1, s2, pointC)
 		
 		if(rs < -0.1) 
 		{
-			var per1 = line1.worldToLocal( fname_s_04(m1a, m1b, pointC, m2b)[0] ).x;
+			var per1 = line1.worldToLocal( fname_s_09(m1a, m1b, pointC, m2b)[0] ).x;
 			var per2 = line2.worldToLocal( pointC.clone() ).x;
 		}
 		else if(rs > 0.1)
 		{
 			var per1 = line1.worldToLocal( pointC.clone() ).x;
-			var per2 = line2.worldToLocal( fname_s_04(pointC, m1b, m2a, m2b)[0] ).x;
+			var per2 = line2.worldToLocal( fname_s_09(pointC, m1b, m2a, m2b)[0] ).x;
 		}
 		else 
 		{ 
@@ -4787,7 +5253,7 @@ function fname_s_0124(line1, line2, s1, s2, pointC)
 
  
  
-function fname_s_0125(p0, p1, p2, p3)
+function fname_s_0130(p0, p1, p2, p3)
 {			
 	var dir = new THREE.Vector3().subVectors( p1, p0 ).normalize();
 	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
@@ -4797,7 +5263,7 @@ function fname_s_0125(p0, p1, p2, p3)
 	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
 	var p3 = new THREE.Vector3().addVectors( p3, v1 );	
 	
-	if( !fname_s_08(p0, p1, p2, p3) ) {  return false; }		
+	if( !fname_s_013(p0, p1, p2, p3) ) {  return false; }		
 	
 	return true;
 }
@@ -4805,14 +5271,14 @@ function fname_s_0125(p0, p1, p2, p3)
 
 
  
-function fname_s_0126(p0, p1, p2, p3) 
+function fname_s_0131(p0, p1, p2, p3) 
 {			
 	var dir = new THREE.Vector3().subVectors( p1, p0 ).normalize();
 	var v1 = new THREE.Vector3().addScaledVector( dir, 0.01 );
 	var p0 = new THREE.Vector3().addVectors( p0, v1 );		
 	var p1 = new THREE.Vector3().subVectors( p1, v1 );
 	
-	if( !fname_s_08(p0, p1, p2, p3) ) {  return false; }		
+	if( !fname_s_013(p0, p1, p2, p3) ) {  return false; }		
 	
 	return true;
 }
@@ -4821,35 +5287,35 @@ function fname_s_0126(p0, p1, p2, p3)
 
 
 
-function fname_s_0127( point, walls )
+function fname_s_0132( point, walls )
 {
 	point.position.copy( point.userData.point.last.pos );
 	
 	for ( var i = 0; i < point.p.length; i++ )
 	{
-		fname_s_0188(point.w[i], {point:point});		
+		fname_s_03(point.w[i], {point:point});		
 	}		
 	
-	fname_s_0122(point);  
-	fname_s_042(walls);
-	fname_s_0162(point.zone); 
+	fname_s_0127(point);  
+	fname_s_047(walls);
+	fname_s_0167(point.zone); 
 	
-	fname_s_040(walls);
+	fname_s_045(walls);
 	
 	infProject.tools.axis[0].visible = false;
 	infProject.tools.axis[1].visible = false;		
 }
 
 
-function fname_s_0128(obj)
+function fname_s_0133(obj)
 {  	
-	if(fname_s_016(obj.userData.point.last.pos, obj.position)) { return; }		
+	if(fname_s_021(obj.userData.point.last.pos, obj.position)) { return; }		
 	
 	obj.userData.point.last.pos = obj.position.clone();
 	
-	fname_s_0122(obj);			
+	fname_s_0127(obj);			
 	
-	fname_s_042(param_wall.wallR);	 
+	fname_s_047(param_wall.wallR);	 
 }
 
 
@@ -4861,7 +5327,7 @@ function fname_s_0128(obj)
 var param_wall = { click : false, wallR : [], posS : 0, qt_1 : [], qt_2 : [], arrZone : [] };
 
 
-function fname_s_0129( intersect )
+function fname_s_0134( intersect )
 {
 	var obj = intersect.object;
 	
@@ -4874,7 +5340,7 @@ function fname_s_0129( intersect )
 	param_win.click = true;	
 	param_wall.posS = new THREE.Vector3().addVectors( intersect.point, offset );	
 	  
-	param_wall.wallR = fname_s_0120(obj);
+	param_wall.wallR = fname_s_0125(obj);
 
 	var p = obj.userData.wall.p;
 	
@@ -4890,20 +5356,20 @@ function fname_s_0129( intersect )
 		param_wall.qt_2[i] = fname_s_0240(dir);
 	}
 	
-	param_wall.arrZone = fname_s_0132(obj);
+	param_wall.arrZone = fname_s_0137(obj);
 
 	clickO.click.wall = [...new Set([...p[0].w, ...p[1].w])];  
 	
-	fname_s_0131(obj);
+	fname_s_0136(obj);
 	
 	if(camera == cameraTop)
 	{
-		fname_s_024({obj: obj}); 	
+		fname_s_029({obj: obj}); 	
 	}
 }
 
 
-function fname_s_0130(cdm)
+function fname_s_0135(cdm)
 {
 	var intersect = cdm.rayhit;
 	
@@ -4921,17 +5387,17 @@ function fname_s_0130(cdm)
 	clickO.index = index;  	
 
 	fname_s_0211({arr: [obj]});
-	fname_s_024({obj: obj, side: index});
+	fname_s_029({obj: obj, side: index});
 }
 
 
 
-function fname_s_0131(wall)
+function fname_s_0136(wall)
 {
 	wall.userData.wall.p[0].userData.point.last.pos = wall.userData.wall.p[0].position.clone();
 	wall.userData.wall.p[1].userData.point.last.pos = wall.userData.wall.p[1].position.clone();
 	
-	var walls = fname_s_0120(wall);
+	var walls = fname_s_0125(wall);
 	
 	for ( var i = 0; i < walls.length; i++ )
 	{		
@@ -4952,7 +5418,7 @@ function fname_s_0131(wall)
 
 
 
-function fname_s_0132( wall )
+function fname_s_0137( wall )
 {
 	var m = 0;
 	arr = [];
@@ -4978,14 +5444,14 @@ function fname_s_0132( wall )
 
 
 
-function fname_s_0133( event, obj ) 
+function fname_s_0138( event, obj ) 
 {		
 	
-	if(camera == camera3D) { fname_s_090( event ); return; }
+	if(camera == camera3D) { fname_s_095( event ); return; }
 	
 	if(param_win.click) 
 	{
-		fname_s_039(param_wall.wallR);
+		fname_s_044(param_wall.wallR);
 		param_win.click = false;
 	}	
 	
@@ -5011,8 +5477,8 @@ function fname_s_0133( event, obj )
 		
 		
 		
-		pos2 = new THREE.Vector3().subVectors ( fname_s_0134(obj.userData.wall.p[0], pos2, param_wall.qt_1, dir), obj.userData.wall.p[0].position ); 
-		pos2 = new THREE.Vector3().subVectors ( fname_s_0134(obj.userData.wall.p[1], pos2, param_wall.qt_2, dir), obj.userData.wall.p[1].position );
+		pos2 = new THREE.Vector3().subVectors ( fname_s_0139(obj.userData.wall.p[0], pos2, param_wall.qt_1, dir), obj.userData.wall.p[0].position ); 
+		pos2 = new THREE.Vector3().subVectors ( fname_s_0139(obj.userData.wall.p[1], pos2, param_wall.qt_2, dir), obj.userData.wall.p[1].position );
 		
 		
 		pos2 = new THREE.Vector3(pos2.x, 0, pos2.z);
@@ -5023,14 +5489,14 @@ function fname_s_0133( event, obj )
 		
 		for ( var i = 0; i < clickO.click.wall.length; i++ )
 		{ 
-			fname_s_0188(clickO.click.wall[i]);		
+			fname_s_03(clickO.click.wall[i]);		
 		}
 		
-		fname_s_0122(obj.userData.wall.p[0]);
-		fname_s_0122(obj.userData.wall.p[1]);
+		fname_s_0127(obj.userData.wall.p[0]);
+		fname_s_0127(obj.userData.wall.p[1]);
 		
-		fname_s_042(obj.userData.wall.p[0].w);
-		fname_s_042(obj.userData.wall.p[1].w);
+		fname_s_047(obj.userData.wall.p[0].w);
+		fname_s_047(obj.userData.wall.p[1].w);
 	}	
 }
 
@@ -5040,7 +5506,7 @@ function fname_s_0133( event, obj )
 
 
 
-function fname_s_0134(point, pos2, qt, dir2)
+function fname_s_0139(point, pos2, qt, dir2)
 {
 	var pos = new THREE.Vector3().addVectors ( point.position, pos2 );	
 	
@@ -5104,7 +5570,7 @@ function fname_s_0134(point, pos2, qt, dir2)
 				var z1 = pos.x - point.p[i].position.x;			
 				var dir = new THREE.Vector3(x1, 0, z1).normalize();						
 				var ps = new THREE.Vector3().addVectors( pos, dir );
-				pos = fname_s_03(ps, pos, point.position, new THREE.Vector3().addVectors( point.position, pos2 ));
+				pos = fname_s_08(ps, pos, point.position, new THREE.Vector3().addVectors( point.position, pos2 ));
 			}
 		}
 		else if(point.start[i] == 1)
@@ -5161,7 +5627,7 @@ function fname_s_0134(point, pos2, qt, dir2)
 				var z1 = pos.x - point.p[i].position.x;			
 				var dir = new THREE.Vector3(x1, 0, z1).normalize();						
 				var ps = new THREE.Vector3().addVectors( pos, dir );
-				pos = fname_s_03(ps, pos, point.position, new THREE.Vector3().addVectors( point.position, pos2 ));
+				pos = fname_s_08(ps, pos, point.position, new THREE.Vector3().addVectors( point.position, pos2 ));
 			}			
 		}	
 
@@ -5179,11 +5645,11 @@ function fname_s_0134(point, pos2, qt, dir2)
 
 
 
-function fname_s_0135(wall, index, room) 
+function fname_s_0140(wall, index, room) 
 {
 	var p = wall.userData.wall.p;
 	var dir1 = new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize();						
-	var unique = fname_s_0136([{ obj : wall, dir : 'forward' }], p, dir1);	
+	var unique = fname_s_0141([{ obj : wall, dir : 'forward' }], p, dir1);	
 	
 	var arrW = [];
 	var arrS = [];
@@ -5352,7 +5818,7 @@ function fname_s_0135(wall, index, room)
 
 
 
-function fname_s_0136(arr, p, dir1)
+function fname_s_0141(arr, p, dir1)
 {
 	
 	var arrW = [...new Set([...p[0].w, ...p[1].w])];		
@@ -5368,13 +5834,13 @@ function fname_s_0136(arr, p, dir1)
 		
 		var str = null;
 		
-		if(fname_s_016(dir1, dir2)) { str = 'forward'; }
-		else if(fname_s_016(dir1, new THREE.Vector3(-dir2.x,-dir2.y,-dir2.z))) { str = 'back'; }
+		if(fname_s_021(dir1, dir2)) { str = 'forward'; }
+		else if(fname_s_021(dir1, new THREE.Vector3(-dir2.x,-dir2.y,-dir2.z))) { str = 'back'; }
 		
 		if(str) 
 		{ 	
 			arr[arr.length] = { obj : arrW[i], dir : str }; 
-			arr = fname_s_0136(arr, arrW[i].userData.wall.p, dir1); 
+			arr = fname_s_0141(arr, arrW[i].userData.wall.p, dir1); 
 		}
 	}		
 
@@ -5384,7 +5850,7 @@ function fname_s_0136(arr, p, dir1)
 
 
 
-function fname_s_0137(wall, index)
+function fname_s_0142(wall, index)
 {
 	var num = -1;
 	
@@ -5411,16 +5877,16 @@ function fname_s_0137(wall, index)
 
 
 
-function fname_s_0138(wall)
+function fname_s_0143(wall)
 {
-	if(fname_s_016(wall.userData.wall.last.pos, wall.position)) { return; }		
+	if(fname_s_021(wall.userData.wall.last.pos, wall.position)) { return; }		
 	
-	fname_s_0122( wall.userData.wall.p[ 0 ] );
-	fname_s_0122( wall.userData.wall.p[ 1 ] );
-	fname_s_042( param_wall.wallR ); 
-	fname_s_0162( param_wall.arrZone ); 		
+	fname_s_0127( wall.userData.wall.p[ 0 ] );
+	fname_s_0127( wall.userData.wall.p[ 1 ] );
+	fname_s_047( param_wall.wallR ); 
+	fname_s_0167( param_wall.arrZone ); 		
 	
-	fname_s_040(param_wall.wallR);
+	fname_s_045(param_wall.wallR);
 }
 
 
@@ -5429,7 +5895,7 @@ function fname_s_0138(wall)
 var param_win = { click : false };
 
 
-function fname_s_0139( intersect )
+function fname_s_0144( intersect )
 {	
 	var obj = intersect.object;
 
@@ -5456,14 +5922,14 @@ function fname_s_0139( intersect )
 
 	obj.userData.door.offset = new THREE.Vector3().subVectors( obj.position, pos );	
 	
-	fname_s_0140(obj);	
+	fname_s_0145(obj);	
 	
 	if(camera == cameraTop)
 	{
-		fname_s_0106( obj ); 	
-		fname_s_0146( obj );		
+		fname_s_0111( obj ); 	
+		fname_s_0151( obj );		
 		
-		fname_s_024({obj: obj}); 	
+		fname_s_029({obj: obj}); 	
 	}
 }
 
@@ -5472,7 +5938,7 @@ function fname_s_0139( intersect )
 
 
 
-function fname_s_0140(wd)
+function fname_s_0145(wd)
 {
 	wd.geometry.computeBoundingBox();
 	
@@ -5490,7 +5956,7 @@ function fname_s_0140(wd)
 	{
 		arrWD.left.updateMatrixWorld();
 		var pos = arrWD.left.worldToLocal( wd.position.clone() );	 	
-		var n = fname_s_0142(arrWD.left.geometry.vertices, pos);
+		var n = fname_s_0147(arrWD.left.geometry.vertices, pos);
 		
 		var pos = arrWD.left.localToWorld( arrWD.left.geometry.vertices[n].clone() );		
 		
@@ -5502,7 +5968,7 @@ function fname_s_0140(wd)
 	{
 		arrWD.right.updateMatrixWorld();
 		var pos = arrWD.right.worldToLocal( wd.position.clone() );	 	
-		var n = fname_s_0142(arrWD.right.geometry.vertices, pos);
+		var n = fname_s_0147(arrWD.right.geometry.vertices, pos);
 		
 		var pos = arrWD.right.localToWorld( arrWD.right.geometry.vertices[n].clone() );
 		
@@ -5516,7 +5982,7 @@ function fname_s_0140(wd)
 
 
 
-function fname_s_0141(wd)
+function fname_s_0146(wd)
 {	
 	var wall = wd.userData.door.wall;
 
@@ -5545,7 +6011,7 @@ function fname_s_0141(wd)
 
 
 
-function fname_s_0142(v, pos)
+function fname_s_0147(v, pos)
 {
 	var minDist = 99999;
 	var hit = 0;
@@ -5566,12 +6032,12 @@ function fname_s_0142(v, pos)
 
  
 
-function fname_s_0143( event, wd ) 
+function fname_s_0148( event, wd ) 
 {
 	if(camera == camera3D) { return; }
 	
 	var intersects = fname_s_0232( event, planeMath, 'one' ); 	
-	if ( intersects.length > 0 ) { fname_s_0144( wd, intersects[ 0 ].point ); }	
+	if ( intersects.length > 0 ) { fname_s_0149( wd, intersects[ 0 ].point ); }	
 }
 
 
@@ -5579,7 +6045,7 @@ var objsBSP = null;
 var objClone = new THREE.Mesh();
 var wallClone = new THREE.Mesh();
 
-function fname_s_0144( wd, pos )
+function fname_s_0149( wd, pos )
 {
 	var wall = wd.userData.door.wall;
 	
@@ -5587,11 +6053,11 @@ function fname_s_0144( wd, pos )
 	{ 
 		param_win.click = false; 
 
-		wallClone.geometry = fname_s_036( wd ).geometry.clone(); 
+		wallClone.geometry = fname_s_041( wd ).geometry.clone(); 
 		wallClone.position.copy( wd.userData.door.wall.position ); 
 		wallClone.rotation.copy( wd.userData.door.wall.rotation );
 		
-		objsBSP = { wall : wallClone, wd : fname_s_037( wd ) };
+		objsBSP = { wall : wallClone, wd : fname_s_042( wd ) };
 		
 		
 		wd.material.depthTest = false;  
@@ -5630,14 +6096,14 @@ function fname_s_0144( wd, pos )
 	
 	for ( var i = 0; i < infProject.tools.controllWD.length; i++ ) { infProject.tools.controllWD[i].position.add( pos2 ); } 	
 	
-	fname_s_0107(wd); 	
+	fname_s_0112(wd); 	
 }
 
 
 
 
 
-function fname_s_0145( obj )
+function fname_s_0150( obj )
 {	
 	if(clickO.rayhit) 
 	{
@@ -5694,7 +6160,7 @@ function fname_s_0145( obj )
 
 
 
-function fname_s_0146(wd)
+function fname_s_0151(wd)
 {			
 	wd.geometry.computeBoundingBox();
 	
@@ -5714,7 +6180,7 @@ function fname_s_0146(wd)
 
 
 
-function fname_s_0147(wd)
+function fname_s_0152(wd)
 {  
 	if(!wd) return;
 	if(wd.userData.tag == 'window' || wd.userData.tag == 'door'){}
@@ -5749,16 +6215,16 @@ function fname_s_0147(wd)
 	
 	сhangeSizePosWD( wd, pos, x, y );	
 	
-	wallClone.geometry = fname_s_036( wd ).geometry.clone(); 
+	wallClone.geometry = fname_s_041( wd ).geometry.clone(); 
 	wallClone.position.copy( wd.userData.door.wall.position ); 
 	wallClone.rotation.copy( wd.userData.door.wall.rotation );		
 
-	fname_s_038( wd, { wall : wallClone, wd : fname_s_037( wd ) } ); 	
+	fname_s_043( wd, { wall : wallClone, wd : fname_s_042( wd ) } ); 	
 	
 	wd.updateMatrixWorld();
 	
-	fname_s_0106(wd);	
-	fname_s_0146(wd);	
+	fname_s_0111(wd);	
+	fname_s_0151(wd);	
 	
 	renderCamera();
 }
@@ -5812,11 +6278,11 @@ function сhangeSizePosWD( wd, pos, x, y )
 
 
 
-function fname_s_0148(wd)
+function fname_s_0153(wd)
 {
 	if(param_win.click) { param_win.click = false; return; }
 	
-	fname_s_038( wd, objsBSP );
+	fname_s_043( wd, objsBSP );
 	 
 	if(camera == cameraTop)
 	{ 
@@ -5836,7 +6302,7 @@ function fname_s_0148(wd)
 
 
 
-function fname_s_0149()
+function fname_s_0154()
 {
 	var obj = clickO.last_obj;
 	
@@ -5854,28 +6320,28 @@ function fname_s_0149()
 		if ( tag == 'wall' ) return;
 	}	
 		
-	if ( tag == 'wall' ) { fname_s_0150( obj ).room; }
-	else if ( tag == 'point' ) { if(obj.p.length == 2) { fname_s_0154( obj ); } }
-	else if ( tag == 'window' || tag == 'door' ) { fname_s_0155( obj ); }
+	if ( tag == 'wall' ) { fname_s_0155( obj ).room; }
+	else if ( tag == 'point' ) { if(obj.p.length == 2) { fname_s_0159( obj ); } }
+	else if ( tag == 'window' || tag == 'door' ) { fname_s_0160( obj ); }
 	else if ( tag == 'obj' ) { fname_s_0266(obj); }
 	
 	 renderCamera();
 }
 
 
-function fname_s_0150( wall )
+function fname_s_0155( wall )
 {	
-	fname_s_080(wall);
+	fname_s_085(wall);
 	
 	var points = wall.userData.wall.p;
 
-	var arrZone = fname_s_0185( wall );
-	var oldZ = fname_s_0163(arrZone);
-	fname_s_0178(arrZone); 
+	var arrZone = fname_s_0190( wall );
+	var oldZ = fname_s_0168(arrZone);
+	fname_s_0183(arrZone); 
 	
-	var zone = (arrZone.length == 0) ? fname_s_054( wall ).obj : null; 
+	var zone = (arrZone.length == 0) ? fname_s_059( wall ).obj : null; 
 	
-	fname_s_0151(wall);
+	fname_s_0156(wall);
 	
 	var newZones = [];
 	
@@ -5886,13 +6352,13 @@ function fname_s_0150( wall )
 		var n = 0;
 		for ( var i = 0; i < oldZ.length; i++ ) { if(oldZ[i].floor.userData.room.areaTxt > area) { n = i; } }
 		
-		newZones = fname_s_0167();
+		newZones = fname_s_0172();
 
-		if(newZones.length > 0) { fname_s_0184([newZones[0]], oldZ[n], false); } 
+		if(newZones.length > 0) { fname_s_0189([newZones[0]], oldZ[n], false); } 
 	}
 	else
 	{	
-		if(zone) { fname_s_044([zone]); }				
+		if(zone) { fname_s_049([zone]); }				
 	}
 
 	return { room : newZones }; 
@@ -5900,7 +6366,7 @@ function fname_s_0150( wall )
 
 
 
-function fname_s_0151(wall)
+function fname_s_0156(wall)
 {
 	fname_s_0192();
 	
@@ -5908,46 +6374,46 @@ function fname_s_0151(wall)
 
 	for(var i = 0; i < arr.length; i++)
 	{
-		if(arr[i].userData.tag == 'window') { fname_s_0156({arr : infProject.scene.array.window, o : arr[i]}); }
-		if(arr[i].userData.tag == 'door') { fname_s_0156({arr : infProject.scene.array.door, o : arr[i]}); }
+		if(arr[i].userData.tag == 'window') { fname_s_0161({arr : infProject.scene.array.window, o : arr[i]}); }
+		if(arr[i].userData.tag == 'door') { fname_s_0161({arr : infProject.scene.array.door, o : arr[i]}); }
 		scene.remove( arr[i] );
 	}
 
 	var p0 = wall.userData.wall.p[0];
 	var p1 = wall.userData.wall.p[1]; 
-	fname_s_0157(p0, wall);
-	fname_s_0157(p1, wall);
-	fname_s_0156({arr : infProject.scene.array.wall, o : wall});;
+	fname_s_0162(p0, wall);
+	fname_s_0162(p1, wall);
+	fname_s_0161({arr : infProject.scene.array.wall, o : wall});;
 	
 	
 	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
 	{
-		fname_s_0156({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		fname_s_0161({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
 		wall.userData.wall.html.label[i].remove();
 	}
 	 
 	scene.remove( wall );
 	
-	if(p0.w.length == 0){ fname_s_0158( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ fname_s_0158( p1 ); scene.remove( p1 ); }
+	if(p0.w.length == 0){ fname_s_0163( p0 ); scene.remove( p0 ); }
+	if(p1.w.length == 0){ fname_s_0163( p1 ); scene.remove( p1 ); }
 
 
 	var arrW = [];
 	for ( var i = 0; i < p0.w.length; i++ ) { arrW[arrW.length] = p0.w[i]; }
 	for ( var i = 0; i < p1.w.length; i++ ) { arrW[arrW.length] = p1.w[i]; }  
-	fname_s_039( arrW );	
+	fname_s_044( arrW );	
 	
-	if(p0.w.length > 0){ fname_s_0123(p0); }
-	if(p1.w.length > 0){ fname_s_0123(p1); }
+	if(p0.w.length > 0){ fname_s_0128(p0); }
+	if(p1.w.length > 0){ fname_s_0128(p1); }
 
-	fname_s_042(arrW);
+	fname_s_047(arrW);
 	
-	fname_s_040( arrW );
+	fname_s_045( arrW );
 }
 
 
 
-function fname_s_0152(wall, cdm)
+function fname_s_0157(wall, cdm)
 {
 	if(!cdm) { cdm = {}; }
 	if(!cdm.dw) { cdm.dw = ''; }
@@ -5961,54 +6427,54 @@ function fname_s_0152(wall, cdm)
 		
 		for(var i = 0; i < arr.length; i++)
 		{
-			if(arr[i].userData.tag == 'window') { fname_s_0156({arr : infProject.scene.array.window, o : arr[i]}); }
-			if(arr[i].userData.tag == 'door') { fname_s_0156({arr : infProject.scene.array.door, o : arr[i]}); }
+			if(arr[i].userData.tag == 'window') { fname_s_0161({arr : infProject.scene.array.window, o : arr[i]}); }
+			if(arr[i].userData.tag == 'door') { fname_s_0161({arr : infProject.scene.array.door, o : arr[i]}); }
 			scene.remove( arr[i] );
 		}		
 	}
 
 	var p0 = wall.userData.wall.p[0];
 	var p1 = wall.userData.wall.p[1]; 
-	fname_s_0157(p0, wall);
-	fname_s_0157(p1, wall);
-	fname_s_0156({arr : infProject.scene.array.wall, o : wall});;
+	fname_s_0162(p0, wall);
+	fname_s_0162(p1, wall);
+	fname_s_0161({arr : infProject.scene.array.wall, o : wall});;
 	
 	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
 	{
-		fname_s_0156({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		fname_s_0161({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
 		wall.userData.wall.html.label[i].remove();
 	}	
 	
 	
 	scene.remove( wall );
 	
-	if(p0.w.length == 0){ fname_s_0158( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ fname_s_0158( p1 ); scene.remove( p1 ); }
+	if(p0.w.length == 0){ fname_s_0163( p0 ); scene.remove( p0 ); }
+	if(p1.w.length == 0){ fname_s_0163( p1 ); scene.remove( p1 ); }
 
 }
 
 
 
-function fname_s_0153( point )
+function fname_s_0158( point )
 {
-	fname_s_0158(point); 
+	fname_s_0163(point); 
 	scene.remove(point);
 }
 
 
-function fname_s_0154( point )
+function fname_s_0159( point )
 {
 	if(!point){ return [ null, null ]; }
 	if(point.p.length != 2){ return [ null, null ]; }
 	
-	fname_s_080(point);
+	fname_s_085(point);
 	
 	var wall_1 = point.w[0];
 	var wall_2 = point.w[1];
 		
-	var arrW_2 = fname_s_0119([], point);
+	var arrW_2 = fname_s_0124([], point);
 	
-	fname_s_039( arrW_2 );
+	fname_s_044( arrW_2 );
 	 
 	var point1 = point.p[0];
 	var point2 = point.p[1];
@@ -6071,13 +6537,13 @@ function fname_s_0154( point )
 		if(wd.userData.door.open_type) { arrO[n].open_type = wd.userData.door.open_type; }
 	}
 	
-	var oldZones = fname_s_0185( wall_1 );   	
-	var oldZ = fname_s_0163( oldZones );
-	fname_s_0178( oldZones );						
+	var oldZones = fname_s_0190( wall_1 );   	
+	var oldZ = fname_s_0168( oldZones );
+	fname_s_0183( oldZones );						
 
 	
-	fname_s_0152( wall_1 );		
-	fname_s_0152( wall_2 );		
+	fname_s_0157( wall_1 );		
+	fname_s_0157( wall_2 );		
 	 
 
 	
@@ -6089,21 +6555,21 @@ function fname_s_0154( point )
 	
 	var wall = fname_s_0231({ p: [point1, point2], width: width, offsetZ : offsetZ, height : height }); 
 
-	fname_s_0123(point1);
-	fname_s_0123(point2);
+	fname_s_0128(point1);
+	fname_s_0128(point2);
 	
 	var arrW = [];
 	for ( var i = 0; i < arrW_2.length; i++ ) { arrW[arrW.length] = arrW_2[i]; }
 	arrW[arrW.length] = wall;
 	
-	fname_s_042( arrW );	
+	fname_s_047( arrW );	
 	
-	var newZones = fname_s_0167();		
-	fname_s_0182(oldZ, newZones, 'delete');		
+	var newZones = fname_s_0172();		
+	fname_s_0187(oldZ, newZones, 'delete');		
 	
 	
 	
-	if(fname_s_016(dir1, dir2)) 
+	if(fname_s_021(dir1, dir2)) 
 	{
 		for ( var i = 0; i < arrO.length; i++ ) { arrO[i].wall = wall; } 
 	}
@@ -6112,7 +6578,7 @@ function fname_s_0154( point )
 	wall.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ]; 
 	wall.userData.material = userData_material; 
 	
-	fname_s_040( arrW );
+	fname_s_045( arrW );
 	
 	infProject.tools.axis[0].visible = false;
 	infProject.tools.axis[1].visible = false; 
@@ -6123,31 +6589,31 @@ function fname_s_0154( point )
 
 
 
-function fname_s_0155( obj )
+function fname_s_0160( obj )
 {	
 	var wall = obj.userData.door.wall; 		
 	
-	fname_s_036( obj );		
+	fname_s_041( obj );		
 		
-	fname_s_0156({arr : wall.userData.wall.arrO, o : obj});	
+	fname_s_0161({arr : wall.userData.wall.arrO, o : obj});	
 	
-	if(obj.userData.tag == 'window') { fname_s_080(obj); }
-	if(obj.userData.tag == 'door') { fname_s_080(obj); }
+	if(obj.userData.tag == 'window') { fname_s_085(obj); }
+	if(obj.userData.tag == 'door') { fname_s_085(obj); }
 	
 	clickO = resetPop.clickO();
-	fname_s_0145( obj ); 
+	fname_s_0150( obj ); 
 	
 	
 	if(obj.userData.cubeCam)
 	{
-		fname_s_0156({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
+		fname_s_0161({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
 		fname_s_0197( obj.userData.cubeCam );
 		scene.remove( obj.userData.cubeCam );			
 	}
 	
 	
-	if(obj.userData.tag == 'window') { fname_s_0156({arr : infProject.scene.array.window, o : obj}); }
-	if(obj.userData.tag == 'door') { fname_s_0156({arr : infProject.scene.array.door, o : obj}); }
+	if(obj.userData.tag == 'window') { fname_s_0161({arr : infProject.scene.array.window, o : obj}); }
+	if(obj.userData.tag == 'door') { fname_s_0161({arr : infProject.scene.array.door, o : obj}); }
 	
 	fname_s_0197( obj );
 	scene.remove( obj );	
@@ -6159,7 +6625,7 @@ function fname_s_0155( obj )
 
 
 
-function fname_s_0156(cdm)
+function fname_s_0161(cdm)
 {
 	var arr = cdm.arr;
 	var o = cdm.o;
@@ -6169,7 +6635,7 @@ function fname_s_0156(cdm)
 
 
 
-function fname_s_0157(point, wall)
+function fname_s_0162(point, wall)
 {
 	var n = -1;
 	for ( var i = 0; i < point.w.length; i++ ){ if(point.w[i].userData.id == wall.userData.id) { n = i; break; } }
@@ -6183,7 +6649,7 @@ function fname_s_0157(point, wall)
 
 
 
-function fname_s_0158(point)
+function fname_s_0163(point)
 {
 	var n = -1;
 	for ( var i = 0; i < obj_point.length; i++ ){ if(obj_point[i].userData.id == point.userData.id) { n = i; break; } }
@@ -6197,7 +6663,7 @@ function fname_s_0158(point)
 
 
 
-function fname_s_0159(cdm)
+function fname_s_0164(cdm)
 {	
 	var arrP = cdm.point;
 	var arrW = cdm.wall;
@@ -6267,16 +6733,16 @@ function fname_s_0159(cdm)
 		
 		if(infProject.settings.floor.label.visible) 
 		{ 
-			fname_s_035({id: floor.userData.room.zone.id, obj: floor});			 
+			fname_s_040({id: floor.userData.room.zone.id, obj: floor});			 
 		} 
 			
-		fname_s_044([floor]); 
+		fname_s_049([floor]); 
 		scene.add(floor); 
 		scene.add(ceil);		
 	}
 	else
 	{
-		fname_s_042(arrW); 
+		fname_s_047(arrW); 
 	}
 
 	
@@ -6286,7 +6752,7 @@ function fname_s_0159(cdm)
 		arrW[i].userData.wall.room.side2[ind] = floor; 
 	}	
 	
-	fname_s_0160(arrP, floor);
+	fname_s_0165(arrP, floor);
 	
 	floor.castShadow = true; 
 	floor.receiveShadow = true;
@@ -6301,7 +6767,7 @@ function fname_s_0159(cdm)
 
 
 
-function fname_s_0160(arrP, zone)
+function fname_s_0165(arrP, zone)
 {
 	for ( var i = 0; i < arrP.length - 1; i++ ) 
 	{  
@@ -6315,7 +6781,7 @@ function fname_s_0160(arrP, zone)
 
 
 
-function fname_s_0161(zone, newPoint, replacePoint)
+function fname_s_0166(zone, newPoint, replacePoint)
 {
 	for ( var i = 0; i < zone.length; i++ )  
 	{  		
@@ -6330,7 +6796,7 @@ function fname_s_0161(zone, newPoint, replacePoint)
 
 
 
-function fname_s_0162(arrRoom)
+function fname_s_0167(arrRoom)
 {  
 	if(!infProject.settings.floor.o) { return; }
 	
@@ -6356,7 +6822,7 @@ function fname_s_0162(arrRoom)
 		
 		arrRoom[i].position.y = infProject.settings.floor.posY;
 		fname_s_0237( arrRoom[i] );
-		fname_s_044([arrRoom[i]]); 
+		fname_s_049([arrRoom[i]]); 
 
 		
 		var num = 0;		
@@ -6382,7 +6848,7 @@ function fname_s_0162(arrRoom)
 
 
 
-function fname_s_0163(arr) 
+function fname_s_0168(arr) 
 {
 	var arrN = [];
 	if(!Array.isArray(arr)) { var res = arr; var arr = [res]; }
@@ -6401,7 +6867,7 @@ function fname_s_0163(arr)
 
 
 
-function fname_s_0164(cdm) 
+function fname_s_0169(cdm) 
 {
 	var result = null;
 	var obj = cdm.obj;
@@ -6431,7 +6897,7 @@ function fname_s_0164(cdm)
 
 
 
-function fname_s_0165()
+function fname_s_0170()
 {
 	var shape = new THREE.Shape( [new THREE.Vector2(-2, 1), new THREE.Vector2(2, 1), new THREE.Vector2(2, -1), new THREE.Vector2(-2, -1)] );
 	var geometry = new THREE.ShapeGeometry( shape );
@@ -6445,7 +6911,7 @@ function fname_s_0165()
 }
 
 
-function fname_s_0166(cdm)
+function fname_s_0171(cdm)
 {
 	var obj = cdm.obj;
 	
@@ -6463,7 +6929,7 @@ function fname_s_0166(cdm)
 	plane.geometry = new THREE.ShapeGeometry( new THREE.Shape(contour2) );	
 	fname_s_0211({arr: [plane]});
 	 
-	fname_s_024({obj: obj});
+	fname_s_029({obj: obj});
 }
 
 
@@ -6474,7 +6940,7 @@ function fname_s_0166(cdm)
 
 
 
-function fname_s_0167()
+function fname_s_0172()
 {		
 	var arrRoom = [];
 	
@@ -6488,18 +6954,18 @@ function fname_s_0167()
 			
 			
 
-			var p = fname_s_0171([obj_point[i]], obj_point[i].p[i2]); 		
+			var p = fname_s_0176([obj_point[i]], obj_point[i].p[i2]); 		
 			 
 			
 			if(p[0] != p[p.length - 1]){ continue; }	
 			if(p.length > 5){ if(p[1] == p[p.length - 2]) continue; }
-			if(fname_s_045(p) <= 0){ continue; }		
-			if(fname_s_0168( obj_point[i].zone, p )){ continue; }
+			if(fname_s_050(p) <= 0){ continue; }		
+			if(fname_s_0173( obj_point[i].zone, p )){ continue; }
 								
 			 
-			var arr = fname_s_0172(p);						
+			var arr = fname_s_0177(p);						
 			
-			arrRoom[arrRoom.length] = fname_s_0159({point : p, wall : arr[0], side : arr[1]});			
+			arrRoom[arrRoom.length] = fname_s_0164({point : p, wall : arr[0], side : arr[1]});			
 			break; 
 		}
 	}
@@ -6513,7 +6979,7 @@ function fname_s_0167()
 
 
 
-function fname_s_0168( arrRoom, arrP )
+function fname_s_0173( arrRoom, arrP )
 {
 	var flag = false;
 	
@@ -6548,7 +7014,7 @@ function fname_s_0168( arrRoom, arrP )
 
 
 
-function fname_s_0169( arrRoom, arrP )
+function fname_s_0174( arrRoom, arrP )
 {
 	var flag = false;
 	var ln = 0;
@@ -6576,7 +7042,7 @@ function fname_s_0169( arrRoom, arrP )
  
 
 
-function fname_s_0170(p1, p2)
+function fname_s_0175(p1, p2)
 {
 	for ( var i = 0; i < p1.zone.length; i++ )
 	{
@@ -6598,7 +7064,7 @@ function fname_s_0170(p1, p2)
 
 
 
-function fname_s_0171(arr, point)
+function fname_s_0176(arr, point)
 {
 	var p2 = arr[arr.length - 1];
 	arr[arr.length] = point;
@@ -6625,7 +7091,7 @@ function fname_s_0171(arr, point)
 		if(d > 0){ angle *= -1; }
 		
 		arrD[n][0] = angle;
-		if(!fname_s_01(angle)) { return arr; }
+		if(!fname_s_06(angle)) { return arr; }
 		
 		
 		n++;
@@ -6638,7 +7104,7 @@ function fname_s_0171(arr, point)
 		
 		for ( var i = 0; i < arrD.length; i++ )
 		{			
-			if(arr[0] != arrD[i][1]) { return fname_s_0171(arr, arrD[i][1]); }
+			if(arr[0] != arrD[i][1]) { return fname_s_0176(arr, arrD[i][1]); }
 			else { arr[arr.length] = arrD[i][1]; break; }						
 		}
 	}
@@ -6651,7 +7117,7 @@ function fname_s_0171(arr, point)
 
  
 
-function fname_s_0172(p)
+function fname_s_0177(p)
 {
 	var w = [];  
 	var s = [];
@@ -6683,25 +7149,25 @@ function fname_s_0172(p)
 
 
 
-function fname_s_0173( point, obj, arrRoom, num, cdm )
+function fname_s_0178( point, obj, arrRoom, num, cdm )
 {
-	fname_s_0179(arrRoom);		
-	fname_s_0174(cdm, arrRoom, num, point); 				
+	fname_s_0184(arrRoom);		
+	fname_s_0179(cdm, arrRoom, num, point); 				
 	
-	for ( var i = 0; i < arrRoom.length; i++ ) { fname_s_0175(arrRoom[i], num[i], point, cdm); }	
+	for ( var i = 0; i < arrRoom.length; i++ ) { fname_s_0180(arrRoom[i], num[i], point, cdm); }	
 	
-	if(obj.userData.tag == 'wall'){ var arr = fname_s_0120(obj); }
-	else if(obj.userData.tag == 'point'){ var arr = fname_s_0119([], obj); }
+	if(obj.userData.tag == 'wall'){ var arr = fname_s_0125(obj); }
+	else if(obj.userData.tag == 'point'){ var arr = fname_s_0124([], obj); }
 
-	fname_s_042(arr);				
-	fname_s_0162(arrRoom);		
+	fname_s_047(arr);				
+	fname_s_0167(arrRoom);		
 }
 
  
 
 
 
-function fname_s_0174(cdm, arrRoom, numS, point)
+function fname_s_0179(cdm, arrRoom, numS, point)
 {
 	var zone = arrRoom;
 	var num = numS;
@@ -6737,11 +7203,11 @@ function fname_s_0174(cdm, arrRoom, numS, point)
 
 
 
-function fname_s_0175(zoneIndex, num, point, cdm)
+function fname_s_0180(zoneIndex, num, point, cdm)
 {		
-	var arr = fname_s_0172(zoneIndex.p);	
+	var arr = fname_s_0177(zoneIndex.p);	
 	
-	fname_s_0160(zoneIndex.p, zoneIndex);	
+	fname_s_0165(zoneIndex.p, zoneIndex);	
 				
 	zoneIndex.w = arr[0]; 		
 	zoneIndex.s = arr[1];	
@@ -6751,7 +7217,7 @@ function fname_s_0175(zoneIndex, num, point, cdm)
 
 
 
-function fname_s_0176(point1, point2)
+function fname_s_0181(point1, point2)
 {
 	for ( var i = 0; i < point2.zone.length; i++ )
 	{ 
@@ -6767,7 +7233,7 @@ function fname_s_0176(point1, point2)
 }
 
 
-function fname_s_0177(point1, point2) 
+function fname_s_0182(point1, point2) 
 {
 	var arr = [];
 	
@@ -6786,7 +7252,7 @@ function fname_s_0177(point1, point2)
 
  
 
-function fname_s_0178(arrRoom)
+function fname_s_0183(arrRoom)
 {
 	var roomType = [];
 	var arrN = [];
@@ -6817,7 +7283,7 @@ function fname_s_0178(arrRoom)
 		}
 	}
 
-	fname_s_0179(arrRoom);
+	fname_s_0184(arrRoom);
 	
 	for ( var i = arrN.length - 1; i >= 0; i-- )
 	{
@@ -6836,7 +7302,7 @@ function fname_s_0178(arrRoom)
 		ceiling.splice(arrN[i], 1);	 
 		
 		
-		fname_s_0156({arr: infProject.html.label, o: floor.userData.room.html.label});
+		fname_s_0161({arr: infProject.html.label, o: floor.userData.room.html.label});
 		floor.userData.room.html.label.remove();
 	
 		fname_s_0197( floor );
@@ -6852,7 +7318,7 @@ function fname_s_0178(arrRoom)
 
 
 
-function fname_s_0179(arrRoom)
+function fname_s_0184(arrRoom)
 {
 	for ( var i = 0; i < arrRoom.length; i++ )
 	{
@@ -6873,7 +7339,7 @@ function fname_s_0179(arrRoom)
 
 
 
-function fname_s_0169( arrRoom, arrP )
+function fname_s_0174( arrRoom, arrP )
 {
 	var flag = false;
 	var ln = 0;
@@ -6902,7 +7368,7 @@ function fname_s_0169( arrRoom, arrP )
 
 
 
-function fname_s_0181(cdm) 
+function fname_s_0186(cdm) 
 {	
 	var ray = new THREE.Raycaster();
 	ray.set( new THREE.Vector3(cdm.pos.x, 1, cdm.pos.z), new THREE.Vector3(0, -1, 0) );
@@ -6918,7 +7384,7 @@ function fname_s_0181(cdm)
 
 
 
-function fname_s_0182( oldZ, newZones, cdm ) 
+function fname_s_0187( oldZ, newZones, cdm ) 
 {
 	
 	for ( var i = 0; i < newZones.length; i++ ) 
@@ -6943,7 +7409,7 @@ function fname_s_0182( oldZ, newZones, cdm )
 			
 			if(countNew == count)
 			{
-				fname_s_0184([newZones[i]], oldZ[i2], false);				
+				fname_s_0189([newZones[i]], oldZ[i2], false);				
 				break;
 			}			
 		}
@@ -6956,23 +7422,23 @@ function fname_s_0182( oldZ, newZones, cdm )
 
 
 
-function fname_s_0183(wall) 
+function fname_s_0188(wall) 
 {
-	var oldZone = fname_s_054( wall ).obj;
-	var oldZ = fname_s_0163(oldZone);
+	var oldZone = fname_s_059( wall ).obj;
+	var oldZ = fname_s_0168(oldZone);
 	
-	if(oldZone) { fname_s_0178( [oldZone] ); }			
+	if(oldZone) { fname_s_0183( [oldZone] ); }			
 		
-	var newZones = fname_s_0167();			
+	var newZones = fname_s_0172();			
 	 
-	if(oldZone) { fname_s_0184(newZones, oldZ[0], true); } 
+	if(oldZone) { fname_s_0189(newZones, oldZ[0], true); } 
 }
 
 
 
-function fname_s_0184(newZones, oldZ, addId)
+function fname_s_0189(newZones, oldZ, addId)
 {
-	var newZ = fname_s_0163(newZones);
+	var newZ = fname_s_0168(newZones);
 	
 	for ( var i = 0; i < newZ.length; i++ )
 	{	 
@@ -6993,7 +7459,7 @@ function fname_s_0184(newZones, oldZ, addId)
 			floor.userData.id = countId; countId++; 
 			ceiling.userData.id = countId; countId++;
 		}  
-		fname_s_044( [floor] );
+		fname_s_049( [floor] );
 	}
 }
 
@@ -7001,7 +7467,7 @@ function fname_s_0184(newZones, oldZ, addId)
 
 
 
-function fname_s_0185( wall )
+function fname_s_0190( wall )
 {
 	var arrRoom = [];	
 	for ( var i = 0; i < wall.userData.wall.p[0].zone.length; i++ ) 
@@ -7018,472 +7484,6 @@ function fname_s_0185( wall )
 	return arrRoom;
 }
 
-
-
-
-
-
-
-
-
-
-
-function fname_s_0186(cdm)
-{
-	var wall = infProject.scene.array.wall[0];
-	
-	
-	
-	 
-	cdm.wall = wall;
-	cdm.type = 'wallRedBlue';
-	cdm.side = 'wall_length_1';
-	
-	var x = $('[nameId="size-wall-length"]').val();
-	var y = $('[nameId="size-wall-height"]').val();
-	var z = $('[nameId="size-wall-width"]').val();
-	
-	
-	if(1==1)
-	{
-		var v = wall.userData.wall.v;
-		
-		if(x == undefined) { x = '' + (v[6].x - v[0].x); }
-		if(y == undefined) { y = '' + (v[1].y - v[0].y); }		
-		if(z == undefined) { z = '' + (Math.abs(v[4].z) + Math.abs(v[0].z)); }		
-		
-		x = x.replace(",", ".");
-		y = y.replace(",", ".");
-		z = z.replace(",", ".");
-		
-		var x2 = v[6].x - v[0].x;
-		var y2 = v[1].y - v[0].y;		
-		var z2 = Math.abs(v[4].z) + Math.abs(v[0].z);
-		
-		x = (fname_s_01(x)) ? x : x2;
-		y = (fname_s_01(y)) ? y : y2;
-		z = (fname_s_01(z)) ? z : z2;  
-	}
-	
-	
-	
-	if(1==1)
-	{
-		if(x > 30) { x = 30; }
-		else if(x < 0.5) { x = 0.5; }
-
-		if(y > 10) { y = 10; }
-		else if(y < 0.1) { y = 0.1; }	
-		
-		if(z > 10) { z = 10; }
-		else if(z < 0.02) { z = 0.02; }		
-	}	
-	
-	cdm.length = x;
-	cdm.height = y;
-	cdm.width = z;	
-	
-	
-	fname_s_0187(cdm);	
-	
-	renderCamera();
-}
-
-
-
-function fname_s_0187(cdm)
-{
-	var wall = cdm.wall;
-	var value = cdm.length;
-	
-	var wallR = fname_s_0120(wall);
-	fname_s_039(wallR);
-
-	var p1 = wall.userData.wall.p[1];
-	var p0 = wall.userData.wall.p[0];
-
-	var walls = [...new Set([...p0.w, ...p1.w])];	
-	
-	
-	
-	if(cdm.height)
-	{
-		var h2 = Number(cdm.height);
-		
-		var v = wall.geometry.vertices;	
-		v[1].y = h2;
-		v[3].y = h2;
-		v[5].y = h2;
-		v[7].y = h2;
-		v[9].y = h2;
-		v[11].y = h2;
-		wall.geometry.verticesNeedUpdate = true; 
-		wall.geometry.elementsNeedUpdate = true;
-
-		wall.userData.wall.height_1 = Math.round(h2 * 100) / 100;
-	}
- 
-	
-	if(cdm.width)
-	{
-		var z = cdm.width/2;
-		
-		var v = wall.geometry.vertices;	
-		v[0].z = v[1].z = v[6].z = v[7].z = z;
-		v[4].z = v[5].z = v[10].z = v[11].z = -z;	
-		wall.geometry.verticesNeedUpdate = true;
-		wall.geometry.elementsNeedUpdate = true;
-		
-		
-		
-		for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
-		{ 
-			var wd = wall.userData.wall.arrO[i];	
-			var v = wd.geometry.vertices;
-			var f = wd.userData.door.form.v;
-			var v2 = wall.geometry.vertices;
-			
-			for ( var i2 = 0; i2 < f.minZ.length; i2++ ) { v[f.minZ[i2]].z = v2[4].z; }
-			for ( var i2 = 0; i2 < f.maxZ.length; i2++ ) { v[f.maxZ[i2]].z = v2[0].z; }	
-
-			wd.geometry.verticesNeedUpdate = true; 
-			wd.geometry.elementsNeedUpdate = true;
-			wd.geometry.computeBoundingSphere();
-			wd.geometry.computeBoundingBox();
-			wd.geometry.computeFaceNormals();		
-		}
-
-		wall.userData.wall.width = Math.round(cdm.width * 100) / 100;;
-	}
- 
-	
-	var ns = 0;
-	var flag = true;
-	while ( flag )
-	{	 
-		var v = wall.userData.wall.v;
-
-		var d = 0;
-		
-		if(cdm.side == 'wall_length_1'){ d = Math.abs( v[6].x - v[0].x );  } 
-		else if(cdm.side == 'wall_length_2'){ d = Math.abs( v[10].x - v[4].x );  }
-		
-		
-		var sub = (value - d) / 1;
-		if(cdm.type == 'wallRedBlue') { sub /= 2; }	
-		
-		var dir = new THREE.Vector3().subVectors(p1.position, p0.position).normalize();
-		var dir = new THREE.Vector3().addScaledVector( dir, sub );	
-
-		if(cdm.type == 'wallBlueDot')
-		{ 
-			var offset = new THREE.Vector3().addVectors( p1.position, dir ); 
-			p1.position.copy( offset ); 
-		}
-		else if(cdm.type == 'wallRedDot')
-		{ 
-			var offset = new THREE.Vector3().subVectors( p0.position, dir ); 
-			p0.position.copy( offset ); 
-			wall.position.copy( offset );
-		}
-		else if(cdm.type == 'wallRedBlue')
-		{ 			
-			var offset = new THREE.Vector3().subVectors( p0.position, dir ); 
-			p0.position.copy( offset );
-			wall.position.copy( offset );
-			
-			p1.position.copy( new THREE.Vector3().addVectors( p1.position, dir ) );				
-		}
-
-		
-		for ( var i = 0; i < walls.length; i++ )
-		{
-			fname_s_0188(walls[i]);
-		}			 		 
-		
-		fname_s_0122(p0);
-		fname_s_0122(p1);
-		fname_s_042( [wall] );
-		if(cdm.side == 'wall_length_1'){ d = Math.abs( v[6].x - v[0].x ); }
-		else if(cdm.side == 'wall_length_2'){ d = Math.abs( v[10].x - v[4].x ); }
-		
-
-		if(value - d == 0){ flag = false; }
-		
-		if(ns > 5){ flag = false; }
-		ns++;
-	} 	
-	 
-	fname_s_042( wallR );		
-	fname_s_0162( fname_s_0132(wall) );  				 			
-	
-	fname_s_024({obj: wall});
-
-	fname_s_040(wallR);
-}
-
-	
-
-
-
-
-function fname_s_0188(wall, cdm) 
-{
-	
-	var v = wall.geometry.vertices;
-	var p = wall.userData.wall.p;
-	
-	
-	var f1 = false;	
-	var f2 = false;	
-	
-	f1 = !fname_s_016(p[0].userData.point.last.pos, p[0].position); 	
-	f2 = !fname_s_016(p[1].userData.point.last.pos, p[1].position); 	
-	
-	
-	if(f1 && f2)
-	{
-		var offset_1 = new THREE.Vector3().subVectors(p[0].position, p[0].userData.point.last.pos);
-		var offset_2 = new THREE.Vector3().subVectors(p[1].position, p[1].userData.point.last.pos);
-		
-		var equal = fname_s_016(offset_1, offset_2);
-		
-		
-		if(equal)
-		{
-			var offset = new THREE.Vector3().subVectors(p[0].position, wall.position);
-			
-			wall.position.copy(p[0].position);
-						
-			for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
-			{
-				wall.userData.wall.arrO[i].position.add(offset);
-			}
-			
-			return;
-		}
-	}	
-	
-	
-	var dist = p[0].position.distanceTo(p[1].position);
-	
-	v[0].x = v[1].x = v[2].x = v[3].x = v[4].x = v[5].x = 0;
-	v[6].x = v[7].x = v[8].x = v[9].x = v[10].x = v[11].x = dist;
- 
-	wall.geometry.verticesNeedUpdate = true; 
-	wall.geometry.elementsNeedUpdate = true;
-	wall.geometry.computeBoundingBox();	
-	wall.geometry.computeBoundingSphere();	
-	wall.geometry.computeFaceNormals();	
-
-	var dir = new THREE.Vector3().subVectors(p[0].position, p[1].position).normalize();
-	var angleDeg = Math.atan2(dir.x, dir.z);
-	wall.rotation.set(0, angleDeg + Math.PI / 2, 0);
-
-	wall.position.copy( p[0].position );
-
-
-	
-	
-	if(cdm)
-	{
-		if(cdm.point)	
-		{
-			if(cdm.point == p[0]) { f1 = true; }
-			if(cdm.point == p[1]) { f2 = true; }
-		}
-	}
-	
-	
-	if(f2){ var dir = new THREE.Vector3().subVectors( p[0].position, p[1].position ).normalize(); }
-	else { var dir = new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize(); }
-	
-	for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
-	{
-		var wd = wall.userData.wall.arrO[i];	
-
-		if(f2)
-		{
-			var startPos = new THREE.Vector3(p[0].position.x, 0, p[0].position.z);
-			var p1 = p[0].position;			
-		}
-		else
-		{
-			var startPos = new THREE.Vector3(p[1].position.x, 0, p[1].position.z);
-			var p1 = p[1].position;
-		}
-		
-		var dist = startPos.distanceTo(new THREE.Vector3(wd.position.x, 0, wd.position.z));
-		
-		
-		var pos = new THREE.Vector3().addScaledVector( dir, -dist );
-		pos = new THREE.Vector3().addVectors( p1, pos );
-		
-		wd.position.x = pos.x;
-		wd.position.z = pos.z;
-		wd.rotation.copy( wall.rotation );
-	}			
-}
-
-
-
-
-
-
-function fname_s_0189(cdm) 
-{
-	var wall = cdm.wall;
-	
-	var width = cdm.width.value;
-	var offset = cdm.offset;
-	
-	if(!wall){ return; } 
-	if(wall.userData.tag != 'wall'){ return; } 
-	
-	var width = fname_s_0248({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
-	
-	if(!width) 
-	{
-		$('[nameid="size_wall_width_1"]').val(wall.userData.wall.width);
-		
-		return;
-	}		
-
-	var width = width.num; 
-	
-	var wallR = fname_s_0120(wall);
-	
-	fname_s_039(wallR);
-			
-	var v = wall.geometry.vertices;
-	
-	var z = [0,0];
-	
-	if(offset == 'wallRedBlueArrow')
-	{ 	
-		width = (width < 0.01) ? 0.01 : width;
-		width /= 2;		
-		z = [width, -width];		
-		var value = Math.round(width * 2 * 1000);
-	}
-	else if(offset == 'wallBlueArrow')
-	{ 
-		width = (Math.abs(Math.abs(v[4].z) + Math.abs(width)) < 0.01) ? 0.01 - Math.abs(v[4].z) : width;   		
-		z = [width, v[4].z];
-		var value = width * 1000;
-	}
-	else if(offset == 'wallRedArrow')
-	{		 
-		width = (Math.abs(Math.abs(v[0].z) + Math.abs(width)) < 0.01) ? 0.01 - Math.abs(v[0].z) : width;    		
-		z = [v[0].z, -width];
-		var value = width * 1000;
-	}
-
-	v[0].z = v[1].z = v[6].z = v[7].z = z[0];
-	v[4].z = v[5].z = v[10].z = v[11].z = z[1];	
-
-	wall.geometry.verticesNeedUpdate = true; 
-	wall.geometry.elementsNeedUpdate = true;
-	
-	wall.geometry.computeBoundingSphere();
-	wall.geometry.computeBoundingBox();
-	wall.geometry.computeFaceNormals();	
-	
-	var width = Math.abs(v[0].z) + Math.abs(v[4].z);	
-	wall.userData.wall.width = Math.round(width * 100) / 100;
-	wall.userData.wall.offsetZ = (v[0].z + v[4].z)/2;	 
-
-	
-	var p0 = wall.userData.wall.p[0];
-	var p1 = wall.userData.wall.p[1];
-	fname_s_0123(p0);	
-    fname_s_0123(p1);	
-	
-	
-	for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
-	{ 
-		var wd = wall.userData.wall.arrO[i];	
-		var v = wd.geometry.vertices;
-		var f = wd.userData.door.form.v;
-		var v2 = wall.geometry.vertices;
-		
-		for ( var i2 = 0; i2 < f.minZ.length; i2++ ) { v[f.minZ[i2]].z = v2[4].z; }
-		for ( var i2 = 0; i2 < f.maxZ.length; i2++ ) { v[f.maxZ[i2]].z = v2[0].z; }	
-
-		wd.geometry.verticesNeedUpdate = true; 
-		wd.geometry.elementsNeedUpdate = true;
-		wd.geometry.computeBoundingSphere();
-		wd.geometry.computeBoundingBox();
-		wd.geometry.computeFaceNormals();		
-	}	
-	
-	fname_s_042( wallR );	 				
-	fname_s_044( fname_s_0132(wall) );
-	
-	fname_s_040(wallR);
-	
-	$('[nameId="size_wall_width_1"]').val(wall.userData.wall.width);
-	
-	renderCamera();
-}
-
-
-
-
-
-
-
-function fname_s_0190(cdm)
-{  	
-	var height = fname_s_0248({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
-	
-	if(!height) 
-	{
-		return;
-	}		
-	
-	if(cdm.load)
-	{
-		
-	}
-	else
-	{	
-		fname_s_039( infProject.scene.array.wall );
-		
-		for ( var i = 0; i < infProject.scene.array.wall.length; i++ )
-		{
-			var v = infProject.scene.array.wall[i].geometry.vertices;
-			
-			v[1].y = height.num;
-			v[3].y = height.num;
-			v[5].y = height.num;
-			v[7].y = height.num;
-			v[9].y = height.num;
-			v[11].y = height.num;
-			infProject.scene.array.wall[i].geometry.verticesNeedUpdate = true;
-			infProject.scene.array.wall[i].geometry.elementsNeedUpdate = true;
-			
-			infProject.scene.array.wall[i].userData.wall.height_1 = height.num;
-		}
-		
-		fname_s_042( infProject.scene.array.wall );
-		fname_s_040( infProject.scene.array.wall );			
-	}
-	
-	if(cdm.input)
-	{  
-		$('[nameId="rp_floor_height"]').val(height.num);
-	}
-	
-	if(cdm.globalHeight)
-	{
-		infProject.settings.height = height.num;  
-	}		
-	
-	renderCamera();
-}
-	
-	
 
 
 
@@ -7528,7 +7528,7 @@ function fname_s_0192()
 		if(clickO.rayhit.object.userData.tag == 'controll_wd'){ if(clickO.rayhit.object.userData.controll_wd.obj == o) { return; } }      		
 	}
 	 
-	if(o.userData.tag == 'wall'){ fname_s_0212(); fname_s_043({wall: o}); }	
+	if(o.userData.tag == 'wall'){ fname_s_0212(); fname_s_048({wall: o}); }	
 	else if(o.userData.tag == 'point'){ fname_s_0212(); }	
 	else if(o.userData.tag == 'window'){ fname_s_0212(); }
 	else if(o.userData.tag == 'door'){ fname_s_0212(); }	
@@ -7625,7 +7625,7 @@ var resetPop =
 
 function fname_s_0194() 
 {	
-	fname_s_080(clickO.last_obj);
+	fname_s_085(clickO.last_obj);
 	
 	
 	var wall = infProject.scene.array.wall;
@@ -7957,7 +7957,7 @@ function fname_s_0198()
 	json.version.id = 2;
 	json.version.rooms = { contour: [] };
 	
-	var contour = fname_s_044( infProject.scene.array.floor );
+	var contour = fname_s_049( infProject.scene.array.floor );
 	
 	for(var i = 0; i < contour.length; i++)
 	{
@@ -8075,7 +8075,7 @@ function fname_s_0201(cdm)
 			{ 			
 				
 				
-				if(cdm.upUI) { fname_s_031({id: infProject.user.id}); }		
+				if(cdm.upUI) { fname_s_036({id: infProject.user.id}); }		
 			},
 			error: function(json){  }
 		});			
@@ -8156,7 +8156,7 @@ async function fname_s_load_f(arr)
 	var furn = (arr.object) ? arr.object : [];
 	
 	
-	fname_s_0190({ load: true, height: arr.height, input: true, globalHeight: true });
+	fname_s_05({ load: true, height: arr.height, input: true, globalHeight: true });
 			
 	var wall = [];
 	
@@ -8230,11 +8230,11 @@ async function fname_s_load_f(arr)
 	}	
 	 
 	
-	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0123(obj_point[i]); }
+	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0128(obj_point[i]); }
 	
-	fname_s_042(infProject.scene.array.wall);	
+	fname_s_047(infProject.scene.array.wall);	
 
-	fname_s_0167();
+	fname_s_0172();
 	
 	
 	for ( var n = 0; n < infProject.scene.array.floor.length; n++ )
@@ -8243,7 +8243,7 @@ async function fname_s_load_f(arr)
 		{
 			if(rooms[i].reference)
 			{
-				var floor = fname_s_0181({pos: rooms[i].reference, obj: infProject.scene.array.floor[n]});
+				var floor = fname_s_0186({pos: rooms[i].reference, obj: infProject.scene.array.floor[n]});
 				
 				if(floor.o == infProject.scene.array.floor[n])
 				{
@@ -8255,7 +8255,7 @@ async function fname_s_load_f(arr)
 			}
 			else if(rooms[i].contour)
 			{
-				if(!fname_s_0169( infProject.scene.array.floor[n], rooms[i].contour )) continue;
+				if(!fname_s_0174( infProject.scene.array.floor[n], rooms[i].contour )) continue;
 				
 				infProject.scene.array.floor[n].userData.id = rooms[i].id;
 				infProject.scene.array.ceiling[n].userData.id = rooms[i].id;
@@ -8283,7 +8283,7 @@ async function fname_s_load_f(arr)
 			var inf = { status : 'load', id : wall[i].arrO[i2].id, pos : intP, wall : obj, type : wall[i].arrO[i2].type };	 		
 			if(wall[i].arrO[i2].size) { inf.size = wall[i].arrO[i2].size; }				
 						
-			fname_s_067(inf);
+			fname_s_072(inf);
 		}		
 	}
 	
@@ -8310,13 +8310,13 @@ async function fname_s_load_f(arr)
 	}
 	
 	
-	fname_s_034({arr: rooms});	
+	fname_s_039({arr: rooms});	
 	
 	fname_s_0205({furn: furn});
 
 	
 	fname_s_0207();
-	fname_s_097( camera.zoom );
+	fname_s_0102( camera.zoom );
 	
 
 	renderCamera();
@@ -8419,8 +8419,8 @@ function fname_s_0207(cdm)
 	
 	
 	
-	fname_s_082(cameraTop);
-	fname_s_099();	
+	fname_s_087(cameraTop);
+	fname_s_0104();	
 }
 
 
@@ -8502,10 +8502,10 @@ function fname_s_0208()
 {
 	requestAnimationFrame( fname_s_0208 );	
 
-	fname_s_096();	
-	fname_s_0101();
+	fname_s_0101();	
+	fname_s_0106();
 	
-	fname_s_088();
+	fname_s_093();
 }
 
 
@@ -8578,7 +8578,7 @@ infProject.settings.room = { type: [] };
 infProject.camera = { d3: { theta: 0, phi: 75, targetPos: new THREE.Vector3() } };
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
-infProject.scene.grid = { obj: fname_s_046(infProject.settings.grid), active: false, link: false, show: true };
+infProject.scene.grid = { obj: fname_s_051(infProject.settings.grid), active: false, link: false, show: true };
 infProject.scene.block = { key : { scroll : false } };		
 infProject.scene.block.click = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
@@ -8592,8 +8592,8 @@ infProject.html = {};
 infProject.html.label = [];	
 infProject.html.wd = fname_s_0213({count: 6, display: 'none', tag: 'elem_wd_size'}); 
 
-infProject.tools = { pivot: fname_s_0257(), gizmo: fname_s_0271(), cutWall: [], point: fname_s_0228(), axis: fname_s_0223(), controllWD: fname_s_0104() } 
-infProject.tools.floorPl = fname_s_0165();
+infProject.tools = { pivot: fname_s_0257(), gizmo: fname_s_0271(), cutWall: [], point: fname_s_0228(), axis: fname_s_0223(), controllWD: fname_s_0109() } 
+infProject.tools.floorPl = fname_s_0170();
 infProject.catalog = { obj: [], texture: fname_s_0278() }; 
 infProject.listColor = resetPop.listColor(); 
 infProject.start = true; 
@@ -8714,14 +8714,14 @@ var offset = new THREE.Vector3();
 {
 	fname_s_0218();
 	fname_s_0298({ pos: {y: 0.01} }); 	
-	fname_s_089({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
+	fname_s_094({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
 	
-	fname_s_018();		
-	fname_s_019();
-	fname_s_023({name: 'button_wrap_object'});	
+	fname_s_023();		
+	fname_s_024();
+	fname_s_028({name: 'button_wrap_object'});	
 	
 	
-	fname_s_027({});
+	fname_s_032({});
 
 	
 
@@ -9700,7 +9700,7 @@ function fname_s_0233(cdm)
 			
 			if(cdm.ui)
 			{
-				fname_s_029({obj: cdm.obj});
+				fname_s_034({obj: cdm.obj});
 			}
 		}
 		
@@ -9710,7 +9710,7 @@ function fname_s_0233(cdm)
 			
 			if(cdm.ui)
 			{
-				fname_s_030({obj: cdm.obj});
+				fname_s_035({obj: cdm.obj});
 			}
 		}		
 		
@@ -9761,11 +9761,11 @@ function fname_s_0234( event )
 		}
 		else if(clickO.button == 'create_wd_2')
 		{
-			fname_s_067({type:'door', lotid: 4});
+			fname_s_072({type:'door', lotid: 4});
 		}
 		else if(clickO.button == 'create_wd_3')
 		{
-			fname_s_067({type:'window', lotid: 1});
+			fname_s_072({type:'window', lotid: 1});
 		}			
 		else if(clickO.button == 'add_lotid')
 		{
@@ -9783,7 +9783,7 @@ function fname_s_0234( event )
 	{
 		if(clickO.button == 'create_wd_3')
 		{
-			fname_s_067({type:'window'});
+			fname_s_072({type:'window'});
 		}
 	}
 	
@@ -9794,12 +9794,12 @@ function fname_s_0234( event )
 }	
 	
 
-function fname_s_0235(cdm)
+function fname_s_active_int(cdm)
 {
 	if(clickO.move)
 	{
 		fname_s_0236();
-		fname_s_073();
+		fname_s_078();
 	}
 
 	
@@ -9809,11 +9809,11 @@ function fname_s_0235(cdm)
 		
 		if(cdm.button == '2D')
 		{  			
-			fname_s_082(cameraTop);
+			fname_s_087(cameraTop);
 		}
 		else if(cdm.button == '3D')
 		{
-			fname_s_082(camera3D);
+			fname_s_087(camera3D);
 		}	
 		else if(cdm.button == 'point_1')
 		{
@@ -9834,15 +9834,15 @@ function fname_s_0235(cdm)
 		}			
 		else if(cdm.button == 'grid_show_1')
 		{
-			fname_s_048(); 
+			fname_s_053(); 
 		}
 		else if(cdm.button == 'grid_move_1')
 		{
-			fname_s_049(); 
+			fname_s_054(); 
 		}
 		else if(cdm.button == 'grid_link_1')
 		{
-			fname_s_053(); 
+			fname_s_058(); 
 		}		
 	}
 
@@ -9856,7 +9856,7 @@ function fname_s_0236()
 	clickO.obj = null;
 	clickO.rayhit = null;
 	
-	fname_s_079();		
+	fname_s_084();		
 }
 
 
@@ -10059,17 +10059,17 @@ renderCamera();
 
 
 containerF.addEventListener('contextmenu', function(event) { event.preventDefault() });
-containerF.addEventListener( 'mousedown', fname_s_074, false );
-containerF.addEventListener( 'mousemove', fname_s_077, false );
-containerF.addEventListener( 'mouseup', fname_s_078, false );
+containerF.addEventListener( 'mousedown', fname_s_079, false );
+containerF.addEventListener( 'mousemove', fname_s_082, false );
+containerF.addEventListener( 'mouseup', fname_s_083, false );
 
 
-containerF.addEventListener( 'touchstart', fname_s_074, false );
-containerF.addEventListener( 'touchmove', fname_s_077, false );
-containerF.addEventListener( 'touchend', fname_s_078, false );
+containerF.addEventListener( 'touchstart', fname_s_079, false );
+containerF.addEventListener( 'touchmove', fname_s_082, false );
+containerF.addEventListener( 'touchend', fname_s_083, false );
 
-containerF.addEventListener('DOMMouseScroll', fname_s_095, false);
-containerF.addEventListener('mousewheel', fname_s_095, false);	
+containerF.addEventListener('DOMMouseScroll', fname_s_0100, false);
+containerF.addEventListener('mousewheel', fname_s_0100, false);	
 
 
 document.addEventListener("keydown", function (e) 
@@ -10083,19 +10083,19 @@ document.addEventListener("keydown", function (e)
 			
 			
 			if(infProject.activeInput == 'input-height') { changeHeightWall(); } 
-			if(infProject.activeInput == 'wall_1') { fname_s_0186({}); }	 		
-			if(infProject.activeInput == 'size-wd-length') { fname_s_0147(clickO.last_obj); }
-			if(infProject.activeInput == 'size-wd-height') { fname_s_0147(clickO.last_obj); }
-			if(infProject.activeInput == 'rp_wd_h1') { fname_s_0147(clickO.last_obj); }
+			if(infProject.activeInput == 'wall_1') { fname_s_01({}); }	 		
+			if(infProject.activeInput == 'size-wd-length') { fname_s_0152(clickO.last_obj); }
+			if(infProject.activeInput == 'size-wd-height') { fname_s_0152(clickO.last_obj); }
+			if(infProject.activeInput == 'rp_wd_h1') { fname_s_0152(clickO.last_obj); }
 			if(infProject.activeInput == 'size-grid-tube-xy-1')
 			{
-				fname_s_047({size : $('[nameid="size-grid-tube-xy-1"]').val()});
+				fname_s_052({size : $('[nameid="size-grid-tube-xy-1"]').val()});
 			}
 			if(infProject.activeInput == 'size_wall_width_1') 
 			{ 
 				var width = $('[nameid="size_wall_width_1"]').val();
 				
-				fname_s_0189({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'}); 
+				fname_s_04({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'}); 
 			}
 			else if(infProject.activeInput == 'dp_inf_1_proj')
 			{
@@ -10107,7 +10107,7 @@ document.addEventListener("keydown", function (e)
 	}
 
 
-	if(e.keyCode == 46) { fname_s_0149(); }
+	if(e.keyCode == 46) { fname_s_0154(); }
 	
 	if(clickO.keys[18] && e.keyCode == 90) { fname_s_0202({json: true}); }		
 	if(clickO.keys[18] && e.keyCode == 72) { fname_s_0196(scene, fname_s_0197); fname_s_0195(); }		
@@ -10246,7 +10246,7 @@ function fname_s_0248(cdm)
 	
 	if((/,/i).test( value )) { value = value.replace(",", "."); }
 	
-	if(!fname_s_01(value)) return null; 
+	if(!fname_s_06(value)) return null; 
 	
 	value = Number(value);
 	
@@ -10325,8 +10325,8 @@ $(document).ready(function(){
 $('[data-action="top_panel_1"]').on('mousedown wheel DOMMouseScroll mousewheel mousemove touchstart touchend touchmove', function (e) { e.stopPropagation(); });
 $('[ui_1=""]').on('mousedown wheel DOMMouseScroll mousewheel mousemove touchstart touchend touchmove', function (e) { e.stopPropagation(); });
 		
-$('[data-action="top_panel_1"]').mousedown(function () { fname_s_0235(); });
-$('[data-action="left_panel_1"]').mousedown(function () { fname_s_0235(); });
+$('[data-action="top_panel_1"]').mousedown(function () { fname_s_active_int(); });
+$('[data-action="left_panel_1"]').mousedown(function () { fname_s_active_int(); });
 
 
 $('[nameId="butt_main_menu"]').mousedown(function () { $('[nameId="background_main_menu"]').css({"display":"block"}); });
@@ -10334,7 +10334,7 @@ $('[nameId="button_load_1"]').mousedown(function () { fname_s_0249({value: 'butt
 $('[nameId="button_save_1"]').mousedown(function () { fname_s_0249({value: 'button_save_1'}); });
 
 
-$('[nameId="camera_button"]').change(function() { fname_s_0235({button: $( this ).val()}); });
+$('[nameId="camera_button"]').change(function() { fname_s_active_int({button: $( this ).val()}); });
 
 
 
@@ -10349,18 +10349,18 @@ function fname_s_0249(cdm)
 }
 
 
-$('[nameId="button_wrap_img"]').mousedown(function () { fname_s_023({el: this}); });
-$('[nameId="button_wrap_catalog"]').mousedown(function () { fname_s_023({el: this}); });
-$('[nameId="button_wrap_list_obj"]').mousedown(function () { fname_s_023({el: this}); });
-$('[nameId="button_wrap_object"]').mousedown(function () { fname_s_023({el: this}); });
-$('[nameId="button_wrap_plan"]').mousedown(function () { fname_s_023({el: this}); });
+$('[nameId="button_wrap_img"]').mousedown(function () { fname_s_028({el: this}); });
+$('[nameId="button_wrap_catalog"]').mousedown(function () { fname_s_028({el: this}); });
+$('[nameId="button_wrap_list_obj"]').mousedown(function () { fname_s_028({el: this}); });
+$('[nameId="button_wrap_object"]').mousedown(function () { fname_s_028({el: this}); });
+$('[nameId="button_wrap_plan"]').mousedown(function () { fname_s_028({el: this}); });
 
 
 
 
 	
 
-$('[nameId="showHideWall_1"]').on('mousedown', function(e) { fname_s_087(); });
+$('[nameId="showHideWall_1"]').on('mousedown', function(e) { fname_s_092(); });
 	
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0270(); });	
@@ -10368,21 +10368,21 @@ $('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0269(); });
 $('[nameId="button_delete_obj"]').mousedown(function () { fname_s_0266(clickO.last_obj); });
 
 
-$('[data-action="wall"]').mousedown(function () { fname_s_0235({button:'point_1'}); });
-$('[data-action="create_wd_2"]').mousedown(function () { fname_s_0235({button:'create_wd_2'}); });
-$('[data-action="create_wd_3"]').mousedown(function () { fname_s_0235({button:'create_wd_3'}); });
-$('[data-action="grid_show_1"]').mousedown(function () { fname_s_0235({button:'grid_show_1'}); });
-$('[data-action="grid_move_1"]').mousedown(function () { fname_s_0235({button:'grid_move_1'}); });
-$('[data-action="grid_link_1"]').mousedown(function () { fname_s_0235({button:'grid_link_1'}); });
-$('[add_lotid]').mousedown(function () { fname_s_0235({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
+$('[data-action="wall"]').mousedown(function () { fname_s_active_int({button:'point_1'}); });
+$('[data-action="create_wd_2"]').mousedown(function () { fname_s_active_int({button:'create_wd_2'}); });
+$('[data-action="create_wd_3"]').mousedown(function () { fname_s_active_int({button:'create_wd_3'}); });
+$('[data-action="grid_show_1"]').mousedown(function () { fname_s_active_int({button:'grid_show_1'}); });
+$('[data-action="grid_move_1"]').mousedown(function () { fname_s_active_int({button:'grid_move_1'}); });
+$('[data-action="grid_link_1"]').mousedown(function () { fname_s_active_int({button:'grid_link_1'}); });
+$('[add_lotid]').mousedown(function () { fname_s_active_int({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
 $('[data-action="screenshot"]').mousedown(function () { fname_s_0241(); return false; }); 				
 
 
 
 
 
-$('[data-action="deleteObj"]').mousedown(function () { fname_s_0149(); return false; });
-$('[data-action="fname_s_059"]').mousedown(function () { fname_s_059(); return false; });
+$('[data-action="deleteObj"]').mousedown(function () { fname_s_0154(); return false; });
+$('[data-action="fname_s_064"]').mousedown(function () { fname_s_064(); return false; });
 
 
 
@@ -10417,31 +10417,31 @@ function fname_s_0251(cdm)
 {
 	if(infProject.activeInput == 'rp_floor_height')
 	{
-		fname_s_0190({ height: $('[nameId="rp_floor_height"]').val(), input: true, globalHeight: true });
+		fname_s_05({ height: $('[nameId="rp_floor_height"]').val(), input: true, globalHeight: true });
 	}
 	else if(infProject.activeInput == 'rp_wall_width_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}
 	else if(infProject.activeInput == 'rp_door_length_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}
 	else if(infProject.activeInput == 'rp_door_height_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}
 	else if(infProject.activeInput == 'rp_wind_length_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}
 	else if(infProject.activeInput == 'rp_wind_height_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}
 	else if(infProject.activeInput == 'rp_wind_above_floor_1')
 	{
-		fname_s_028({ el: infProject.activeInput_2.el });
+		fname_s_033({ el: infProject.activeInput_2.el });
 	}	
 }
 
@@ -10465,15 +10465,15 @@ $('[nameId="rp_button_apply"]').mousedown(function ()
 	{
 		var width = $('[nameid="size_wall_width_1"]').val();
 		
-		fname_s_0189({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'});		
+		fname_s_04({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'});		
 	}
 	else if(obj.userData.tag == 'window')
 	{
-		fname_s_0147(clickO.last_obj);
+		fname_s_0152(clickO.last_obj);
 	}
 	else if(obj.userData.tag == 'door')
 	{
-		fname_s_0147(clickO.last_obj);
+		fname_s_0152(clickO.last_obj);
 	}	
 });
 
@@ -10483,37 +10483,37 @@ $('[nameId="rp_button_wall_texture_1"]').mousedown(function ()
 { 
 	clickO.click.side_wall = 1; 
 	clickO.click.o = clickO.last_obj;
-	fname_s_020({type: 2});
+	fname_s_025({type: 2});
 });
 
 $('[nameId="rp_button_wall_texture_2"]').mousedown(function () 
 { 
 	clickO.click.side_wall = 2; 
 	clickO.click.o = clickO.last_obj;
-	fname_s_020({type: 2});
+	fname_s_025({type: 2});
 });
 
 $('[nameId="rp_button_room_texture_1"]').mousedown(function () 
 { 
 	clickO.click.o = clickO.last_obj; 
-	fname_s_021({type: 2}); 
+	fname_s_026({type: 2}); 
 });
 
 $('[nameId="rp_button_room_texture_2"]').mousedown(function () 
 { 
-	clickO.click.o = fname_s_0164({obj: clickO.last_obj}).ceiling;
-	fname_s_021({type: 2}); 	
+	clickO.click.o = fname_s_0169({obj: clickO.last_obj}).ceiling;
+	fname_s_026({type: 2}); 	
 });
 
 
 $('[nameId="but_back_catalog_texture_1"]').mousedown(function () 
 { 
-	fname_s_020({type: 1});
+	fname_s_025({type: 1});
 });
 
 $('[nameId="but_back_catalog_texture_2"]').mousedown(function () 
 { 
-	fname_s_021({type: 1});
+	fname_s_026({type: 1});
 });
 
 $('[add_texture]').mousedown(function () 
@@ -10539,7 +10539,7 @@ $('[data-action="modal_window"]').mousedown(function (e) { e.stopPropagation(); 
 
 $('[data-action="modal"]').mousedown(function () 
 {			
-	fname_s_0235(); 
+	fname_s_active_int(); 
 	$('[data-action="modal"]').css({"display":"none"}); 
 });
 
@@ -10703,7 +10703,7 @@ function fname_s_0253()
 						$('[nameId="reg_content_1"]').show();
 						$('[nameId="reg_content_2"]').hide();
 
-						fname_s_031({id: infProject.user.id});
+						fname_s_036({id: infProject.user.id});
 					}
 					else
 					{
@@ -11134,7 +11134,7 @@ function fname_s_0263(cdm)
 	
 	fname_s_0211({arr: [obj]});
 	
-	fname_s_024({obj: obj});	
+	fname_s_029({obj: obj});	
 }
 
 
@@ -11196,12 +11196,12 @@ function fname_s_0266(obj)
 	{	
 		if(arr[i].userData.cubeCam)
 		{
-			fname_s_0156({arr : infProject.scene.array.cubeCam, o : arr[i].userData.cubeCam});
+			fname_s_0161({arr : infProject.scene.array.cubeCam, o : arr[i].userData.cubeCam});
 			fname_s_0197( arr[i].userData.cubeCam );
 			scene.remove( arr[i].userData.cubeCam );
 		}
-		fname_s_0156({arr : infProject.scene.array.obj, o : arr[i]});
-		fname_s_022({uuid: arr[i].uuid, type: 'delete'});
+		fname_s_0161({arr : infProject.scene.array.obj, o : arr[i]});
+		fname_s_027({uuid: arr[i].uuid, type: 'delete'});
 		fname_s_0197(arr[i]);
 		scene.remove(arr[i]); 
 	}
@@ -11243,7 +11243,7 @@ function fname_s_0267(obj)
 	
 	clickO.last_obj = null;
 	
-	fname_s_024(); 	
+	fname_s_029(); 	
 	
 	fname_s_0212();
 }
@@ -11290,7 +11290,7 @@ function fname_s_0269(cdm)
 		infProject.scene.array.obj[infProject.scene.array.obj.length] = clone; 
 		scene.add( clone );	
 
-		fname_s_022({o: clone, type: 'add'});	
+		fname_s_027({o: clone, type: 'add'});	
 	}	
 	 
 	
@@ -11819,7 +11819,7 @@ async function fname_s_0276()
 	
 	
 	infProject.catalog.obj = arr;
-	fname_s_017(); 
+	fname_s_022(); 
 	
 }
 
@@ -12349,7 +12349,7 @@ function fname_s_0283(inf, cdm)
 {
 		if(cdm.wd)
 	{  
-		fname_s_071(inf, cdm);
+		fname_s_076(inf, cdm);
 		return;
 	}
 	
@@ -12399,7 +12399,7 @@ function fname_s_0283(inf, cdm)
 
 	scene.add( obj );
 	 
-	fname_s_022({o: obj, type: 'add'});		
+	fname_s_027({o: obj, type: 'add'});		
 	if(cdm.cursor) { clickO.move = obj; } 
 	
 	renderCamera();
@@ -12709,7 +12709,7 @@ function fname_s_0290(cdm)
 	
 
 					
-	fname_s_022({o: obj, type: 'add'});		
+	fname_s_027({o: obj, type: 'add'});		
 	
 	cameraTop.position.x = obj.position.x;
 	cameraTop.position.z = obj.position.z;
@@ -12744,7 +12744,7 @@ function fname_s_0291()
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{	
-		var room = fname_s_0185( wall[i] );
+		var room = fname_s_0190( wall[i] );
 		if(room.length == 1) 
 		{ 	
 			var side = 0;
@@ -13713,7 +13713,7 @@ function fname_s_0320(cdm)
 			
 			for( var i3 = 0; i3 < point.length; i3++ )
 			{
-				if(fname_s_016(pos, point[i3].pos, {kof: 0.1}))
+				if(fname_s_021(pos, point[i3].pos, {kof: 0.1}))
 				{
 					copy = point[i3];
 					break;
@@ -13783,12 +13783,12 @@ function fname_s_0320(cdm)
 		}
 	}
 	
-	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0123(obj_point[i]); }
+	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0128(obj_point[i]); }
 	
-	fname_s_042(infProject.scene.array.wall);	
-	fname_s_0167();	
+	fname_s_047(infProject.scene.array.wall);	
+	fname_s_0172();	
 	
-	fname_s_099();
+	fname_s_0104();
 	
 	fname_s_0321();
 	
@@ -13866,7 +13866,7 @@ function fname_s_0321()
 		var p2 = w2.userData.wall.p[0].position;
 		var p3 = w2.userData.wall.p[1].position;
 		
-		if( !fname_s_08(p0, p1, p2, p3) ) { return null; }		
+		if( !fname_s_013(p0, p1, p2, p3) ) { return null; }		
 		
 		var pos = fname_s_0324(p0, p1, p2, p3);
 		
@@ -13885,16 +13885,16 @@ function fname_s_0321()
 	
 	function fname_s_0324(a1, a2, b1, b2)
 	{
-		var t1 = fname_s_06(a1.x, a1.z, a2.x, a2.z);
-		var t2 = fname_s_06(b1.x, b1.z, b2.x, b2.z);
+		var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
+		var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
 
 		var point = new THREE.Vector3();
-		var f1 = fname_s_07(t1[0], t1[1], t2[0], t2[1]);
+		var f1 = fname_s_012(t1[0], t1[1], t2[0], t2[1]);
 		
 		if(Math.abs(f1) < 0.0001){ return null; } 
 		
-		point.x = fname_s_07(-t1[2], t1[1], -t2[2], t2[1]) / f1;
-		point.z = fname_s_07(t1[0], -t1[2], t2[0], -t2[2]) / f1;			 
+		point.x = fname_s_012(-t1[2], t1[1], -t2[2], t2[1]) / f1;
+		point.z = fname_s_012(t1[0], -t1[2], t2[0], -t2[2]) / f1;			 
 		
 		return point;
 	}	
