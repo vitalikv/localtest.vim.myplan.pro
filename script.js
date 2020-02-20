@@ -1156,6 +1156,7 @@ function crtW( cdm )
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
 	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
+	wall.userData.wall.show = true;
 	
 	var v = wall.geometry.vertices;
 	wall.userData.wall.v = [];

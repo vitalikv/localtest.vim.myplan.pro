@@ -54,6 +54,7 @@ function wallAfterRender_2()
 		if ( res > 0.5 )  
 		{ 	
 			wall.renderOrder = Math.abs(res);
+			wall.userData.wall.show = false;
 			setTransparentMat({obj: wall, value: 1 - Math.abs(res)});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
@@ -64,6 +65,7 @@ function wallAfterRender_2()
 		else
 		{
 			wall.renderOrder = 0;
+			wall.userData.wall.show = true;
 			setTransparentMat({obj: wall, value: 1});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
@@ -83,6 +85,7 @@ function showAllWallRender()
 		var wall = wallVisible[i].wall;
 
 		wall.renderOrder = 0;
+		wall.userData.wall.show = true;
 		setTransparentMat({obj: wall, value: 1});
 		
 		for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 

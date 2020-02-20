@@ -192,7 +192,14 @@ function clickRayHit(event)
 
 	if(!infProject.scene.block.click.wall)
 	{
-		var ray = rayIntersect( event, infProject.scene.array.wall, 'arr' );
+		var arr = [];
+		for ( var i = 0; i < infProject.scene.array.wall.length; i++ )
+		{ 
+			if(!infProject.scene.array.wall[i].userData.wall.show) continue;
+			arr[arr.length] = infProject.scene.array.wall[i]; 
+		}		
+		
+		var ray = rayIntersect( event, arr, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 
@@ -324,8 +331,6 @@ function onDocumentMouseMove( event )
 		else if ( camera == cameraWall ) { moveCameraWall2D( event ); }
 	}
 	
-
-	activeHover2D( event );
 
 	renderCamera();
 }
