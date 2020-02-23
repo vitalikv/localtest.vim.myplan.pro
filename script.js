@@ -315,19 +315,19 @@ function createCenterCamObj()
 	for ( var i = 0; i < circle.length; i++ )
 	{
 		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.0 );
-		v[n].y = 0;		
+		v[n].y = 0.01;		
 		n++;		
 		
 		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.25 );
-		v[n].y = 0;
+		v[n].y = 0.01;
 		n++;
 		
 		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.0 );
-		v[n].y = 0.01;
+		v[n].y = 0.0;
 		n++;	
 		
 		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.25 );
-		v[n].y = 0.01;
+		v[n].y = 0.0;
 		n++;		
 	}	
 
@@ -1737,7 +1737,7 @@ document.addEventListener("keydown", function (e)
 		}
 	}  
 	
-	if(e.keyCode == 66) { switchCamera3D(); } 	// b
+	if(e.keyCode == 66) { switchCamera3D({switch: true}); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
 	if(e.keyCode == 89) { saveFile({txt: true}); } 			// y
 	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
@@ -1893,9 +1893,31 @@ function switchCamera3D(cdm)
 {
 	if(camera != camera3D) return;
 	
-	if(camera3D.userData.camera.type == 'fly')
+	if(!cdm) { cdm = {}; }
+	
+	if(cdm.type)
 	{
-		
+		camera3D.userData.camera.type = cdm.type;
+	}
+	else if(cdm.switch)
+	{
+		if(camera3D.userData.camera.type == 'first')
+		{
+			camera3D.userData.camera.type = 'fly';
+		}
+		else
+		{
+			camera3D.userData.camera.type = 'first';
+		}
+	}
+	else
+	{
+		return;
+	}
+	//switchCamera3D({type: 'fly'})
+	
+	if(camera3D.userData.camera.type == 'first')
+	{		
 		camera3D.userData.camera.save.pos = camera3D.position.clone();
 		camera3D.userData.camera.save.radius = infProject.camera.d3.targetPos.distanceTo(camera.position);
 		
@@ -1906,15 +1928,13 @@ function switchCamera3D(cdm)
 		//newCameraPosition = { positionFirst: new THREE.Vector3(camera.position.x, 1.5, camera.position.z) };
 		newCameraPosition = { positionFirst: new THREE.Vector3(pos.x, 1.5, pos.z) };
 
-		showAllWallRender();	// показываем стены, которые были спрятаны
+		// показываем стены, которые были спрятаны
+		showAllWallRender();	
 	}
 	else
 	{
-		camera3D.userData.camera.type = 'fly';
-		
 		var radius = camera3D.userData.camera.save.radius;
-		var pos = new THREE.Vector3();
-		
+		var pos = new THREE.Vector3();		
 		
 		var radH = Math.acos(camera3D.userData.camera.save.pos.y/radius);
 		

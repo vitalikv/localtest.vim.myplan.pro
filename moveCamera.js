@@ -495,40 +495,8 @@ function moveCameraToNewPosition()
 {
 
 	if ( !newCameraPosition ) return;
-
-	if (camera === cameraTop && newCameraPosition.position2D) 
-	{ 
-		var pos = camera.position.clone();
-		
-		camera.position.lerp(newCameraPosition.position2D, 0.1);
-		
-		if(camera3D.userData.camera.startProject)
-		{
-			var pos2 = new THREE.Vector3( camera.position.x - pos.x, 0, camera.position.z - pos.z );
-			infProject.camera.d3.targetPos.add( pos2 );
-			camera3D.position.add( pos2 );			
-		}
-		
-		if(comparePos(camera.position, newCameraPosition.position2D)) { newCameraPosition = null; if(camera3D.userData.camera.startProject) { camera3D.userData.camera.startProject = false; }; };		
-	}
 	
-	else if ( camera === camera3D && newCameraPosition.position3D )
-	{
-		infProject.camera.d3.targetPos.lerp( newCameraPosition.position3D, 0.1 );
-
-		var oldDistance = infProject.camera.d3.targetPos.distanceTo( camera.position );
-
-		camera.position.x = oldDistance * Math.sin( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
-		camera.position.y = oldDistance * Math.sin( phi * Math.PI / 360 );
-		camera.position.z = oldDistance * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
-
-		camera.position.add( infProject.camera.d3.targetPos );
-		camera.lookAt( infProject.camera.d3.targetPos );
-		
-		if(comparePos(infProject.camera.d3.targetPos, newCameraPosition.position3D)) { newCameraPosition = null; };		
-	}
-
-	else if ( camera === camera3D && newCameraPosition.positionFirst || camera === camera3D && newCameraPosition.positionFly )
+	if ( camera == camera3D && newCameraPosition.positionFirst || camera == camera3D && newCameraPosition.positionFly )
 	{
 		var pos = (newCameraPosition.positionFirst) ? newCameraPosition.positionFirst : newCameraPosition.positionFly;
 		

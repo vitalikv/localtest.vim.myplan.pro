@@ -1256,17 +1256,6 @@ function setParamObj(cdm)
 	updateListTubeUI_1({o: obj, type: 'add'});	// добавляем объект в UI список материалов 
 	
 	//clickO.move = obj;
-
-	cameraTop.position.x = obj.position.x;
-	cameraTop.position.z = obj.position.z;
-	
-	console.log(camera3D);
-	var pos2 = new THREE.Vector3().subVectors( obj.position, infProject.camera.d3.targetPos );
-	camera3D.position.x += pos2.x;
-	camera3D.position.z += pos2.z;
-
-	infProject.camera.d3.targetPos.x = obj.position.x;
-	infProject.camera.d3.targetPos.z = obj.position.z;
 	
 	renderCamera();	
 }
