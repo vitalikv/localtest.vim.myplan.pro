@@ -61,8 +61,7 @@
 			<div class="flex_1 height100">
 				
 				<div style="flex-grow:1; position: relative;">
-					<? require_once("include/top_1.php"); ?>										 					
-					<? require_once("include/modal_window_3.php"); ?>		
+					<? require_once("include/top_1.php"); ?>										 							
 				</div>
 				
 				<? require_once("include/right_panel_1.php"); ?>

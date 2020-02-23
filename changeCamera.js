@@ -198,26 +198,5 @@ function blockActiveObj(cdm)
 
 
 
-// прячем(уменьшаем)/показываем стены 
-function showHideWallHeight_1(cdm)
-{ 
-	if(!cdm) cdm = {};
-	
-	if(cdm.active)
-	{
-		var txtButton = (infProject.settings.interface.button.showHideWall_1.active == 'Спрятать стены')?'Показать стены':'Спрятать стены';
-	}
-	else
-	{
-		var txtButton = infProject.settings.interface.button.showHideWall_1.active;	
-		infProject.settings.interface.button.showHideWall_1.active = (txtButton == 'Спрятать стены')?'Показать стены':'Спрятать стены';
-		
-		$('[nameId="showHideWall_1"]').text(infProject.settings.interface.button.showHideWall_1.active);
-	}
-	
-	
-	if(txtButton == 'Спрятать стены') { changeAllHeightWall_1({height: 0.3}); }
-	else { changeAllHeightWall_1({height: infProject.settings.height}); }
-}
 
 

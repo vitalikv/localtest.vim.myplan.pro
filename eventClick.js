@@ -7,27 +7,9 @@ $('[data-action="top_panel_1"]').mousedown(function () { clickInterface(); });
 $('[data-action="left_panel_1"]').mousedown(function () { clickInterface(); });
 
 
-// переключаем разделы
-$('[nameId="butt_main_menu"]').mousedown(function () { $('[nameId="background_main_menu"]').css({"display":"block"}); });
-$('[nameId="button_load_1"]').mousedown(function () { changeMainMenuUI({value: 'button_load_1'}); });
-$('[nameId="button_save_1"]').mousedown(function () { changeMainMenuUI({value: 'button_save_1'}); });
-
 
 $('[nameId="camera_button"]').change(function() { clickInterface({button: $( this ).val()}); });
 
-
-
-
-// переключаем кнопки в главном меню (сохрание/загрузка)
-// прячем все, кроме выбранного раздела
-function changeMainMenuUI(cdm)
-{
-	$('[nameId="menu_content_1_h1"]').hide();
-	$('[wwm_1="button_load_1"]').hide();
-	$('[wwm_1="button_save_1"]').hide();
-	
-	$('[wwm_1="'+cdm.value+'"]').show();	
-}
 
 
 
@@ -36,12 +18,6 @@ $('[nameId="button_wrap_list_obj"]').mousedown(function () { changeRightMenuUI_1
 $('[nameId="button_wrap_object"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 $('[nameId="button_wrap_plan"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 
-
-
-
-	
-
-$('[nameId="showHideWall_1"]').on('mousedown', function(e) { showHideWallHeight_1(); });
 	
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { objRotateReset(); });	

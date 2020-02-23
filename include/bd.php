@@ -7,26 +7,10 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/include/bd_1.php");
 $url = $_SERVER['REQUEST_URI'];
 
 $path = "";
-
-$title = '';
-$h1 = '';
-$description = '';
-$interface['wall_1'] = 0;
-$interface['wall_2'] = ['top'=>[], 'left'=>[], 'right'=>[], 'bottom'=>[]];
-$interface['wd_1'] = 0;
-$interface['wd_2'] = 0;
-	
-
-
-
 $title = 'Test';
 $h1 = '----';
 $description = '';
 $nameId = '';
-$interface['wd_1'] = 1;	
-$interface['wd_2'] = 1;
-$interface['wall_2']['bottom'] = ['width_1' => 1];
-$interface['wall_2']['top'] = ['showHideWall_1' => 1];
 
 
 
@@ -82,7 +66,6 @@ $infProject['settings']['grid']['size'] = 1.0;
 $infProject['settings']['grid']['count'] = null;
 $infProject['settings']['grid']['pos'] = [ 'y' => -0.00 ];
 $infProject['settings']['grid']['color'] = 0xcccccc;
-$infProject['settings']['interface']['button']['showHideWall_1'] = ['active' => 'Спрятать стены'];
 
 
 
