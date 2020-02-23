@@ -9,12 +9,7 @@
 
 	<div class="flex_column_1 right_panel_1_1" nameId="panel_catalog_1">
 		<div class="flex_1 bottom_line_1">
-			<div class="flex_1 relative_1 right_panel_1_item">
-				<div class="right_panel_1_item_block" nameId="button_wrap_img">
-					<div class="right_panel_1_item_block_text">
-						план 
-					</div>	
-				</div>				
+			<div class="flex_1 relative_1 right_panel_1_item">				
 				<div class="right_panel_1_item_block" nameId="button_wrap_plan">
 					<div class="right_panel_1_item_block_text">
 						дом
@@ -42,67 +37,6 @@
 		</div>
 	
 	
-		
-		<div class="flex_column_1" nameId="wrap_img" style="display: none;">
-			<div class="right_panel_1_1_h">План</div>	
-	
-				<div class="substrate" nameId="substrate">
-
-					<input name="file" type="file" accept="image/x-png,image/jpeg" id="load_substrate_1" class="input_load_substrate">
-					<label for="load_substrate_1" class="button1 button_gradient_1" nameId="load_img_1">		
-						загрузить план
-					</label>
-
-					<div class="prew_substrate">
-						<img src="img/f0.png" id="substrate_img" alt=""/>
-					</div>
-					
-					<div style="display: none;">
-						<div class="substrate_block">
-							прозрачность
-						</div>	
-						<input type="range" nameId="input_transparency_substrate" min="1" max="100" value="100">
-					</div>	
-					
-					<div class="block_1" style="display: none;">
-						<div class="substrate_block">
-							вращение
-						</div>
-						
-						
-						
-						<div class="flex_1">
-							<input type="text" nameId="input_rotate_substrate" value=0>
-							<div class="button1 button_gradient_1" nameId="input_rotate_substrate_45">
-								45
-							</div>
-
-							<div class="button1 button_gradient_1" nameId="input_rotate_substrate_90">
-								90
-							</div>	
-						</div>
-					</div>	
-					
-					<div class="pr_plane_text_1">
-						реальная длина
-					</div>
-					<input type="text" nameId="input_size_substrate" value=0>	
-
-					<div class="button1 button_gradient_1" nameId="assign_size_substrate">
-						применить
-					</div>			
-
-					<div class="button1 button_gradient_1" nameId="button_delete_substrate">
-						удалить
-					</div>
-
-					<div class="button1 button_gradient_1" nameId="button_auto_building" style="margin-top: 60px;">
-						автопостроение
-					</div>						
-				</div>	
-	
-	
-		</div>
 		
 		<div class="flex_column_1" nameId="wrap_plan" style="display: none;">
 			<div class="right_panel_1_1_h">Дом</div>

@@ -1361,16 +1361,6 @@ canvas
 
 
 
-.substrate
-{
-	z-index: 100;
-	 
-	left:0; 
-	top:70px; 
-	height: auto; 
-	border:1px solid #e6e4e4;		
-}
-
 
 .input_load_substrate
 {
@@ -1378,60 +1368,6 @@ canvas
 	visibility: hidden;
 	position: absolute;		
 }	
-
-.prew_substrate 
-{
-	width: 200px; 
-	min-height: 100px;
-	max-height: 150px;
-	margin: auto;
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;		
-}
-
-.prew_substrate img
-{
-	display: block;	
-	width: 200px;
-	min-height: 100px;
-	max-height: 150px;		
-	margin: auto; 
-	-o-object-fit: contain;
-	object-fit: contain;			
-}
-
-.substrate input
-{
-	display: block;
-	margin: 10px auto;
-	width: 90%;
-		
-	font-size: 18px;
-	text-align: center;
-	color: #666;
-	
-	text-decoration: none;
-	line-height: 2em;
-	padding: 0;
-	
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	background-color:#fff;	
-}
-
-.substrate .flex_1 input
-{
-	width: 100px;
-}	
-
-.substrate .block_1
-{
-	margin: 10px auto;
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-}
 
 /*  <--- right_panel  */
 

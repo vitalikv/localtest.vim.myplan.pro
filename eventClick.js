@@ -30,7 +30,7 @@ function changeMainMenuUI(cdm)
 }
 
 
-$('[nameId="button_wrap_img"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
+
 $('[nameId="button_wrap_catalog"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 $('[nameId="button_wrap_list_obj"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 $('[nameId="button_wrap_object"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
@@ -474,39 +474,6 @@ function showHideCatalogMenuUI(cdm)
 	else { block.hide(); button.show(); }
 }
 
-
-//  substrate
-$('#load_substrate_1').change(readURL);	
-$('[nameId="assign_size_substrate"]').mousedown(function () { assignSizeSubstrate(); });
-$('[nameId="button_delete_substrate"]').mousedown(function () { deleteSubstrate(); }); 
-
-$('[nameId="input_rotate_substrate_45"]').mousedown(function () { setRotateSubstrate({angle: 45}); });
-$('[nameId="input_rotate_substrate_90"]').mousedown(function () { setRotateSubstrate({angle: 90}); });
-
-
-$('[nameId="input_transparency_substrate"]').on("input", function() { setTransparencySubstrate({value: $(this).val()}); }); 
-
-
-// загрузка img  с компьютера
-function readURL(e) 
-{
-	if (this.files[0]) 
-	{		
-		if (this.files[0].type == "image/png" || this.files[0].type == "image/jpeg")
-		{
-			var reader = new FileReader();
-			reader.onload = function (e) 
-			{
-				$('#substrate_img').attr('src', e.target.result);						
-				
-				setImgCompSubstrate({image: e.target.result});					
-			}				
-
-			reader.readAsDataURL(this.files[0]);  					
-		}				
-	}
-}	 
-//  substrate
 
 
 

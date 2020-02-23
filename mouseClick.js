@@ -123,33 +123,7 @@ function onDocumentMouseDown( event )
 function clickRayHit(event)
 { 
 	var rayhit = null;	
-		
-		
-	// вкл подложка
-	if(infProject.scene.substrate.active) 
-	{  
-		var plane = infProject.scene.substrate.active;
-		
-		if(!plane.userData.substrate.img) return null;
-		
-		var rayhit = rayIntersect( event, infProject.scene.substrate.ruler, 'arr' );
-		var rayhit = (rayhit.length > 0) ? rayhit[0] : null;
-
-		if(!rayhit)
-		{
-			var rayhit = rayIntersect( event, plane.userData.substrate.p, 'arr' );
-			var rayhit = (rayhit.length > 0) ? rayhit[0] : null;					
-		}				
-		
-		if(!rayhit)
-		{
-			var rayhit = rayIntersect( event, [plane], 'arr' );				
-			var rayhit = (rayhit.length > 0) ? rayhit[0] : null;					
-		}
-		 
-		if(rayhit) return rayhit;			
-		else return null;
-	}
+				
 	
 	if(infProject.tools.pivot.visible)
 	{
@@ -247,7 +221,6 @@ function clickMouseActive(cdm)
 	if(cdm.type == 'down')
 	{  
 		if(clickToolWD(clickO.move)) { flag = false; }
-		else if( tag == 'substrate_tool' && camera == cameraTop ) { clickToolRulerSubstrate2D({intersect: rayhit}); }
 		else if( tag == 'pivot' ) { clickPivot( rayhit ); }
 		else if( tag == 'gizmo' ) { clickGizmo( rayhit ); } 
 		else if( tag == 'wall' && camera == cameraTop ) { clickWall_2D( rayhit ); }
@@ -312,8 +285,7 @@ function onDocumentMouseMove( event )
 	{
 		var tag = obj.userData.tag;
 			
-		if ( tag == 'substrate_tool' ) { moveToolRulerSubstrate2D(event); }	
-		else if ( tag == 'pivot' ) { movePivot( event ); }
+		if ( tag == 'pivot' ) { movePivot( event ); }
 		else if ( tag == 'gizmo' ) { moveGizmo( event ); }
 		else if ( tag == 'wall' ) { moveWall( event, obj ); }
 		else if ( tag == 'window' ) { moveWD( event, obj ); }

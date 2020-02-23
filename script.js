@@ -154,8 +154,6 @@ infProject.scene.block.click = {wall: false, point: false, door: false, window: 
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.geometry = { circle : createCircleSpline() }
 infProject.geometry.cone = [createGeometryCone_1({r1: 0.003, r2: 0.03, h: 0.25}), createGeometryCone_1({r1: 0.001, r2: 0.04, h: 0.1})];
-infProject.scene.substrate = { ruler: [], floor: [], active: null };
-infProject.scene.substrate.ruler = createToolRulerSubstrate(); 
 infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/мебели
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
 infProject.html = {};
@@ -283,13 +281,11 @@ var offset = new THREE.Vector3();
 // cdm
 {
 	backgroundPlane();
-	createSubstrate({ pos: {y: 0.01} }); 	// подложка
 	startPosCamera3D({radious: infProject.settings.cam3D, theta: 90, phi: 35});		// стартовое положение 3D камеры
 	//addObjInCatalogUI_1();			// наполняем каталог объектов UI
 	addTextureInCatalogUI_1();		// наполняем каталог текстур UI
 	addTextureInCatalogUI_2();
-	changeRightMenuUI_1({name: 'button_wrap_object'});	// назначаем первоначальную вкладку , которая будет включена
-	//changeRightMenuUI_1({name: 'button_wrap_img'});	
+	changeRightMenuUI_1({name: 'button_wrap_object'});	// назначаем первоначальную вкладку , которая будет включена	
 	//changeRightMenuUI_1({name: 'button_wrap_plan'});
 	startRightPlaneInput({});
 
