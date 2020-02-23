@@ -16,6 +16,7 @@ function changeCamera(cam)
 	
 	if(camera == cameraTop)
 	{				
+		infProject.camera.d3.targetO.visible = false;
 		blockActiveObj({visible_1: false, visible_2: false});
 		
 		changeDepthColor();			
@@ -28,6 +29,7 @@ function changeCamera(cam)
 	}
 	else if(camera == camera3D)
 	{	
+		infProject.camera.d3.targetO.visible = true;
 		blockActiveObj({visible_1: true, visible_2: true});
 				 
 		cameraZoomTop( cameraTop.zoom );
@@ -137,6 +139,72 @@ function showHideArrObj(arr, visible)
 	for ( var i = 0; i < arr.length; i++ ) { arr[i].material.visible = visible; }				
 }
 
+
+
+
+// переключаем в 3D режиме полёт/вид от первого лица
+function switchCamera3D(cdm)
+{
+	if(camera != camera3D) return;
+	
+	if(!cdm) { cdm = {}; }
+	
+	if(cdm.type)
+	{
+		camera3D.userData.camera.type = cdm.type;
+	}
+	else
+	{
+		if(camera3D.userData.camera.type == 'first')
+		{
+			camera3D.userData.camera.type = 'fly';
+		}
+		else
+		{
+			camera3D.userData.camera.type = 'first';
+		}
+	}
+
+	
+	var posCenter = infProject.camera.d3.targetO.position;
+	
+	if(camera3D.userData.camera.type == 'first')
+	{		
+		camera3D.userData.camera.save.pos = camera3D.position.clone();
+		camera3D.userData.camera.save.radius = posCenter.distanceTo(camera.position);
+		 
+		camera3D.userData.camera.dist = posCenter.distanceTo(camera.position);
+		camera3D.userData.camera.type = 'first';		
+		
+		newCameraPosition = { positionFirst: new THREE.Vector3(posCenter.x, 1.5, posCenter.z) };
+
+		// показываем стены, которые были спрятаны
+		showAllWallRender();	
+	}
+	else
+	{
+		var radius = camera3D.userData.camera.save.radius;
+		var pos = new THREE.Vector3();		
+		
+		var radH = Math.acos(camera3D.userData.camera.save.pos.y/radius);
+		
+		camera3D.updateMatrixWorld();
+		var dir = camera3D.getWorldDirection(new THREE.Vector3());
+		dir = new THREE.Vector3(dir.x, 0, dir.z).normalize();
+		
+		var radXZ = Math.atan2(dir.z, dir.x);		
+	
+		pos.x = -radius * Math.sin(radH) * Math.cos(radXZ) + posCenter.x; 
+		pos.z = -radius * Math.sin(radH) * Math.sin(radXZ) + posCenter.z;
+		pos.y = radius * Math.cos(radH);					
+		
+		newCameraPosition = { positionFly: pos };
+
+		// прячем стены
+		getInfoRenderWall();
+		wallAfterRender_2();		 
+	}
+}
 
 
 

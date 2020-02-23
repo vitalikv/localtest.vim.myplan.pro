@@ -100,6 +100,11 @@ for ($i = 0; $i < count($arrF); $i++)
 	{
 		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
 	}
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'switchCamera3D')) 
+	{
+		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		
+		$file2 = preg_replace('#\b'.$arrF[$i].'\b#Us','fname_s_camera3d_view',$file2);
+	}	
 	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'clickInterface')) 
 	{
 		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		

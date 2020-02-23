@@ -65,6 +65,13 @@ function createFloor(cdm)
 
 
 	
+	cdm.material = { img: infProject.path+"img/load/floor_1.jpg" };
+	
+	if(cdm.material)
+	{  
+		setTexture({obj: floor, material: cdm.material});	
+	}
+	
 	if(infProject.settings.floor.o)
 	{ 	
 		floor.userData.room.html.label = createHtmlLabelWall({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
