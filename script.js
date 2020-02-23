@@ -45,8 +45,11 @@ camera3D.rotation.order = 'YZX';		//'ZYX'
 camera3D.position.set(5, 7, 5);
 camera3D.lookAt(scene.position);
 camera3D.rotation.z = 0;
-camera3D.userData.camera = { type : 'fly', height : camera3D.position.y, startProject : true };
-camera3D.userData.camera.click = { pos : new THREE.Vector3() }; 
+camera3D.userData.camera = { type: 'fly', height: camera3D.position.y, startProject: true };
+camera3D.userData.camera.click = { pos: new THREE.Vector3() };
+camera3D.userData.camera.save = {}; 
+camera3D.userData.camera.save.pos = camera3D.position.clone();
+camera3D.userData.camera.save.radius = 0;
 //----------- camera3D
 
 
@@ -145,7 +148,6 @@ infProject.settings.active = { pg: 'pivot' };
 infProject.settings.door = { width: 1, height: 2.2 };
 infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
 infProject.settings.room = { type: [] };
-infProject.camera = { d3: { theta: 0, phi: 75, targetPos: new THREE.Vector3() } };
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
 infProject.scene.grid = { obj: createGrid(infProject.settings.grid), active: false, link: false, show: true };
@@ -159,6 +161,8 @@ infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});
 infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
 infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none', tag: 'elem_wd_size'}); 
+infProject.camera = { d3: { theta: 0, phi: 75, targetPos: new THREE.Vector3() } };
+infProject.camera.d3.targetO = createCenterCamObj();
 // controllWD контроллеры для изменения ширины/длины wd
 infProject.tools = { pivot: createPivot_2(), gizmo: createGizmo360_2(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
 infProject.tools.floorPl = createPlaneOutlineFloor();
@@ -298,6 +302,48 @@ var offset = new THREE.Vector3();
 //----------- start
 
 
+
+
+
+
+function createCenterCamObj()
+{
+	var n = 0;
+	var v = [];
+	var circle = infProject.geometry.circle;
+	
+	for ( var i = 0; i < circle.length; i++ )
+	{
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.0 );
+		v[n].y = 0;		
+		n++;		
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.25 );
+		v[n].y = 0;
+		n++;
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.0 );
+		v[n].y = 0.01;
+		n++;	
+		
+		v[n] = new THREE.Vector3().addScaledVector( circle[i].clone().normalize(), 0.25 );
+		v[n].y = 0.01;
+		n++;		
+	}	
+
+	
+	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
+	
+	var obj = new THREE.Mesh( createGeometryCircle(v), material ); 
+	obj.userData.tag = '';
+	obj.renderOrder = 2;
+	//obj.position.copy(cdm.pos);		
+	
+	//obj.visible = false;
+	scene.add( obj );
+	
+	return obj;
+}
 
 
 function createHtmlLabelWall(cdm)
@@ -1691,7 +1737,7 @@ document.addEventListener("keydown", function (e)
 		}
 	}  
 	
-	if(e.keyCode == 66) { loadUrlFile(); } 	// b
+	if(e.keyCode == 66) { switchCamera3D(); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
 	if(e.keyCode == 89) { saveFile({txt: true}); } 			// y
 	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
@@ -1843,6 +1889,52 @@ function checkNumberInput(cdm)
 
 
 
+function switchCamera3D(cdm)
+{
+	if(camera != camera3D) return;
+	
+	if(camera3D.userData.camera.type == 'fly')
+	{
+		
+		camera3D.userData.camera.save.pos = camera3D.position.clone();
+		camera3D.userData.camera.save.radius = infProject.camera.d3.targetPos.distanceTo(camera.position);
+		
+		camera3D.userData.camera.height = camera.position.y;
+		camera3D.userData.camera.dist = infProject.camera.d3.targetPos.distanceTo(camera.position);
+		camera3D.userData.camera.type = 'first';
+		var pos = infProject.camera.d3.targetPos;
+		//newCameraPosition = { positionFirst: new THREE.Vector3(camera.position.x, 1.5, camera.position.z) };
+		newCameraPosition = { positionFirst: new THREE.Vector3(pos.x, 1.5, pos.z) };
+
+		showAllWallRender();	// показываем стены, которые были спрятаны
+	}
+	else
+	{
+		camera3D.userData.camera.type = 'fly';
+		
+		var radius = camera3D.userData.camera.save.radius;
+		var pos = new THREE.Vector3();
+		
+		
+		var radH = Math.acos(camera3D.userData.camera.save.pos.y/radius);
+		
+		camera3D.updateMatrixWorld();
+		var dir = camera3D.getWorldDirection(new THREE.Vector3());
+		dir = new THREE.Vector3(dir.x, 0, dir.z).normalize();
+		
+		var radXZ = Math.atan2(dir.z, dir.x);		
+	
+		pos.x = -radius * Math.sin(radH) * Math.cos(radXZ) + infProject.camera.d3.targetPos.x;
+		pos.z = -radius * Math.sin(radH) * Math.sin(radXZ) + infProject.camera.d3.targetPos.z;
+		pos.y = radius * Math.cos(radH);					
+		
+		newCameraPosition = { positionFly: pos };
+
+		// прячем стены
+		getInfoRenderWall();
+		wallAfterRender_2();		 
+	}
+}
 
 
 

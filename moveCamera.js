@@ -109,35 +109,12 @@ function updateKeyDown()
 			flag = true;
 		}
 	}
-	else if ( camera == cameraWall )
-	{
-		if ( keys[ 87 ] || keys[ 38 ] ) 
-		{
-			camera.position.y += 0.1;
-			newCameraPosition = null;
-			flag = true;
-		}
-		else if ( keys[ 83 ] || keys[ 40 ] ) 
-		{
-			camera.position.y -= 0.1;
-			newCameraPosition = null;
-			flag = true;
-		}
-		if ( keys[ 65 ] || keys[ 37 ] ) 
-		{
-			camera.position.x -= 0.1;
-			newCameraPosition = null;
-			flag = true;
-		}
-		else if ( keys[ 68 ] || keys[ 39 ] ) 
-		{
-			camera.position.x += 0.1;
-			newCameraPosition = null;
-			flag = true;
-		}
-	}
 
-	if(flag) { renderCamera(); }
+	if(flag) 
+	{ 
+		infProject.camera.d3.targetO.position.copy(infProject.camera.d3.targetPos);
+		renderCamera(); 
+	}
 }
 
 
@@ -147,6 +124,7 @@ function startPosCamera3D(cdm)
 	camera3D.position.x = 0;
 	camera3D.position.y = cdm.radious * Math.sin( cdm.phi * Math.PI / 360 );
 	camera3D.position.z = cdm.radious * Math.cos( cdm.theta * Math.PI / 360 ) * Math.cos( cdm.phi * Math.PI / 360 );
+			
 			
 	camera3D.lookAt(new THREE.Vector3( 0, 0, 0 ));	
 }
@@ -173,6 +151,8 @@ function cameraMove3D( event )
 			camera.position.add( infProject.camera.d3.targetPos );  
 			camera.lookAt( infProject.camera.d3.targetPos );			
 			
+			infProject.camera.d3.targetO.position.copy(infProject.camera.d3.targetPos);
+			
 			wallAfterRender_2();
 		}
 		if ( isMouseDown3 )    
@@ -183,6 +163,8 @@ function cameraMove3D( event )
 			var offset = new THREE.Vector3().subVectors( camera3D.userData.camera.click.pos, intersects[0].point );
 			camera.position.add( offset );
 			infProject.camera.d3.targetPos.add( offset );
+			
+			infProject.camera.d3.targetO.position.copy(infProject.camera.d3.targetPos);
 			
 			wallAfterRender_2();
 		}
@@ -199,16 +181,8 @@ function cameraMove3D( event )
 			camera.rotation.y -= y;
 			onMouseDownPosition.x = event.clientX;
 			onMouseDownPosition.y = event.clientY;
-
-			var dir = camera.getWorldDirection();			
-			//dir.y = 0;
-			dir.normalize();
-			dir.x *= camera3D.userData.camera.dist;
-			dir.z *= camera3D.userData.camera.dist;
-			dir.add( camera.position );
-			dir.y = 0;
 			
-			infProject.camera.d3.targetPos.copy( dir ); 		
+			infProject.camera.d3.targetPos.set( camera.position.x, infProject.camera.d3.targetPos.y, camera.position.z ); 		
 		}
 	} 		
 	
@@ -560,9 +534,37 @@ function moveCameraToNewPosition()
 		
 		camera.position.lerp( pos, 0.1 );
 		
-		camera.lookAt( infProject.camera.d3.targetPos ); 
 		
-		if(comparePos(camera.position, pos)) { newCameraPosition = null; };		
+		if(newCameraPosition.positionFirst)
+		{
+			var dir = camera.getWorldDirection(new THREE.Vector3()); 			
+			dir.y = 0; 
+			dir.normalize();
+			dir.add( newCameraPosition.positionFirst );	
+			camera.lookAt( dir );
+		}
+		if(newCameraPosition.positionFly)
+		{
+			var radius_1 = camera3D.userData.camera.save.radius;
+			var radius_2 = infProject.camera.d3.targetPos.distanceTo(camera.position);
+			
+			var k = Math.abs((radius_2/radius_1) - 1);
+			
+			var dir = camera.getWorldDirection(new THREE.Vector3()); 			
+			dir.y = 0; 
+			dir.normalize();
+			dir.x *= 15*k;
+			dir.z *= 15*k;
+			dir.add( infProject.camera.d3.targetPos );	
+			
+			camera.lookAt( dir ); 
+		}		
+		
+		
+		if(comparePos(camera.position, pos)) 
+		{ 	
+			newCameraPosition = null; 
+		};		
 	}
 	else
 	{
@@ -573,15 +575,7 @@ function moveCameraToNewPosition()
 }
 
 
-// изменение высоты (через ползунок) камеры в режиме от первого лица 
-function changeHeightCameraFirst(value)
-{
-	if(camera3D.userData.camera.type != 'first') return;
-	
-	$('.range-slider2').attr("value", value);
-	
-	camera3D.position.y = (value / 100) * 2 + 0.2;  
-}
+
 
 
 function detectBrowser()

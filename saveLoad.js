@@ -12,16 +12,7 @@ function loadUrl(href)
 
 var resetPop =
 {
-	camera3D : 
-	{
-		userData : function()
-		{
-			var camera = { type : 'fly', height : camera3D.position.y, startProject : true, rot360 : { start : false, angle : 0, qEnd : null } };
-			camera.click = { pos : new THREE.Vector3() };
-			
-			return camera;			
-		}
-	},
+
 
 	fileInfo : function()
 	{
@@ -190,9 +181,7 @@ function resetScene()
 		infProject.html.wd[i].userData.elem.show = false;
 	}
 	
-	
-	camera3D.userData.camera = { type : 'fly', height : camera3D.position.y, startProject : true };
-	camera3D.userData.camera.click = { pos : new THREE.Vector3() }; 
+
 	
 	clickO = resetPop.clickO();
 	infProject.project = null;
