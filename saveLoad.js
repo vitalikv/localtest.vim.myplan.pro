@@ -766,7 +766,7 @@ async function loadFilePL(arr)
 	
 	readyProject();
 	cameraZoomTop( camera.zoom );
-	
+	centerCamera2D();
 
 	renderCamera();
 	

@@ -399,7 +399,6 @@ function upLineYY(point)
 
 function upLineYY_2(point)
 {
-	var point = point;
 	var arrP = point.p;
 	var arrW = point.w;
 	var arrS = point.start;
@@ -409,43 +408,33 @@ function upLineYY_2(point)
 	var n = 0;
 	for ( var i = 0; i < arrP.length; i++ )
 	{
-		if(point.position.distanceTo(arrP[i].position) < 0.1)
+		if(point.position.distanceTo(arrP[i].position) < 0.01)
 		{ 
-			arrW[i].geometry.vertices[0].x = 0;
-			arrW[i].geometry.vertices[1].x = 0;	
-			arrW[i].geometry.vertices[2].x = 0;	
-			arrW[i].geometry.vertices[3].x = 0;	
-			arrW[i].geometry.vertices[4].x = 0;	
-			arrW[i].geometry.vertices[5].x = 0;			
-			arrW[i].geometry.vertices[6].x = 0;
-			arrW[i].geometry.vertices[7].x = 0;	
-			arrW[i].geometry.vertices[8].x = 0;	
-			arrW[i].geometry.vertices[9].x = 0;	
-			arrW[i].geometry.vertices[10].x = 0;	
-			arrW[i].geometry.vertices[11].x = 0;	
+			for ( var i2 = 0; i2 < arrW[i].geometry.vertices.length; i2++ )
+			{
+				arrW[i].geometry.vertices[i2].x = 0;
+			}	
 			continue; 
 		}
 		
-		arrD[n] = [];
-		arrD[n][1] = i;
-		arrD[n][0] = new THREE.Vector3().subVectors( point.position, arrP[i].position ).normalize();
-		arrD[n][0] = Math.atan2(arrD[n][0].x, arrD[n][0].z);
+		arrD[n] = {id: i};
 		
-		if(arrD[n][0] < 0){ arrD[n][0] += Math.PI * 2; }		
+		var dir = new THREE.Vector3().subVectors( point.position, arrP[i].position ).normalize();
+		arrD[n].angel = Math.atan2(dir.x, dir.z);
+		
+		if(arrD[n].angel < 0){ arrD[n].angel += Math.PI * 2; }		
 		n++;
 	}
 	
-	arrD.sort(function (a, b) { return a[0] - b[0]; });
+	arrD.sort(function (a, b) { return a.angel - b.angel; });
 	
-	for ( var i = 0; i < arrD.length - 1; i++ )
+	for ( var i = 0; i < arrD.length; i++ )
 	{ 
-		upLineUU(arrW[arrD[i][1]], arrW[arrD[i + 1][1]], arrS[arrD[i][1]], arrS[arrD[i + 1][1]], point.position); 
+		var i2 = (i == arrD.length - 1) ? 0 : (i + 1);
+		
+		upLineUU(arrW[arrD[i].id], arrW[arrD[i2].id], arrS[arrD[i].id], arrS[arrD[i2].id], point.position); 
 	}	
-	var i2 = arrD.length - 1; 
-	if(arrD[i2]) 
-	{
-		upLineUU(arrW[arrD[i2][1]], arrW[arrD[0][1]], arrS[arrD[i2][1]], arrS[arrD[0][1]], point.position);		
-	}
+
 }
 
 
@@ -534,7 +523,7 @@ function upLineUU(line1, line2, s1, s2, pointC)
 	line2.geometry.computeBoundingSphere();	
 	
 	
-	if(line1.userData.wall.svg)
+	if(line1.userData.wall.svg.lineW)
 	{
 		line1.updateMatrixWorld();
 		var m1a = line1.localToWorld( v1[n1].clone() );
@@ -544,7 +533,7 @@ function upLineUU(line1, line2, s1, s2, pointC)
 		else { updateSvgLine({line: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}
 
-	if(line2.userData.wall.svg && 1==2)
+	if(line2.userData.wall.svg.lineW && 1==1)
 	{
 		line2.updateMatrixWorld();
 		var m1a = line2.localToWorld( v2[f1].clone() );
