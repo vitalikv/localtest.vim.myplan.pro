@@ -68,7 +68,10 @@
 				
 			</div>
 		
-		</div>	
+		</div>
+
+		<svg id="svgFrame" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute;">
+		</svg>
 	</div>
 
 
@@ -95,6 +98,7 @@
     <script src="<?=$path?>detectZone.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>loadObj.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>substrate.js?<?=$vrs?>"></script>
+	<script src="<?=$path?>svg_1.js?<?=$vrs?>"></script>
 	
 	<script src="<?=$path?>hideWall.js?<?=$vrs?>"></script>
     <script src="<?=$path?>inputWall.js?<?=$vrs?>"></script>  	

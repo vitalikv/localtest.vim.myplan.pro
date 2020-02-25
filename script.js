@@ -369,7 +369,7 @@ function createCenterCamObj()
 	obj.add( obj_2 );
 	scene.add( obj );
 	
-	upUvs_1( obj );
+	upUvs_4( obj );
 	
 	setTexture({obj: obj, material: { img: infProject.path+"img/walk_1.png" }, repeat: {x: 1.9, y: 1.9}, offset: {x: 0.5, y: 0.5} });	
 	
@@ -1229,6 +1229,8 @@ function crtW( cdm )
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
 	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
+	wall.userData.wall.svg = {};
+	wall.userData.wall.svg.lineW = [createSvgLine(), createSvgLine({color: '#00ff00'})];
 	wall.userData.wall.show = true;
 	
 	var v = wall.geometry.vertices;

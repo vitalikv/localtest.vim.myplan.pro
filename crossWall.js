@@ -122,6 +122,7 @@ function DetMatrix2x2(x1, y1, x2, y2)
 }
 
 
+
 // Проверка двух отрезков на пересечение (ориентированная площадь треугольника)
 function CrossLine(a, b, c, d)
 {
@@ -139,9 +140,6 @@ function area_1(a, b, c) { return (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x
 
 // меняем местами 2 значения
 function swap(a, b) { var c; c = a; a = b; b = c; return [a, b]; }
-
-
-
 
 
 

@@ -32,6 +32,7 @@ loadObj.js
 hideWall.js
 substrate.js
 autoBuilding.js
+svg_1.js
 ';
 
 $arrF = array();
