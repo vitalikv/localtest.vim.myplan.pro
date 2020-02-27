@@ -76,7 +76,7 @@ function showSvgSizeObj(cdm)
 	
 	obj.updateMatrixWorld();
 	obj.geometry.computeBoundingBox();	
-	obj.geometry.computeBoundingSphere()
+	//obj.geometry.computeBoundingSphere()
 	
 	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );
 	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );
@@ -102,14 +102,30 @@ function showSvgSizeObj(cdm)
 		var sizeZ = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
 		
 		
-		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingSphere.center.z) );
-		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingSphere.center.z) );
-		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingSphere.center.x, 0, obj.geometry.boundingBox.min.z) );
-		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingSphere.center.x, 0, obj.geometry.boundingBox.max.z) );
+		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
+		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
 		
 		updateSvgLine({line: infProject.svg.furn.size[0], point: [x1, x2]});
 		updateSvgLine({line: infProject.svg.furn.size[1], point: [z1, z2]});
-		showElementSvg(infProject.svg.furn.size);		
+		showElementSvg(infProject.svg.furn.size);
+
+		var html = infProject.html.furn.size;
+		
+		showElementHtml(html);
+		
+		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
+		html[0].userData.elem.pos = posLabel;	
+		html[0].style.transform = 'translate(-50%, -50%)';
+		html[0].textContent = Math.round(sizeX * 100) / 100 + '';		
+		upPosLabels_2({elem: html[0]});
+
+		var posLabel = new THREE.Vector3().subVectors( z2, z1 ).divideScalar( 2 ).add(z1); 
+		html[1].userData.elem.pos = posLabel;	
+		html[1].style.transform = 'translate(-50%, -50%)';
+		html[1].textContent = Math.round(sizeZ * 100) / 100 + '';		
+		upPosLabels_2({elem: html[1]});		
 	}
 	
 	
@@ -346,6 +362,9 @@ function hidePivotGizmo(obj)
 	hideElementSvg(infProject.svg.furn.box);
 	hideElementSvg(infProject.svg.furn.size);
 	hideElementSvg(infProject.svg.furn.offset);
+	
+	hideElementHtml(infProject.html.furn.size);
+	hideElementHtml(infProject.html.furn.offset);
 	
 	//clickO.obj = null;  
 	clickO.last_obj = null;

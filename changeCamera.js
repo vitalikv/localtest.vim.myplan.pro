@@ -117,7 +117,12 @@ function changeDepthColor()
 	}
 	
 	if(visible) { showElementHtml(label); }
-	else { hideElementHtml(label); }
+	else 
+	{ 
+		hideElementHtml(label); 
+		hideElementHtml(infProject.html.furn.size);
+		hideElementHtml(infProject.html.furn.offset);		
+	}
 
 	hideElementSvg(infProject.svg.arr);
 	

@@ -162,8 +162,8 @@ infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
 infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none', tag: 'elem_wd_size'});
 infProject.html.furn = {};
-infProject.html.furn.size = createHtmlLabelWall({count: 2, display: 'none', tag: 'elem_furn_size'});
-infProject.html.furn.offset = createHtmlLabelWall({count: 4, display: 'none', tag: 'elem_furn_offset'});
+infProject.html.furn.size = createHtmlLabelWall({count: 2, display: 'none', tag: 'elem_furn_size', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
+infProject.html.furn.offset = createHtmlLabelWall({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	// хранятся все svg
 infProject.svg.furn.box = createSvgLine({count: 4});
@@ -394,10 +394,12 @@ function createHtmlLabelWall(cdm)
 		var labelContainerElem = document.querySelector('#canvasFrame');
 		var elem = document.createElement('div');
 		elem.textContent = '';
-		elem.style.cssText = 'position: absolute; width: 120px; text-align: center;';
+		elem.style.cssText = 'position: absolute; text-align: center;';
 		elem.style.cssText += infProject.settings.html.fonts.wall.size; 
 		elem.style.cssText += infProject.settings.html.fonts.wall.type;
 		elem.style.cssText += infProject.settings.html.fonts.wall.color;
+		if(cdm.style) { elem.style.cssText += (cdm.style); }
+		
 		labelContainerElem.appendChild(elem); 
 		
 		elem.userData = {};

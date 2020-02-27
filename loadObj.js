@@ -7,7 +7,7 @@ async function getListObjTypesApi()
 	
 	var arr = [];
 
-	if(1==2)
+	if(1==1)
 	{
 		var response = await fetch(url, { method: 'GET' });
 		var json = await response.json();
@@ -83,7 +83,7 @@ async function getListObjTypesApi()
 			name : 'Пуф_ПФ',
 			planeMath : 0.0,
 			glb : true,
-			//stopUI: true,
+			stopUI: true,
 		}
 
 		arr[arr.length] =
