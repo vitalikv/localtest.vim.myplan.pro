@@ -58,9 +58,170 @@ function clickObject3D(cdm)
 	
 	outlineAddObj({arr: [obj]});
 	
-	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI 
+	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI
+
+	showSvgSizeObj({obj: obj});
 }
 
+
+
+// показываем размеры объекта
+function showSvgSizeObj(cdm)
+{
+	if(camera != cameraTop) return;
+	
+	var obj = cdm.obj;
+		
+	var v = [];
+	
+	obj.updateMatrixWorld();
+	obj.geometry.computeBoundingBox();	
+	obj.geometry.computeBoundingSphere()
+	
+	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );
+	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );
+	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.min.z) );
+	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.min.z) );		
+
+	
+	var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
+	
+	for(var i = 0; i < v.length; i++)
+	{
+		if(v[i].x < bound.min.x) { bound.min.x = v[i].x; }
+		if(v[i].x > bound.max.x) { bound.max.x = v[i].x; }
+		if(v[i].z < bound.min.z) { bound.min.z = v[i].z; }
+		if(v[i].z > bound.max.z) { bound.max.z = v[i].z; }		
+	}	
+	
+	
+	
+	// размеры объекта
+	{
+		var sizeX = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
+		var sizeZ = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
+		
+		
+		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingSphere.center.z) );
+		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingSphere.center.z) );
+		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingSphere.center.x, 0, obj.geometry.boundingBox.min.z) );
+		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingSphere.center.x, 0, obj.geometry.boundingBox.max.z) );
+		
+		updateSvgLine({line: infProject.svg.furn.size[0], point: [x1, x2]});
+		updateSvgLine({line: infProject.svg.furn.size[1], point: [z1, z2]});
+		showElementSvg(infProject.svg.furn.size);		
+	}
+	
+	
+	// box 
+	{
+		var boxLine = infProject.svg.furn.box;
+		// [0] - top line
+		// [1] - bottom
+		// [2] - left
+		// [3] - right
+		
+		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
+		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);		
+		updateSvgLine({line: boxLine[0], point: [p1, p2]});
+		
+		var p1 = new THREE.Vector3(bound.min.x, 0, bound.max.z);
+		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
+		updateSvgLine({line: boxLine[1], point: [p1, p2]});
+
+		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
+		var p2 = new THREE.Vector3(bound.min.x, 0, bound.max.z);		
+		updateSvgLine({line: boxLine[2], point: [p1, p2]});
+
+		var p1 = new THREE.Vector3(bound.max.x, 0, bound.min.z);
+		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
+		updateSvgLine({line: boxLine[3], point: [p1, p2]});	
+		
+		showElementSvg(boxLine);
+	}
+	
+	
+	// определяем к какой комнате относится объект и показываем расстояние до стен
+	{
+		var floor = null;
+		
+		for ( var i = 0; i < infProject.scene.array.floor.length; i++ )
+		{
+			var ray = new THREE.Raycaster();
+			ray.set( new THREE.Vector3(obj.position.x, 1, obj.position.z), new THREE.Vector3(0, -1, 0) );
+			
+			var intersects = ray.intersectObject( infProject.scene.array.floor[i] );	
+			
+			if(intersects[0]) { floor = intersects[0].object; break; }							
+		}
+		
+		if(floor)
+		{
+			// [0] - top line
+			// [1] - bottom
+			// [2] - left
+			// [3] - right	
+			
+			var p0 = boxLine[0].userData.svg.line.p;
+			var p1 = boxLine[1].userData.svg.line.p;
+			var p2 = boxLine[2].userData.svg.line.p;
+			var p3 = boxLine[3].userData.svg.line.p;
+			
+			var posTop = new THREE.Vector3().subVectors( p0[1], p0[0] ).divideScalar( 2 ).add(p0[0]); 
+			var posBottom = new THREE.Vector3().subVectors( p1[1], p1[0] ).divideScalar( 2 ).add(p1[0]);
+			var posLeft = new THREE.Vector3().subVectors( p2[1], p2[0] ).divideScalar( 2 ).add(p2[0]);
+			var posRight = new THREE.Vector3().subVectors( p3[1], p3[0] ).divideScalar( 2 ).add(p3[0]);
+			
+			var offsetLine = infProject.svg.furn.offset;
+			
+			var contour = floor.userData.room.contour;
+			
+			var arr = [];
+			
+			arr[0] = {line: offsetLine[0], posStart: posTop, dir: new THREE.Vector3(0,0,-1)};
+			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1)};
+			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0)};
+			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0)};
+			
+			for ( var n = 0; n < arr.length; n++ )
+			{
+				
+				var dir = arr[n].dir;
+				var posStart = arr[n].posStart;
+				var line = arr[n].line;
+
+				hideElementSvg([line]);
+				
+				for ( var i = 0; i < contour.length; i++ )
+				{
+					var i2 = (contour.length - 1 == i) ? 0 : i+1;
+
+					// находим точку пересечения
+					var res = crossPointTwoLine_3(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
+					
+					if(!res[1])
+					{
+						var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
+						
+						// пересекаются ли линии
+						if(CrossLine(posStart, posEnd, contour[i], contour[i2])) 
+						{
+							updateSvgLine({line: line, point: [posStart, res[0]]});
+							showElementSvg([line]);
+							break;
+						}
+					}				
+				}							
+			}
+						
+		}
+		else
+		{
+			hideElementSvg(infProject.svg.furn.offset);
+		}
+		
+	}
+}
 
 
 
@@ -88,6 +249,8 @@ function moveObjectPop( event )
 	infProject.tools.gizmo.position.add( pos2 );
 
 	setScalePivotGizmo();
+	
+	showSvgSizeObj({obj: obj});
 }
 
 

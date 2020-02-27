@@ -85,7 +85,7 @@ function animate()
 function renderCamera()
 {
 	camera.updateMatrixWorld();	
-	upPosLabels();
+	upPosLabels_1();
 	composer.render();
 }
 //----------- render
@@ -115,7 +115,7 @@ function onWindowResize()
 	cameraWall.updateProjectionMatrix();
 	
 	renderer.setSize(containerF.clientWidth, containerF.clientHeight);
-	upPosLabels({resize: true});
+	upPosLabels_1({resize: true});
 	
 	renderCamera();
 }
@@ -160,7 +160,12 @@ infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/м�
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
 infProject.html = {};
 infProject.html.label = [];	// хранятся все html label
-infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none', tag: 'elem_wd_size'}); 
+infProject.html.wd = createHtmlLabelWall({count: 6, display: 'none', tag: 'elem_wd_size'});
+infProject.svg = {furn: {}};
+infProject.svg.arr = []; 	// хранятся все svg
+infProject.svg.furn.box = createSvgLine({count: 4});
+infProject.svg.furn.size = createSvgLine({count: 2});
+infProject.svg.furn.offset = createSvgLine({count: 4}); 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = createCenterCamObj();
 // controllWD контроллеры для изменения ширины/длины wd
@@ -414,7 +419,7 @@ function createHtmlLabelWall(cdm)
 
 
 
-function upPosLabels(cdm)
+function upPosLabels_1(cdm)
 {
 	if(camera != cameraTop) return;
 	
@@ -436,6 +441,16 @@ function upPosLabels(cdm)
 	{
 		var elem = infProject.html.label[i];
 		
+		if(elem.userData.elem.show)
+		{
+			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; continue; }
+			else { elem.style.display = 'block'; }			
+		}
+		else
+		{
+			continue;
+		}
+		
 		//camera.updateProjectionMatrix();
 		var tempV = elem.userData.elem.pos.clone().project(camera);
 
@@ -447,14 +462,21 @@ function upPosLabels(cdm)
 		//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
 		
 		elem.style.top = `${y}px`;
-		elem.style.left = `${x}px`;	
+		elem.style.left = `${x}px`;			
+	}
+
+	for ( var i = 0; i < infProject.svg.arr.length; i++ )
+	{
+		var svg = infProject.svg.arr[i];
 		
-		if(elem.userData.elem.show)
+		//if(!svg.userData.svg.show) continue;
+		
+		if(svg.userData.svg.line)
 		{
-			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; }
-			else { elem.style.display = 'block'; }			
+			updateSvgLine({line: svg});
 		}
-	}		
+				
+	}	
 }
 
 
@@ -1230,7 +1252,8 @@ function crtW( cdm )
 	wall.userData.wall.html = {};
 	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
 	wall.userData.wall.svg = {};
-	wall.userData.wall.svg.lineW = [createSvgLine(), createSvgLine({color: '#00ff00'})];
+	//wall.userData.wall.svg.lineW = [createSvgLine({count: 1})[0], createSvgLine({count: 1, color: '#00ff00'})[0]];
+	wall.userData.wall.svg.lineW = null;
 	wall.userData.wall.show = true;
 	
 	var v = wall.geometry.vertices;

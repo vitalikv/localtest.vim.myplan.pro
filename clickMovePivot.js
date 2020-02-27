@@ -180,7 +180,9 @@ function movePivot( event )
 	pivot.position.add( pos2 );
 	gizmo.position.add( pos2 );
 	
-	obj.position.add( pos2 ); 
+	obj.position.add( pos2 );
+
+	showSvgSizeObj({obj: obj});
 	
 	setScalePivotGizmo();
 }

@@ -5,15 +5,17 @@ async function getListObjTypesApi()
 {
 	var url = infProject.settings.api.list;
 	
-
-	var response = await fetch(url, { method: 'GET' });
-	var json = await response.json();
-
 	var arr = [];
-	
-	for(var i = 0; i < json.length; i++)
+
+	if(1==2)
 	{
-		arr[i] = { lotid: json[i].id, name: json[i].title, url: infProject.settings.api.models+json[i].model, planeMath : 0.0, glb : true, };		
+		var response = await fetch(url, { method: 'GET' });
+		var json = await response.json();
+		
+		for(var i = 0; i < json.length; i++)
+		{
+			arr[i] = { lotid: json[i].id, name: json[i].title, url: infProject.settings.api.models+json[i].model, planeMath : 0.0, glb : true, };		
+		}		
 	}
 	
 	
@@ -81,7 +83,7 @@ async function getListObjTypesApi()
 			name : 'Пуф_ПФ',
 			planeMath : 0.0,
 			glb : true,
-			stopUI: true,
+			//stopUI: true,
 		}
 
 		arr[arr.length] =

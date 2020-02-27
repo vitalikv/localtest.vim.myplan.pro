@@ -76,32 +76,7 @@ function detectSameZone( arrRoom, arrP )
 
 
 
-// проверяем если зона с такими же точками (нужно saveLoad.js , загрузка файла)
-function detectSameZone_2( arrRoom, arrP )
-{
-	var flag = false;
-	var ln = 0;
-	
-	if(arrRoom.p.length - 1 != arrP.length) { return flag; }
-		
-	for ( var i2 = 0; i2 < arrRoom.p.length - 1; i2++ )
-	{
-		for ( var i3 = 0; i3 < arrP.length; i3++ )
-		{
-			if(arrRoom.p[i2].userData.id == arrP[i3]) { ln++; }
-		}
-	}
-	
-	if(arrRoom.p.length - 1 == ln) 
-	{ 
-		//console.log(ln);
-		//var txt = '---p---'; for ( var i3 = 0; i3 < arrP.length; i3++ ) { txt += ' | ' + arrP[i3]; } console.log(txt);	
-		//var txt = '---zone---'; for ( var i3 = 0; i3 < arrRoom.p.length - 1; i3++ ) { txt += ' | ' + arrRoom.p[i3].userData.id; } console.log(txt); 
-		flag = true; 
-	}
-	
-	return flag;
-}
+
  
 
 // проверяем, 2 точки принадлежат ли одной зоне или нет
@@ -401,6 +376,7 @@ function deletePointZone(arrRoom)
 }
 
 
+
 // проверяем если зона с такими же точками (нужно saveLoad.js , загрузка файла)
 function detectSameZone_2( arrRoom, arrP )
 {
@@ -427,6 +403,7 @@ function detectSameZone_2( arrRoom, arrP )
 	
 	return flag;
 }
+
 
 
 
