@@ -173,15 +173,16 @@ function showSvgSizeObj(cdm)
 			var posRight = new THREE.Vector3().subVectors( p3[1], p3[0] ).divideScalar( 2 ).add(p3[0]);
 			
 			var offsetLine = infProject.svg.furn.offset;
+			var offsetLabel = infProject.html.furn.offset;
 			
 			var contour = floor.userData.room.contour;
 			
 			var arr = [];
 			
-			arr[0] = {line: offsetLine[0], posStart: posTop, dir: new THREE.Vector3(0,0,-1)};
-			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1)};
-			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0)};
-			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0)};
+			arr[0] = {line: offsetLine[0], posStart: posTop, dir: new THREE.Vector3(0,0,-1), html: offsetLabel[0]};
+			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1), html: offsetLabel[1]};
+			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0), html: offsetLabel[2]};
+			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0), html: offsetLabel[3]};
 			
 			for ( var n = 0; n < arr.length; n++ )
 			{
@@ -189,8 +190,10 @@ function showSvgSizeObj(cdm)
 				var dir = arr[n].dir;
 				var posStart = arr[n].posStart;
 				var line = arr[n].line;
-
+				var html = arr[n].html;
+				
 				hideElementSvg([line]);
+				hideElementHtml([html]);
 				
 				for ( var i = 0; i < contour.length; i++ )
 				{
@@ -208,6 +211,18 @@ function showSvgSizeObj(cdm)
 						{
 							updateSvgLine({line: line, point: [posStart, res[0]]});
 							showElementSvg([line]);
+							
+							showElementHtml([html]);
+
+							var posLabel = new THREE.Vector3().subVectors( res[0], posStart ).divideScalar( 2 ).add(posStart); 
+							html.userData.elem.pos = posLabel;	
+
+							var dist = res[0].distanceTo(posStart);
+							html.style.transform = 'translate(-50%, -50%)';
+							html.textContent = Math.round(dist * 100) / 100 + '';
+							
+							upPosLabels_2({elem: html});
+										
 							break;
 						}
 					}				
@@ -218,6 +233,7 @@ function showSvgSizeObj(cdm)
 		else
 		{
 			hideElementSvg(infProject.svg.furn.offset);
+			hideElementHtml(infProject.html.furn.offset);
 		}
 		
 	}
@@ -326,6 +342,10 @@ function hidePivotGizmo(obj)
 	pivot.userData.pivot.obj = null;
 	gizmo.userData.gizmo.obj = null;
 
+	
+	hideElementSvg(infProject.svg.furn.box);
+	hideElementSvg(infProject.svg.furn.size);
+	hideElementSvg(infProject.svg.furn.offset);
 	
 	//clickO.obj = null;  
 	clickO.last_obj = null;

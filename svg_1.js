@@ -97,4 +97,52 @@ function hideElementSvg(arr)
 
 
 
+//---------------
+
+
+
+// показываем svg элементы
+function showElementHtml(arr)
+{
+	for ( var i = 0; i < arr.length; i++ )
+	{
+		arr[i].style.display = 'block'; 
+		arr[i].userData.elem.show = true;		
+	}	
+}
+
+
+// скрываем svg элементы
+function hideElementHtml(arr)
+{
+	for ( var i = 0; i < arr.length; i++ )
+	{
+		arr[i].style.display = 'none'; 
+		arr[i].userData.elem.show = false; 
+	}	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

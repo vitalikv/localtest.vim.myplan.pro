@@ -88,17 +88,15 @@ function changeDepthColor()
 	
 	
 	
-	var str = (visible) ? 'block' : 'none';
-		
+	
+	var label = [];
 	for ( var i = 0; i < wall.length; i++ )
 	{				
 		for ( var i2 = 0; i2 <  wall[i].userData.wall.html.label.length; i2++ )
 		{
-			wall[i].userData.wall.html.label[i2].style.display = str; 
-			wall[i].userData.wall.html.label[i2].userData.elem.show = visible; 
+			label[label.length] = wall[i].userData.wall.html.label[i2];  
 		}
-	}	
-		
+	}		
 
 	if(infProject.settings.floor.label.visible)
 	{
@@ -108,17 +106,21 @@ function changeDepthColor()
 			{
 				if(floor[i].userData.room.zone.id !== undefined)
 				{
-					floor[i].userData.room.html.label.style.display = str; 
-					floor[i].userData.room.html.label.userData.elem.show = visible; 
+					label[label.length] = floor[i].userData.room.html.label; 
 				}
 			}
 			else
 			{
-				floor[i].userData.room.html.label.style.display = str; 
-				floor[i].userData.room.html.label.userData.elem.show = visible;
+				label[label.length] = floor[i].userData.room.html.label;
 			}			 
 		}		
 	}
+	
+	if(visible) { showElementHtml(label); }
+	else { hideElementHtml(label); }
+
+	hideElementSvg(infProject.svg.arr);
+	
 	
 	for ( var i = 0; i < point.length; i++ )
 	{ 
