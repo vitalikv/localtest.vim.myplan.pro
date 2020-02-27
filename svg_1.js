@@ -11,7 +11,7 @@ function createSvgLine(cdm)
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		var line  = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		var line  = document.createElementNS(infProject.settings.svg.tag, "line");
 
 		line.setAttribute("x1", 100);
 		line.setAttribute("y1", 300);

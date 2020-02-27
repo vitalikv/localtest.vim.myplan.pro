@@ -574,18 +574,11 @@ function loadFile(cdm)
 		});		
 		
 	}
-	
-	
-	getListObjTestApi();
+
 	
 }
 
-async function getListObjTestApi()
-{
-	var response = await fetch('http://remstok.ru/getLotId.php', { method: 'GET' });
-	var json = await response.json();	
-	console.log(json);		
-}
+
 
 
 

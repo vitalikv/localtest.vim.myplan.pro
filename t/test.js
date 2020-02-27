@@ -316,7 +316,7 @@ function fname_s_04(cdm)
 	if(!wall){ return; } 
 	if(wall.userData.tag != 'wall'){ return; } 
 	
-	var width = fname_s_0248({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
+	var width = fname_s_0247({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
 	
 	if(!width) 
 	{
@@ -411,7 +411,7 @@ function fname_s_04(cdm)
 
 function fname_s_05(cdm)
 {  	
-	var height = fname_s_0248({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
+	var height = fname_s_0247({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
 	
 	if(!height) 
 	{
@@ -914,8 +914,8 @@ function fname_s_029(cdm)
 			obj.userData.wall.html.label[0].textContent = 'A';
 			obj.userData.wall.html.label[1].textContent = 'B';
 						
-			fname_s_0215({elem: obj.userData.wall.html.label[0]});
-			fname_s_0215({elem: obj.userData.wall.html.label[1]});			
+			fname_s_0214({elem: obj.userData.wall.html.label[0]});
+			fname_s_0214({elem: obj.userData.wall.html.label[1]});			
 		}
 		
 		$('[nameId="rp_menu_wall"]').show();
@@ -935,7 +935,7 @@ function fname_s_029(cdm)
 		if(obj.userData.obj3D.type == "light point")
 		{
 			$('[nameId="rp_bl_light"]').show();
-			fname_s_0216({value: obj.children[1].intensity});			
+			fname_s_0215({value: obj.children[1].intensity});			
 		}
 		    
 		$('[nameId="bl_object_3d"]').show();
@@ -1019,7 +1019,7 @@ function fname_s_033(cdm)
 	else if(cdm.el[0] == $('[nameId="rp_wind_above_floor_1"]')[0]) { var inf = { json: infProject.settings.wind, name: 'h1' }; }	
 	else { return; }	
 	
-	var res = fname_s_0248({ value: value, unit: 1, limit: {min: 0.01, max: 5} });	
+	var res = fname_s_0247({ value: value, unit: 1, limit: {min: 0.01, max: 5} });	
 	
 	if(!res) 
 	{
@@ -1221,13 +1221,13 @@ function fname_s_041( wd, wall )
 	var p2 = wall.userData.wall.p[1].position;	
 	var d = p1.distanceTo( p2 );		
 	
-	wall.geometry = fname_s_0222(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);		
+	wall.geometry = fname_s_0221(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);		
 		var v = wall.geometry.vertices;
 	
 	for ( var i = 0; i < v.length; i++ ) { v[i] = wall.userData.wall.v[i].clone(); }
 	
 	
-	fname_s_0237( wall ); 
+	fname_s_0236( wall ); 
 	
 		var arrO = wall.userData.wall.arrO;
 	
@@ -1327,7 +1327,7 @@ function fname_s_043( wd, objsBSP, wall )
 		var p2 = wall.userData.wall.p[1].position;	
 		var d = p1.distanceTo( p2 );		
 		
-		wall.geometry = fname_s_0222(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);			 
+		wall.geometry = fname_s_0221(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);			 
 				var v = wall.geometry.vertices;
 		for ( var i2 = 0; i2 < v.length; i2++ ) { v[i2] = wall.userData.wall.v[i2].clone(); }	
 		wall.geometry.verticesNeedUpdate = true;
@@ -1356,7 +1356,7 @@ function fname_s_045( arrW )
 			fname_s_043( wd, objsBSP );			
 		}
 		
-		fname_s_0237( wall ); 
+		fname_s_0236( wall ); 
 	}
 } 
 
@@ -1475,8 +1475,8 @@ function fname_s_047(arrWall, Zoom)
 			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			
-			fname_s_0215({elem: wall.userData.wall.html.label[0]});
-			fname_s_0215({elem: wall.userData.wall.html.label[1]});
+			fname_s_0214({elem: wall.userData.wall.html.label[0]});
+			fname_s_0214({elem: wall.userData.wall.html.label[1]});
 			
 		}		 
 
@@ -1503,8 +1503,8 @@ function fname_s_048(cdm)
 	wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
 	wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
 				
-	fname_s_0215({elem: wall.userData.wall.html.label[0]});
-	fname_s_0215({elem: wall.userData.wall.html.label[1]});	
+	fname_s_0214({elem: wall.userData.wall.html.label[0]});
+	fname_s_0214({elem: wall.userData.wall.html.label[1]});	
 }
 
 
@@ -1644,7 +1644,7 @@ function fname_s_049( room )
 			elem.userData.elem.pos = new THREE.Vector3(pos.x, 0.2, pos.z);			
 			elem.style.transform = 'translate(-50%, -50%) rotate(0deg)';
 			
-			fname_s_0215({elem: elem});						
+			fname_s_0214({elem: elem});						
 		}
 	}
 
@@ -1761,7 +1761,7 @@ function fname_s_052(cdm)
 {
 	var grid = infProject.scene.grid.obj;
 	
-	var size = fname_s_0248({ value: cdm.size, unit: 0.01, limit: {min: 0.05, max: 5} });
+	var size = fname_s_0247({ value: cdm.size, unit: 0.01, limit: {min: 0.05, max: 5} });
 	
 	if(!size) 
 	{
@@ -1836,7 +1836,7 @@ function fname_s_055(event)
 {
 	var grid = infProject.scene.grid.obj;
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	if(intersects.length == 0) return;
 
@@ -1851,7 +1851,7 @@ function fname_s_056(event)
 	
 	if(!grid.userData.mouse.down) return;
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	if(intersects.length == 0) return;
 
@@ -2013,7 +2013,7 @@ function fname_s_064()
 	var pos2 = wall.userData.wall.p[1].position;
 	
 	var pos = new THREE.Vector3().subVectors( pos2, pos1 ).divideScalar( 2 ).add(pos1); 
-	var point = fname_s_0230( pos, 0 );
+	var point = fname_s_0229( pos, 0 );
 	
 	fname_s_065( wall, point );
 }
@@ -2114,15 +2114,15 @@ function fname_s_067( wall, point )
 	fname_s_0156( wall, {dw : 'no delete'} );  							
 	
 	
-	var point1 = fname_s_0244( 'point', p1.id );
-	var point2 = fname_s_0244( 'point', p2.id );	
+	var point1 = fname_s_0243( 'point', p1.id );
+	var point2 = fname_s_0243( 'point', p2.id );	
 	
-	if(point1 == null) { point1 = fname_s_0230( p1.pos, p1.id ); }
-	if(point2 == null) { point2 = fname_s_0230( p2.pos, p2.id ); }		
+	if(point1 == null) { point1 = fname_s_0229( p1.pos, p1.id ); }
+	if(point2 == null) { point2 = fname_s_0229( p2.pos, p2.id ); }		
 	
 	
-	var wall_1 = fname_s_0231({ p: [point1, point], width: width, offsetZ : offsetZ, height : height });	 			
-	var wall_2 = fname_s_0231({ p: [point, point2], width: width, offsetZ : offsetZ, height : height });
+	var wall_1 = fname_s_0230({ p: [point1, point], width: width, offsetZ : offsetZ, height : height });	 			
+	var wall_2 = fname_s_0230({ p: [point, point2], width: width, offsetZ : offsetZ, height : height });
 
 	
 	wall_1.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ];  
@@ -2202,7 +2202,7 @@ function fname_s_068( point )
 	
 	if(point.userData.point.type == 'create_wall')			
 	{		 	
-		var wall = fname_s_0231({ p: [point, point.userData.point.cross] }); 		 
+		var wall = fname_s_0230({ p: [point, point.userData.point.cross] }); 		 
 		point.userData.point.type = 'continue_create_wall';
 		point.userData.point.cross.userData.point.last.cdm = 'new_wall_from_point';
 		clickO.move = point;
@@ -2216,8 +2216,8 @@ function fname_s_068( point )
 			if(fname_s_07(point)) return; 	
 			
 			point.userData.point.type = null; 			
-			var point2 = fname_s_0230( point.position, 0 );			
-			var wall = fname_s_0231({ p: [point, point2] }); 			
+			var point2 = fname_s_0229( point.position, 0 );			
+			var wall = fname_s_0230({ p: [point, point2] }); 			
 			clickO.move = point2;
 			fname_s_047( point.p[0].w );			
 			point2.userData.point.type = 'continue_create_wall'; 
@@ -2369,11 +2369,11 @@ function fname_s_070( wall, point )
 		point.userData.point.type = null;
 		point.userData.point.last.cdm = 'new_point_1'; 
 		var point1 = point;		
-		var point2 = fname_s_0230( point.position.clone(), 0 );			 							
+		var point2 = fname_s_0229( point.position.clone(), 0 );			 							
 		
 		point2.userData.point.cross = point1;
 		
-		var newWall = fname_s_0231({p: [point1, point2] }); 
+		var newWall = fname_s_0230({p: [point1, point2] }); 
 		var arrW = fname_s_067( wall, point1 );
 		
 		
@@ -2450,10 +2450,10 @@ function fname_s_070( wall, point )
 function fname_s_071( point1 )
 {  		
 	point1.userData.point.type = null;		
-	var point2 = fname_s_0230( point1.position.clone(), 0 );			
+	var point2 = fname_s_0229( point1.position.clone(), 0 );			
 	point2.userData.point.type = 'continue_create_wall';
 	
-	var wall = fname_s_0231({ p: [point1, point2] });		
+	var wall = fname_s_0230({ p: [point1, point2] });		
 	
 	clickO.move = point2; 
 	
@@ -2605,7 +2605,7 @@ function fname_s_072(cdm)
 		obj.userData.door.form.v2 = v2;		
 	}
 	
-	fname_s_0229( obj );
+	fname_s_0228( obj );
 	
 	scene.add( obj );
 	
@@ -2642,7 +2642,7 @@ function fname_s_073( event, obj )
 	for ( var i = 0; i < door.length; i++ ){ arrDp[arrDp.length] = door[i]; } 
 	arrDp[arrDp.length] = planeMath; 
 
-	var intersects = fname_s_0232( event, arrDp, 'arr' );
+	var intersects = fname_s_0231( event, arrDp, 'arr' );
 	
 	var wall = null;
 	
@@ -2777,7 +2777,7 @@ function fname_s_075( cdm )
 	
 	if(obj.userData.door.lotid)
 	{
-		fname_s_0279({type: 'wd', wd: obj, lotid: obj.userData.door.lotid});
+		fname_s_0278({type: 'wd', wd: obj, lotid: obj.userData.door.lotid});
 	}
 
  	
@@ -2801,7 +2801,7 @@ function fname_s_076(inf, cdm)
 	wd.add( objPop );
 	
 	
-	fname_s_0284({obj: wd});	
+	fname_s_0283({obj: wd});	
 	
 	wd.userData.door.objPop = objPop;
 	
@@ -2911,7 +2911,7 @@ function fname_s_078()
 		}
 		else if(obj.userData.tag == 'obj')
 		{
-			fname_s_0265(obj); 
+			fname_s_0264(obj); 
 		}		
 
 		clickO = resetPop.clickO();
@@ -2995,7 +2995,7 @@ function fname_s_080(event)
 	
 	if(infProject.tools.pivot.visible)
 	{
-		var ray = fname_s_0232( event, infProject.tools.pivot.children, 'arr' );
+		var ray = fname_s_0231( event, infProject.tools.pivot.children, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; return rayhit; }		
 	}
 	
@@ -3004,31 +3004,31 @@ function fname_s_080(event)
 		var arr = [];
 		for ( var i = 0; i < infProject.tools.gizmo.children.length; i++ ){ arr[i] = infProject.tools.gizmo.children[i]; }
 		
-		var ray = fname_s_0232( event, arr, 'arr' );
+		var ray = fname_s_0231( event, arr, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; return rayhit; }		
 	}
 
 	if(!infProject.scene.block.click.controll_wd)
 	{
-		var ray = fname_s_0232( event, infProject.tools.controllWD, 'arr' );
+		var ray = fname_s_0231( event, infProject.tools.controllWD, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.door)
 	{
-		var ray = fname_s_0232( event, infProject.scene.array.door, 'arr' );
+		var ray = fname_s_0231( event, infProject.scene.array.door, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.window)
 	{
-		var ray = fname_s_0232( event, infProject.scene.array.window, 'arr' );
+		var ray = fname_s_0231( event, infProject.scene.array.window, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.point)
 	{
-		var ray = fname_s_0232( event, infProject.scene.array.point, 'arr' );
+		var ray = fname_s_0231( event, infProject.scene.array.point, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 
@@ -3041,14 +3041,14 @@ function fname_s_080(event)
 			arr[arr.length] = infProject.scene.array.wall[i]; 
 		}		
 		
-		var ray = fname_s_0232( event, arr, 'arr' );
+		var ray = fname_s_0231( event, arr, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 
 	
 	if(!infProject.scene.block.click.obj)
 	{
-		var ray = fname_s_0232( event, infProject.scene.array.obj, 'arr' );
+		var ray = fname_s_0231( event, infProject.scene.array.obj, 'arr' );
 		
 		if(ray.length > 0)
 		{   
@@ -3065,7 +3065,7 @@ function fname_s_080(event)
 	
 	if(!rayhit)
 	{
-		var ray = fname_s_0232( event, infProject.scene.array.floor, 'arr' );
+		var ray = fname_s_0231( event, infProject.scene.array.floor, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; }			
 	}	
 	
@@ -3089,21 +3089,21 @@ function fname_s_081(cdm)
 	if(cdm.type == 'down')
 	{  
 		if(fname_s_074(clickO.move)) { flag = false; }
-		else if( tag == 'pivot' ) { fname_s_0257( rayhit ); }
-		else if( tag == 'gizmo' ) { fname_s_0271( rayhit ); } 
+		else if( tag == 'pivot' ) { fname_s_0256( rayhit ); }
+		else if( tag == 'gizmo' ) { fname_s_0270( rayhit ); } 
 		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0133( rayhit ); }
 		else if( tag == 'point' ) { fname_s_0116( rayhit ); }
 		else if( tag == 'window' ) { fname_s_0143( rayhit ); }
 		else if( tag == 'door' ) { fname_s_0143( rayhit ); }
 		else if( tag == 'controll_wd' ) { fname_s_0112( rayhit ); }
-		else if( tag == 'obj' && camera == cameraTop ) { fname_s_0261({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { fname_s_0261({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == cameraTop ) { fname_s_0260({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { fname_s_0260({obj: obj, rayhit: rayhit}); }
 		else { flag = false; }
 	}
 	else if(cdm.type == 'up')
 	{	
 		if( tag == 'wall' && camera == camera3D ) { fname_s_0134({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { fname_s_0261({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { fname_s_0260({obj: obj, rayhit: rayhit}); }
 		else if( tag == 'room' && camera == cameraTop ) { fname_s_0170({obj: obj}); }
 		else if( tag == 'room' && camera == camera3D ) { fname_s_0170({obj: obj}); }
 		else { flag = false; }
@@ -3136,7 +3136,7 @@ function fname_s_082( event )
 		isMouseDown2 = true;
 	}
 
-	fname_s_0234( event );
+	fname_s_0233( event );
 	
 	if(infProject.scene.grid.active)	
 	{
@@ -3153,8 +3153,8 @@ function fname_s_082( event )
 	{
 		var tag = obj.userData.tag;
 			
-		if ( tag == 'pivot' ) { fname_s_0258( event ); }
-		else if ( tag == 'gizmo' ) { fname_s_0273( event ); }
+		if ( tag == 'pivot' ) { fname_s_0257( event ); }
+		else if ( tag == 'gizmo' ) { fname_s_0272( event ); }
 		else if ( tag == 'wall' ) { fname_s_0137( event, obj ); }
 		else if ( tag == 'window' ) { fname_s_0147( event, obj ); }
 		else if ( tag == 'door' ) { fname_s_0147( event, obj ); }
@@ -3162,7 +3162,7 @@ function fname_s_082( event )
 		else if ( tag == 'point' ) { fname_s_0118( event, obj ); }
 		else if ( tag == 'room' ) { fname_s_095( event ); }		
 		else if ( tag == 'free_dw' ) { fname_s_073( event, obj ); }
-		else if ( tag == 'obj' ) { fname_s_0263( event ); }
+		else if ( tag == 'obj' ) { fname_s_0262( event ); }
 	}
 	else 
 	{
@@ -3199,8 +3199,8 @@ function fname_s_083( event )
 		else if(tag == 'wall') { fname_s_0142(obj); }
 		else if(tag == 'window' || obj.userData.tag == 'door') { fname_s_0152(obj); }	
 		else if(tag == 'controll_wd') { fname_s_0115(obj); } 
-		else if(tag == 'obj') { fname_s_0264(obj); }
-		else if(tag == 'pivot') { fname_s_0260(); }
+		else if(tag == 'obj') { fname_s_0263(obj); }
+		else if(tag == 'pivot') { fname_s_0259(); }
 		
 		if(tag == 'free_dw') {  }
 		else if (tag == 'point') 
@@ -3251,15 +3251,15 @@ function fname_s_084(cdm)
 			else if(tag == 'point' && camera == cameraTop) { fname_s_085(obj); }
 			else if(tag == 'window' && camera == cameraTop) { fname_s_0149(obj); fname_s_085(obj); }
 			else if(tag == 'door' && camera == cameraTop) { fname_s_0149(obj); fname_s_085(obj); }
-			else if(tag == 'obj' && camera == cameraTop) { fname_s_0266(obj); }			
+			else if(tag == 'obj' && camera == cameraTop) { fname_s_0265(obj); }			
 			else { flag = false; }
 		}
 		else if(cdm.type == 'up')
 		{
-			if(tag == 'wall' && camera == camera3D) { fname_s_085(obj); fname_s_0211(); }
-			else if(tag == 'room' && camera == cameraTop) { fname_s_085(obj); fname_s_0211(); }
-			else if(tag == 'room' && camera == camera3D) { fname_s_085(obj); fname_s_0211(); }
-			else if(tag == 'obj' && camera == camera3D) { fname_s_0266(obj); }
+			if(tag == 'wall' && camera == camera3D) { fname_s_085(obj); fname_s_0210(); }
+			else if(tag == 'room' && camera == cameraTop) { fname_s_085(obj); fname_s_0210(); }
+			else if(tag == 'room' && camera == camera3D) { fname_s_085(obj); fname_s_0210(); }
+			else if(tag == 'obj' && camera == camera3D) { fname_s_0265(obj); }
 			else { flag = false; }
 		}
 		else
@@ -3269,7 +3269,7 @@ function fname_s_084(cdm)
 			else if(tag == 'window') { fname_s_0149(obj); fname_s_085(obj); }
 			else if(tag == 'door') { fname_s_0149(obj); fname_s_085(obj); }
 			else if(tag == 'room') { fname_s_085(obj); }
-			else if(tag == 'obj') { fname_s_0266(obj); }
+			else if(tag == 'obj') { fname_s_0265(obj); }
 			else { flag = false; }
 		}
 	}
@@ -3351,13 +3351,13 @@ function fname_s_086( obj )
 
 function fname_s_087(cam)
 {  
-	fname_s_0236();
+	fname_s_0235();
 	
 	camera = cam;
 	renderPass.camera = cam;
 	outlinePass.renderCamera = cam;
 	if(saoPass) saoPass.camera = cam;
-	fname_s_0211();
+	fname_s_0210();
 	
 	if(camera == cameraTop)
 	{				
@@ -3368,7 +3368,7 @@ function fname_s_087(cam)
 		fname_s_0102( camera.zoom );
 		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 
-		fname_s_0292();	
+		fname_s_0291();	
 		
 		fname_s_028({current: true});
 	}
@@ -3383,12 +3383,12 @@ function fname_s_087(cam)
 		
 		for( var i = 0; i < infProject.scene.array.cubeCam.length; i++ )
 		{
-			fname_s_0286({obj: infProject.scene.array.cubeCam[i]});
+			fname_s_0285({obj: infProject.scene.array.cubeCam[i]});
 		}		
 		
 		
+		fname_s_0289();
 		fname_s_0290();
-		fname_s_0291();
 		
 		fname_s_028({current: true});
 	}
@@ -3461,15 +3461,15 @@ function fname_s_088()
 		}		
 	}
 	
-	if(visible) { fname_s_0328(label); }
+	if(visible) { fname_s_0327(label); }
 	else 
 	{ 
-		fname_s_0329(label); 
-		fname_s_0329(infProject.html.furn.size);
-		fname_s_0329(infProject.html.furn.offset);		
+		fname_s_0328(label); 
+		fname_s_0328(infProject.html.furn.size);
+		fname_s_0328(infProject.html.furn.offset);		
 	}
 
-	fname_s_0327(infProject.svg.arr);
+	fname_s_0326(infProject.svg.arr);
 	
 	
 	for ( var i = 0; i < point.length; i++ )
@@ -3531,7 +3531,7 @@ function fname_s_camera3d_view(cdm)
 		newCameraPosition = { positionFirst: new THREE.Vector3(posCenter.x, 1.5, posCenter.z) };
 
 		
-		fname_s_0292();	
+		fname_s_0291();	
 	}
 	else
 	{
@@ -3553,8 +3553,8 @@ function fname_s_camera3d_view(cdm)
 		newCameraPosition = { positionFly: pos };
 
 		
-		fname_s_0290();
-		fname_s_0291();		 
+		fname_s_0289();
+		fname_s_0290();		 
 	}
 }
 
@@ -3774,18 +3774,18 @@ function fname_s_095( event )
 			
 			infProject.camera.d3.targetO.rotation.set( 0, camera.rotation.y, 0 );
 			
-			fname_s_0291();
+			fname_s_0290();
 		}
 		if ( isMouseDown3 )    
 		{
 			newCameraPosition = null;
 			
-			var intersects = fname_s_0232( event, planeMath, 'one' );
+			var intersects = fname_s_0231( event, planeMath, 'one' );
 			var offset = new THREE.Vector3().subVectors( camera3D.userData.camera.click.pos, intersects[0].point );
 			camera.position.add( offset );
 			infProject.camera.d3.targetO.position.add( offset );
 			
-			fname_s_0291();
+			fname_s_0290();
 		}
 	}
 	else if ( camera3D.userData.camera.type == 'first' )
@@ -3830,7 +3830,7 @@ function fname_s_096( event, click )
 		planeMath.rotation.set(-Math.PI/2,0,0);  
 		planeMath.updateMatrixWorld();
 		
-		var intersects = fname_s_0232( event, planeMath, 'one' );
+		var intersects = fname_s_0231( event, planeMath, 'one' );
 		
 		onMouseDownPosition.x = intersects[0].point.x;
 		onMouseDownPosition.z = intersects[0].point.z;	 		
@@ -3844,7 +3844,7 @@ function fname_s_096( event, click )
 		planeMath.rotation.copy( camera.rotation ); 
 		planeMath.updateMatrixWorld();
 
-		var intersects = fname_s_0232( event, planeMath, 'one' );	
+		var intersects = fname_s_0231( event, planeMath, 'one' );	
 		onMouseDownPosition.x = intersects[0].point.x;
 		onMouseDownPosition.y = intersects[0].point.y;
 		onMouseDownPosition.z = intersects[0].point.z;		 		
@@ -3885,7 +3885,7 @@ function fname_s_097( event, click )
 		planeMath.rotation.set(-Math.PI/2, 0, 0);
 		planeMath.updateMatrixWorld();
 
-		var intersects = fname_s_0232( event, planeMath, 'one' );	
+		var intersects = fname_s_0231( event, planeMath, 'one' );	
 		camera3D.userData.camera.click.pos = intersects[0].point;  
 	}
 }
@@ -3902,7 +3902,7 @@ function fname_s_098( event )
 
 	newCameraPosition = null;	
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	camera.position.x += onMouseDownPosition.x - intersects[0].point.x;
 	camera.position.z += onMouseDownPosition.z - intersects[0].point.z;	
@@ -3914,7 +3914,7 @@ function fname_s_099( event )
 {
 	if ( !isMouseRight1 ) { return; }
 
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	camera.position.x += onMouseDownPosition.x - intersects[0].point.x;
 	camera.position.y += onMouseDownPosition.y - intersects[0].point.y;	
@@ -3941,7 +3941,7 @@ function fname_s_0100( e )
 		fname_s_0103( delta, 1 ); 
 	}
 	
-	fname_s_0259();
+	fname_s_0258();
 	
 	renderCamera();
 }
@@ -4035,8 +4035,8 @@ function fname_s_0103( delta, z )
 		var pos3 = new THREE.Vector3().addVectors( camera.position, dir );	
 
 
-		var qt = fname_s_0240( new THREE.Vector3().subVectors( pos1, camera.position ).normalize() );
-		var v1 = fname_s_0238( new THREE.Vector3().subVectors( pos1, pos3 ), qt );
+		var qt = fname_s_0239( new THREE.Vector3().subVectors( pos1, camera.position ).normalize() );
+		var v1 = fname_s_0237( new THREE.Vector3().subVectors( pos1, pos3 ), qt );
 
 
 		var offset = new THREE.Vector3().subVectors( pos3, pos2 );
@@ -4454,7 +4454,7 @@ function fname_s_0111(wd)
 		label_2[i].style.display = 'block';
 		label_2[i].userData.elem.show = true;
 		
-		fname_s_0215({elem: label_2[i]});		
+		fname_s_0214({elem: label_2[i]});		
 		
 		line[i].visible = true;			
 		line[i].updateMatrixWorld();
@@ -4525,7 +4525,7 @@ function fname_s_0112( intersect, cdm )
 	
 	var offset = new THREE.Vector3().subVectors( intersect.object.position, intersect.point ); 
 	var dir = new THREE.Vector3().subVectors( controll.position, pos2 ).normalize();  
-	var qt = fname_s_0240( dir );
+	var qt = fname_s_0239( dir );
 
 	
 	wd.userData.door.wall.controll = {  }; 
@@ -4556,7 +4556,7 @@ function fname_s_0112( intersect, cdm )
 
 function fname_s_0113( event, controll )
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 	
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 	
 	if ( intersects.length < 1 ) return; 
 	
 	var wd = controll.userData.controll_wd.obj;
@@ -4579,7 +4579,7 @@ function fname_s_0113( event, controll )
 	}	
 	
 	var pos = new THREE.Vector3().addVectors( wd.userData.door.wall.controll.offset, intersects[ 0 ].point );	
-	var v1 = fname_s_0238( new THREE.Vector3().subVectors( pos, wd.userData.door.wall.controll.pos ), wd.userData.door.wall.controll.qt );
+	var v1 = fname_s_0237( new THREE.Vector3().subVectors( pos, wd.userData.door.wall.controll.pos ), wd.userData.door.wall.controll.qt );
 	v1 = new THREE.Vector3().addScaledVector( wd.userData.door.wall.controll.dir, v1.z );  
 	v1 = new THREE.Vector3().addVectors( wd.userData.door.wall.controll.pos, v1 );	
 
@@ -4775,7 +4775,7 @@ function fname_s_0118( event, obj )
 		param_win.click = false;
 	}	
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if ( intersects.length > 0 ) 
 	{
@@ -4848,7 +4848,7 @@ function fname_s_0120( event, obj )
 	for ( var i = 0; i < door.length; i++ ){ arrDp[arrDp.length] = door[i]; }  
 	arrDp[arrDp.length] = planeMath;
 	
-	var intersects = fname_s_0232( event, arrDp, 'arr' );
+	var intersects = fname_s_0231( event, arrDp, 'arr' );
 	
 	var plane = null;
 	var point = null;
@@ -5226,8 +5226,8 @@ function fname_s_0128(line1, line2, s1, s2, pointC)
 		var m1a = line1.localToWorld( v1[n1].clone() );
 		var m1b = line1.localToWorld( v1[n2].clone() );		
 		
-		if(s1 == 1) { fname_s_0325({line: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { fname_s_0325({line: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { fname_s_0324({line: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { fname_s_0324({line: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}
 
 	if(line2.userData.wall.svg.lineW && 1==1)
@@ -5236,8 +5236,8 @@ function fname_s_0128(line1, line2, s1, s2, pointC)
 		var m1a = line2.localToWorld( v2[f1].clone() );
 		var m1b = line2.localToWorld( v2[f2].clone() );		
 		
-		if(s1 == 1) { fname_s_0325({line: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { fname_s_0325({line: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { fname_s_0324({line: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { fname_s_0324({line: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}	
 }
 
@@ -5342,13 +5342,13 @@ function fname_s_0133( intersect )
 	for ( var i = 0; i < p[0].w.length; i++ )
 	{  
 		var dir = new THREE.Vector3().subVectors( p[0].position, p[0].p[i].position ).normalize();	
-		param_wall.qt_1[i] = fname_s_0240(dir);
+		param_wall.qt_1[i] = fname_s_0239(dir);
 	}
 	
 	for ( var i = 0; i < p[1].w.length; i++ )
 	{ 
 		var dir = new THREE.Vector3().subVectors( p[1].position, p[1].p[i].position ).normalize();
-		param_wall.qt_2[i] = fname_s_0240(dir);
+		param_wall.qt_2[i] = fname_s_0239(dir);
 	}
 	
 	param_wall.arrZone = fname_s_0136(obj);
@@ -5381,7 +5381,7 @@ function fname_s_0134(cdm)
 	clickO.obj = obj;
 	clickO.index = index;  	
 
-	fname_s_0210({arr: [obj]});
+	fname_s_0209({arr: [obj]});
 	fname_s_029({obj: obj, side: index});
 }
 
@@ -5450,7 +5450,7 @@ function fname_s_0137( event, obj )
 		param_win.click = false;
 	}	
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	if ( intersects.length > 0 ) 
 	{
@@ -5462,8 +5462,8 @@ function fname_s_0137( event, obj )
 		var z1 = obj.userData.wall.p[0].position.x - obj.userData.wall.p[1].position.x;	
 		var dir = new THREE.Vector3(x1, 0, z1).normalize();						
 		
-		var qt1 = fname_s_0240(dir);
-		var v1 = fname_s_0238( new THREE.Vector3().subVectors( pos, param_wall.posS ), qt1 );	
+		var qt1 = fname_s_0239(dir);
+		var v1 = fname_s_0237( new THREE.Vector3().subVectors( pos, param_wall.posS ), qt1 );	
 		v1 = new THREE.Vector3().addScaledVector( dir, v1.z );
 		pos = new THREE.Vector3().addVectors( param_wall.posS, v1 );
 
@@ -5520,7 +5520,7 @@ function fname_s_0138(point, pos2, qt, dir2)
 			var x2_b = v[10].x;
 			
 
-			var v2 = fname_s_0238( new THREE.Vector3().subVectors( new THREE.Vector3(0,0,0), pos2 ), qt[i] );
+			var v2 = fname_s_0237( new THREE.Vector3().subVectors( new THREE.Vector3(0,0,0), pos2 ), qt[i] );
 			
 			var fg1 = false;
 			var fg2 = false;
@@ -5570,7 +5570,7 @@ function fname_s_0138(point, pos2, qt, dir2)
 		}
 		else if(point.start[i] == 1)
 		{
-			var v2 = fname_s_0238( new THREE.Vector3().subVectors( pos2, new THREE.Vector3(0,0,0) ), qt[i] );
+			var v2 = fname_s_0237( new THREE.Vector3().subVectors( pos2, new THREE.Vector3(0,0,0) ), qt[i] );
 			
 			var n = v.length;				
 			var x1_a = v[n - 12].x;
@@ -6031,7 +6031,7 @@ function fname_s_0147( event, wd )
 {
 	if(camera == camera3D) { return; }
 	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 	
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 	
 	if ( intersects.length > 0 ) { fname_s_0148( wd, intersects[ 0 ].point ); }	
 }
 
@@ -6194,9 +6194,9 @@ function fname_s_0151(wd)
 	var y2 = (Math.abs(wd.geometry.boundingBox.max.y) + Math.abs(wd.geometry.boundingBox.min.y));
 	var h2 = wd.userData.door.h1 + wd.geometry.boundingBox.min.y;	
 		
-	var resX = fname_s_0248({ value: x, unit: 1, limit: {min: 0.1, max: 5} });
-	var resY = fname_s_0248({ value: y, unit: 1, limit: {min: 0.1, max: 5} });
-	var resH = fname_s_0248({ value: h, unit: 1, limit: {min: 0, max: 5} });
+	var resX = fname_s_0247({ value: x, unit: 1, limit: {min: 0.1, max: 5} });
+	var resY = fname_s_0247({ value: y, unit: 1, limit: {min: 0.1, max: 5} });
+	var resH = fname_s_0247({ value: h, unit: 1, limit: {min: 0, max: 5} });
 	
 	x = (!resX) ? x2 : resX.num;
 	y = (!resY) ? y2 : resY.num;	 
@@ -6318,7 +6318,7 @@ function fname_s_0153()
 	if ( tag == 'wall' ) { fname_s_0154( obj ).room; }
 	else if ( tag == 'point' ) { if(obj.p.length == 2) { fname_s_0158( obj ); } }
 	else if ( tag == 'window' || tag == 'door' ) { fname_s_0159( obj ); }
-	else if ( tag == 'obj' ) { fname_s_0265(obj); }
+	else if ( tag == 'obj' ) { fname_s_0264(obj); }
 	
 	 renderCamera();
 }
@@ -6542,13 +6542,13 @@ function fname_s_0158( point )
 	 
 
 	
-	var point1 = fname_s_0244( 'point', p1.id );
-	var point2 = fname_s_0244( 'point', p2.id );	
+	var point1 = fname_s_0243( 'point', p1.id );
+	var point2 = fname_s_0243( 'point', p2.id );	
 	
-	if(point1 == null) { point1 = fname_s_0230( p1.pos, p1.id ); }
-	if(point2 == null) { point2 = fname_s_0230( p2.pos, p2.id ); }	
+	if(point1 == null) { point1 = fname_s_0229( p1.pos, p1.id ); }
+	if(point2 == null) { point2 = fname_s_0229( p2.pos, p2.id ); }	
 	
-	var wall = fname_s_0231({ p: [point1, point2], width: width, offsetZ : offsetZ, height : height }); 
+	var wall = fname_s_0230({ p: [point1, point2], width: width, offsetZ : offsetZ, height : height }); 
 
 	fname_s_0127(point1);
 	fname_s_0127(point2);
@@ -6726,12 +6726,12 @@ function fname_s_0163(cdm)
 	
 	if(cdm.material)
 	{  
-		fname_s_0233({obj: floor, material: cdm.material});	
+		fname_s_0232({obj: floor, material: cdm.material});	
 	}
 	
 	if(infProject.settings.floor.o)
 	{ 	
-		floor.userData.room.html.label = fname_s_0213({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
+		floor.userData.room.html.label = fname_s_0212({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
 		
 		if(infProject.settings.floor.label.visible) 
 		{ 
@@ -6823,7 +6823,7 @@ function fname_s_0166(arrRoom)
 		geometry.dispose();
 		
 		arrRoom[i].position.y = infProject.settings.floor.posY;
-		fname_s_0237( arrRoom[i] );
+		fname_s_0236( arrRoom[i] );
 		fname_s_049([arrRoom[i]]); 
 
 		
@@ -6929,7 +6929,7 @@ function fname_s_0170(cdm)
 	var plane = infProject.tools.floorPl;	
 	plane.geometry.dispose();
 	plane.geometry = new THREE.ShapeGeometry( new THREE.Shape(contour2) );	
-	fname_s_0210({arr: [plane]});
+	fname_s_0209({arr: [plane]});
 	 
 	fname_s_029({obj: obj});
 }
@@ -7481,10 +7481,10 @@ function fname_s_0189(obj)
 			
 	var tag = obj.userData.tag;
 	
-	if(tag == 'window'){ fname_s_0210({arr: [obj]}); }
-	else if(tag == 'point'){ fname_s_0210({arr: [obj]}); }	 
-	else if(tag == 'wall'){ fname_s_0210({arr: [obj]}); } 	
-	else if(tag == 'door'){ fname_s_0210({arr: [obj]}); }	
+	if(tag == 'window'){ fname_s_0209({arr: [obj]}); }
+	else if(tag == 'point'){ fname_s_0209({arr: [obj]}); }	 
+	else if(tag == 'wall'){ fname_s_0209({arr: [obj]}); } 	
+	else if(tag == 'door'){ fname_s_0209({arr: [obj]}); }	
 	
 	
 	if(clickO.hover == obj) { clickO.hover = null; }
@@ -7507,10 +7507,10 @@ function fname_s_0190()
 		if(clickO.rayhit.object.userData.tag == 'controll_wd'){ if(clickO.rayhit.object.userData.controll_wd.obj == o) { return; } }      		
 	}
 	 
-	if(o.userData.tag == 'wall'){ fname_s_0211(); fname_s_048({wall: o}); }	
-	else if(o.userData.tag == 'point'){ fname_s_0211(); }	
-	else if(o.userData.tag == 'window'){ fname_s_0211(); }
-	else if(o.userData.tag == 'door'){ fname_s_0211(); }	
+	if(o.userData.tag == 'wall'){ fname_s_0210(); fname_s_048({wall: o}); }	
+	else if(o.userData.tag == 'point'){ fname_s_0210(); }	
+	else if(o.userData.tag == 'window'){ fname_s_0210(); }
+	else if(o.userData.tag == 'door'){ fname_s_0210(); }	
 	
 	
 	if(clickO.hover == clickO.last_obj) { clickO.hover = null; }
@@ -7977,8 +7977,8 @@ function fname_s_0197(wall)
 		
 		
 			var v7 = wd.localToWorld( center.clone() );			
-			var qt1 = fname_s_0240( new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize() );
-			var x = fname_s_0238(new THREE.Vector3().subVectors( v7, p[0].position ), qt1).z; 
+			var qt1 = fname_s_0239( new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize() );
+			var x = fname_s_0237(new THREE.Vector3().subVectors( v7, p[0].position ), qt1).z; 
 			
 			x = x / p[1].position.distanceTo( p[0].position );		
 			var y = wall.worldToLocal( wd.localToWorld(new THREE.Vector3(0, wd.geometry.boundingBox.min.y, 0)) ).y;
@@ -8101,18 +8101,11 @@ function fname_s_0200(cdm)
 		});		
 		
 	}
-	
-	
-	fname_s_0201();
+
 	
 }
 
-async function fname_s_0201()
-{
-	var response = await fetch('http:
-	var json = await response.json();	
-			
-}
+
 
 
 
@@ -8186,11 +8179,11 @@ async function fname_s_load_f(arr)
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{ 
-		var point1 = fname_s_0244( 'point', wall[i].points[0].id );
-		var point2 = fname_s_0244( 'point', wall[i].points[1].id );	
+		var point1 = fname_s_0243( 'point', wall[i].points[0].id );
+		var point2 = fname_s_0243( 'point', wall[i].points[1].id );	
 		
-		if(point1 == null) { point1 = fname_s_0230( wall[i].points[0].pos, wall[i].points[0].id ); }
-		if(point2 == null) { point2 = fname_s_0230( wall[i].points[1].pos, wall[i].points[1].id ); }
+		if(point1 == null) { point1 = fname_s_0229( wall[i].points[0].pos, wall[i].points[0].id ); }
+		if(point2 == null) { point2 = fname_s_0229( wall[i].points[1].pos, wall[i].points[1].id ); }
 	
 
 		
@@ -8199,7 +8192,7 @@ async function fname_s_load_f(arr)
 		var inf = { id: wall[i].id, p: [point1, point2], width: wall[i].width, offsetZ: -offsetZ, height: wall[i].height, load: true };
 		
 		
-		var obj = fname_s_0231(inf); 		
+		var obj = fname_s_0230(inf); 		
 		
 		obj.updateMatrixWorld();
 		arrW[arrW.length] = obj;
@@ -8282,16 +8275,16 @@ async function fname_s_load_f(arr)
 		
 		
 		
-		fname_s_0203({arr: arrTexture});
+		fname_s_0202({arr: arrTexture});
 	}
 	
 	
 	fname_s_039({arr: rooms});	
 	
-	fname_s_0204({furn: furn});
+	fname_s_0203({furn: furn});
 
 	
-	fname_s_0206();
+	fname_s_0205();
 	fname_s_0102( camera.zoom );
 	fname_s_0104();
 
@@ -8302,7 +8295,7 @@ async function fname_s_load_f(arr)
 
 
 
-function fname_s_0203(cdm)
+function fname_s_0202(cdm)
 {
 	
 	
@@ -8314,21 +8307,21 @@ function fname_s_0203(cdm)
 		{
 			if(cdm.arr[i].objId == wall[i2].userData.id)
 			{ 
-				fname_s_0233({obj: wall[i2], material: cdm.arr[i]});
+				fname_s_0232({obj: wall[i2], material: cdm.arr[i]});
 			}			
 		}
 		for ( var i2 = 0; i2 < room.length; i2++ )
 		{
 			if(cdm.arr[i].objId == room[i2].userData.id && cdm.arr[i].tag == 'room')
 			{ 
-				fname_s_0233({obj: room[i2], material: cdm.arr[i]});
+				fname_s_0232({obj: room[i2], material: cdm.arr[i]});
 			}			
 		}	
 		for ( var i2 = 0; i2 < ceiling.length; i2++ )
 		{
 			if(cdm.arr[i].objId == ceiling[i2].userData.id && cdm.arr[i].tag == 'ceiling')
 			{ 
-				fname_s_0233({obj: ceiling[i2], material: cdm.arr[i]});
+				fname_s_0232({obj: ceiling[i2], material: cdm.arr[i]});
 			}			
 		}			
 	}
@@ -8336,7 +8329,7 @@ function fname_s_0203(cdm)
 
 
 
-function fname_s_0204(cdm)
+function fname_s_0203(cdm)
 {
 	var furn = cdm.furn;
 	var lotid = [];
@@ -8350,13 +8343,13 @@ function fname_s_0204(cdm)
 	
 	for ( var i = 0; i < lotid.length; i++ )
 	{
-		fname_s_0279({lotid: lotid[i], loadFromFile: true, furn: furn});
+		fname_s_0278({lotid: lotid[i], loadFromFile: true, furn: furn});
 	}	
 }
 
 
 
-function fname_s_0205(cdm)
+function fname_s_0204(cdm)
 { 
 	var furn = cdm.furn;
 	
@@ -8364,13 +8357,13 @@ function fname_s_0205(cdm)
 	{  
 		if(Number(cdm.lotid) == Number(furn[i].lotid))
 		{			
-			fname_s_0279(furn[i]);  
+			fname_s_0278(furn[i]);  
 
 			infProject.project.load.furn[infProject.project.load.furn.length] = furn[i].id;
 			
 			if(infProject.project.load.furn.length == infProject.project.file.object.length)
 			{ 
-				fname_s_0206();
+				fname_s_0205();
 			}
 		}
 	}	
@@ -8378,7 +8371,7 @@ function fname_s_0205(cdm)
 
 
 
-function fname_s_0206(cdm)
+function fname_s_0205(cdm)
 {
 	
 	
@@ -8470,16 +8463,16 @@ cameraWall.zoom = 2
 
 
 
-var cube = new THREE.Mesh( fname_s_0220(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
+var cube = new THREE.Mesh( fname_s_0219(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
 
 
 
 
 
 
-function fname_s_0207() 
+function fname_s_0206() 
 {
-	requestAnimationFrame( fname_s_0207 );	
+	requestAnimationFrame( fname_s_0206 );	
 
 	fname_s_0101();	
 	fname_s_0106();
@@ -8491,15 +8484,15 @@ function fname_s_0207()
 function renderCamera()
 {
 	camera.updateMatrixWorld();	
-	fname_s_0214();
+	fname_s_0213();
 	composer.render();
 }
 
 
 
 
-window.addEventListener( 'resize', fname_s_0209, false );
-function fname_s_0209() 
+window.addEventListener( 'resize', fname_s_0208, false );
+function fname_s_0208() 
 { 
 	var aspect = containerF.clientWidth / containerF.clientHeight;
 	var d = infProject.settings.cam2D;
@@ -8521,7 +8514,7 @@ function fname_s_0209()
 	cameraWall.updateProjectionMatrix();
 	
 	renderer.setSize(containerF.clientWidth, containerF.clientHeight);
-	fname_s_0214({resize: true});
+	fname_s_0213({resize: true});
 	
 	renderCamera();
 }
@@ -8560,27 +8553,27 @@ infProject.scene.grid = { obj: fname_s_051(infProject.settings.grid), active: fa
 infProject.scene.block = { key : { scroll : false } };		
 infProject.scene.block.click = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
-infProject.geometry = { circle : fname_s_0226() }
-infProject.geometry.cone = [fname_s_0227({r1: 0.003, r2: 0.03, h: 0.25}), fname_s_0227({r1: 0.001, r2: 0.04, h: 0.1})];
+infProject.geometry = { circle : fname_s_0225() }
+infProject.geometry.cone = [fname_s_0226({r1: 0.003, r2: 0.03, h: 0.25}), fname_s_0226({r1: 0.001, r2: 0.04, h: 0.1})];
 infProject.scene.size = { wd_1: {} };	
-infProject.scene.size.wd_1.line = fname_s_0225({count : 6, color : 0x616161});	
+infProject.scene.size.wd_1.line = fname_s_0224({count : 6, color : 0x616161});	
 infProject.html = {};
 infProject.html.label = [];	
-infProject.html.wd = fname_s_0213({count: 6, display: 'none', tag: 'elem_wd_size'});
+infProject.html.wd = fname_s_0212({count: 6, display: 'none', tag: 'elem_wd_size'});
 infProject.html.furn = {};
-infProject.html.furn.size = fname_s_0213({count: 2, display: 'none', tag: 'elem_furn_size', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
-infProject.html.furn.offset = fname_s_0213({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
+infProject.html.furn.size = fname_s_0212({count: 2, display: 'none', tag: 'elem_furn_size', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
+infProject.html.furn.offset = fname_s_0212({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	
-infProject.svg.furn.box = fname_s_0324({count: 4});
-infProject.svg.furn.size = fname_s_0324({count: 2});
-infProject.svg.furn.offset = fname_s_0324({count: 4}); 
+infProject.svg.furn.box = fname_s_0323({count: 4});
+infProject.svg.furn.size = fname_s_0323({count: 2});
+infProject.svg.furn.offset = fname_s_0323({count: 4}); 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
-infProject.camera.d3.targetO = fname_s_0212();
+infProject.camera.d3.targetO = fname_s_0211();
 
-infProject.tools = { pivot: fname_s_0255(), gizmo: fname_s_0270(), cutWall: [], point: fname_s_0228(), axis: fname_s_0223(), controllWD: fname_s_0108() } 
+infProject.tools = { pivot: fname_s_0254(), gizmo: fname_s_0269(), cutWall: [], point: fname_s_0227(), axis: fname_s_0222(), controllWD: fname_s_0108() } 
 infProject.tools.floorPl = fname_s_0169();
-infProject.catalog = { obj: [], texture: fname_s_0277() }; 
+infProject.catalog = { obj: [], texture: fname_s_0276() }; 
 infProject.listColor = resetPop.listColor(); 
 infProject.start = true; 
 
@@ -8595,7 +8588,7 @@ infProject.ui.right_menu = {active: ''};
 
 
 
-var planeMath = fname_s_0219();
+var planeMath = fname_s_0218();
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var offset = new THREE.Vector3();
@@ -8677,7 +8670,7 @@ var offset = new THREE.Vector3();
 	outlinePass.selectedObjects = [];
 
 
-	function fname_s_0210( cdm )
+	function fname_s_0209( cdm )
 	{	
 		if(!cdm) cdm = {};
 		
@@ -8688,7 +8681,7 @@ var offset = new THREE.Vector3();
 		outlinePass.selectedObjects = arr;  
 	}
 
-	function fname_s_0211()
+	function fname_s_0210()
 	{
 		outlinePass.selectedObjects = [];
 	}	
@@ -8698,7 +8691,7 @@ var offset = new THREE.Vector3();
 
 
 {
-	fname_s_0218();
+	fname_s_0217();
 	fname_s_094({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
 	
 	fname_s_023();		
@@ -8710,7 +8703,7 @@ var offset = new THREE.Vector3();
 	
 
 	
-	fname_s_0275();
+	fname_s_0274();
 }
 
 
@@ -8720,7 +8713,7 @@ var offset = new THREE.Vector3();
 
 
 
-function fname_s_0212()
+function fname_s_0211()
 {
 	var n = 0;
 	var v = [];
@@ -8748,7 +8741,7 @@ function fname_s_0212()
 
 	
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });	
-	var obj = new THREE.Mesh( fname_s_0224(v), material ); 
+	var obj = new THREE.Mesh( fname_s_0223(v), material ); 
 	obj.userData.tag = '';
 	obj.renderOrder = 2;
 	obj.visible = false;
@@ -8777,21 +8770,21 @@ function fname_s_0212()
 	}	
 	
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
-	var obj_2 = new THREE.Mesh( fname_s_0224(v2), material );
+	var obj_2 = new THREE.Mesh( fname_s_0223(v2), material );
 	obj_2.renderOrder = 2;
 	
 	obj.add( obj_2 );
 	scene.add( obj );
 	
-	fname_s_0229( obj );
+	fname_s_0228( obj );
 	
-	fname_s_0233({obj: obj, material: { img: infProject.path+"img/walk_1.png" }, repeat: {x: 1.9, y: 1.9}, offset: {x: 0.5, y: 0.5} });	
+	fname_s_0232({obj: obj, material: { img: infProject.path+"img/walk_1.png" }, repeat: {x: 1.9, y: 1.9}, offset: {x: 0.5, y: 0.5} });	
 	
 	return obj;
 }
 
 
-function fname_s_0213(cdm)
+function fname_s_0212(cdm)
 {
 	var arr = [];
 	
@@ -8830,7 +8823,7 @@ function fname_s_0213(cdm)
 
 
 
-function fname_s_0214(cdm)
+function fname_s_0213(cdm)
 {
 	if(camera != cameraTop) return;
 	
@@ -8884,14 +8877,14 @@ function fname_s_0214(cdm)
 		
 		if(svg.userData.svg.line)
 		{
-			fname_s_0325({line: svg});
+			fname_s_0324({line: svg});
 		}
 				
 	}	
 }
 
 
-function fname_s_0215(cdm) 
+function fname_s_0214(cdm) 
 {
 	var elem = cdm.elem;
 
@@ -8906,11 +8899,11 @@ function fname_s_0215(cdm)
 
 
   
-function fname_s_0216(cdm)
+function fname_s_0215(cdm)
 {
 	if(!cdm) cdm = {};
 	
-	function fname_s_0217() 
+	function fname_s_0216() 
 	{ 	
 		var block = $('[nameId="panel_catalog_1"]')[0];
 		
@@ -8925,7 +8918,7 @@ function fname_s_0216(cdm)
 	}
 
 
-	fname_s_0217.prototype.init = function () 
+	fname_s_0216.prototype.init = function () 
 	{	
 		var self = this;
 		
@@ -8935,7 +8928,7 @@ function fname_s_0216(cdm)
 	};
 
 
-	fname_s_0217.prototype.startDrag = function (event) 
+	fname_s_0216.prototype.startDrag = function (event) 
 	{
 		var self = this;
 		
@@ -8947,7 +8940,7 @@ function fname_s_0216(cdm)
 	};
 
 
-	fname_s_0217.prototype.stopDrag = function () 
+	fname_s_0216.prototype.stopDrag = function () 
 	{
 		var self = this;
 		
@@ -8958,7 +8951,7 @@ function fname_s_0216(cdm)
 	};
 
 
-	fname_s_0217.prototype.drag = function (event) 
+	fname_s_0216.prototype.drag = function (event) 
 	{        
 		var self = this;  
 		var circleMin = $(self.circleMin); 
@@ -8988,7 +8981,7 @@ function fname_s_0216(cdm)
 	};
 
 
-	fname_s_0217.prototype.update = function () 
+	fname_s_0216.prototype.update = function () 
 	{
 		var self = this;
 		var circleMin = $(self.circleMin);
@@ -9026,11 +9019,11 @@ function fname_s_0216(cdm)
 		
 	};
 
-	new fname_s_0217();
+	new fname_s_0216();
 }
 
 
-function fname_s_0218()
+function fname_s_0217()
 {
 	var geometry = new THREE.PlaneGeometry( 1000, 1000 );
 	var material = new THREE.MeshLambertMaterial( {color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 10.0, polygonOffsetUnits: 4.0 } );
@@ -9074,7 +9067,7 @@ function fname_s_0218()
 
 
 
-function fname_s_0219()
+function fname_s_0218()
 {
 	var geometry = new THREE.PlaneGeometry( 10000, 10000 );
 	
@@ -9092,7 +9085,7 @@ function fname_s_0219()
 
 
 
-function fname_s_0220(x, y, z, cdm)
+function fname_s_0219(x, y, z, cdm)
 {
 	var geometry = new THREE.Geometry();
 	x /= 2;
@@ -9172,7 +9165,7 @@ function fname_s_0220(x, y, z, cdm)
 
 
 
-function fname_s_0221(cdm)  
+function fname_s_0220(cdm)  
 {
 	var x = cdm.x;
 	var y = cdm.y;
@@ -9245,7 +9238,7 @@ function fname_s_0221(cdm)
 }
 
 
-function fname_s_0222(x, y, z, pr_offsetZ)
+function fname_s_0221(x, y, z, pr_offsetZ)
 {
 	var geometry = new THREE.Geometry();
 	
@@ -9338,11 +9331,11 @@ function fname_s_0222(x, y, z, pr_offsetZ)
 
 
 
-function fname_s_0223() 
+function fname_s_0222() 
 {
 	var axis = [];
 	
-	var geometry = fname_s_0220(0.5, 0.02, 0.02);		
+	var geometry = fname_s_0219(0.5, 0.02, 0.02);		
 	var v = geometry.vertices;	
 	v[3].x = v[2].x = v[5].x = v[4].x = 500;
 	v[0].x = v[1].x = v[6].x = v[7].x = -500;	
@@ -9361,7 +9354,7 @@ function fname_s_0223()
 }
 
 
-function fname_s_0224( vertices )
+function fname_s_0223( vertices )
 {
 	var geometry = new THREE.Geometry();
 
@@ -9409,7 +9402,7 @@ function fname_s_0224( vertices )
 
 
 
-function fname_s_0225(cdm)
+function fname_s_0224(cdm)
 {
 	var arr = [];
 	
@@ -9421,7 +9414,7 @@ function fname_s_0225(cdm)
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		arr[i] = new THREE.Mesh( fname_s_0220(1, 0.025, 0.025), material );
+		arr[i] = new THREE.Mesh( fname_s_0219(1, 0.025, 0.025), material );
 		var v = arr[i].geometry.vertices; 
 		v[0].x = v[1].x = v[6].x = v[7].x = -0.5;
 		v[3].x = v[2].x = v[5].x = v[4].x = 0.5;
@@ -9452,7 +9445,7 @@ function fname_s_0225(cdm)
 
 
 
-function fname_s_0226()
+function fname_s_0225()
 {
 	var count = 48;
 	var circle = [];
@@ -9472,7 +9465,7 @@ function fname_s_0226()
 
 
 
-function fname_s_0227(cdm)
+function fname_s_0226(cdm)
 {	
 	var n = 0;
 	var v = [];
@@ -9501,11 +9494,11 @@ function fname_s_0227(cdm)
 		n++;		
 	}	 
 	
-	return fname_s_0224(v);
+	return fname_s_0223(v);
 }
 
 
-function fname_s_0228()
+function fname_s_0227()
 {	
 	var n = 0;
 	var v = [];
@@ -9536,7 +9529,7 @@ function fname_s_0228()
 
 
 
-function fname_s_0229( obj )
+function fname_s_0228( obj )
 {
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -9569,7 +9562,7 @@ function fname_s_0229( obj )
 
 
 
-function fname_s_0230( pos, id )
+function fname_s_0229( pos, id )
 {
 	var point = obj_point[obj_point.length] = new THREE.Mesh( infProject.tools.point.geometry, infProject.tools.point.material.clone() );
 	point.position.copy( pos );		
@@ -9604,7 +9597,7 @@ function fname_s_0230( pos, id )
 
 
 
-function fname_s_0231( cdm ) 
+function fname_s_0230( cdm ) 
 {
 	var point1 = cdm.p[0];
 	var point2 = cdm.p[1];
@@ -9633,7 +9626,7 @@ function fname_s_0231( cdm )
 	}
 	
 	
-	var geometry = fname_s_0222(d, height, width, offsetZ);	
+	var geometry = fname_s_0221(d, height, width, offsetZ);	
 	var wall = new THREE.Mesh( geometry, materials ); 
  	infProject.scene.array.wall[infProject.scene.array.wall.length] = wall;		
 	
@@ -9661,7 +9654,7 @@ function fname_s_0231( cdm )
 	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
-	wall.userData.wall.html.label = fname_s_0213({count: 2, tag: 'elem_wall_size'});
+	wall.userData.wall.html.label = fname_s_0212({count: 2, tag: 'elem_wall_size'});
 	wall.userData.wall.svg = {};
 	
 	wall.userData.wall.svg.lineW = null;
@@ -9682,7 +9675,7 @@ function fname_s_0231( cdm )
 	wall.castShadow = true;	
 	wall.receiveShadow = true;
 	
-	fname_s_0237( wall );
+	fname_s_0236( wall );
 	
 	cdm.material = [];
 	cdm.material[0] = { img: infProject.path+"img/load/beton.jpg", index:1 };
@@ -9692,7 +9685,7 @@ function fname_s_0231( cdm )
 	{  
 		for ( var i = 0; i < cdm.material.length; i++ )
 		{			
-			fname_s_0233({obj: wall, material: cdm.material[i]});
+			fname_s_0232({obj: wall, material: cdm.material[i]});
 		}	
 	}
 	
@@ -9721,7 +9714,7 @@ function fname_s_0231( cdm )
 
  
 
-function fname_s_0232( event, obj, t ) 
+function fname_s_0231( event, obj, t ) 
 {
 	mouse.x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 	mouse.y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
@@ -9738,7 +9731,7 @@ function fname_s_0232( event, obj, t )
 
 
 
-function fname_s_0233(cdm)
+function fname_s_0232(cdm)
 {
 	
 	
@@ -9808,7 +9801,7 @@ function fname_s_0233(cdm)
 
 
 
-function fname_s_0234( event )
+function fname_s_0233( event )
 {
 	if(!clickO.button) return;	
 	
@@ -9828,7 +9821,7 @@ function fname_s_0234( event )
 	
 	planeMath.updateMatrixWorld();
 
-	var intersects = fname_s_0232( event, planeMath, 'one' );
+	var intersects = fname_s_0231( event, planeMath, 'one' );
 	
 	if(intersects.length == 0) return;	
 	
@@ -9839,7 +9832,7 @@ function fname_s_0234( event )
 			clickO.obj = null; 
 			clickO.last_obj = null;
 			
-			var point = fname_s_0230( intersects[0].point, 0 );
+			var point = fname_s_0229( intersects[0].point, 0 );
 			point.position.y = 0;
 			point.userData.point.type = clickO.button; 
 			clickO.move = point;				
@@ -9854,14 +9847,14 @@ function fname_s_0234( event )
 		}			
 		else if(clickO.button == 'add_lotid')
 		{
-			fname_s_0279({lotid: clickO.options, cursor: true});
+			fname_s_0278({lotid: clickO.options, cursor: true});
 		}		
 	}
 	else if(camera == camera3D)
 	{
 		if(clickO.button == 'add_lotid')
 		{
-			fname_s_0279({lotid: clickO.options, cursor: true});
+			fname_s_0278({lotid: clickO.options, cursor: true});
 		}		
 	}
 	else if(camera == cameraWall)
@@ -9883,14 +9876,14 @@ function fname_s_active_int(cdm)
 {
 	if(clickO.move)
 	{
-		fname_s_0236();
+		fname_s_0235();
 		fname_s_078();
 	}
 
 	
 	if(cdm)
 	{		
-		fname_s_0236();	
+		fname_s_0235();	
 		
 		if(cdm.button == '2D')
 		{  			
@@ -9936,7 +9929,7 @@ function fname_s_active_int(cdm)
 
 
 
-function fname_s_0236()
+function fname_s_0235()
 {
 	clickO.obj = null;
 	clickO.rayhit = null;
@@ -9947,7 +9940,7 @@ function fname_s_0236()
 
 
 
-function fname_s_0237( obj )
+function fname_s_0236( obj )
 { 
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -9984,20 +9977,20 @@ function fname_s_0237( obj )
 
 
 
-function fname_s_0238(dir1, qt)
+function fname_s_0237(dir1, qt)
 {	
 	return dir1.clone().applyQuaternion( qt.clone().inverse() );
 }
 
 
-function fname_s_0239(dir1, dir_local)
+function fname_s_0238(dir1, dir_local)
 {	
-	var qt = fname_s_0240(dir1);			
+	var qt = fname_s_0239(dir1);			
 	return dir_local.applyQuaternion( qt );
 }
 
 
-function fname_s_0240(dir1)
+function fname_s_0239(dir1)
 {
 	var mx = new THREE.Matrix4().lookAt( dir1, new THREE.Vector3(0,0,0), new THREE.Vector3(0,1,0) );
 	return new THREE.Quaternion().setFromRotationMatrix(mx);	
@@ -10009,7 +10002,7 @@ function fname_s_0240(dir1)
  
 
 
-function fname_s_0241() 
+function fname_s_0240() 
 { 
 	try 
 	{		
@@ -10033,7 +10026,7 @@ function fname_s_0241()
 
 
 
-function fname_s_0242() 
+function fname_s_0241() 
 { 
 	try 
 	{		
@@ -10085,7 +10078,7 @@ var openFileImage = function (strData, filename)
 	
 	
  
-function fname_s_0243()
+function fname_s_0242()
 {
 	 
 }
@@ -10093,7 +10086,7 @@ function fname_s_0243()
 
 
 
-function fname_s_0244( cdm, id )
+function fname_s_0243( cdm, id )
 {
 	var point = infProject.scene.array.point;
 	var wall = infProject.scene.array.wall;
@@ -10138,7 +10131,7 @@ function fname_s_0244( cdm, id )
 
 
 
-fname_s_0207();
+fname_s_0206();
 renderCamera();
 
 
@@ -10184,7 +10177,7 @@ document.addEventListener("keydown", function (e)
 			}
 			else if(infProject.activeInput == 'dp_inf_1_proj')
 			{
-				fname_s_0247();
+				fname_s_0246();
 			}			
 		}		
 		 
@@ -10196,7 +10189,7 @@ document.addEventListener("keydown", function (e)
 	
 	if(clickO.keys[18] && e.keyCode == 90) { fname_s_0200({json: true}); }		
 	if(clickO.keys[18] && e.keyCode == 72) { fname_s_0194(scene, fname_s_0195); fname_s_0193(); }		
-	if(clickO.keys[18] && e.keyCode == 77) { fname_s_0247(); }				
+	if(clickO.keys[18] && e.keyCode == 77) { fname_s_0246(); }				
 	if(clickO.keys[18] && e.keyCode == 84) { fname_s_0199({json: true}); }			
 	if(clickO.keys[18] && e.keyCode == 86) {  }
 	if(clickO.keys[18] && e.keyCode == 86) {  }  		
@@ -10235,7 +10228,7 @@ document.addEventListener("keyup", function (e)
 
 
 
-function fname_s_0245(cdm)
+function fname_s_0244(cdm)
 {
 	if(!cdm) return;	
 	if(infProject.settings.shader.fxaaPass == undefined) return;
@@ -10258,7 +10251,7 @@ function fname_s_0245(cdm)
 
 
 
-function fname_s_0246(cdm)
+function fname_s_0245(cdm)
 {  
 	if(!cdm) return;
 	
@@ -10305,7 +10298,7 @@ function fname_s_0246(cdm)
 
 
 
-function fname_s_0247()
+function fname_s_0246()
 {
 	var visible = $('[nameid="dp_inf_1"]').is(":visible");
 	
@@ -10324,7 +10317,7 @@ function fname_s_0247()
 
 
 
-function fname_s_0248(cdm)
+function fname_s_0247(cdm)
 {	
 	var value = cdm.value; 
 	
@@ -10428,9 +10421,9 @@ $('[nameId="button_wrap_plan"]').mousedown(function () { fname_s_028({el: this})
 
 	
 
-$('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0269(); });	
-$('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0268(); });
-$('[nameId="button_delete_obj"]').mousedown(function () { fname_s_0265(clickO.last_obj); });
+$('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0268(); });	
+$('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0267(); });
+$('[nameId="button_delete_obj"]').mousedown(function () { fname_s_0264(clickO.last_obj); });
 
 
 $('[data-action="wall"]').mousedown(function () { fname_s_active_int({button:'point_1'}); });
@@ -10440,7 +10433,7 @@ $('[data-action="grid_show_1"]').mousedown(function () { fname_s_active_int({but
 $('[data-action="grid_move_1"]').mousedown(function () { fname_s_active_int({button:'grid_move_1'}); });
 $('[data-action="grid_link_1"]').mousedown(function () { fname_s_active_int({button:'grid_link_1'}); });
 $('[add_lotid]').mousedown(function () { fname_s_active_int({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
-$('[data-action="screenshot"]').mousedown(function () { fname_s_0241(); return false; }); 				
+$('[data-action="screenshot"]').mousedown(function () { fname_s_0240(); return false; }); 				
 
 
 
@@ -10451,11 +10444,11 @@ $('[data-action="fname_s_064"]').mousedown(function () { fname_s_064(); return f
 
 
 
-$('input').on('focus', function () { fname_s_0249({el: $(this), act: 'down'}); });
-$('input').on('change', function () { fname_s_0249({el: $(this), act: 'up'}); });
+$('input').on('focus', function () { fname_s_0248({el: $(this), act: 'down'}); });
+$('input').on('change', function () { fname_s_0248({el: $(this), act: 'up'}); });
 $('input').on('keyup', function () {  });
 
-function fname_s_0249(cdm)
+function fname_s_0248(cdm)
 {
 	var el = cdm.el;
 	
@@ -10472,13 +10465,13 @@ function fname_s_0249(cdm)
 	
 	if(cdm.act == 'up')
 	{
-		fname_s_0250();
+		fname_s_0249();
 	}
 		
 }
 
 
-function fname_s_0250(cdm)
+function fname_s_0249(cdm)
 {
 	if(infProject.activeInput == 'rp_floor_height')
 	{
@@ -10593,7 +10586,7 @@ $('[add_texture]').mousedown(function ()
 		};
 	}
 	
-	fname_s_0233(inf); 
+	fname_s_0232(inf); 
 }); 
 
 
@@ -10635,8 +10628,8 @@ $('[nameId="button_close_main_sett"]').mousedown(function ()
 	$('[nameId="window_main_sett"]').css({"display":"none"}); 
 });
 
-$('[nameId="checkbox_light_global"]').change(function() { fname_s_0246({visible: this.checked}); });
-$('[nameId="checkbox_fxaaPass"]').change(function() { fname_s_0245({visible: this.checked}); });
+$('[nameId="checkbox_light_global"]').change(function() { fname_s_0245({visible: this.checked}); });
+$('[nameId="checkbox_fxaaPass"]').change(function() { fname_s_0244({visible: this.checked}); });
 
 
 
@@ -10655,11 +10648,11 @@ $('[nameId="window_main_menu"]').mousedown(function (e) { e.stopPropagation(); }
 	
 	
 
-$('[nameId="button_check_reg_1"]').mousedown(function () { fname_s_0251({el: this}); });
-$('[nameId="button_check_reg_2"]').mousedown(function () { fname_s_0251({el: this}); });	
+$('[nameId="button_check_reg_1"]').mousedown(function () { fname_s_0250({el: this}); });
+$('[nameId="button_check_reg_2"]').mousedown(function () { fname_s_0250({el: this}); });	
 
 
-function fname_s_0251(cdm)
+function fname_s_0250(cdm)
 {
 	var inf_block = $('[nameId="info_reg_1"]');
 	var inf_str_1 = $('[nameId="info_reg_1_1"]');
@@ -10684,10 +10677,10 @@ function fname_s_0251(cdm)
 
 	
 
-$('[nameId="act_reg_1"]').mousedown(function () { fname_s_0252(); });
+$('[nameId="act_reg_1"]').mousedown(function () { fname_s_0251(); });
 
 
-function fname_s_0252()
+function fname_s_0251()
 {
 		var pattern_1 = /^[a-z0-9@_\-\.]{4,20}$/i;
 	var pattern_2 = /^[a-z0-9]{4,20}$/i;
@@ -10821,11 +10814,11 @@ function fname_s_0252()
 
 
 
-$('[nameId="button_show_panel_catalog"]').mousedown(function () { fname_s_0253({show: true}); });
-$('[nameId="button_catalog_close"]').mousedown(function () { fname_s_0253({show: false}); });
+$('[nameId="button_show_panel_catalog"]').mousedown(function () { fname_s_0252({show: true}); });
+$('[nameId="button_catalog_close"]').mousedown(function () { fname_s_0252({show: false}); });
 
 
-function fname_s_0253(cdm)
+function fname_s_0252(cdm)
 {
 	var show = cdm.show;
 	
@@ -10844,16 +10837,16 @@ function fname_s_0253(cdm)
 
 
 
-$('#load_obj_1').change(fname_s_0254);
+$('#load_obj_1').change(fname_s_0253);
 
-function fname_s_0254(e) 
+function fname_s_0253(e) 
 {
 	if (this.files[0]) 
 	{		
 		var reader = new FileReader();
 		reader.onload = function (e) 
 		{						
-			fname_s_0287({data: e.target.result});
+			fname_s_0286({data: e.target.result});
 		}				
 
 		reader.readAsArrayBuffer(this.files[0]);  									
@@ -10865,7 +10858,7 @@ $('[nameId="butt_main_load_obj"]').mousedown(function () { $('[nameId="window_ma
 
 $('[nameId="button_close_main_load_obj"]').mousedown(function () { $('[nameId="window_main_load_obj"]').css({"display":"none"}); });
 
-$('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0288(); });
+$('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0287(); });
 
 
 });
@@ -10878,7 +10871,7 @@ $('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0288(); });
 
 
 
-function fname_s_0255()
+function fname_s_0254()
 {
 	var pivot = new THREE.Object3D();
 	pivot.userData.pivot = {};
@@ -10892,7 +10885,7 @@ function fname_s_0255()
 	param[2] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, -0.6), rot: new THREE.Vector3(0, Math.PI/2, 0)};
 	param[3] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, 0.6), rot: new THREE.Vector3(0, -Math.PI/2, 0)};
 	
-	var geometry = fname_s_0221({x: 0.35, y: 0.01, z: 0.35});
+	var geometry = fname_s_0220({x: 0.35, y: 0.01, z: 0.35});
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
 	
 	for ( var i = 0; i < param.length; i++ )
@@ -10910,7 +10903,7 @@ function fname_s_0255()
 		pivot.add( obj );
 	}
 	
-	var y = fname_s_0256({axis: 'y', pos: new THREE.Vector3(0,0.1,0), rot: new THREE.Vector3(0,0,0), color: 0xcccccc});
+	var y = fname_s_0255({axis: 'y', pos: new THREE.Vector3(0,0.1,0), rot: new THREE.Vector3(0,0,0), color: 0xcccccc});
 	pivot.add( y );
 	
 	pivot.visible = false;
@@ -10930,7 +10923,7 @@ function fname_s_0255()
 
 
 
-function fname_s_0256(cdm)
+function fname_s_0255(cdm)
 {	
 	var n = 0;
 	var v = [];
@@ -10956,7 +10949,7 @@ function fname_s_0256(cdm)
 	}	
 
 	
-	var obj = new THREE.Mesh( fname_s_0224(v), new THREE.MeshPhongMaterial( { color : cdm.color, depthTest: false, transparent: true, lightMap: lightMap_1 } ) ); 
+	var obj = new THREE.Mesh( fname_s_0223(v), new THREE.MeshPhongMaterial( { color : cdm.color, depthTest: false, transparent: true, lightMap: lightMap_1 } ) ); 
 	obj.userData.tag = 'pivot';
 	obj.userData.axis = cdm.axis;
 	obj.renderOrder = 2;
@@ -10971,7 +10964,7 @@ function fname_s_0256(cdm)
 
 
 
-function fname_s_0257( intersect )
+function fname_s_0256( intersect )
 {
 	var obj = clickO.move = intersect.object;  
 	
@@ -11010,7 +11003,7 @@ function fname_s_0257( intersect )
 	{
 		axisO.updateMatrixWorld();
 		pivot.userData.pivot.active.dir = new THREE.Vector3().subVectors( pivot.position, axisO.getWorldPosition(new THREE.Vector3()) ).normalize();	
-		pivot.userData.pivot.active.qt = fname_s_0240( pivot.userData.pivot.active.dir );	
+		pivot.userData.pivot.active.qt = fname_s_0239( pivot.userData.pivot.active.dir );	
 		
 		planeMath.quaternion.copy( pivot.userData.pivot.active.qt ); 
 		planeMath.quaternion.multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI/2, 0, 0)));
@@ -11023,9 +11016,9 @@ function fname_s_0257( intersect )
 
 
 
-function fname_s_0258( event )
+function fname_s_0257( event )
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -11047,7 +11040,7 @@ function fname_s_0258( event )
 	else
 	{
 		var subV = new THREE.Vector3().subVectors( pos, pivot.userData.pivot.active.startPos );
-		var locD = fname_s_0238(subV, pivot.userData.pivot.active.qt);						
+		var locD = fname_s_0237(subV, pivot.userData.pivot.active.qt);						
 		
 		var v1 = new THREE.Vector3().addScaledVector( pivot.userData.pivot.active.dir, locD.z );
 		pos = new THREE.Vector3().addVectors( pivot.userData.pivot.active.startPos, v1 );			
@@ -11060,15 +11053,15 @@ function fname_s_0258( event )
 	
 	obj.position.add( pos2 );
 
-	fname_s_0262({obj: obj});
+	fname_s_0261({obj: obj});
 	
-	fname_s_0259();
+	fname_s_0258();
 }
 
 
 
 
-function fname_s_0259()
+function fname_s_0258()
 {
 	var pivot = infProject.tools.pivot;
 	var gizmo = infProject.tools.gizmo;
@@ -11103,11 +11096,11 @@ function fname_s_0259()
 
 
 
-function fname_s_0260(cdm)
+function fname_s_0259(cdm)
 {	
 	if(clickO.actMove)
 	{		 
-		fname_s_0286({obj: infProject.tools.pivot.userData.pivot.obj});	
+		fname_s_0285({obj: infProject.tools.pivot.userData.pivot.obj});	
 	}		
 }
 
@@ -11116,7 +11109,7 @@ function fname_s_0260(cdm)
 
 
 
-function fname_s_0261(cdm)
+function fname_s_0260(cdm)
 {
 	var obj = cdm.obj;
 	var rayhit = cdm.rayhit;
@@ -11167,19 +11160,19 @@ function fname_s_0261(cdm)
 	gizmo.userData.gizmo.obj = obj;
 	gizmo.quaternion.copy( qt );			
 	
-	fname_s_0259();
+	fname_s_0258();
 	
-	fname_s_0210({arr: [obj]});
+	fname_s_0209({arr: [obj]});
 	
 	fname_s_029({obj: obj});	
 
-	fname_s_0262({obj: obj});
+	fname_s_0261({obj: obj});
 }
 
 
 
 
-function fname_s_0262(cdm)
+function fname_s_0261(cdm)
 {
 	if(camera != cameraTop) return;
 	
@@ -11220,25 +11213,25 @@ function fname_s_0262(cdm)
 		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
 		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
 		
-		fname_s_0325({line: infProject.svg.furn.size[0], point: [x1, x2]});
-		fname_s_0325({line: infProject.svg.furn.size[1], point: [z1, z2]});
-		fname_s_0326(infProject.svg.furn.size);
+		fname_s_0324({line: infProject.svg.furn.size[0], point: [x1, x2]});
+		fname_s_0324({line: infProject.svg.furn.size[1], point: [z1, z2]});
+		fname_s_0325(infProject.svg.furn.size);
 
 		var html = infProject.html.furn.size;
 		
-		fname_s_0328(html);
+		fname_s_0327(html);
 		
 		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
 		html[0].userData.elem.pos = posLabel;	
 		html[0].style.transform = 'translate(-50%, -50%)';
 		html[0].textContent = Math.round(sizeX * 100) / 100 + '';		
-		fname_s_0215({elem: html[0]});
+		fname_s_0214({elem: html[0]});
 
 		var posLabel = new THREE.Vector3().subVectors( z2, z1 ).divideScalar( 2 ).add(z1); 
 		html[1].userData.elem.pos = posLabel;	
 		html[1].style.transform = 'translate(-50%, -50%)';
 		html[1].textContent = Math.round(sizeZ * 100) / 100 + '';		
-		fname_s_0215({elem: html[1]});		
+		fname_s_0214({elem: html[1]});		
 	}
 	
 	
@@ -11252,21 +11245,21 @@ function fname_s_0262(cdm)
 		
 		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
 		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);		
-		fname_s_0325({line: boxLine[0], point: [p1, p2]});
+		fname_s_0324({line: boxLine[0], point: [p1, p2]});
 		
 		var p1 = new THREE.Vector3(bound.min.x, 0, bound.max.z);
 		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
-		fname_s_0325({line: boxLine[1], point: [p1, p2]});
+		fname_s_0324({line: boxLine[1], point: [p1, p2]});
 
 		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
 		var p2 = new THREE.Vector3(bound.min.x, 0, bound.max.z);		
-		fname_s_0325({line: boxLine[2], point: [p1, p2]});
+		fname_s_0324({line: boxLine[2], point: [p1, p2]});
 
 		var p1 = new THREE.Vector3(bound.max.x, 0, bound.min.z);
 		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
-		fname_s_0325({line: boxLine[3], point: [p1, p2]});	
+		fname_s_0324({line: boxLine[3], point: [p1, p2]});	
 		
-		fname_s_0326(boxLine);
+		fname_s_0325(boxLine);
 	}
 	
 	
@@ -11321,8 +11314,8 @@ function fname_s_0262(cdm)
 				var line = arr[n].line;
 				var html = arr[n].html;
 				
-				fname_s_0327([line]);
-				fname_s_0329([html]);
+				fname_s_0326([line]);
+				fname_s_0328([html]);
 				
 				for ( var i = 0; i < contour.length; i++ )
 				{
@@ -11338,10 +11331,10 @@ function fname_s_0262(cdm)
 						
 						if(fname_s_013(posStart, posEnd, contour[i], contour[i2])) 
 						{
-							fname_s_0325({line: line, point: [posStart, res[0]]});
-							fname_s_0326([line]);
+							fname_s_0324({line: line, point: [posStart, res[0]]});
+							fname_s_0325([line]);
 							
-							fname_s_0328([html]);
+							fname_s_0327([html]);
 
 							var posLabel = new THREE.Vector3().subVectors( res[0], posStart ).divideScalar( 2 ).add(posStart); 
 							html.userData.elem.pos = posLabel;	
@@ -11350,7 +11343,7 @@ function fname_s_0262(cdm)
 							html.style.transform = 'translate(-50%, -50%)';
 							html.textContent = Math.round(dist * 100) / 100 + '';
 							
-							fname_s_0215({elem: html});
+							fname_s_0214({elem: html});
 										
 							break;
 						}
@@ -11361,8 +11354,8 @@ function fname_s_0262(cdm)
 		}
 		else
 		{
-			fname_s_0327(infProject.svg.furn.offset);
-			fname_s_0329(infProject.html.furn.offset);
+			fname_s_0326(infProject.svg.furn.offset);
+			fname_s_0328(infProject.html.furn.offset);
 		}
 		
 	}
@@ -11372,9 +11365,9 @@ function fname_s_0262(cdm)
 
 
 
-function fname_s_0263( event )
+function fname_s_0262( event )
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -11393,18 +11386,18 @@ function fname_s_0263( event )
 	infProject.tools.pivot.position.add( pos2 );
 	infProject.tools.gizmo.position.add( pos2 );
 
-	fname_s_0259();
+	fname_s_0258();
 	
-	fname_s_0262({obj: obj});
+	fname_s_0261({obj: obj});
 }
 
 
 
-function fname_s_0264(obj)
+function fname_s_0263(obj)
 { 
 	if(clickO.actMove)
 	{		 
-		fname_s_0286({obj: obj});	
+		fname_s_0285({obj: obj});	
 	}	
 }
 
@@ -11412,13 +11405,13 @@ function fname_s_0264(obj)
 	
 
 
-function fname_s_0265(obj)
+function fname_s_0264(obj)
 { 
 	if(obj.userData.tag != 'obj') return;
 	
 	clickO = resetPop.clickO(); 
 	
-	fname_s_0266(obj);
+	fname_s_0265(obj);
 	
 	var arr = [];
 	
@@ -11438,13 +11431,13 @@ function fname_s_0265(obj)
 		scene.remove(arr[i]); 
 	}
 	
-	fname_s_0211();
+	fname_s_0210();
 }
 
 
 
 
-function fname_s_0266(obj)
+function fname_s_0265(obj)
 {
 	if(!obj) return;
 	if(!obj.userData.tag) return;	
@@ -11472,19 +11465,19 @@ function fname_s_0266(obj)
 	gizmo.userData.gizmo.obj = null;
 
 	
-	fname_s_0327(infProject.svg.furn.box);
-	fname_s_0327(infProject.svg.furn.size);
-	fname_s_0327(infProject.svg.furn.offset);
+	fname_s_0326(infProject.svg.furn.box);
+	fname_s_0326(infProject.svg.furn.size);
+	fname_s_0326(infProject.svg.furn.offset);
 	
-	fname_s_0329(infProject.html.furn.size);
-	fname_s_0329(infProject.html.furn.offset);
+	fname_s_0328(infProject.html.furn.size);
+	fname_s_0328(infProject.html.furn.offset);
 	
 	
 	clickO.last_obj = null;
 	
 	fname_s_029(); 	
 	
-	fname_s_0211();
+	fname_s_0210();
 }
 
 
@@ -11494,7 +11487,7 @@ function fname_s_0266(obj)
 
 
 
-function fname_s_0267(cdm)
+function fname_s_0266(cdm)
 {
 	var obj = null;
 	var pivot = infProject.tools.pivot;
@@ -11511,9 +11504,9 @@ function fname_s_0267(cdm)
 
 
 
-function fname_s_0268(cdm) 
+function fname_s_0267(cdm) 
 {
-	var obj = fname_s_0267();
+	var obj = fname_s_0266();
 	
 	if(!obj) return;	
 		
@@ -11533,17 +11526,17 @@ function fname_s_0268(cdm)
 	}	
 	 
 	
-	fname_s_0266(obj);
+	fname_s_0265(obj);
 	
-	fname_s_0261( arr2[0] );
+	fname_s_0260( arr2[0] );
 }
 
 
 
 
-function fname_s_0269(cdm)
+function fname_s_0268(cdm)
 {
-	var obj = fname_s_0267();
+	var obj = fname_s_0266();
 	
 	if(!obj) return;
 
@@ -11583,7 +11576,7 @@ function fname_s_0269(cdm)
 
 
 
-function fname_s_0270()
+function fname_s_0269()
 {
 	var n = 0;
 	var v = [];
@@ -11616,7 +11609,7 @@ function fname_s_0270()
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
 	var cdm = {axis: 'x', pos: new THREE.Vector3(0,0.0,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00};
 	
-	var obj = new THREE.Mesh( fname_s_0224(v), material ); 
+	var obj = new THREE.Mesh( fname_s_0223(v), material ); 
 	obj.userData.tag = 'gizmo';
 	obj.userData.axis = cdm.axis;
 	obj.renderOrder = 2;
@@ -11633,7 +11626,7 @@ function fname_s_0270()
 
 
 
-function fname_s_0271( intersect )
+function fname_s_0270( intersect )
 {			
 	var gizmo = infProject.tools.gizmo;
 	
@@ -11674,11 +11667,11 @@ function fname_s_0271( intersect )
 	}
 	else
 	{
-		fname_s_0272(obj, dr, rotY, false);
+		fname_s_0271(obj, dr, rotY, false);
 	}
 	
 	
-	function fname_s_0272(obj, dr, rotY, global)
+	function fname_s_0271(obj, dr, rotY, global)
 	{
 		if(global)	
 		{
@@ -11701,9 +11694,9 @@ function fname_s_0271( intersect )
 
 
 
-function fname_s_0273( event )
+function fname_s_0272( event )
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' );	 	 
+	var intersects = fname_s_0231( event, planeMath, 'one' );	 	 
 	if(intersects.length == 0) return;
 	
 	
@@ -11728,15 +11721,15 @@ function fname_s_0273( event )
 	{ 
 		obj.rotateOnWorldAxis(new THREE.Vector3(0,1,0), rotY - gizmo.userData.gizmo.active.rotY);
 
-		fname_s_0262({obj: obj});
+		fname_s_0261({obj: obj});
 	}
 	else 
 	{ 		
-		fname_s_0274({obj: [obj], dr: dr, rotY: rotY, centerO: obj});		 
+		fname_s_0273({obj: [obj], dr: dr, rotY: rotY, centerO: obj});		 
 	}		
 	
 	
-	function fname_s_0274(cdm)
+	function fname_s_0273(cdm)
 	{
 		var centerO = cdm.centerO;
 		var arr = cdm.obj;
@@ -11774,7 +11767,7 @@ function fname_s_0273( event )
 
 
 
-async function fname_s_0275()
+async function fname_s_0274()
 {
 	var url = infProject.settings.api.list;
 	
@@ -12067,7 +12060,7 @@ async function fname_s_0275()
 }
 
 
-function fname_s_0276()
+function fname_s_0275()
 {
 	var arr = [];		
 	
@@ -12378,7 +12371,7 @@ function fname_s_0276()
 
 
 
-function fname_s_0277()
+function fname_s_0276()
 {
 	var arr = [];	 	
 	
@@ -12426,7 +12419,7 @@ function fname_s_0277()
 }
 
 
-function fname_s_0278(cdm)
+function fname_s_0277(cdm)
 {
 	var lotid = cdm.lotid;
 	
@@ -12444,17 +12437,17 @@ function fname_s_0278(cdm)
 
 
 
-function fname_s_0279(cdm)
+function fname_s_0278(cdm)
 { 
 				
 	if(!cdm.lotid) return;
 	
 	var lotid = cdm.lotid;
 	
-	var inf = fname_s_0278({lotid: lotid});
+	var inf = fname_s_0277({lotid: lotid});
 
 	if(!inf) return;		
-	var obj = fname_s_0280({lotid: lotid});
+	var obj = fname_s_0279({lotid: lotid});
 	
 	if(cdm.loadFromFile){ obj = null; }
 	
@@ -12462,7 +12455,7 @@ function fname_s_0279(cdm)
 	{ 
 		inf.obj = obj.clone();
 		
-		if(obj) { fname_s_0282(inf, cdm); }
+		if(obj) { fname_s_0281(inf, cdm); }
 	}
 	else
 	{
@@ -12474,15 +12467,15 @@ function fname_s_0279(cdm)
 			{ 
 				var obj = object.scene.children[0];
 				
-				var obj = fname_s_0281({lotid: lotid, obj: obj});
+				var obj = fname_s_0280({lotid: lotid, obj: obj});
 				
 				if(cdm.loadFromFile)					{
-					fname_s_0205({lotid: lotid, furn: cdm.furn});
+					fname_s_0204({lotid: lotid, furn: cdm.furn});
 				}
 				else									{
 					inf.obj = obj;
 					
-					fname_s_0282(inf, cdm);							
+					fname_s_0281(inf, cdm);							
 				}
 			});				
 		}
@@ -12494,15 +12487,15 @@ function fname_s_0279(cdm)
 								
 				var obj = object.children[0];
 				
-				var obj = fname_s_0281({lotid: lotid, obj: obj});
+				var obj = fname_s_0280({lotid: lotid, obj: obj});
 				
 				if(cdm.loadFromFile)					{
-					fname_s_0205({lotid: lotid, furn: cdm.furn});
+					fname_s_0204({lotid: lotid, furn: cdm.furn});
 				}
 				else									{
 					inf.obj = obj;
 					
-					fname_s_0282(inf, cdm);							
+					fname_s_0281(inf, cdm);							
 				}
 			});			
 		}	
@@ -12515,7 +12508,7 @@ function fname_s_0279(cdm)
 
 
 
-function fname_s_0280(cdm)
+function fname_s_0279(cdm)
 {
 	var lotid = cdm.lotid;									var arrObj = infProject.scene.array.base;			
 	for(var i = 0; i < arrObj.length; i++)
@@ -12532,7 +12525,7 @@ function fname_s_0280(cdm)
 
 
 
-function fname_s_0281(cdm)
+function fname_s_0280(cdm)
 {
 	var lotid = cdm.lotid;									var obj = cdm.obj;
 	var base = infProject.scene.array.base;				
@@ -12588,7 +12581,7 @@ function fname_s_0281(cdm)
 
 
 
-function fname_s_0282(inf, cdm)
+function fname_s_0281(inf, cdm)
 {
 		if(cdm.wd)
 	{  
@@ -12629,14 +12622,14 @@ function fname_s_0282(inf, cdm)
 			{
 				if(cdm.light.intensity) { intensity = cdm.light.intensity; }
 			}
-			fname_s_0283({obj: obj, intensity: intensity}); 
+			fname_s_0282({obj: obj, intensity: intensity}); 
 		}
 	}
 	
 	obj.material.visible = false;
 
 	
-		fname_s_0284({obj: obj});			
+		fname_s_0283({obj: obj});			
 	
 	infProject.scene.array.obj[infProject.scene.array.obj.length] = obj;
 
@@ -12649,7 +12642,7 @@ function fname_s_0282(inf, cdm)
 }
 
 
-function fname_s_0283(cdm)
+function fname_s_0282(cdm)
 {
 	var obj = cdm.obj;
 	obj.userData.obj3D.type = 'light point';
@@ -12738,7 +12731,7 @@ function fname_s_0283(cdm)
 }
 
 
-function fname_s_0284(cdm)
+function fname_s_0283(cdm)
 {
 	var obj = cdm.obj;
 	var arrCubeO = [];
@@ -12762,12 +12755,12 @@ function fname_s_0284(cdm)
 		}
 	});
 
-	if(arrCubeO.length > 0) fname_s_0285({obj: obj, arrO: arrCubeO});		
+	if(arrCubeO.length > 0) fname_s_0284({obj: obj, arrO: arrCubeO});		
 	
 }
 
 
-function fname_s_0285(cdm)
+function fname_s_0284(cdm)
 {
 	var obj = cdm.obj;
 	var arrO = cdm.arrO;
@@ -12795,11 +12788,11 @@ function fname_s_0285(cdm)
 		}
 	});	
 	
-	fname_s_0286({obj: obj});
+	fname_s_0285({obj: obj});
 }
 
 
-function fname_s_0286(cdm)
+function fname_s_0285(cdm)
 {
 	var obj = cdm.obj;
 	if(!obj) return;
@@ -12820,28 +12813,28 @@ function fname_s_0286(cdm)
 
 
 
-function fname_s_0287(cdm)
+function fname_s_0286(cdm)
 {
 
 	if(1==1)		{
 		var loader = new THREE.GLTFLoader();
 		loader.parse( cdm.data, '', function ( obj ) 						
 		{ 
-						fname_s_0289({obj: obj.scene});
+						fname_s_0288({obj: obj.scene});
 		});
 		
 	}
 	else		{
 		var loader = new THREE.FBXLoader();
 		var obj = loader.parse( cdm.data );		
-		fname_s_0289({obj: obj});			
+		fname_s_0288({obj: obj});			
 	}
 
 
 }
 
 
-function fname_s_0288()
+function fname_s_0287()
 {	
 	var url = $('[nameId="input_link_obj_1"]').val(); 
 	var url = url.trim();
@@ -12851,14 +12844,14 @@ function fname_s_0288()
 		var loader = new THREE.GLTFLoader();
 		loader.load( url, function ( obj ) 						
 		{ 
-						fname_s_0289({obj: obj.scene});
+						fname_s_0288({obj: obj.scene});
 		});			
 	}
 	else		{
 		var loader = new THREE.FBXLoader();
 		loader.load( url, function ( obj ) 						
 		{ 			
-			fname_s_0289({obj: obj});
+			fname_s_0288({obj: obj});
 		});			
 	}
 }
@@ -12867,7 +12860,7 @@ function fname_s_0288()
 
 
 
-function fname_s_0289(cdm)
+function fname_s_0288(cdm)
 {
 	$('[nameId="window_main_load_obj"]').css({"display":"none"});
 		
@@ -12904,7 +12897,7 @@ function fname_s_0289(cdm)
 	scene.add( obj );
 	
 	
-		fname_s_0284({obj: obj});
+		fname_s_0283({obj: obj});
 
 	
 	if(1==2)
@@ -12969,7 +12962,7 @@ function fname_s_0289(cdm)
 var wallVisible = [];
 
 
-function fname_s_0290()
+function fname_s_0289()
 {
 	wallVisible = [];
 	var wall = infProject.scene.array.wall;
@@ -12995,7 +12988,7 @@ function fname_s_0290()
 
 
 
-function fname_s_0291()
+function fname_s_0290()
 { 
 	var camPos = camera.getWorldDirection(new THREE.Vector3());
 	
@@ -13012,7 +13005,7 @@ function fname_s_0291()
 		{ 	
 			wall.renderOrder = Math.abs(res);
 			wall.userData.wall.show = false;
-			fname_s_0293({obj: wall, value: 1 - Math.abs(res)});
+			fname_s_0292({obj: wall, value: 1 - Math.abs(res)});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13023,7 +13016,7 @@ function fname_s_0291()
 		{
 			wall.renderOrder = 0;
 			wall.userData.wall.show = true;
-			fname_s_0293({obj: wall, value: 1});
+			fname_s_0292({obj: wall, value: 1});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13034,7 +13027,7 @@ function fname_s_0291()
 }
 
 
-function fname_s_0292()
+function fname_s_0291()
 {		
 	for ( var i = 0; i < wallVisible.length; i++ ) 
 	{ 
@@ -13042,7 +13035,7 @@ function fname_s_0292()
 
 		wall.renderOrder = 0;
 		wall.userData.wall.show = true;
-		fname_s_0293({obj: wall, value: 1});
+		fname_s_0292({obj: wall, value: 1});
 		
 		for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 		{
@@ -13052,7 +13045,7 @@ function fname_s_0292()
 }
 
 
-function fname_s_0293(cdm)
+function fname_s_0292(cdm)
 {
 	var obj = cdm.obj;
 	
@@ -13086,7 +13079,7 @@ function fname_s_0293(cdm)
 
 
 
-function fname_s_0294()
+function fname_s_0293()
 {	
 	var ruler = [];
 	
@@ -13116,7 +13109,7 @@ function fname_s_0294()
 
 
 	
-	var line = new THREE.Mesh( fname_s_0220(1, 0.01, 0.01), new THREE.MeshPhongMaterial( { color : 0x00ff00, lightMap : lightMap_1 } ) );
+	var line = new THREE.Mesh( fname_s_0219(1, 0.01, 0.01), new THREE.MeshPhongMaterial( { color : 0x00ff00, lightMap : lightMap_1 } ) );
 	var v = line.geometry.vertices; 
 	v[0].y = v[3].y = v[4].y = v[7].y = -0.005;
 	v[1].y = v[2].y = v[5].y = v[6].y = 0.005;			
@@ -13128,7 +13121,7 @@ function fname_s_0294()
 	ruler[1].userData.subtool.line = line;
 	 	 
 	
-	fname_s_0295({ruler: ruler});
+	fname_s_0294({ruler: ruler});
 
 	return ruler;
 }
@@ -13136,7 +13129,7 @@ function fname_s_0294()
 
 
 
-function fname_s_0295(cdm)
+function fname_s_0294(cdm)
 {
 	var ruler = cdm.ruler;
 	var line = ruler[0].userData.subtool.line;
@@ -13166,7 +13159,7 @@ function fname_s_0295(cdm)
 
 
 
-function fname_s_0296()
+function fname_s_0295()
 {
 	var plane = infProject.scene.substrate.active;
 	if(!plane) return;
@@ -13175,22 +13168,22 @@ function fname_s_0296()
 	ruler[0].position.set(plane.position.x + 0.5, plane.position.y + 0.01, plane.position.z);
 	ruler[1].position.set(plane.position.x - 0.5, plane.position.y + 0.01, plane.position.z);
 
-	fname_s_0295({ruler: ruler});	
+	fname_s_0294({ruler: ruler});	
 }
 
 
 
-function fname_s_0297(cdm)
+function fname_s_0296(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
-	var obj = new THREE.Mesh( fname_s_0220(5, 0.005, 5), new THREE.MeshPhongMaterial( { color : 0xcccccc, transparent: true, opacity: 1, lightMap : lightMap_1 } ) );
+	var obj = new THREE.Mesh( fname_s_0219(5, 0.005, 5), new THREE.MeshPhongMaterial( { color : 0xcccccc, transparent: true, opacity: 1, lightMap : lightMap_1 } ) );
 	obj.position.y = 0.01;
 	obj.rotation.y = 0.0;
 	obj.userData.tag = "substrate";
 	obj.userData.substrate = { p: [], active: false, img: false };
 	obj.visible = false;
-	fname_s_0304({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
+	fname_s_0303({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
 	scene.add( obj );	
 	
 	if(cdm.pos)
@@ -13200,7 +13193,7 @@ function fname_s_0297(cdm)
 		if(cdm.pos.z) obj.position.z = cdm.pos.z;
 	}
 		
-	var p = fname_s_0298({plane: obj});
+	var p = fname_s_0297({plane: obj});
 	
 	p[0].userData.subpoint = {plane: obj, x: p[1], z: p[3], p2: p[2], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
 	p[1].userData.subpoint = {plane: obj, x: p[0], z: p[2], p2: p[3], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
@@ -13218,11 +13211,11 @@ function fname_s_0297(cdm)
 
 
 
-function fname_s_0298(cdm)
+function fname_s_0297(cdm)
 {	
 	var plane = cdm.plane;
 	
-	function fname_s_0299()
+	function fname_s_0298()
 	{
 		var count = 48;
 		var circle = [];
@@ -13240,7 +13233,7 @@ function fname_s_0298(cdm)
 		return circle;
 	}
 	
-	var circle = fname_s_0299();
+	var circle = fname_s_0298();
 	
 	var n = 0;
 	var v = [];
@@ -13264,7 +13257,7 @@ function fname_s_0298(cdm)
 	}	
 
 	var arr = [];
-	var geometry = fname_s_0224(v);
+	var geometry = fname_s_0223(v);
 	var material = new THREE.MeshLambertMaterial( { color : 0x333333, transparent: true, opacity: 1, lightMap : lightMap_1 } );
 	
 	
@@ -13287,7 +13280,7 @@ function fname_s_0298(cdm)
 
 
 
-function fname_s_0300(cdm)
+function fname_s_0299(cdm)
 {
 	var plane = cdm.plane;
 	var point = plane.userData.substrate.p;
@@ -13318,7 +13311,7 @@ function fname_s_0300(cdm)
 	for (var i = 0; i < point.length; i++)
 	{
 		var dir = new THREE.Vector3().subVectors( point[i].userData.subpoint.p2.position, point[i].position ).normalize(); 
-		var qt = fname_s_0240( dir.clone() );
+		var qt = fname_s_0239( dir.clone() );
 		
 		point[i].userData.subpoint.dir = dir;
 		point[i].userData.subpoint.qt = qt;
@@ -13330,7 +13323,7 @@ function fname_s_0300(cdm)
 
 
 
-function fname_s_0301(cdm)
+function fname_s_0300(cdm)
 {
 	if(!infProject.scene.substrate.active) return;
 	 	
@@ -13350,14 +13343,14 @@ function fname_s_0301(cdm)
 	
 	plane.visible = visible;
 	
-	fname_s_0302({visible: visible});
+	fname_s_0301({visible: visible});
 	
 	renderCamera();
 }
 
 
 
-function fname_s_0302(cdm)
+function fname_s_0301(cdm)
 {
 	var visible = cdm.visible;
 	var plane = infProject.scene.substrate.active;
@@ -13376,14 +13369,14 @@ function fname_s_0302(cdm)
 
 
 
-function fname_s_0303(cdm)
+function fname_s_0302(cdm)
 {
 	if(!cdm) return;
 
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;
 	
-	var value = fname_s_0248({ value: cdm.value, unit: 1 });
+	var value = fname_s_0247({ value: cdm.value, unit: 1 });
 	 
 	if(!value) 
 	{
@@ -13400,8 +13393,8 @@ function fname_s_0303(cdm)
 	ruler[0].position.y = plane.position.y + 0.01;
 	ruler[1].position.y = plane.position.y + 0.01;
 
-	fname_s_0295({ruler: ruler});
-	fname_s_0300({plane: plane});
+	fname_s_0294({ruler: ruler});
+	fname_s_0299({plane: plane});
 	
 	renderCamera();	
 }
@@ -13409,7 +13402,7 @@ function fname_s_0303(cdm)
 
 
 
-function fname_s_0304(cdm)
+function fname_s_0303(cdm)
 {
 	
 	
@@ -13435,20 +13428,20 @@ function fname_s_0304(cdm)
 		
 		if(cdm.scale)
 		{
-			fname_s_0313({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
+			fname_s_0312({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
 		}
 		else
 		{
-			fname_s_0313({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+			fname_s_0312({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		}		
 				
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
 		var z = (Math.abs(obj.geometry.boundingBox.max.z) + Math.abs(obj.geometry.boundingBox.min.z));		
 		
-		fname_s_0300({plane: obj});
+		fname_s_0299({plane: obj});
 		
-		fname_s_0229( obj );		
+		fname_s_0228( obj );		
 		
 		texture.repeat.x = 1/x; 
 		texture.repeat.y = -1/z;			
@@ -13469,7 +13462,7 @@ function fname_s_0304(cdm)
 
 
 
-function fname_s_0305(cdm)
+function fname_s_0304(cdm)
 {
 	
 	
@@ -13496,7 +13489,7 @@ function fname_s_0305(cdm)
 		
 		var ratioImg = texture.image.width/texture.image.height;
 
-		fname_s_0313({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+		fname_s_0312({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
@@ -13505,12 +13498,12 @@ function fname_s_0305(cdm)
 		
 		if(camera == cameraTop)
 		{
-			fname_s_0296();			
+			fname_s_0295();			
 		}
 
-		fname_s_0300({plane: obj});	
+		fname_s_0299({plane: obj});	
 		
-		fname_s_0229( obj );
+		fname_s_0228( obj );
 		
 		texture.repeat.x = 1/x; 
 		texture.repeat.y = -1/z;			
@@ -13524,9 +13517,9 @@ function fname_s_0305(cdm)
 		material.lightMap = lightMap_1;
 		material.needsUpdate = true; 					
 		
-		fname_s_0316({value: 100});
+		fname_s_0315({value: 100});
 		
-		fname_s_0301({visible: true});
+		fname_s_0300({visible: true});
 		
 		renderCamera();
 	};
@@ -13535,7 +13528,7 @@ function fname_s_0305(cdm)
 
 
 
-function fname_s_0229( obj )
+function fname_s_0228( obj )
 {
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -13569,7 +13562,7 @@ function fname_s_0229( obj )
 
 
 
-function fname_s_0307(cdm)
+function fname_s_0306(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13583,9 +13576,9 @@ function fname_s_0307(cdm)
 
 
 
-function fname_s_0308( event ) 
+function fname_s_0307( event ) 
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13600,14 +13593,14 @@ function fname_s_0308( event )
 	
 	if(1==1)
 	{
-		fname_s_0295({ruler: infProject.scene.substrate.ruler});	
+		fname_s_0294({ruler: infProject.scene.substrate.ruler});	
 	}
 }
 
 
 
 
-function fname_s_0309(cdm)
+function fname_s_0308(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13621,9 +13614,9 @@ function fname_s_0309(cdm)
 
 
 
-function fname_s_0310( event ) 
+function fname_s_0309( event ) 
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13653,7 +13646,7 @@ function fname_s_0310( event )
 
 
 
-function fname_s_0311(cdm)
+function fname_s_0310(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13667,9 +13660,9 @@ function fname_s_0311(cdm)
 
 
 
-function fname_s_0312( event ) 
+function fname_s_0311( event ) 
 {	
-	var intersects = fname_s_0232( event, planeMath, 'one' ); 
+	var intersects = fname_s_0231( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13684,7 +13677,7 @@ function fname_s_0312( event )
 		var dir = obj.userData.subpoint.dir;
 		var qt = obj.userData.subpoint.qt;  
 		
-		var v1 = fname_s_0238( new THREE.Vector3().subVectors( ps, pos ), qt ); 
+		var v1 = fname_s_0237( new THREE.Vector3().subVectors( ps, pos ), qt ); 
 		if(v1.z < 0.5) { v1.z = 0.5; }   
 		var v1 = new THREE.Vector3().addScaledVector( dir, -v1.z );
 		pos = new THREE.Vector3().addVectors( ps, v1 );		
@@ -13724,7 +13717,7 @@ function fname_s_0312( event )
 		var x = new THREE.Vector3().subVectors( ps3, ps1 ).x;
 		var z = new THREE.Vector3().subVectors( ps2, ps1 ).z;
 		
-		fname_s_0313({obj: plane, size: {x: x/2, z: z/2}});
+		fname_s_0312({obj: plane, size: {x: x/2, z: z/2}});
 		
 		plane.position.add( pos2.clone().divideScalar( 2 ) );
 	}
@@ -13735,7 +13728,7 @@ function fname_s_0312( event )
 
 
 
-function fname_s_0313(cdm)
+function fname_s_0312(cdm)
 {
 	var obj = cdm.obj; 
 	var size = cdm.size;
@@ -13761,10 +13754,10 @@ function fname_s_0313(cdm)
 
 
 
-function fname_s_0314()
+function fname_s_0313()
 {
 	var size = $('[nameId="input_size_substrate"]').val();
-	var value = fname_s_0248({ value: size, unit: 1, abs: true, limit: {min: 0.01, max: 1000} });
+	var value = fname_s_0247({ value: size, unit: 1, abs: true, limit: {min: 0.01, max: 1000} });
 	
 	if(!value) 
 	{
@@ -13789,7 +13782,7 @@ function fname_s_0314()
 	x /= 2;
 	z /= 2;
 	
-	fname_s_0313({obj: plane, size: {x: x*ratio, z: z*ratio}});
+	fname_s_0312({obj: plane, size: {x: x*ratio, z: z*ratio}});
 		
 	
 	if(1==1)
@@ -13808,12 +13801,12 @@ function fname_s_0314()
 		ruler[1].position.x = v2.x;
 		ruler[1].position.z = v2.z;	
 
-		fname_s_0295({ruler: ruler});
+		fname_s_0294({ruler: ruler});
 	}
 	
 	$('[nameId="input_size_substrate"]').val( value.num );
 	
-	fname_s_0300({plane: plane});
+	fname_s_0299({plane: plane});
 	
 	renderCamera();
 }
@@ -13821,14 +13814,14 @@ function fname_s_0314()
 
 
 
-function fname_s_0315(cdm)
+function fname_s_0314(cdm)
 {
 	if(!cdm) return;
 
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;
 	
-	var value = fname_s_0248({ value: cdm.angle, unit: 1 });
+	var value = fname_s_0247({ value: cdm.angle, unit: 1 });
 	 
 	if(!value) 
 	{
@@ -13852,7 +13845,7 @@ function fname_s_0315(cdm)
 
 	$('[nameId="input_rotate_substrate"]').val( rot );
 	
-	fname_s_0300({plane: plane});
+	fname_s_0299({plane: plane});
 	
 	renderCamera();
 }
@@ -13861,7 +13854,7 @@ function fname_s_0315(cdm)
 
 
 
-function fname_s_0316(cdm)
+function fname_s_0315(cdm)
 {
 	var value = cdm.value;
 	
@@ -13879,7 +13872,7 @@ function fname_s_0316(cdm)
 
 
 
-function fname_s_0317(cdm)
+function fname_s_0316(cdm)
 {
 	if(!cdm) cdm = {}; 
 	
@@ -13887,7 +13880,7 @@ function fname_s_0317(cdm)
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;		
 	
-	fname_s_0301({visible: false});	
+	fname_s_0300({visible: false});	
 	
 	
 	plane.userData.substrate.img = false;
@@ -13903,7 +13896,7 @@ function fname_s_0317(cdm)
 
 
 
-function fname_s_0318()
+function fname_s_0317()
 {
 	$.ajax
 	({
@@ -13912,14 +13905,14 @@ function fname_s_0318()
 		dataType: 'json',
 		success: function(json)
 		{ 
-			fname_s_0319({json: json});
+			fname_s_0318({json: json});
 		},
 	});	
 }
 
 
 
-function fname_s_0319(cdm)
+function fname_s_0318(cdm)
 {
 	var rooms = cdm.json.rooms;
 	var middle_wall = cdm.json.middle_wall;
@@ -13979,7 +13972,7 @@ function fname_s_0319(cdm)
 	}
 	
 
-	var geometry = fname_s_0220(0.2, 0.2, 0.2);
+	var geometry = fname_s_0219(0.2, 0.2, 0.2);
 	var material = new THREE.MeshLambertMaterial( { color : 0x00ff00, transparent: true, opacity: 1, depthTest: false }); 
 
 
@@ -14005,13 +13998,13 @@ function fname_s_0319(cdm)
 		{
 			if(!arr[i].w[i2]) continue;
 			
-			var point1 = fname_s_0244( 'point', arr[i].w[i2].p[0].id );
-			var point2 = fname_s_0244( 'point', arr[i].w[i2].p[1].id );	
+			var point1 = fname_s_0243( 'point', arr[i].w[i2].p[0].id );
+			var point2 = fname_s_0243( 'point', arr[i].w[i2].p[1].id );	
 			
-			if(point1 == null) { point1 = fname_s_0230( arr[i].w[i2].p[0].pos, arr[i].w[i2].p[0].id ); }
-			if(point2 == null) { point2 = fname_s_0230( arr[i].w[i2].p[1].pos, arr[i].w[i2].p[1].id ); }	
+			if(point1 == null) { point1 = fname_s_0229( arr[i].w[i2].p[0].pos, arr[i].w[i2].p[0].id ); }
+			if(point2 == null) { point2 = fname_s_0229( arr[i].w[i2].p[1].pos, arr[i].w[i2].p[1].id ); }	
 
-			var obj = fname_s_0231({p: [point1, point2], width: 0.01}); 
+			var obj = fname_s_0230({p: [point1, point2], width: 0.01}); 
 		}
 	}
 	
@@ -14022,14 +14015,14 @@ function fname_s_0319(cdm)
 	
 	fname_s_0104();
 	
-	fname_s_0320();
+	fname_s_0319();
 	
 	renderCamera();
 }
 
 
 
-function fname_s_0320()
+function fname_s_0319()
 {
 	var floor = infProject.scene.array.floor;
 	var inf = [];
@@ -14041,7 +14034,7 @@ function fname_s_0320()
 			var wall = floor[i].userData.room.w[i2];
 			var side = floor[i].userData.room.s[i2];
 			
-			var line = fname_s_0321({wall: wall, side: side});
+			var line = fname_s_0320({wall: wall, side: side});
 			
 			for ( var i3 = 0; i3 < floor.length; i3++ )
 			{
@@ -14051,7 +14044,7 @@ function fname_s_0320()
 				
 				for ( var i4 = 0; i4 < floor[i3].userData.room.w.length; i4++ )
 				{
-					var res = fname_s_0322({dir: line, w2: floor[i3].userData.room.w[i4]});
+					var res = fname_s_0321({dir: line, w2: floor[i3].userData.room.w[i4]});
 					
 					if(res) { cross[cross.length] = res; }
 				}
@@ -14062,7 +14055,7 @@ function fname_s_0320()
 	}
 	
 	
-	function fname_s_0321(cdm)
+	function fname_s_0320(cdm)
 	{
 		var wall = cdm.wall;
 		var side = cdm.side;
@@ -14088,7 +14081,7 @@ function fname_s_0320()
 	
 	
 	
-	function fname_s_0322(cdm)
+	function fname_s_0321(cdm)
 	{
 		var dir = cdm.dir;
 		var w2 = cdm.w2;
@@ -14100,12 +14093,12 @@ function fname_s_0320()
 		
 		if( !fname_s_013(p0, p1, p2, p3) ) { return null; }		
 		
-		var pos = fname_s_0323(p0, p1, p2, p3);
+		var pos = fname_s_0322(p0, p1, p2, p3);
 		
 		if(pos && 1==2)
 		{ 
 			var material = new THREE.MeshLambertMaterial( { color : 0x00ff00, transparent: true, opacity: 1, depthTest: false }); 
-			var cube = new THREE.Mesh( fname_s_0220(0.2, 0.2, 0.2), material );
+			var cube = new THREE.Mesh( fname_s_0219(0.2, 0.2, 0.2), material );
 			cube.position.set(pos.x, 1, pos.z);
 			scene.add( cube ); 				
 		}
@@ -14115,7 +14108,7 @@ function fname_s_0320()
 
 
 	
-	function fname_s_0323(a1, a2, b1, b2)
+	function fname_s_0322(a1, a2, b1, b2)
 	{
 		var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
 		var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
@@ -14141,7 +14134,7 @@ function fname_s_0320()
 
 
 
-function fname_s_0324(cdm)
+function fname_s_0323(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
@@ -14151,7 +14144,7 @@ function fname_s_0324(cdm)
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		var line  = document.createElementNS("http:
+		var line  = document.createElementNS(infProject.settings.svg.tag, "line");
 
 		line.setAttribute("x1", 100);
 		line.setAttribute("y1", 300);
@@ -14183,7 +14176,7 @@ function fname_s_0324(cdm)
 
 
 
-function fname_s_0325(cdm)
+function fname_s_0324(cdm)
 {
 	var line = cdm.line;
 	
@@ -14216,7 +14209,7 @@ function fname_s_0325(cdm)
 
 
 
-function fname_s_0326(arr)
+function fname_s_0325(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14226,7 +14219,7 @@ function fname_s_0326(arr)
 
 
 
-function fname_s_0327(arr)
+function fname_s_0326(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14242,7 +14235,7 @@ function fname_s_0327(arr)
 
 
 
-function fname_s_0328(arr)
+function fname_s_0327(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14253,7 +14246,7 @@ function fname_s_0328(arr)
 
 
 
-function fname_s_0329(arr)
+function fname_s_0328(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{

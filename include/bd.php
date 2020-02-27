@@ -66,7 +66,7 @@ $infProject['settings']['grid']['size'] = 1.0;
 $infProject['settings']['grid']['count'] = null;
 $infProject['settings']['grid']['pos'] = [ 'y' => -0.00 ];
 $infProject['settings']['grid']['color'] = 0xcccccc;
-
+$infProject['settings']['svg']['tag'] = 'http://www.w3.org/2000/svg';
 
 
 
