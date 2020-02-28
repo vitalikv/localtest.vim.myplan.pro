@@ -249,7 +249,7 @@ function assignEventSvgScaleSizeObj(cdm)
 	for ( var i = 0; i < el.length; i++ )
 	{
 		console.log(el[i]);
-		el[i].addEventListener('mousedown', startDrag);
+		el[i].addEventListener('mousedown', startDrag, false);
 		el[i].addEventListener('mousemove', drag);
 		el[i].addEventListener('mouseup', endDrag);		
 	}

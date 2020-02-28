@@ -515,8 +515,6 @@ function saveFile(cdm)
 			success: function(json)
 			{ 			
 				console.log(json);
-				
-				if(cdm.upUI) { getListProject({id: infProject.user.id}); }		// обновляем меню сохрание проектов
 			},
 			error: function(json){ console.log(json); }
 		});			
