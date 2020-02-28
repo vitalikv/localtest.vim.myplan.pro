@@ -34,7 +34,7 @@ function createHtmlLabelWall(cdm)
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		var labelContainerElem = document.querySelector('#canvasFrame');
+		var labelContainerElem = document.querySelector('#htmlFrame');
 		var elem = document.createElement('div');
 		elem.textContent = '';
 		elem.style.cssText = 'position: absolute; text-align: center;';

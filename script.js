@@ -307,6 +307,8 @@ var offset = new THREE.Vector3();
 
 	//getListRoomTypesApi();
 	getListObjTypesApi();
+	
+	assignEventSvgScaleSizeObj({el: infProject.svg.furn.boxCircle}); 
 }
 
 //----------- start

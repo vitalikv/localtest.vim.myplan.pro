@@ -241,10 +241,38 @@ function hideElementSvg(arr)
 
 
 
+// назначаем события для svg элемнтов (точек), которые будут отвечать за масштаб объекта
+function assignEventSvgScaleSizeObj(cdm)
+{
+	var el = cdm.el;
+	
+	for ( var i = 0; i < el.length; i++ )
+	{
+		console.log(el[i]);
+		el[i].addEventListener('mousedown', startDrag);
+		el[i].addEventListener('mousemove', drag);
+		el[i].addEventListener('mouseup', endDrag);		
+	}
+	
+}
 
 
+function startDrag(e) 
+{
+	console.log(333333);
+	
+	e.stopPropagation();
+}
 
+function drag(evt) 
+{
+	
+}
 
+function endDrag(evt) 
+{
+	
+}	
 
 
 

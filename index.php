@@ -70,8 +70,10 @@
 		
 		</div>
 
-		<svg id="svgFrame" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute;">
+		<svg id="svgFrame" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; z-index: 1">
 		</svg>
+		<div id="htmlFrame" style="position: fixed; width: 100%; height: 100%; top: 0; right: 0; overflow: hidden; z-index: 1">
+		</div>		
 	</div>
 
 
