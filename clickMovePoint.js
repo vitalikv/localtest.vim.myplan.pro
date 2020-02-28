@@ -529,8 +529,8 @@ function upLineUU(line1, line2, s1, s2, pointC)
 		var m1a = line1.localToWorld( v1[n1].clone() );
 		var m1b = line1.localToWorld( v1[n2].clone() );		
 		
-		if(s1 == 1) { updateSvgLine({line: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { updateSvgLine({line: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { updateSvgLine({el: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { updateSvgLine({el: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}
 
 	if(line2.userData.wall.svg.lineW && 1==1)
@@ -539,8 +539,8 @@ function upLineUU(line1, line2, s1, s2, pointC)
 		var m1a = line2.localToWorld( v2[f1].clone() );
 		var m1b = line2.localToWorld( v2[f2].clone() );		
 		
-		if(s1 == 1) { updateSvgLine({line: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { updateSvgLine({line: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { updateSvgLine({el: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { updateSvgLine({el: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}	
 }
 

@@ -166,9 +166,11 @@ infProject.html.furn.size = createHtmlLabelWall({count: 2, display: 'none', tag:
 infProject.html.furn.offset = createHtmlLabelWall({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	// хранятся все svg
-infProject.svg.furn.box = createSvgLine({count: 4});
 infProject.svg.furn.size = createSvgLine({count: 2});
-infProject.svg.furn.offset = createSvgLine({count: 4}); 
+infProject.svg.furn.offset = createSvgLine({count: 4});
+infProject.svg.furn.box2 = createSvgPath({count: 1, color: 'rgb(176, 110, 12)', dasharray: true})[0];
+infProject.svg.furn.box1 = createSvgPath({count: 1})[0];
+infProject.svg.furn.boxCircle = createSvgCircle({count: 8}); 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = createCenterCamObj();
 // controllWD контроллеры для изменения ширины/длины wd
@@ -385,44 +387,6 @@ function createCenterCamObj()
 }
 
 
-function createHtmlLabelWall(cdm)
-{
-	var arr = [];
-	
-	for ( var i = 0; i < cdm.count; i++ )
-	{
-		var labelContainerElem = document.querySelector('#canvasFrame');
-		var elem = document.createElement('div');
-		elem.textContent = '';
-		elem.style.cssText = 'position: absolute; text-align: center;';
-		elem.style.cssText += infProject.settings.html.fonts.wall.size; 
-		elem.style.cssText += infProject.settings.html.fonts.wall.type;
-		elem.style.cssText += infProject.settings.html.fonts.wall.color;
-		if(cdm.style) { elem.style.cssText += (cdm.style); }
-		
-		labelContainerElem.appendChild(elem); 
-		
-		elem.userData = {};
-		elem.userData.tag = cdm.tag;
-		elem.userData.elem = {};
-		elem.userData.elem.pos = new THREE.Vector3();
-		elem.userData.elem.show = true;
-		
-		infProject.html.label[infProject.html.label.length] = elem;	
-
-		arr[arr.length] = elem;
-		
-		if(cdm.display)
-		{
-			elem.style.display = cdm.display;
-			elem.userData.elem.show = false;
-		}
-	}
-	
-	return arr;
-}
-
-
 
 function upPosLabels_1(cdm)
 {
@@ -456,18 +420,7 @@ function upPosLabels_1(cdm)
 			continue;
 		}
 		
-		//camera.updateProjectionMatrix();
-		var tempV = elem.userData.elem.pos.clone().project(camera);
-
-		var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
-		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
-
-		//var x = Math.round((0.5 + tempV.x / 2) * (canvas.width / window.devicePixelRatio));
-		//var y = Math.round((0.5 - tempV.y / 2) * (canvas.height / window.devicePixelRatio));	
-		//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
-		
-		elem.style.top = `${y}px`;
-		elem.style.left = `${x}px`;			
+		upPosLabels_2({elem: elem});
 	}
 
 	for ( var i = 0; i < infProject.svg.arr.length; i++ )
@@ -478,9 +431,16 @@ function upPosLabels_1(cdm)
 		
 		if(svg.userData.svg.line)
 		{
-			updateSvgLine({line: svg});
+			updateSvgLine({el: svg});
 		}
-				
+		else if(svg.userData.svg.circle)
+		{
+			updateSvgCircle({el: svg});
+		}
+		else if(svg.userData.svg.path)
+		{
+			updateSvgPath({el: svg});
+		}		
 	}	
 }
 
@@ -489,10 +449,15 @@ function upPosLabels_2(cdm)
 {
 	var elem = cdm.elem;
 
+	//camera.updateProjectionMatrix();
 	var tempV = elem.userData.elem.pos.clone().project(camera);
 
 	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
-	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;		
+	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+	//var x = Math.round((0.5 + tempV.x / 2) * (canvas.width / window.devicePixelRatio));
+	//var y = Math.round((0.5 - tempV.y / 2) * (canvas.height / window.devicePixelRatio));	
+	//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
 	
 	elem.style.top = `${y}px`;
 	elem.style.left = `${x}px`;		

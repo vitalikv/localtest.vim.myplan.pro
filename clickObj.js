@@ -56,7 +56,8 @@ function clickObject3D(cdm)
 	
 	setScalePivotGizmo();
 	
-	outlineAddObj({arr: [obj]});
+	if(camera == cameraTop) { outlineRemoveObj(); }
+	if(camera == camera3D) { outlineAddObj({arr: [obj]}); }
 	
 	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI
 
@@ -72,28 +73,12 @@ function showSvgSizeObj(cdm)
 	
 	var obj = cdm.obj;
 		
-	var v = [];
+	
 	
 	obj.updateMatrixWorld();
 	obj.geometry.computeBoundingBox();	
 	//obj.geometry.computeBoundingSphere()
-	
-	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );
-	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );
-	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.min.z) );
-	v[v.length] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.min.z) );		
-
-	
-	var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
-	
-	for(var i = 0; i < v.length; i++)
-	{
-		if(v[i].x < bound.min.x) { bound.min.x = v[i].x; }
-		if(v[i].x > bound.max.x) { bound.max.x = v[i].x; }
-		if(v[i].z < bound.min.z) { bound.min.z = v[i].z; }
-		if(v[i].z > bound.max.z) { bound.max.z = v[i].z; }		
-	}	
-	
+		
 	
 	
 	// размеры объекта
@@ -107,8 +92,8 @@ function showSvgSizeObj(cdm)
 		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
 		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
 		
-		updateSvgLine({line: infProject.svg.furn.size[0], point: [x1, x2]});
-		updateSvgLine({line: infProject.svg.furn.size[1], point: [z1, z2]});
+		updateSvgLine({el: infProject.svg.furn.size[0], point: [x1, x2]});
+		updateSvgLine({el: infProject.svg.furn.size[1], point: [z1, z2]});
 		showElementSvg(infProject.svg.furn.size);
 
 		var html = infProject.html.furn.size;
@@ -129,31 +114,66 @@ function showSvgSizeObj(cdm)
 	}
 	
 	
-	// box 
+	// box1 
 	{
-		var boxLine = infProject.svg.furn.box;
-		// [0] - top line
-		// [1] - bottom
-		// [2] - left
-		// [3] - right
+		var v = [];
+		v[0] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );	// bottom-left
+		v[1] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );	// bottom-right
+		v[2] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.min.z) );	// top-left
+		v[3] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.min.z) );	// top-right	
 		
-		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
-		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);		
-		updateSvgLine({line: boxLine[0], point: [p1, p2]});
+		var box1 = infProject.svg.furn.box1;
 		
-		var p1 = new THREE.Vector3(bound.min.x, 0, bound.max.z);
-		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
-		updateSvgLine({line: boxLine[1], point: [p1, p2]});
+		updateSvgPath({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+		showElementSvg([box1]);
+		
+		
+		var circle = infProject.svg.furn.boxCircle;
+		
+		// top
+		updateSvgCircle({el: circle[0], pos: v[2]});
+		updateSvgCircle({el: circle[1], pos: new THREE.Vector3().subVectors( v[3], v[2] ).divideScalar( 2 ).add(v[2])});
+		updateSvgCircle({el: circle[2], pos: v[3]});
+		
+		// bottom
+		updateSvgCircle({el: circle[3], pos: v[0]});
+		updateSvgCircle({el: circle[4], pos: new THREE.Vector3().subVectors( v[1], v[0] ).divideScalar( 2 ).add(v[0])});
+		updateSvgCircle({el: circle[5], pos: v[1]});		
+		
+		// left	center
+		updateSvgCircle({el: circle[6], pos: new THREE.Vector3().subVectors( v[2], v[0] ).divideScalar( 2 ).add(v[0])});
+		
+		// right center
+		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
+		
+		showElementSvg(circle);		
+	}
 
-		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);
-		var p2 = new THREE.Vector3(bound.min.x, 0, bound.max.z);		
-		updateSvgLine({line: boxLine[2], point: [p1, p2]});
 
-		var p1 = new THREE.Vector3(bound.max.x, 0, bound.min.z);
-		var p2 = new THREE.Vector3(bound.max.x, 0, bound.max.z);		
-		updateSvgLine({line: boxLine[3], point: [p1, p2]});	
+	
+	// box2 
+	{
+		var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
 		
-		showElementSvg(boxLine);
+		for(var i = 0; i < v.length; i++)
+		{
+			if(v[i].x < bound.min.x) { bound.min.x = v[i].x; }
+			if(v[i].x > bound.max.x) { bound.max.x = v[i].x; }
+			if(v[i].z < bound.min.z) { bound.min.z = v[i].z; }
+			if(v[i].z > bound.max.z) { bound.max.z = v[i].z; }		
+		}			
+		
+		
+		var box2 = infProject.svg.furn.box2;
+		
+		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	// top-left
+		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	// top-right		
+		var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	// bottom-right				
+		var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	// bottom-left		
+		
+		
+		updateSvgPath({el: box2, arrP: [p1, p2, p3, p4, p1]});
+		showElementSvg([box2]);		
 	}
 	
 	
@@ -172,21 +192,17 @@ function showSvgSizeObj(cdm)
 		}
 		
 		if(floor)
-		{
-			// [0] - top line
-			// [1] - bottom
-			// [2] - left
-			// [3] - right	
+		{			
+			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	// top-left
+			var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	// top-right		
+			var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	// bottom-right				
+			var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	// bottom-left				
+
 			
-			var p0 = boxLine[0].userData.svg.line.p;
-			var p1 = boxLine[1].userData.svg.line.p;
-			var p2 = boxLine[2].userData.svg.line.p;
-			var p3 = boxLine[3].userData.svg.line.p;
-			
-			var posTop = new THREE.Vector3().subVectors( p0[1], p0[0] ).divideScalar( 2 ).add(p0[0]); 
-			var posBottom = new THREE.Vector3().subVectors( p1[1], p1[0] ).divideScalar( 2 ).add(p1[0]);
-			var posLeft = new THREE.Vector3().subVectors( p2[1], p2[0] ).divideScalar( 2 ).add(p2[0]);
-			var posRight = new THREE.Vector3().subVectors( p3[1], p3[0] ).divideScalar( 2 ).add(p3[0]);
+			var posTop = new THREE.Vector3().subVectors( p2, p1 ).divideScalar( 2 ).add(p1); 
+			var posBottom = new THREE.Vector3().subVectors( p3, p4 ).divideScalar( 2 ).add(p4);
+			var posLeft = new THREE.Vector3().subVectors( p1, p4 ).divideScalar( 2 ).add(p4);
+			var posRight = new THREE.Vector3().subVectors( p2, p3 ).divideScalar( 2 ).add(p3);
 			
 			var offsetLine = infProject.svg.furn.offset;
 			var offsetLabel = infProject.html.furn.offset;
@@ -225,7 +241,7 @@ function showSvgSizeObj(cdm)
 						// пересекаются ли линии
 						if(CrossLine(posStart, posEnd, contour[i], contour[i2])) 
 						{
-							updateSvgLine({line: line, point: [posStart, res[0]]});
+							updateSvgLine({el: line, point: [posStart, res[0]]});
 							showElementSvg([line]);
 							
 							showElementHtml([html]);
@@ -358,8 +374,9 @@ function hidePivotGizmo(obj)
 	pivot.userData.pivot.obj = null;
 	gizmo.userData.gizmo.obj = null;
 
-	
-	hideElementSvg(infProject.svg.furn.box);
+	hideElementSvg(infProject.svg.furn.boxCircle);
+	hideElementSvg([infProject.svg.furn.box1]);
+	hideElementSvg([infProject.svg.furn.box2]);
 	hideElementSvg(infProject.svg.furn.size);
 	hideElementSvg(infProject.svg.furn.offset);
 	

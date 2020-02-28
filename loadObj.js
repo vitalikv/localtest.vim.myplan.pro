@@ -7,7 +7,7 @@ async function getListObjTypesApi()
 	
 	var arr = [];
 
-	if(1==2)
+	if(window.location.hostname != 'localtest.vim.myplan.pro')
 	{
 		var response = await fetch(url, { method: 'GET' });
 		var json = await response.json();

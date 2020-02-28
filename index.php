@@ -99,6 +99,7 @@
 	<script src="<?=$path?>loadObj.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>substrate.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>svg_1.js?<?=$vrs?>"></script>
+	<script src="<?=$path?>html_1.js?<?=$vrs?>"></script>
 	
 	<script src="<?=$path?>hideWall.js?<?=$vrs?>"></script>
     <script src="<?=$path?>inputWall.js?<?=$vrs?>"></script>  	

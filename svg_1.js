@@ -1,6 +1,6 @@
 
 
-// создаем svg елемент
+// создаем svg line елемент
 function createSvgLine(cdm)
 {
 	if(!cdm) { cdm = {}; }
@@ -19,6 +19,11 @@ function createSvgLine(cdm)
 		line.setAttribute("x2", 600);
 		line.setAttribute("y2", 300);
 		line.setAttribute("stroke-width", "2px");
+		
+		if(cdm.dasharray)
+		{
+			line.setAttribute("stroke-dasharray", "20 10");
+		}		
 		
 		if(cdm.color){ line.setAttribute("stroke", cdm.color); }
 		else { line.setAttribute("stroke", "rgb(255, 162, 23)"); }	
@@ -41,18 +46,106 @@ function createSvgLine(cdm)
 }
 
 
+// создаем svg circle елемент
+function createSvgCircle(cdm)
+{
+	if(!cdm) { cdm = {}; }
+	
+	var arr = [];
+	
+	var svg = document.querySelector('#svgFrame');
+	
+	for ( var i = 0; i < cdm.count; i++ )
+	{
+		var circle = document.createElementNS(infProject.settings.svg.tag, "circle");
+
+		circle.setAttribute("cx", 600);
+		circle.setAttribute("cy", 600);
+
+		circle.setAttribute("r", 4.2);
+		circle.setAttribute("stroke-width", "2px");
+		
+		if(cdm.color){ circle.setAttribute("stroke", cdm.color); }
+		else { circle.setAttribute("stroke", "rgb(255, 162, 23)"); }	
+		
+		circle.setAttribute("fill", "#fff");
+		
+		//circle.setAttributeNS(null, 'style', 'fill: none; stroke: blue; stroke-width: 1px;' );
+		circle.setAttribute("display", "none");
+		
+		circle.userData = {};
+		circle.userData.svg = {};
+		circle.userData.svg.circle = {};
+		circle.userData.svg.circle.r = 300;
+		circle.userData.svg.circle.pos = new THREE.Vector3();
+		circle.userData.svg.show = false;		
+
+		svg.appendChild(circle);
+		
+		infProject.svg.arr[infProject.svg.arr.length] = circle;
+		arr[arr.length] = circle;		
+	}
+	
+	return arr;		
+}
+
+
+
+// создаем svg контур из линий
+function createSvgPath(cdm)
+{
+	if(!cdm) { cdm = {}; }
+	
+	var arr = [];
+	
+	var svg = document.querySelector('#svgFrame');
+	
+	for ( var i = 0; i < cdm.count; i++ )
+	{
+		var el  = document.createElementNS(infProject.settings.svg.tag, "path");
+
+		el.setAttribute("d", 'M100 100, 300 100, 300 600, 200 600');
+		el.setAttribute("stroke-width", "2px");		
+		el.setAttribute("fill", "none");
+		
+		if(cdm.dasharray)
+		{
+			el.setAttribute("stroke-dasharray", "20 10");
+		}		
+		
+		if(cdm.color){ el.setAttribute("stroke", cdm.color); }
+		else { el.setAttribute("stroke", "rgb(255, 162, 23)"); }	
+		
+		el.setAttribute("display", "none");
+		
+		el.userData = {};
+		el.userData.svg = {};
+		el.userData.svg.path = {};
+		el.userData.svg.path.arrP = [];
+		el.userData.svg.show = false;		
+
+		svg.appendChild(el);
+		
+		infProject.svg.arr[infProject.svg.arr.length] = el;
+		arr[arr.length] = el;
+	}
+	
+	return arr;
+}
+
+
 
 // обновляем положение svg на экране
 function updateSvgLine(cdm)
 {
-	var line = cdm.line;
+	var el = cdm.el;
 	
 	if(cdm.point)
 	{
-		line.userData.svg.line.p = cdm.point;
+		el.userData.svg.line.p = cdm.point;
 	}
 	
-	var p = line.userData.svg.line.p;
+	var p = el.userData.svg.line.p;
 	
 	//camera.updateProjectionMatrix();
 	var tempV = p[0].clone().project(camera);
@@ -60,17 +153,66 @@ function updateSvgLine(cdm)
 	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
 	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 
-	line.setAttribute("x1", x);
-	line.setAttribute("y1", y);
+	el.setAttribute("x1", x);
+	el.setAttribute("y1", y);
 	
 	var tempV = p[1].clone().project(camera);
 
 	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
 	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 
-	line.setAttribute("x2", x);
-	line.setAttribute("y2", y);		
+	el.setAttribute("x2", x);
+	el.setAttribute("y2", y);		
 	
+}
+
+
+
+// обновляем положение svg на экране
+function updateSvgCircle(cdm)
+{
+	var el = cdm.el;
+	
+	if(cdm.pos)
+	{
+		el.userData.svg.circle.pos = cdm.pos;
+	}
+	
+	var pos = el.userData.svg.circle.pos;
+	
+	var tempV = pos.clone().project(camera);
+	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+	el.setAttribute("cx", x);
+	el.setAttribute("cy", y);			
+}
+
+
+
+// обновляем положение svg на экране
+function updateSvgPath(cdm)
+{
+	var el = cdm.el;
+	
+	if(cdm.arrP)
+	{
+		el.userData.svg.path.arrP = cdm.arrP;
+	}
+	
+	var path = 'M';
+	var arrP = el.userData.svg.path.arrP;
+	
+	for ( var i = 0; i < arrP.length; i++ )
+	{
+		var tempV = arrP[i].clone().project(camera);
+		var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+		
+		path += x+' '+y+',';
+	}
+
+	el.setAttribute("d", path);			
 }
 
 
@@ -94,33 +236,6 @@ function hideElementSvg(arr)
 	}	
 }
 
-
-
-
-//---------------
-
-
-
-// показываем svg элементы
-function showElementHtml(arr)
-{
-	for ( var i = 0; i < arr.length; i++ )
-	{
-		arr[i].style.display = 'block'; 
-		arr[i].userData.elem.show = true;		
-	}	
-}
-
-
-// скрываем svg элементы
-function hideElementHtml(arr)
-{
-	for ( var i = 0; i < arr.length; i++ )
-	{
-		arr[i].style.display = 'none'; 
-		arr[i].userData.elem.show = false; 
-	}	
-}
 
 
 
