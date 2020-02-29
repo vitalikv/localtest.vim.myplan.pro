@@ -76,7 +76,7 @@ function createSvgCircle(cdm)
 		circle.userData = {};
 		circle.userData.svg = {};
 		circle.userData.svg.circle = {};
-		circle.userData.svg.circle.r = 300;
+		//circle.userData.svg.circle.r = 300;
 		circle.userData.svg.circle.pos = new THREE.Vector3();
 		circle.userData.svg.show = false;		
 
@@ -248,32 +248,51 @@ function assignEventSvgScaleSizeObj(cdm)
 	
 	for ( var i = 0; i < el.length; i++ )
 	{
-		console.log(el[i]);
-		el[i].addEventListener('mousedown', startDrag, false);
-		el[i].addEventListener('mousemove', drag);
-		el[i].addEventListener('mouseup', endDrag);		
+		
+		el[i].addEventListener('mouseover', 		
+			function() 
+			{ 
+				this.setAttribute("r", 6);				
+			}
+		);
+		
+		el[i].addEventListener('mouseout', 		
+			function() 
+			{ 
+				this.setAttribute("r", 4.2);
+			}
+		);
+		
+		el[i].addEventListener('mousedown', 		
+			function(e) 
+			{ 
+				
+				console.log(333333, this);
+				
+				var pos = getScreenMousePosition(e);
+				console.log(pos);
+				
+				e.stopPropagation();
+			}
+		);		
+		
+		el[i].addEventListener('mousemove', 		
+			function(e) 
+			{ 
+				var pos = getScreenMousePosition(e);
+				
+				this.setAttributeNS(null, "cx", pos.x);
+				this.setAttributeNS(null, "cy", pos.y);				
+				
+				e.stopPropagation();
+			}
+		);	
+		
+		
+		//el[i].addEventListener('mouseup', endDrag);		
 	}
 	
 }
-
-
-function startDrag(e) 
-{
-	console.log(333333);
-	
-	e.stopPropagation();
-}
-
-function drag(evt) 
-{
-	
-}
-
-function endDrag(evt) 
-{
-	
-}	
-
 
 
 

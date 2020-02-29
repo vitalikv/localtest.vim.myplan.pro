@@ -150,7 +150,6 @@ infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
 infProject.settings.room = { type: [] };
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
-infProject.scene.grid = { obj: createGrid(infProject.settings.grid), active: false, link: false, show: true };
 infProject.scene.block = { key : { scroll : false } };		// блокировка действий/клавишь
 infProject.scene.block.click = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
@@ -1280,12 +1279,28 @@ function crtW( cdm )
 }
 
 
- 
+function getMousePosition( event )
+{
+	var x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+	var y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+	
+	return new THREE.Vector2(x, y);
+}
+
+
+function getScreenMousePosition( event )
+{
+	var x = ( ( event.clientX - containerF.offsetLeft ) );
+	var y = ( ( event.clientY - containerF.offsetTop ) );	
+	
+	return new THREE.Vector2(x, y);
+}	
+	
 
 function rayIntersect( event, obj, t ) 
 {
-	mouse.x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-	mouse.y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+	mouse = getMousePosition( event );
+	
 	raycaster.setFromCamera( mouse, camera );
 	
 	var intersects = null;
@@ -1477,19 +1492,7 @@ function clickInterface(cdm)
 		{
 			clickO.button = 'add_lotid';
 			clickO.options = cdm.value;
-		}			
-		else if(cdm.button == 'grid_show_1')
-		{
-			showHideGrid(); 
-		}
-		else if(cdm.button == 'grid_move_1')
-		{
-			startEndMoveGrid(); 
-		}
-		else if(cdm.button == 'grid_link_1')
-		{
-			linkGrid(); 
-		}		
+		}					
 	}
 
 }	
@@ -1599,16 +1602,13 @@ function saveAsImagePreview()
 	try 
 	{		
 		var rd = 400/containerF.clientWidth;
-		var flag = infProject.scene.grid.obj.visible;
 		
-		if(flag) { infProject.scene.grid.obj.visible = false; }
 		renderer.setSize( 400, containerF.clientHeight *rd );
 		renderer.antialias = true;
 		renderer.render( scene, camera );
 		
 		var imgData = renderer.domElement.toDataURL("image/jpeg", 0.7);	
 
-		if(flag) { infProject.scene.grid.obj.visible = true; }
 		renderer.setSize( containerF.clientWidth, containerF.clientHeight );
 		renderer.antialias = false;
 		renderer.render( scene, camera );
@@ -1733,10 +1733,6 @@ document.addEventListener("keydown", function (e)
 			if(infProject.activeInput == 'size-wd-length') { inputWidthHeightWD(clickO.last_obj); }
 			if(infProject.activeInput == 'size-wd-height') { inputWidthHeightWD(clickO.last_obj); }
 			if(infProject.activeInput == 'rp_wd_h1') { inputWidthHeightWD(clickO.last_obj); }
-			if(infProject.activeInput == 'size-grid-tube-xy-1')
-			{
-				updateGrid({size : $('[nameid="size-grid-tube-xy-1"]').val()});
-			}
 			if(infProject.activeInput == 'size_wall_width_1') 
 			{ 
 				var width = $('[nameid="size_wall_width_1"]').val();

@@ -54,6 +54,7 @@ var resetPop =
 		inf.selectBox = { arr : [], drag : false, move : false, walls : [], walls_2 : [], point : [] };
 		inf.keys = [];
 		inf.options = null;
+		inf.elem = null;
 		
 		return inf;
 	},

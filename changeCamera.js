@@ -21,7 +21,6 @@ function changeCamera(cam)
 		
 		changeDepthColor();			
 		cameraZoomTop( camera.zoom );
-		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 
 		showAllWallRender();	// показываем стены, которые были спрятаны
 		
@@ -34,7 +33,6 @@ function changeCamera(cam)
 				 
 		cameraZoomTop( cameraTop.zoom );
 		changeDepthColor();
-		if(infProject.scene.grid.show) infProject.scene.grid.obj.visible = true;
 		
 		for( var i = 0; i < infProject.scene.array.cubeCam.length; i++ )
 		{

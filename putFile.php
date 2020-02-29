@@ -8,7 +8,6 @@ crossWall.js
 uiInterface.js
 meshBSP.js 	
 calculationArea.js
-createGrid.js
 addPoint.js
 addWD.js
 mouseClick.js
