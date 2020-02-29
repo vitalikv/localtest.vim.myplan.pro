@@ -57,7 +57,7 @@ function mouseDownRight()
 function onDocumentMouseDown( event ) 
 {
 	//event.preventDefault();
-console.log(event);
+
 	if (window.location.hostname == 'vm'){} 
 	else if (window.location.hostname == 'remstok'){} 
 	else if (window.location.hostname == 'remstok.ru'){}

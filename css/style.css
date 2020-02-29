@@ -16,7 +16,6 @@ canvas
 	height: 100%;
 	top: 0;
 	left: 0;
-	z-index: 2;
 
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -426,6 +425,7 @@ canvas
 	width: 100%;
 	z-index: 1;
 	margin-top: 15px;
+	z-index: 2;
 }
 
 .top_panel_2 .tp_left_1
@@ -511,7 +511,7 @@ canvas
 
 .right_panel_1
 {
-				
+	z-index: 2;			
 }
 
 
