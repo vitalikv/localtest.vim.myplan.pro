@@ -41,6 +41,7 @@ function createHtmlLabelWall(cdm)
 		elem.style.cssText += infProject.settings.html.fonts.wall.size; 
 		elem.style.cssText += infProject.settings.html.fonts.wall.type;
 		elem.style.cssText += infProject.settings.html.fonts.wall.color;
+		elem.style.cssText += 'z-index: 1;';
 		if(cdm.style) { elem.style.cssText += (cdm.style); }
 		
 		labelContainerElem.appendChild(elem); 

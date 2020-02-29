@@ -49,15 +49,6 @@
 	<div id="canvasFrame" style="position: fixed; width: 100%; height: 100%; top: 0; right: 0; overflow: hidden;">
 		<div class="frame">
 				
-			<div class="flex_1 top_panel_1 button_gradient_1" data-action ='top_panel_1' style="display: none;">
-				<div class="go_home align_items">
-					<div class="go_home_txt">
-						Меню
-					</div>
-				</div>
-				<div class="title_1"><h1><?=$h1?></h1></div>				
-			</div>	
-			
 			<div class="flex_1 height100">
 				
 				<div style="flex-grow:1; position: relative;">
