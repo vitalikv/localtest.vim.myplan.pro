@@ -26,7 +26,7 @@ function clickElementBoxScale(cdm)
 	// 7 right-center		
 	
 	
-	var inf = { p2: null};
+	var inf = { };
 	
 	if(elem == circle[0])
 	{
@@ -118,10 +118,10 @@ function clickElementBoxScale(cdm)
 	}
 	
 
-	var dir = new THREE.Vector2(elem.cx.baseVal.value - inf.start.cx.baseVal.value, elem.cy.baseVal.value - inf.start.cy.baseVal.value).normalize();
-	var rad = Math.atan2(dir.x, dir.y) - Math.PI/2;
+	//var dir = new THREE.Vector2(elem.cx.baseVal.value - inf.start.cx.baseVal.value, elem.cy.baseVal.value - inf.start.cy.baseVal.value).normalize();
+	//var rad = Math.atan2(dir.x, dir.y) - Math.PI/2;
 	
-	elem.userData.svg.circle.inf = {x: {}, z: {}, start: {}, dir: dir, rad: rad};
+	elem.userData.svg.circle.inf = {x: {}, z: {}, start: {}};
 	
 	elem.userData.svg.circle.inf.start.el = inf.start;
 	elem.userData.svg.circle.inf.start.dir = new THREE.Vector2(elem.cx.baseVal.value - inf.start.cx.baseVal.value, elem.cy.baseVal.value - inf.start.cy.baseVal.value).normalize();
@@ -150,17 +150,7 @@ function moveElement(e)
 	if(1==1)
 	{
 		var el = inf.start.el;
-		var dir = inf.start.dir; 
-		var rad = inf.rad; 
-		
-		var pos2 = new THREE.Vector2(pos.x - el.cx.baseVal.value, -(pos.y - el.cy.baseVal.value));
-
-		var dx = new THREE.Vector2();
-		dx.x = pos2.x * Math.cos(rad) - pos2.y * Math.sin(rad);
-		dx.y = pos2.x * Math.sin(rad) + pos2.y * Math.cos(rad);	
-		
-		var pos2 = new THREE.Vector2(dir.x * dx.x, dir.y * dx.y);
-		
+		var dir = inf.start.dir; 		
 		
 		var A = new THREE.Vector3(el.cx.baseVal.value, 0, el.cy.baseVal.value);
 		var B = new THREE.Vector3(dir.x + el.cx.baseVal.value, 0, dir.y + el.cy.baseVal.value);
@@ -225,8 +215,57 @@ function moveElement(e)
 	}
 	
 	
+	// меняем масштаб объекта
+	{
+		var circle = infProject.svg.furn.boxCircle;	
+
+		var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var A = new THREE.Vector3(x, y, -1);
+		
+		var x = ( ( circle[3].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( circle[3].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var B = new THREE.Vector3(x, y, -1);
+		
+		var x = ( ( circle[5].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( circle[5].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var C = new THREE.Vector3(x, y, -1);	
+		
+		//camera.updateProjectionMatrix();
+		A.unproject(camera);
+		B.unproject(camera);
+		C.unproject(camera);
+		
+		var z = A.distanceTo( C );
+		var x = B.distanceTo( C );
+		
+		
+		var obj = clickO.last_obj;		
+		obj.scale.x = x/obj.userData.box.x;
+		obj.scale.z = z/obj.userData.box.z;		
+	}
+	
+	
+	// смещение объекта по центру box
+	{
+		var posCenter = new THREE.Vector3().subVectors( B, A ).divideScalar( 2 ).add(A);
+		
+		obj.position.x = posCenter.x;
+		obj.position.z = posCenter.z;			
+	}
+	
+	showSvgSizeObj({obj: obj});
+	
+	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );
+	infProject.tools.pivot.position.copy(pos);
+	infProject.tools.gizmo.position.copy(pos);
+	
 	e.stopPropagation();	
 }
+
+
+
+
 
 
 

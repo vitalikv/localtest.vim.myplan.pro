@@ -182,7 +182,7 @@ function movePivot( event )
 	
 	obj.position.add( pos2 );
 
-	showSvgSizeObj({obj: obj});
+	showSvgSizeObj({obj: obj, boxCircle: true});
 	
 	setScalePivotGizmo();
 }

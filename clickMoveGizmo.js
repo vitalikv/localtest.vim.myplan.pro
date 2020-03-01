@@ -145,7 +145,7 @@ function moveGizmo( event )
 	{ 
 		obj.rotateOnWorldAxis(new THREE.Vector3(0,1,0), rotY - gizmo.userData.gizmo.active.rotY);
 
-		showSvgSizeObj({obj: obj});
+		showSvgSizeObj({obj: obj, boxCircle: true});
 	}
 	else 
 	{ 		

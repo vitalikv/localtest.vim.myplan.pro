@@ -7,7 +7,9 @@ async function getListObjTypesApi()
 	
 	var arr = [];
 
-	if(window.location.hostname != 'localtest.vim.myplan.pro')
+	if(window.location.hostname == 'localtest.vim.myplan.pro'){}
+	else if(window.location.hostname == 'remstok'){}
+	else 
 	{
 		var response = await fetch(url, { method: 'GET' });
 		var json = await response.json();
@@ -281,7 +283,7 @@ async function getListObjTypesApi()
 			name : 'Угловой_диван-кровать_Вольберг',
 			planeMath : 0.0,
 			glb : true,
-			stopUI: true,
+			//stopUI: true,
 		}
 
 		arr[arr.length] =
@@ -807,7 +809,16 @@ function addObjInBase(cdm)
 			return obj;
 		}
 	}
+	
+	
+	obj.geometry.computeBoundingBox();	
 
+	obj.userData.bound = JSON.parse( JSON.stringify(obj.geometry.boundingBox));
+	
+	var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
+	var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
+	
+	obj.userData.box = new THREE.Vector3(x, 1, z);
 	
 	var geometries = [];
 	

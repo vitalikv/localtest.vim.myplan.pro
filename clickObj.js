@@ -61,7 +61,7 @@ function clickObject3D(cdm)
 	
 	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI
 
-	showSvgSizeObj({obj: obj});
+	showSvgSizeObj({obj: obj, boxCircle: true});
 }
 
 
@@ -125,9 +125,14 @@ function showSvgSizeObj(cdm)
 		var box1 = infProject.svg.furn.box1;
 		
 		updateSvgPath({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
-		showElementSvg([box1]);
-		
-		
+		showElementSvg([box1]);	
+	}
+	
+	
+	
+	// точки масштабирования 
+	if(cdm.boxCircle)
+	{
 		var circle = infProject.svg.furn.boxCircle;
 		
 		// circle[0] top-left
@@ -158,7 +163,7 @@ function showSvgSizeObj(cdm)
 		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
 		
 		showElementSvg(circle);		
-	}
+	}	
 
 
 	
@@ -309,7 +314,7 @@ function moveObjectPop( event )
 
 	setScalePivotGizmo();
 	
-	showSvgSizeObj({obj: obj});
+	showSvgSizeObj({obj: obj, boxCircle: true});
 }
 
 
