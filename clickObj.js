@@ -62,7 +62,11 @@ function clickObject3D(cdm)
 	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI
 
 	showSvgSizeObj({obj: obj, boxCircle: true});
+	
+	getLotIdObject3D(obj.userData.obj3D.lotid);
 }
+
+
 
 
 
@@ -207,6 +211,41 @@ function showSvgSizeObj(cdm)
 			if(intersects[0]) { floor = intersects[0].object; break; }							
 		}
 		
+		
+		// находим все объекты, которые принадлежат этой комнате		
+		var arrO = [];
+		
+		if(floor)
+		{
+			
+			for ( var i = 0; i < infProject.scene.array.obj.length; i++ )
+			{				
+				var obj_2 = infProject.scene.array.obj[i];
+				
+				if(obj_2 == obj) continue;
+				
+				var ray = new THREE.Raycaster();
+				ray.set( new THREE.Vector3(obj_2.position.x, 1, obj_2.position.z), new THREE.Vector3(0, -1, 0) );
+				
+				var intersects = ray.intersectObject( floor );	
+				
+				if(intersects[0]) 
+				{
+					//obj_2.updateMatrixWorld();
+					//obj_2.geometry.computeBoundingBox();					
+					
+					var v = [];
+					v[0] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.max.z) );	// bottom-left
+					v[1] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.max.z) );	// bottom-right
+					
+					v[2] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.min.z) );	// top-right
+					v[3] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.min.z) );	// top-left
+
+					arrO[arrO.length] = { o: obj_2, v: v };
+				}					
+			}
+		}		
+		
 		if(floor)
 		{			
 			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	// top-left
@@ -243,6 +282,10 @@ function showSvgSizeObj(cdm)
 				hideElementSvg([line]);
 				hideElementHtml([html]);
 				
+				
+				var min = 9999999;
+				var pos2 = null;
+	
 				for ( var i = 0; i < contour.length; i++ )
 				{
 					var i2 = (contour.length - 1 == i) ? 0 : i+1;
@@ -250,31 +293,76 @@ function showSvgSizeObj(cdm)
 					// находим точку пересечения
 					var res = crossPointTwoLine_3(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
 					
-					if(!res[1])
+					if(!res[1])	// не параллельны 
 					{
 						var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
 						
 						// пересекаются ли линии
 						if(CrossLine(posStart, posEnd, contour[i], contour[i2])) 
-						{
-							updateSvgLine({el: line, point: [posStart, res[0]]});
-							showElementSvg([line]);
-							
-							showElementHtml([html]);
-
-							var posLabel = new THREE.Vector3().subVectors( res[0], posStart ).divideScalar( 2 ).add(posStart); 
-							html.userData.elem.pos = posLabel;	
-
+						{	
 							var dist = res[0].distanceTo(posStart);
-							html.style.transform = 'translate(-50%, -50%)';
-							html.textContent = Math.round(dist * 100) / 100 + '';
 							
-							upPosLabels_2({elem: html});
-										
-							break;
+							if(min > dist)
+							{
+								pos2 = res[0];
+								
+								min = dist;
+							}
 						}
 					}				
-				}							
+				}
+				
+				
+				for ( var i = 0; i < arrO.length; i++ )
+				{
+					var v = arrO[i].v;
+					
+					for ( var i2 = 0; i2 < v.length; i2++ )
+					{
+						var i3 = (v.length - 1 == i2) ? 0 : i2+1;
+						
+						
+						// находим точку пересечения
+						var res = crossPointTwoLine_3(posStart, posStart.clone().add(dir), v[i2], v[i3]);								
+						
+						if(!res[1])	// не параллельны 
+						{
+							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
+	
+							// пересекаются ли линии
+							if(CrossLine(posStart, posEnd, v[i2], v[i3])) 
+							{	
+								var dist = res[0].distanceTo(posStart);
+								
+								if(min > dist)
+								{
+									pos2 = res[0];
+									
+									min = dist;
+								}
+							}
+						}				
+						
+					}
+				}				
+
+				if(pos2)
+				{
+					
+					updateSvgLine({el: line, point: [posStart, pos2]});
+					showElementSvg([line]);
+					
+					showElementHtml([html]);
+					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
+					html.userData.elem.pos = posLabel;					
+					
+					var dist = pos2.distanceTo(posStart);
+					html.style.transform = 'translate(-50%, -50%)';
+					html.textContent = Math.round(dist * 100) / 100 + '';
+					
+					upPosLabels_2({elem: html});
+					
+				}
 			}
 						
 		}

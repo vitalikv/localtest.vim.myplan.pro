@@ -350,6 +350,11 @@ if(1==2)
 }
 
 
+
+
+
+
+
 function createCenterCamObj()
 {
 	var n = 0;

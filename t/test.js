@@ -8782,6 +8782,11 @@ if(1==2)
 }
 
 
+
+
+
+
+
 function fname_s_0203()
 {
 	var n = 0;
@@ -11039,7 +11044,11 @@ function fname_s_0251(cdm)
 	fname_s_029({obj: obj});	
 
 	fname_s_0252({obj: obj, boxCircle: true});
+	
+	getLotIdObject3D(obj.userData.obj3D.lotid);
 }
+
+
 
 
 
@@ -11184,6 +11193,41 @@ function fname_s_0252(cdm)
 			if(intersects[0]) { floor = intersects[0].object; break; }							
 		}
 		
+		
+		
+		var arrO = [];
+		
+		if(floor)
+		{
+			
+			for ( var i = 0; i < infProject.scene.array.obj.length; i++ )
+			{				
+				var obj_2 = infProject.scene.array.obj[i];
+				
+				if(obj_2 == obj) continue;
+				
+				var ray = new THREE.Raycaster();
+				ray.set( new THREE.Vector3(obj_2.position.x, 1, obj_2.position.z), new THREE.Vector3(0, -1, 0) );
+				
+				var intersects = ray.intersectObject( floor );	
+				
+				if(intersects[0]) 
+				{
+					
+					
+					
+					var v = [];
+					v[0] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.max.z) );	
+					v[1] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.max.z) );	
+					
+					v[2] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.min.z) );	
+					v[3] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.min.z) );	
+
+					arrO[arrO.length] = { o: obj_2, v: v };
+				}					
+			}
+		}		
+		
 		if(floor)
 		{			
 			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	
@@ -11220,6 +11264,10 @@ function fname_s_0252(cdm)
 				fname_s_0321([line]);
 				fname_s_0324([html]);
 				
+				
+				var min = 9999999;
+				var pos2 = null;
+	
 				for ( var i = 0; i < contour.length; i++ )
 				{
 					var i2 = (contour.length - 1 == i) ? 0 : i+1;
@@ -11227,31 +11275,76 @@ function fname_s_0252(cdm)
 					
 					var res = fname_s_010(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
 					
-					if(!res[1])
+					if(!res[1])	
 					{
 						var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
 						
 						
 						if(fname_s_013(posStart, posEnd, contour[i], contour[i2])) 
-						{
-							fname_s_0317({el: line, point: [posStart, res[0]]});
-							fname_s_0320([line]);
-							
-							fname_s_0323([html]);
-
-							var posLabel = new THREE.Vector3().subVectors( res[0], posStart ).divideScalar( 2 ).add(posStart); 
-							html.userData.elem.pos = posLabel;	
-
+						{	
 							var dist = res[0].distanceTo(posStart);
-							html.style.transform = 'translate(-50%, -50%)';
-							html.textContent = Math.round(dist * 100) / 100 + '';
 							
-							fname_s_0205({elem: html});
-										
-							break;
+							if(min > dist)
+							{
+								pos2 = res[0];
+								
+								min = dist;
+							}
 						}
 					}				
-				}							
+				}
+				
+				
+				for ( var i = 0; i < arrO.length; i++ )
+				{
+					var v = arrO[i].v;
+					
+					for ( var i2 = 0; i2 < v.length; i2++ )
+					{
+						var i3 = (v.length - 1 == i2) ? 0 : i2+1;
+						
+						
+						
+						var res = fname_s_010(posStart, posStart.clone().add(dir), v[i2], v[i3]);								
+						
+						if(!res[1])	
+						{
+							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
+	
+							
+							if(fname_s_013(posStart, posEnd, v[i2], v[i3])) 
+							{	
+								var dist = res[0].distanceTo(posStart);
+								
+								if(min > dist)
+								{
+									pos2 = res[0];
+									
+									min = dist;
+								}
+							}
+						}				
+						
+					}
+				}				
+
+				if(pos2)
+				{
+					
+					fname_s_0317({el: line, point: [posStart, pos2]});
+					fname_s_0320([line]);
+					
+					fname_s_0323([html]);
+					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
+					html.userData.elem.pos = posLabel;					
+					
+					var dist = pos2.distanceTo(posStart);
+					html.style.transform = 'translate(-50%, -50%)';
+					html.textContent = Math.round(dist * 100) / 100 + '';
+					
+					fname_s_0205({elem: html});
+					
+				}
 			}
 						
 		}
@@ -12472,6 +12565,12 @@ function fname_s_0271(cdm)
 				var geometry = child.geometry.clone();
 				geometry.applyMatrix4(child.parent.matrixWorld);
 				geometries.push(geometry);										
+			}
+			
+			if(infProject.settings.obj.material.texture == 'none')
+			{
+				child.material.map = null;
+				child.material.color = new THREE.Color(infProject.settings.obj.material.color);				
 			}
 			if(child.material.map) 
 			{

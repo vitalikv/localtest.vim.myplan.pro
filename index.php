@@ -1,5 +1,5 @@
 <? require_once("include/bd.php");  ?>
-<?php $vrs = '=21' ?>
+<?php $vrs = '=22' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,12 @@
 		</svg>		
 	</div>
 
-
+	<script>
+		function getLotIdObject3D(id)
+		{
+			console.log(id)
+		}
+	</script>
 	
 	<script src="<?=$path?>autoBuilding.js"></script>
 	<script src="<?=$path?>meshBSP.js"></script> 	

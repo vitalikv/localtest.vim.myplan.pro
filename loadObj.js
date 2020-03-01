@@ -837,6 +837,12 @@ function addObjInBase(cdm)
 				geometry.applyMatrix4(child.parent.matrixWorld);
 				geometries.push(geometry);										
 			}
+			
+			if(infProject.settings.obj.material.texture == 'none')
+			{
+				child.material.map = null;
+				child.material.color = new THREE.Color(infProject.settings.obj.material.color);				
+			}
 			if(child.material.map) 
 			{
 				//console.log(222222, child.material, THREE.sRGBEncoding, child.material.map.encoding);

@@ -62,8 +62,8 @@ $infProject['settings']['wall']['label'] = 'double';
 $infProject['settings']['wall']['color']['top'] = 0x444444;
 $infProject['settings']['wall']['color']['front'] = 0xada186;
 $infProject['settings']['svg']['tag'] = 'http://www.w3.org/2000/svg';
-
-
+$infProject['settings']['obj']['material']['texture'] = 'none';
+$infProject['settings']['obj']['material']['color'] = 0xebebeb;
 
 $jsonPhp = json_encode($infProject);
 
