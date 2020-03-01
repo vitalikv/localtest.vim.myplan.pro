@@ -83,14 +83,14 @@ function showSvgSizeObj(cdm)
 	
 	// размеры объекта
 	{
-		var sizeX = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
-		var sizeZ = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
-		
-		
 		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
 		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
 		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
 		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
+		
+		
+		var sizeX = x1.distanceTo( x2 );
+		var sizeZ = z1.distanceTo( z2 );
 		
 		updateSvgLine({el: infProject.svg.furn.size[0], point: [x1, x2]});
 		updateSvgLine({el: infProject.svg.furn.size[1], point: [z1, z2]});
@@ -436,26 +436,20 @@ function copyObj(cdm)
 	var obj = getObjFromPivotGizmo();
 	
 	if(!obj) return;	
-		
-	var arr = [obj];		
-	var arr2 = [];
 	
-	for(var i = 0; i < arr.length; i++)
-	{ 
-		var clone = arr2[arr2.length] = arr[i].clone();
+	var clone = obj.clone();
 
-		clone.userData.id = countId; countId++;
-		//clone.position.add(pos);		// смещение к нулю
-		infProject.scene.array.obj[infProject.scene.array.obj.length] = clone; 
-		scene.add( clone );	
+	clone.userData.id = countId; countId++;
+	//clone.position.add(pos);		// смещение к нулю
+	infProject.scene.array.obj[infProject.scene.array.obj.length] = clone; 
+	scene.add( clone );	
 
-		updateListTubeUI_1({o: clone, type: 'add'});	// добавляем объект в UI список материалов 		
-	}	
+	//updateListTubeUI_1({o: clone, type: 'add'});	// добавляем объект в UI список материалов 		
 	 
 	
-	hidePivotGizmo(obj);
-	
-	clickObject3D( arr2[0] );
+	//hidePivotGizmo(obj);
+	//clickObject3D({obj: clone, rayhit: {point: clone.position}});	
+	//clickO.last_obj = clone;
 }
 
 

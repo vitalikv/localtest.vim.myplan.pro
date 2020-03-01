@@ -310,7 +310,7 @@
 						reset	
 					</div>
 					
-					<div class="button1 button_gradient_1" nameId="button_copy_obj" style="display: none;">
+					<div class="button1 button_gradient_1" nameId="button_copy_obj">
 						копировать	
 					</div>								
 
