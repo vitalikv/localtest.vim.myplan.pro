@@ -36,7 +36,6 @@ $infProject['settings']['wall'] = [ 'width' => 0.3, 'label' => '', 'dist' => 'ce
 $infProject['settings']['land'] = [ 'o' => false ];
 $infProject['settings']['unit'] = [ 'wall' => 1, 'floor' => 1 ];
 $infProject['settings']['camera'] = [ 'type' => '2d', 'zoom' => 1, 'limitZoom' => 1 ];
-$infProject['settings']['grid'] = [ 'count' => 30, 'size' => 0.5, 'pos' => [ 'y' => -0.1 ] ];
 
 $infProject['scene'] = [ 'tool' => [] ];
 $infProject['scene']['load'] = '';
@@ -62,10 +61,6 @@ $infProject['settings']['floor']['color'] = 0xf7f2d5;
 $infProject['settings']['wall']['label'] = 'double';
 $infProject['settings']['wall']['color']['top'] = 0x444444;
 $infProject['settings']['wall']['color']['front'] = 0xada186;
-$infProject['settings']['grid']['size'] = 1.0;
-$infProject['settings']['grid']['count'] = null;
-$infProject['settings']['grid']['pos'] = [ 'y' => -0.00 ];
-$infProject['settings']['grid']['color'] = 0xcccccc;
 $infProject['settings']['svg']['tag'] = 'http://www.w3.org/2000/svg';
 
 

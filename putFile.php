@@ -10,6 +10,7 @@ meshBSP.js
 calculationArea.js
 addPoint.js
 addWD.js
+boxScale2D.js
 mouseClick.js
 changeCamera.js
 moveCamera.js

@@ -1,5 +1,7 @@
 
 
+
+
 // создаем svg line елемент
 function createSvgLine(cdm)
 {
@@ -9,15 +11,20 @@ function createSvgLine(cdm)
 	
 	var svg = document.querySelector('#svgFrame');
 	
+	var x1 = (cdm.x1) ? cdm.x1 : 100;
+	var y1 = (cdm.y1) ? cdm.y1 : 300;
+	var x2 = (cdm.x2) ? cdm.x2 : 600;
+	var y2 = (cdm.y2) ? cdm.y2 : 300;	
+	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
 		var line  = document.createElementNS(infProject.settings.svg.tag, "line");
 
-		line.setAttribute("x1", 100);
-		line.setAttribute("y1", 300);
+		line.setAttribute("x1", x1);
+		line.setAttribute("y1", y1);
 
-		line.setAttribute("x2", 600);
-		line.setAttribute("y2", 300);
+		line.setAttribute("x2", x2);
+		line.setAttribute("y2", y2);
 		line.setAttribute("stroke-width", "2px");
 		
 		if(cdm.dasharray)
@@ -35,7 +42,7 @@ function createSvgLine(cdm)
 		line.userData.svg.line = {};
 		line.userData.svg.line.p = [new THREE.Vector3(), new THREE.Vector3()];
 		line.userData.svg.show = false;		
-
+		
 		svg.appendChild(line);
 		
 		infProject.svg.arr[infProject.svg.arr.length] = line;
@@ -241,7 +248,7 @@ function hideElementSvg(arr)
 
 
 
-// назначаем события для svg элемнтов (точек), которые будут отвечать за масштаб объекта
+// назначаем события для svg элемнтов (точеки масшатабирования объекта)
 function assignEventSvgScaleSizeObj(cdm)
 {
 	var el = cdm.el;
@@ -264,36 +271,15 @@ function assignEventSvgScaleSizeObj(cdm)
 		);
 		
 		el[i].addEventListener('mousedown', 		
-			function(e) 
+			function(event) 
 			{ 
-				
-				console.log(333333, this);
-				
-				var pos = getScreenMousePosition(e);
-				console.log(pos);
-				
-				e.stopPropagation();
+				clickElementBoxScale({event: event, elem: this});
+				event.stopPropagation();
 			}
-		);		
-		
-		el[i].addEventListener('mousemove', 		
-			function(e) 
-			{ 
-				var pos = getScreenMousePosition(e);
-				
-				this.setAttributeNS(null, "cx", pos.x);
-				this.setAttributeNS(null, "cy", pos.y);				
-				
-				e.stopPropagation();
-			}
-		);	
-		
-		
-		//el[i].addEventListener('mouseup', endDrag);		
+		);			
 	}
-	
+ 
 }
-
 
 
 

@@ -313,8 +313,41 @@ var offset = new THREE.Vector3();
 //----------- start
 
 
+if(1==2)
+{
+	var l1 = createSvgLine({count: 1, x1: 400, y1: 700, x2: 800, y2: 400})[0];
+	l1.setAttribute("display", "block");
+	var l2 = createSvgLine({count: 1, x1: 800, y1: 400, x2: 600, y2: 200})[0];
+	l2.setAttribute("display", "block");
+
+	var dir = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value)).normalize();
+
+	var rotY = Math.atan2(dir.x, dir.y) - Math.PI/2;
 
 
+	var pos = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value))
+
+	var dx = new THREE.Vector2();
+	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
+	dx.y = pos.x * Math.sin(rotY) + pos.y * Math.cos(rotY);
+
+	var l3 = createSvgLine({count: 1, x1: l1.x1.baseVal.value, y1: l1.y1.baseVal.value, x2: dx.x+l1.x1.baseVal.value, y2: -dx.y+l1.y1.baseVal.value})[0];
+	l3.setAttribute("display", "block");
+
+	var x1 = l3.x2.baseVal.value - l1.x2.baseVal.value;
+	var y1 = l3.y2.baseVal.value - l1.y2.baseVal.value;
+
+	var pos = new THREE.Vector2(l2.x2.baseVal.value - l2.x1.baseVal.value, -(l2.y2.baseVal.value - l2.y1.baseVal.value))
+
+	var dx = new THREE.Vector2();
+	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
+	dx.y = pos.x * Math.sin(rotY) + pos.y * Math.cos(rotY);
+
+	var l4 = createSvgLine({count: 1, x1: l2.x1.baseVal.value + x1, y1: l2.y1.baseVal.value + y1, x2: dx.x+l2.x1.baseVal.value + x1, y2: -dx.y+l2.y1.baseVal.value + y1})[0];
+	l4.setAttribute("display", "block");
+
+	console.log(2222, THREE.Math.radToDeg(rotY));
+}
 
 
 function createCenterCamObj()

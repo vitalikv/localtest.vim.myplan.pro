@@ -264,6 +264,8 @@ function onDocumentMouseMove( event )
 		event.clientY = event.changedTouches[0].clientY;
 		isMouseDown2 = true;
 	}
+	
+	if(clickO.elem) { moveElement(event); }
 
 	clickButton( event );
 		
@@ -339,6 +341,7 @@ function onDocumentMouseUp( event )
 	isMouseRight1 = false;
 	isMouseDown2 = false;
 	isMouseDown3 = false;
+	clickO.elem = null;
 	
 	infProject.tools.axis[0].visible = false;
 	infProject.tools.axis[1].visible = false;	

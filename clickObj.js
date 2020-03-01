@@ -130,6 +130,17 @@ function showSvgSizeObj(cdm)
 		
 		var circle = infProject.svg.furn.boxCircle;
 		
+		// circle[0] top-left
+		// circle[1] top-center
+		// circle[2] top-right
+		
+		// circle[3] bottom-left
+		// circle[4] bottom-center
+		// circle[5] bottom-right		
+		
+		// circle[6] left-center
+		// circle[7] right-center		
+		
 		// top
 		updateSvgCircle({el: circle[0], pos: v[2]});
 		updateSvgCircle({el: circle[1], pos: new THREE.Vector3().subVectors( v[3], v[2] ).divideScalar( 2 ).add(v[2])});
