@@ -437,7 +437,19 @@ function copyObj(cdm)
 	
 	if(!obj) return;	
 	
+	var cubeCam = null;
+	if(obj.userData.cubeCam) 
+	{ 
+		cubeCam = obj.userData.cubeCam;
+		obj.userData.cubeCam = null;
+	}
+	
 	var clone = obj.clone();
+	
+	if(cubeCam)
+	{
+		obj.userData.cubeCam = cubeCam;
+	}
 
 	clone.userData.id = countId; countId++;
 	//clone.position.add(pos);		// смещение к нулю

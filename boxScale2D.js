@@ -266,6 +266,19 @@ function moveElement(e)
 
 
 
+// сняли клик после того, как нажали 
+function clickUpElementBoxScale() 
+{
+	var obj = clickO.last_obj;
+	
+	if(!obj) return;
+	
+	showSvgSizeObj({obj: obj, boxCircle: true});
+	
+	clickO.elem = null;
+}
+
+
 
 
 

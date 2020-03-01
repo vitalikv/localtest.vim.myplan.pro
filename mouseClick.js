@@ -64,7 +64,8 @@ function onDocumentMouseDown( event )
 	else if (window.location.hostname == 'vim'){}
 	else if (window.location.hostname == 'vim.myplan.pro'){} 
 	else if (window.location.hostname == 'tt1'){}
-	else if (window.location.hostname == 'localtest.vim.myplan.pro'){} 
+	else if (window.location.hostname == 'localtest.vim.myplan.pro'){}
+	else if (window.location.hostname == '2d.myplan.pro'){}
 	else { return; }
  
 	long_click = false;
@@ -310,6 +311,12 @@ function onDocumentMouseUp( event )
 	}	
 	
 	var obj = clickO.move;	
+	
+	
+	if(clickO.elem)
+	{
+		clickUpElementBoxScale();
+	}
 	
 	if(obj)  
 	{

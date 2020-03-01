@@ -210,6 +210,8 @@ function updateSvgPath(cdm)
 	var path = 'M';
 	var arrP = el.userData.svg.path.arrP;
 	
+	if(arrP.length == 0) return;
+	
 	for ( var i = 0; i < arrP.length; i++ )
 	{
 		var tempV = arrP[i].clone().project(camera);
