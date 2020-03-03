@@ -907,7 +907,7 @@ function addObjInScene(inf, cdm)
 	obj.userData.obj3D = {};
 	obj.userData.obj3D.lotid = cdm.lotid;
 	obj.userData.obj3D.nameRus = inf.name;
-	obj.userData.obj3D.type = '';
+	obj.userData.obj3D.typeGroup = '';
 	obj.userData.obj3D.helper = null;
 	
 
@@ -946,7 +946,7 @@ function addObjInScene(inf, cdm)
 function setLightInobj(cdm)
 {
 	var obj = cdm.obj;
-	obj.userData.obj3D.type = 'light point';
+	obj.userData.obj3D.typeGroup = 'light point';
 	
 	
 	var light = new THREE.PointLight( 0xffffff, cdm.intensity, 10 );
@@ -1201,7 +1201,7 @@ function setParamObj(cdm)
 	obj.userData.obj3D = {};
 	obj.userData.obj3D.lotid = 0;
 	obj.userData.obj3D.nameRus = 'неизвестный объект';
-	obj.userData.obj3D.type = '';
+	obj.userData.obj3D.typeGroup = '';
  
 	
 	

@@ -613,7 +613,7 @@ function sliderSunIntensity(cdm)
 			{
 				if(obj.userData.tag == 'obj')
 				{
-					if(obj.userData.obj3D.type == 'light point')
+					if(obj.userData.obj3D.typeGroup == 'light point')
 					{
 						obj.children[1].intensity = val;						
 						renderCamera();
