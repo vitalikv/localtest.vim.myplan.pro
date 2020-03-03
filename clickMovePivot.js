@@ -197,7 +197,7 @@ function setScalePivotGizmo()
 	
 	var pVis = false;
 	
-	if(pivot.visible) { pVis = true; }
+	if(gizmo.visible) { pVis = true; }
 	if(!pVis) { return; }
 	
 	var obj = null;

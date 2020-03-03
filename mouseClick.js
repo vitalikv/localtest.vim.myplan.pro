@@ -266,7 +266,7 @@ function onDocumentMouseMove( event )
 		isMouseDown2 = true;
 	}
 	
-	if(clickO.elem) { moveElement(event); }
+	if(clickO.elem) { moveElementBoxScale2D(event); }
 
 	clickButton( event );
 		

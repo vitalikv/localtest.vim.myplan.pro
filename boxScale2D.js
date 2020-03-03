@@ -139,14 +139,14 @@ function clickElementBoxScale(cdm)
 
 
 
-function moveElement(e)
+function moveElementBoxScale2D(e)
 {
 	var elem = clickO.elem;
 	var pos = getScreenMousePosition(e);
 	
 	var inf = elem.userData.svg.circle.inf;
 	
-	// равномерное перемещение по осям xz
+	// равномерное перемещение точки, которую перетаскиваем по осям xz
 	if(1==1)
 	{
 		var el = inf.start.el;
@@ -161,8 +161,7 @@ function moveElement(e)
 		//console.log(new THREE.Vector3().subVectors( A, B ).normalize());
 		
 		elem.setAttributeNS(null, "cx", pos.x);
-		elem.setAttributeNS(null, "cy", pos.z);				
-		
+		elem.setAttributeNS(null, "cy", pos.z);						
 	}
 
 	// перемещаем соседние точки
@@ -254,11 +253,13 @@ function moveElement(e)
 		obj.position.z = posCenter.z;			
 	}
 	
-	showSvgSizeObj({obj: obj});
+	
 	
 	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );
 	infProject.tools.pivot.position.copy(pos);
 	infProject.tools.gizmo.position.copy(pos);
+	
+	showSvgSizeObj({obj: obj});
 	
 	e.stopPropagation();	
 }

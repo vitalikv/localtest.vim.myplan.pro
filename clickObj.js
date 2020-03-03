@@ -41,7 +41,8 @@ function clickObject3D(cdm)
 	
 	if(camera == cameraTop)
 	{
-		pivot.userData.pivot.axs.y.visible = false;
+		//pivot.userData.pivot.axs.y.visible = false;
+		pivot.visible = false;
 	}
 	else
 	{
@@ -171,7 +172,7 @@ function showSvgSizeObj(cdm)
 
 
 	
-	// box2 
+	// box2 (внешний прямоугольник, который НЕ поворачивается)
 	{
 		var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
 		
@@ -197,7 +198,7 @@ function showSvgSizeObj(cdm)
 	}
 	
 	
-	// определяем к какой комнате относится объект и показываем расстояние до стен
+	// определяем к какой комнате относится объект и показываем расстояние до стен и до объектов
 	{
 		var floor = null;
 		
@@ -361,6 +362,68 @@ function showSvgSizeObj(cdm)
 					html.textContent = Math.round(dist * 100) / 100 + '';
 					
 					upPosLabels_2({elem: html});
+					
+					
+					if(dist < 0.3)
+					{
+						//var pos3 = new THREE.Vector3().subVectors( pos2, posStart ); 
+						var x1 = 0;
+						var y1 = 0;
+						
+						var offsetLine = infProject.svg.furn.offset;
+			
+						if(n==0 || n==1) 
+						{
+							var y1 = line.y2.baseVal.value - line.y1.baseVal.value;
+							
+							offsetLine[0].y1.baseVal.value += y1;
+							offsetLine[1].y1.baseVal.value += y1;
+							
+							offsetLine[2].y1.baseVal.value += y1;
+							offsetLine[2].y2.baseVal.value += y1;
+
+							offsetLine[3].y1.baseVal.value += y1;
+							offsetLine[3].y2.baseVal.value += y1;							
+						}						
+						else if(n==2 || n==3) 
+						{
+							var x1 = line.x2.baseVal.value - line.x1.baseVal.value;
+							
+							offsetLine[0].x1.baseVal.value += x1;
+							offsetLine[0].x2.baseVal.value += x1;
+							
+							offsetLine[1].x1.baseVal.value += x1;
+							offsetLine[1].x2.baseVal.value += x1;
+
+							offsetLine[2].x1.baseVal.value += x1;
+							offsetLine[3].x1.baseVal.value += x1;							
+						}
+						
+						var circle = infProject.svg.furn.boxCircle;
+						
+						for ( var i = 0; i < circle.length; i++ )
+						{
+							circle[i].cx.baseVal.value += x1;
+							circle[i].cy.baseVal.value += y1;
+						}
+						
+						var box1 = infProject.svg.furn.box1;
+						
+						for ( var i = 0; i < box1.pathSegList.length; i++ )
+						{
+							box1.pathSegList[i].x += x1;
+							box1.pathSegList[i].y += y1;
+						}						
+						
+						var box2 = infProject.svg.furn.box2;
+						
+						for ( var i = 0; i < box2.pathSegList.length; i++ )
+						{
+							box2.pathSegList[i].x += x1;
+							box2.pathSegList[i].y += y1;
+						}							
+												
+					}
 					
 				}
 			}
