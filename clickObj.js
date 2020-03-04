@@ -250,6 +250,7 @@ function showSvgSizeObj(cdm)
 		if(floor)
 		{		
 			var changePos = new THREE.Vector3();
+			var arrN = [];
 			
 			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	// top-left
 			var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	// top-right		
@@ -378,7 +379,8 @@ function showSvgSizeObj(cdm)
 						}				
 						
 					}
-				}				
+				}
+
 
 				if(pos2)
 				{
@@ -398,97 +400,176 @@ function showSvgSizeObj(cdm)
 					
 					
 					// приклеивание к стенам/объектам
-					if(dist < 0.3)
+					if(dist < 0.1)
 					{
-						//var pos3 = new THREE.Vector3().subVectors( pos2, posStart ); 
-						var x1 = 0;
-						var y1 = 0;
-						
-						var offsetLine = infProject.svg.furn.offset;
-			
-						if(n==0 || n==1) 
-						{
-							var y1 = line.y2.baseVal.value - line.y1.baseVal.value;
-							
-							offsetLine[0].y1.baseVal.value += y1;
-							offsetLine[1].y1.baseVal.value += y1;
-							
-							offsetLine[2].y1.baseVal.value += y1;
-							offsetLine[2].y2.baseVal.value += y1;
-
-							offsetLine[3].y1.baseVal.value += y1;
-							offsetLine[3].y2.baseVal.value += y1;							
-						}						
-						else if(n==2 || n==3) 
-						{
-							var x1 = line.x2.baseVal.value - line.x1.baseVal.value;
-							
-							offsetLine[0].x1.baseVal.value += x1;
-							offsetLine[0].x2.baseVal.value += x1;
-							
-							offsetLine[1].x1.baseVal.value += x1;
-							offsetLine[1].x2.baseVal.value += x1;
-
-							offsetLine[2].x1.baseVal.value += x1;
-							offsetLine[3].x1.baseVal.value += x1;							
-						}
-						
-						var circle = infProject.svg.furn.boxCircle;
-						
-						for ( var i = 0; i < circle.length; i++ )
-						{
-							circle[i].cx.baseVal.value += x1;
-							circle[i].cy.baseVal.value += y1;
-						}
-						
-						var box1 = infProject.svg.furn.box1;
-						
-						for ( var i = 0; i < box1.pathSegList.length; i++ )
-						{
-							box1.pathSegList[i].x += x1;
-							box1.pathSegList[i].y += y1;
-						}						
-						
-						var box2 = infProject.svg.furn.box2;
-						
-						for ( var i = 0; i < box2.pathSegList.length; i++ )
-						{
-							box2.pathSegList[i].x += x1;
-							box2.pathSegList[i].y += y1;
-						}							
-						
-
-						changePos.x += x1;	// флаг - произошло смещение позиции
-						changePos.y += y1;
+						arrN[arrN.length] = n;						
 					}
 					
 				}
-				
-				if(changePos.x != 0 || changePos.y != 0)
-				{
-					var circle = infProject.svg.furn.boxCircle;	
-
-					var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var A = new THREE.Vector3(x, y, -1);
-					
-					var x = ( ( circle[3].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[3].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var B = new THREE.Vector3(x, y, -1);
-								
-					A.unproject(camera);
-					B.unproject(camera);
-
-					var posCenter = new THREE.Vector3().subVectors( B, A ).divideScalar( 2 ).add(A);
-					
-					obj.position.x = posCenter.x;
-					obj.position.z = posCenter.z;
-		
-					
-					infProject.tools.gizmo.position.x = posCenter.x;
-					infProject.tools.gizmo.position.z = posCenter.z;
-				}
 			}
+			
+			if(arrN.length > 0)
+			{
+				for ( var i = 0; i < arrN.length; i++ )
+				{
+					var num = arrN[i]; 
+					
+					//var pos3 = new THREE.Vector3().subVectors( pos2, posStart ); 
+					var x1 = 0;
+					var y1 = 0;
+					
+					var offsetLine = infProject.svg.furn.offset;
+		
+					if(num==0 || num==1) 
+					{
+						var y1 = offsetLine[num].y2.baseVal.value - offsetLine[num].y1.baseVal.value;
+						
+						offsetLine[0].y1.baseVal.value += y1;
+						offsetLine[1].y1.baseVal.value += y1;
+						
+						offsetLine[2].y1.baseVal.value += y1;
+						offsetLine[2].y2.baseVal.value += y1;
+
+						offsetLine[3].y1.baseVal.value += y1;
+						offsetLine[3].y2.baseVal.value += y1;							
+					}						
+					else if(num==2 || num==3) 
+					{
+						var x1 = offsetLine[num].x2.baseVal.value - offsetLine[num].x1.baseVal.value;
+						
+						offsetLine[0].x1.baseVal.value += x1;
+						offsetLine[0].x2.baseVal.value += x1;
+						
+						offsetLine[1].x1.baseVal.value += x1;
+						offsetLine[1].x2.baseVal.value += x1;							
+
+						offsetLine[2].x1.baseVal.value += x1;
+						offsetLine[3].x1.baseVal.value += x1;
+					}
+					
+					var lineSize = infProject.svg.furn.size;
+					lineSize[0].x1.baseVal.value += x1;
+					lineSize[0].y1.baseVal.value += y1;					
+					lineSize[0].x2.baseVal.value += x1;
+					lineSize[0].y2.baseVal.value += y1;
+					
+					lineSize[1].x1.baseVal.value += x1;
+					lineSize[1].y1.baseVal.value += y1;					
+					lineSize[1].x2.baseVal.value += x1;
+					lineSize[1].y2.baseVal.value += y1;					
+						
+					var circle = infProject.svg.furn.boxCircle;
+					
+					for ( var i = 0; i < circle.length; i++ )
+					{
+						circle[i].cx.baseVal.value += x1;
+						circle[i].cy.baseVal.value += y1;
+					}
+					
+					var box1 = infProject.svg.furn.box1;
+					
+					for ( var i = 0; i < box1.pathSegList.length; i++ )
+					{
+						box1.pathSegList[i].x += x1;
+						box1.pathSegList[i].y += y1;
+					}						
+					
+					var box2 = infProject.svg.furn.box2;
+					
+					for ( var i = 0; i < box2.pathSegList.length; i++ )
+					{
+						box2.pathSegList[i].x += x1;
+						box2.pathSegList[i].y += y1;
+					}
+
+					changePos.x += x1;	// флаг - произошло смещение позиции
+					changePos.y += y1;						
+				}
+				
+				
+				// sizeLabel
+				{
+					upSvgLinePosScene({el: infProject.svg.furn.size});
+					
+					var sizeLine = infProject.svg.furn.size;
+					var sizeLabel = infProject.html.furn.size;					
+					
+					for ( var i = 0; i < sizeLabel.length; i++ )
+					{
+						var p = sizeLine[i].userData.svg.line.p;
+						
+						var posLabel = new THREE.Vector3().subVectors( p[1], p[0] ).divideScalar( 2 ).add(p[0]); 
+						sizeLabel[i].userData.elem.pos = posLabel;					
+						
+						var dist = p[0].distanceTo(p[1]);
+						sizeLabel[i].style.transform = 'translate(-50%, -50%)';
+						sizeLabel[i].textContent = Math.round(dist * 100) / 100 + '';
+						
+						upPosLabels_2({elem: sizeLabel[i]});
+
+						if(dist < 0.01)
+						{
+							hideElementHtml([sizeLabel[i]]);
+						}
+					}									
+				}
+				
+				
+				// offsetLabel
+				{
+					upSvgLinePosScene({el: infProject.svg.furn.offset});
+					
+					var offsetLine = infProject.svg.furn.offset;
+					var offsetLabel = infProject.html.furn.offset;
+					
+					for ( var i = 0; i < offsetLabel.length; i++ )
+					{
+						var p = offsetLine[i].userData.svg.line.p;
+						
+						var posLabel = new THREE.Vector3().subVectors( p[1], p[0] ).divideScalar( 2 ).add(p[0]); 
+						offsetLabel[i].userData.elem.pos = posLabel;					
+						
+						var dist = p[0].distanceTo(p[1]);
+						offsetLabel[i].style.transform = 'translate(-50%, -50%)';
+						offsetLabel[i].textContent = Math.round(dist * 100) / 100 + '';
+						
+						upPosLabels_2({elem: offsetLabel[i]});
+
+						if(dist < 0.01)
+						{
+							hideElementHtml([offsetLabel[i]]);
+						}
+					}
+				}
+				
+			}				
+			
+			
+			if(changePos.x != 0 || changePos.y != 0)
+			{
+				var circle = infProject.svg.furn.boxCircle;	
+
+				var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+				var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+				var A = new THREE.Vector3(x, y, -1);
+				
+				var x = ( ( circle[3].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+				var y = - ( ( circle[3].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+				var B = new THREE.Vector3(x, y, -1);
+							
+				A.unproject(camera);
+				B.unproject(camera);
+
+				var posCenter = new THREE.Vector3().subVectors( B, A ).divideScalar( 2 ).add(A);
+				
+				obj.position.x = posCenter.x;
+				obj.position.z = posCenter.z;
+	
+				
+				infProject.tools.gizmo.position.x = posCenter.x;
+				infProject.tools.gizmo.position.z = posCenter.z;
+			}
+			
 						
 		}
 		else
@@ -537,6 +618,70 @@ function clickMouseUpObject(obj)
 	if(clickO.actMove)
 	{		 
 		updateCubeCam({obj: obj});	// CubeCamera (material Reflection)
+		
+		if(camera == cameraTop)
+		{			
+			var circle = infProject.svg.furn.boxCircle;	
+
+			for ( var i = 0; i < circle.length; i++ )
+			{
+				var x = ( ( circle[i].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+				var y = - ( ( circle[i].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+				var A = new THREE.Vector3(x, y, -1);
+				A.unproject(camera);
+				
+				circle[i].userData.svg.circle.pos = A;
+				
+				//updateSvgCircle({el: circle[i]});
+			}
+			
+			// box1
+			{	
+				var arrP = [];
+				var box1 = infProject.svg.furn.box1; 
+				
+				for ( var i = 0; i < box1.pathSegList.length; i++ )
+				{
+					var x = ( ( box1.pathSegList[i].x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( box1.pathSegList[i].y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var A = new THREE.Vector3(x, y, -1);
+					A.unproject(camera);
+
+					arrP[arrP.length] = A;
+				}	
+						
+				arrP[arrP.length] = arrP[0];
+				
+				box1.userData.svg.path.arrP = arrP;
+				//updateSvgPath({el: box1});
+			}
+			
+			// box2
+			{	
+				var arrP = [];
+				var box2 = infProject.svg.furn.box2; 
+				
+				for ( var i = 0; i < box2.pathSegList.length; i++ )
+				{
+					var x = ( ( box2.pathSegList[i].x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( box2.pathSegList[i].y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var A = new THREE.Vector3(x, y, -1);
+					A.unproject(camera);
+
+					arrP[arrP.length] = A;
+				}	
+						
+				arrP[arrP.length] = arrP[0];
+				
+				box2.userData.svg.path.arrP = arrP;
+				//updateSvgPath({el: box2});
+			}
+
+
+			// offsetLine
+			upSvgLinePosScene({el: infProject.svg.furn.offset});
+			upSvgLinePosScene({el: infProject.svg.furn.size});
+		}
 	}	
 }
 

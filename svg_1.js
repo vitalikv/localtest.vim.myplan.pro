@@ -226,6 +226,34 @@ function updateSvgPath(cdm)
 
 
 
+
+
+// обновляем значение svg в 3D сцене
+function upSvgLinePosScene(cdm)
+{
+	var el = cdm.el;
+	
+	for ( var i = 0; i < el.length; i++ )
+	{
+		var x = ( ( el[i].x1.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( el[i].y1.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var A = new THREE.Vector3(x, y, -1);
+		A.unproject(camera);
+		
+		var x = ( ( el[i].x2.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( el[i].y2.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var B = new THREE.Vector3(x, y, -1);
+		B.unproject(camera);					
+		
+		el[i].userData.svg.line.p = [A, B];
+	}				
+}
+
+
+
+
+
+
 // показываем svg элементы
 function showElementSvg(arr)
 {
