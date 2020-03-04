@@ -361,33 +361,10 @@ function changeTextureRoom_UI_1(cdm)
 
 
 
-// получаем типы помещений из api, добавляем в меню и назначаем всем построеннным комнатам тип помещения
-async function getListRoomTypesApi(cdm)
+// назначаем всем построеннным комнатам тип помещения
+function assignListRoomTypesApi(cdm)
 {
-	var url = infProject.settings.api.type.room;
-
-	var response = await fetch(url, { method: 'GET' });
-	var json = await response.json();
-
-	infProject.settings.room.type = json;	
-	
-	for(var i = 0; i < json.length; i++)
-	{		
-		var str = 
-		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
-			<div class="right_panel_1_1_list_item_text">'
-			+json[i].title+
-			'</div>\
-		</div>';
-		
-		
-		var el = $(str).appendTo('[list_ui="room_type"]');
-		var id = json[i].id;
-		(function(id) 
-		{
-			el.on('mousedown', function(){ assignRoomType({button: true, id: id}); });	
-		}(id));		
-	}
+	var json = infProject.settings.room.type;
 
 	var arr = cdm.arr;
 	var floor = infProject.scene.array.floor;
@@ -409,8 +386,7 @@ async function getListRoomTypesApi(cdm)
 		}		
 	}
 	
-	renderCamera();
-		
+	renderCamera();		
 }
 
 

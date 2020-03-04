@@ -303,9 +303,6 @@ var offset = new THREE.Vector3();
 	startRightPlaneInput({});
 
 	//getAutoBuildingJson();
-
-	//getListRoomTypesApi();
-	getListObjTypesApi();
 	
 	assignEventSvgScaleSizeObj({el: infProject.svg.furn.boxCircle}); 
 }

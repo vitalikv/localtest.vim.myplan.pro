@@ -597,6 +597,10 @@ async function loadFilePL(arr)
 	var furn = (arr.object) ? arr.object : [];
 	
 	
+	getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
+	getListObjTypesApi();	// получаем в массив список объектов
+	
+	
 	changeAllHeightWall_1({ load: true, height: arr.height, input: true, globalHeight: true });
 			
 	var wall = [];
@@ -751,7 +755,7 @@ async function loadFilePL(arr)
 	}
 	
 	
-	getListRoomTypesApi({arr: rooms});	// получаем типы помещений, добавляем в меню и назначаем всем построеннным комнатам тип помещения
+	assignListRoomTypesApi({arr: rooms});	// получаем типы помещений, добавляем в меню и назначаем всем построеннным комнатам тип помещения
 	
 	loadObjInBase({furn: furn});
 
@@ -763,6 +767,40 @@ async function loadFilePL(arr)
 	renderCamera();
 	
 	//getSkeleton_1(room); 
+}
+
+
+
+
+// получаем типы помещений из api, добавляем в меню
+async function getListRoomTypesApi()
+{
+	var url = infProject.settings.api.type.room;
+
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+
+	infProject.settings.room.type = json;	
+	
+	var json = infProject.settings.room.type;
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var str = 
+		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
+			<div class="right_panel_1_1_list_item_text">'
+			+json[i].title+
+			'</div>\
+		</div>';
+		
+		
+		var el = $(str).appendTo('[list_ui="room_type"]');
+		var id = json[i].id;
+		(function(id) 
+		{
+			el.on('mousedown', function(){ assignRoomType({button: true, id: id}); });	
+		}(id));		
+	}	
 }
 
 
