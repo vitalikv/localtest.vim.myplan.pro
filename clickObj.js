@@ -288,7 +288,8 @@ function showSvgSizeObj(cdm)
 				
 				var min = 9999999;
 				var pos2 = null;
-	
+				var posIntr = null;
+				
 				for ( var i = 0; i < contour.length; i++ )
 				{
 					var i2 = (contour.length - 1 == i) ? 0 : i+1;
@@ -313,6 +314,36 @@ function showSvgSizeObj(cdm)
 							}
 						}
 					}				
+				}
+				
+				if(!pos2)
+				{
+					for ( var i = 0; i < contour.length; i++ )
+					{
+						var i2 = (contour.length - 1 == i) ? 0 : i+1;
+
+						// находим точку пересечения
+						var res = crossPointTwoLine_3(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
+						
+						if(!res[1])	// не параллельны 
+						{
+							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, -0.1) );
+							
+							// пересекаются ли линии
+							if(CrossLine(posStart, posEnd, contour[i], contour[i2])) 
+							{	
+								var dist = res[0].distanceTo(posStart);
+								
+								if(min > dist)
+								{
+									pos2 = res[0];
+									
+									min = dist;
+								}
+							}
+						}				
+					}
+
 				}
 				
 				
