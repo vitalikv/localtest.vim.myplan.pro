@@ -351,8 +351,6 @@ if(1==2)
 
 
 
-console.log(infProject.svg.furn.boxCircle[0]);
-console.log(infProject.svg.furn.box2.pathSegList[0].x);
 
 
 function createCenterCamObj()

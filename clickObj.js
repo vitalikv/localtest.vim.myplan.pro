@@ -248,7 +248,9 @@ function showSvgSizeObj(cdm)
 		}		
 		
 		if(floor)
-		{			
+		{		
+			var changePos = new THREE.Vector3();
+			
 			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	// top-left
 			var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	// top-right		
 			var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	// bottom-right				
@@ -364,6 +366,7 @@ function showSvgSizeObj(cdm)
 					upPosLabels_2({elem: html});
 					
 					
+					// приклеивание к стенам/объектам
 					if(dist < 0.3)
 					{
 						//var pos3 = new THREE.Vector3().subVectors( pos2, posStart ); 
@@ -422,9 +425,37 @@ function showSvgSizeObj(cdm)
 							box2.pathSegList[i].x += x1;
 							box2.pathSegList[i].y += y1;
 						}							
-												
+						
+
+						changePos.x += x1;	// флаг - произошло смещение позиции
+						changePos.y += y1;
 					}
 					
+				}
+				
+				if(changePos.x != 0 || changePos.y != 0)
+				{
+					var circle = infProject.svg.furn.boxCircle;	
+
+					var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var A = new THREE.Vector3(x, y, -1);
+					
+					var x = ( ( circle[3].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[3].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var B = new THREE.Vector3(x, y, -1);
+								
+					A.unproject(camera);
+					B.unproject(camera);
+
+					var posCenter = new THREE.Vector3().subVectors( B, A ).divideScalar( 2 ).add(A);
+					
+					obj.position.x = posCenter.x;
+					obj.position.z = posCenter.z;
+		
+					
+					infProject.tools.gizmo.position.x = posCenter.x;
+					infProject.tools.gizmo.position.z = posCenter.z;
 				}
 			}
 						
