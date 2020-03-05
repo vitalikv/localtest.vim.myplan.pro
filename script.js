@@ -179,6 +179,13 @@ infProject.catalog = { obj: [], texture: infoListTexture() };
 infProject.listColor = resetPop.listColor(); 
 infProject.start = true; 
 
+// хранятся данные для расчета
+infProject.calc = {};
+infProject.calc.boxScale2D = {sizeLine: null, boxCircle: null, box1: null, box2: null, offsetLine: null};
+infProject.calc.boxScale2D.posScreen = new THREE.Vector2();
+infProject.calc.boxScale2D.posScene = new THREE.Vector3();
+infProject.calc.boxScale2D.arrO = [];
+
 infProject.ui = {}
 infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
