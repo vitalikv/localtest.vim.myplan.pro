@@ -182,8 +182,8 @@ infProject.start = true;
 // хранятся данные для расчета
 infProject.calc = {};
 infProject.calc.boxScale2D = {sizeLine: null, boxCircle: null, box1: null, box2: null, offsetLine: null};
-infProject.calc.boxScale2D.posScreen = new THREE.Vector2();
-infProject.calc.boxScale2D.posScene = new THREE.Vector3();
+infProject.calc.boxScale2D.pos2D = new THREE.Vector2();
+infProject.calc.boxScale2D.pos3D = new THREE.Vector3();
 infProject.calc.boxScale2D.arrO = [];
 
 infProject.ui = {}

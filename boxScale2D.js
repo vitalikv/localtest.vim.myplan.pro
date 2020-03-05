@@ -297,6 +297,30 @@ function showSvgSizeObj(cdm)
 	//obj.geometry.computeBoundingSphere()
 		
 	
+	if(cdm.resetPos)
+	{
+		infProject.calc.boxScale2D.pos2D = null;
+		infProject.calc.boxScale2D.pos3D = null;		
+	}
+	
+	if(cdm.setPos)
+	{
+	
+		var offset_2D = new THREE.Vector2();
+		var offset_3D = new THREE.Vector3();
+		
+		if(infProject.calc.boxScale2D.pos2D)
+		{
+			offset_2D = new THREE.Vector2().subVectors( cdm.setPos.pos2D, infProject.calc.boxScale2D.pos2D );
+			offset_3D = new THREE.Vector3().subVectors( cdm.setPos.pos3D, infProject.calc.boxScale2D.pos3D );
+		}
+		
+		infProject.calc.boxScale2D.pos2D = cdm.setPos.pos2D;
+		infProject.calc.boxScale2D.pos3D = cdm.setPos.pos3D;
+
+		console.log(offset_2D, offset_3D);
+	}	
+	
 	// размеры объекта
 	{
 		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );

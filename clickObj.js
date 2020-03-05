@@ -62,7 +62,7 @@ function clickObject3D(cdm)
 	
 	activeObjRightPanelUI_1({obj: obj});	// показываем меню UI
 
-	showSvgSizeObj({obj: obj, boxCircle: true, getObjRoom: true});
+	showSvgSizeObj({obj: obj, boxCircle: true, getObjRoom: true, resetPos: true});
 	
 	getLotIdObject3D(obj.userData.obj3D.lotid);
 }
@@ -97,7 +97,7 @@ function moveObjectPop( event )
 
 	setScalePivotGizmo();
 	
-	showSvgSizeObj({obj: obj, boxCircle: true});
+	showSvgSizeObj({obj: obj, boxCircle: true, setPos: { pos2D: new THREE.Vector2(event.clientX, event.clientY), pos3D: intersects[ 0 ].point }});
 }
 
 
