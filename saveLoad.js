@@ -584,7 +584,11 @@ function loadFile(cdm)
 
 async function loadFilePL(arr) 
 {     
-	resetScene();					
+	resetScene();
+
+	getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
+	getListObjTypesApi();	// получаем в массив список объектов
+	
 	if(!arr) return;
 	
 	//console.log(arr);
@@ -595,10 +599,6 @@ async function loadFilePL(arr)
 	var walls = arr.walls;
 	var rooms = arr.rooms;
 	var furn = (arr.object) ? arr.object : [];
-	
-	
-	getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
-	getListObjTypesApi();	// получаем в массив список объектов
 	
 	
 	changeAllHeightWall_1({ load: true, height: arr.height, input: true, globalHeight: true });
