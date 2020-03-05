@@ -292,9 +292,7 @@ function showSvgSizeObj(cdm)
 		
 	
 	
-	obj.updateMatrixWorld();
-	obj.geometry.computeBoundingBox();	
-	//obj.geometry.computeBoundingSphere()
+
 		
 	
 	if(cdm.resetPos)
@@ -303,23 +301,16 @@ function showSvgSizeObj(cdm)
 		infProject.calc.boxScale2D.pos3D = null;		
 	}
 	
-	if(cdm.setPos)
+	if(cdm.setPos && 1==2)
 	{
-	
-		var offset_2D = new THREE.Vector2();
-		var offset_3D = new THREE.Vector3();
+		offsetSvgSizeObj(cdm);
 		
-		if(infProject.calc.boxScale2D.pos2D)
-		{
-			offset_2D = new THREE.Vector2().subVectors( cdm.setPos.pos2D, infProject.calc.boxScale2D.pos2D );
-			offset_3D = new THREE.Vector3().subVectors( cdm.setPos.pos3D, infProject.calc.boxScale2D.pos3D );
-		}
-		
-		infProject.calc.boxScale2D.pos2D = cdm.setPos.pos2D;
-		infProject.calc.boxScale2D.pos3D = cdm.setPos.pos3D;
+		return;
+	}
 
-		console.log(offset_2D, offset_3D);
-	}	
+	obj.updateMatrixWorld();
+	obj.geometry.computeBoundingBox();	
+	//obj.geometry.computeBoundingSphere()	
 	
 	// размеры объекта
 	{
@@ -787,6 +778,94 @@ function showSvgSizeObj(cdm)
 	}
 }
 
+
+
+// при перемещении объекта в 2D, когда показан boxScale2D, смещаем svg на заданное значение
+function offsetSvgSizeObj(cdm)
+{
+	var offset_2D = new THREE.Vector2();
+	var offset_3D = new THREE.Vector3();
+	
+	if(infProject.calc.boxScale2D.pos2D)
+	{
+		offset_2D = new THREE.Vector2().subVectors( cdm.setPos.pos2D, infProject.calc.boxScale2D.pos2D );
+		offset_3D = new THREE.Vector3().subVectors( cdm.setPos.pos3D, infProject.calc.boxScale2D.pos3D );
+	}
+	
+	infProject.calc.boxScale2D.pos2D = cdm.setPos.pos2D;
+	infProject.calc.boxScale2D.pos3D = cdm.setPos.pos3D;
+			
+	
+	{					
+		var x1 = offset_2D.x;
+		var y1 = offset_2D.y;
+		
+		//console.log(x1, y1);
+		
+		var offsetLine = infProject.svg.furn.offset;
+
+		for ( var i = 0; i < offsetLine.length; i++ )
+		{
+			offsetLine[i].x1.baseVal.value += x1;
+			offsetLine[i].x2.baseVal.value += x1;				
+			offsetLine[i].y1.baseVal.value += y1;
+			offsetLine[i].y2.baseVal.value += y1;						
+		}
+
+		
+		var lineSize = infProject.svg.furn.size;
+		
+		for ( var i = 0; i < lineSize.length; i++ )
+		{
+			lineSize[i].x1.baseVal.value += x1;
+			lineSize[i].y1.baseVal.value += y1;					
+			lineSize[i].x2.baseVal.value += x1;
+			lineSize[i].y2.baseVal.value += y1;				
+		}							
+			
+		var circle = infProject.svg.furn.boxCircle;
+		
+		for ( var i = 0; i < circle.length; i++ )
+		{
+			circle[i].cx.baseVal.value += x1;
+			circle[i].cy.baseVal.value += y1;
+		}
+		
+		var box1 = infProject.svg.furn.box1;
+		
+		for ( var i = 0; i < box1.pathSegList.length; i++ )
+		{
+			box1.pathSegList[i].x += x1;
+			box1.pathSegList[i].y += y1;
+		}						
+		
+		var box2 = infProject.svg.furn.box2;
+		
+		for ( var i = 0; i < box2.pathSegList.length; i++ )
+		{
+			box2.pathSegList[i].x += x1;
+			box2.pathSegList[i].y += y1;
+		}
+
+
+		var offsetLabel = infProject.html.furn.offset;			
+		
+		for ( var i = 0; i < offsetLabel.length; i++ )
+		{
+			offsetLabel[i].style.left = offsetLabel[i].offsetLeft + x1 + "px";
+			offsetLabel[i].style.top = offsetLabel[i].offsetTop + y1 + "px";
+		}
+
+		var sizeLabel = infProject.html.furn.size;			
+		
+		for ( var i = 0; i < sizeLabel.length; i++ )
+		{
+			sizeLabel[i].style.left = sizeLabel[i].offsetLeft + x1 + "px";
+			sizeLabel[i].style.top = sizeLabel[i].offsetTop + y1 + "px";
+		}			
+	}		
+	
+}
 
 
 
