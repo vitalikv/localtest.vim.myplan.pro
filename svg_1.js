@@ -130,7 +130,8 @@ function createSvgPath(cdm)
 		el.userData.svg.path = {};
 		el.userData.svg.path.arrP = [];
 		el.userData.svg.show = false;		
-
+		el.userData.svg.path.arrS = [];
+		
 		svg.appendChild(el);
 		
 		infProject.svg.arr[infProject.svg.arr.length] = el;
@@ -209,6 +210,7 @@ function updateSvgPath(cdm)
 	
 	var path = 'M';
 	var arrP = el.userData.svg.path.arrP;
+	var arrS = [];
 	
 	if(arrP.length == 0) return;
 	
@@ -219,7 +221,11 @@ function updateSvgPath(cdm)
 		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 		
 		path += x+' '+y+',';
+		
+		arrS[arrS.length] = new THREE.Vector2(x, y);
 	}
+	
+	el.userData.svg.path.arrS = arrS;
 
 	el.setAttribute("d", path);			
 }

@@ -671,19 +671,34 @@ function showSvgSizeObj(cdm)
 					
 					var box1 = infProject.svg.furn.box1;
 					
-					for ( var i = 0; i < box1.pathSegList.length; i++ )
+					var path = 'M';
+					for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
 					{
-						box1.pathSegList[i].x += x1;
-						box1.pathSegList[i].y += y1;
-					}						
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						path += arrS.x + x1+' '+arrS.y + y1+',';
+						
+						arrS.x += x1;
+						arrS.y += y1;
+					}
+
+					box1.setAttribute("d", path);
+					
 					
 					var box2 = infProject.svg.furn.box2;
 					
-					for ( var i = 0; i < box2.pathSegList.length; i++ )
+					var path = 'M';
+					for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
 					{
-						box2.pathSegList[i].x += x1;
-						box2.pathSegList[i].y += y1;
-					}						
+						var arrS = box2.userData.svg.path.arrS[i];
+						
+						path += arrS.x + x1+' '+arrS.y + y1+',';
+						
+						arrS.x += x1;
+						arrS.y += y1;
+					}
+
+					box2.setAttribute("d", path);						
 				}
 				
 				

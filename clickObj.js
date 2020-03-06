@@ -127,12 +127,14 @@ function clickMouseUpObject(obj)
 			// box1
 			{	
 				var arrP = [];
-				var box1 = infProject.svg.furn.box1; 
-				
-				for ( var i = 0; i < box1.pathSegList.length; i++ )
+				var box1 = infProject.svg.furn.box1; 			
+					
+				for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
 				{
-					var x = ( ( box1.pathSegList[i].x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( box1.pathSegList[i].y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var arrS = box1.userData.svg.path.arrS[i];
+					
+					var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
 					var A = new THREE.Vector3(x, y, -1);
 					A.unproject(camera);
 
@@ -150,10 +152,12 @@ function clickMouseUpObject(obj)
 				var arrP = [];
 				var box2 = infProject.svg.furn.box2; 
 				
-				for ( var i = 0; i < box2.pathSegList.length; i++ )
+				for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
 				{
-					var x = ( ( box2.pathSegList[i].x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( box2.pathSegList[i].y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var arrS = box1.userData.svg.path.arrS[i];
+					
+					var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
 					var A = new THREE.Vector3(x, y, -1);
 					A.unproject(camera);
 
@@ -182,11 +186,7 @@ function clickMouseUpObject(obj)
 				
 				infProject.calc.boxScale2D.box1 = {pos: {screen: new THREE.Vector2(), scene: new THREE.Vector3()}};
 				infProject.calc.boxScale2D.box1.pos.screen = [];
-				
-				for ( var i = 0; i < box1.pathSegList.length; i++ )
-				{
-					infProject.calc.boxScale2D.box1.pos.screen = [];
-				}				
+							
 				
 			}
 		}
