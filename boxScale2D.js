@@ -676,7 +676,7 @@ function showSvgSizeObj(cdm)
 					{
 						var arrS = box1.userData.svg.path.arrS[i];
 						
-						path += arrS.x + x1+' '+arrS.y + y1+',';
+						path += (arrS.x + x1)+' '+(arrS.y + y1)+',';
 						
 						arrS.x += x1;
 						arrS.y += y1;
@@ -692,7 +692,7 @@ function showSvgSizeObj(cdm)
 					{
 						var arrS = box2.userData.svg.path.arrS[i];
 						
-						path += arrS.x + x1+' '+arrS.y + y1+',';
+						path += (arrS.x + x1)+' '+(arrS.y + y1)+', ';
 						
 						arrS.x += x1;
 						arrS.y += y1;
