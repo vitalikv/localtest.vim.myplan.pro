@@ -71,6 +71,7 @@ function onDocumentMouseDown( event )
 	long_click = false;
 	lastClickTime = new Date().getTime();
 
+	if(selectionBoxDown(event)) { return; }		// selectionBox
 	
 	if(event.changedTouches)
 	{
@@ -266,6 +267,8 @@ function onDocumentMouseMove( event )
 		isMouseDown2 = true;
 	}
 	
+	if(selectionBoxMove(event)) { return; }		// selectionBox 
+	
 	if(clickO.elem) { moveElementBoxScale2D(event); }
 
 	clickButton( event );
@@ -305,12 +308,17 @@ function onDocumentMouseMove( event )
 function onDocumentMouseUp( event )  
 {
 
+	if(selectionBoxUp(event)) { return; }		// selectionBox	
+	
 	if(!long_click) 
 	{ 
 		clickMouseActive({type: 'up'}); 
 	}	
 	
 	var obj = clickO.move;	
+	
+	
+	if(selectionBoxMove(event)) { return; }		// selectionBox
 	
 	
 	if(clickO.elem)

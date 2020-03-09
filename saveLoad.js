@@ -163,7 +163,7 @@ function resetScene()
 	
 	// прячем размеры и линейки
 	var cube = infProject.tools.controllWD;
-	for ( var i = 0; i < cube.length; i++ ) { cube[i].visible = false; }
+	//for ( var i = 0; i < cube.length; i++ ) { cube[i].visible = false; }
 	
 	var line = infProject.scene.size.wd_1.line;
 	

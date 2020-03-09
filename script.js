@@ -190,6 +190,12 @@ infProject.ui = {}
 infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
 
+
+
+//infProject.tools = { selectionBox : null }
+infProject.tools.selectionBox = { msdown : false, coords : new THREE.Vector2(), mStart : new THREE.Vector2(), mEnd : new THREE.Vector2(), button : false }
+	
+
 console.log(infProject); 
 
 
@@ -1827,8 +1833,19 @@ document.addEventListener("keyup", function (e)
 	if(e.keyCode == 173) { zoomLoop = ''; }
 	if(e.keyCode == 61) { zoomLoop = ''; }
 	if(e.keyCode == 187) { zoomLoop = ''; }
-	if(e.keyCode == 189) { zoomLoop = ''; }		
+	if(e.keyCode == 189) { zoomLoop = ''; }
+
+
+	if(camera == cameraTop)
+	{
+		if(e.keyCode == 16){ selectionBoxHide(); } 
+	}
+	
 });
+
+
+
+
 
 
 // вкл/выкл сглаживание 
