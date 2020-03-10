@@ -108,6 +108,7 @@ function onDocumentMouseDown( event )
 	 
 	clickO.obj = null; 	
 	clickO.actMove = false;	
+	clickO.selectBox.drag = false;
 	clickO.rayhit = clickRayHit(event); 
 	
 	clickMouseActive({type: 'down'});
@@ -207,11 +208,10 @@ function clickRayHit(event)
 
 function clickMouseActive(cdm)
 {
-	hideMenuObjUI_2D(cdm);
-	
-	if(!clickO.rayhit) return; 
+	if(!clickO.rayhit) { hideMenuObjUI_2D(cdm); return; }
 
 	var obj = clickO.obj = clickO.rayhit.object;
+	hideMenuObjUI_2D(cdm);
 	
 	var tag = obj.userData.tag;
 	var rayhit = clickO.rayhit;
@@ -293,6 +293,10 @@ function onDocumentMouseMove( event )
 		else if ( tag == 'free_dw' ) { dragWD_2( event, obj ); }
 		else if ( tag == 'obj' ) { moveObjectPop( event ); }
 	}
+	else if(camera == cameraTop && clickO.selectBox.drag) 
+	{		
+		moveSelectionBox(event); 
+	}	
 	else 
 	{
 		if ( camera == camera3D ) { cameraMove3D( event ); }
@@ -315,10 +319,7 @@ function onDocumentMouseUp( event )
 		clickMouseActive({type: 'up'}); 
 	}	
 	
-	var obj = clickO.move;	
-	
-	
-	if(selectionBoxMove(event)) { return; }		// selectionBox
+	var obj = clickO.move;		
 	
 	
 	if(clickO.elem)
@@ -350,6 +351,11 @@ function onDocumentMouseUp( event )
 		}		
 		else { clickO.move = null; }		
 	}
+	else if(clickO.selectBox.drag)
+	{		
+		upSelectionBox();
+	}	
+	
 	
 	param_win.click = false;
 	isMouseDown1 = false;
@@ -372,6 +378,8 @@ function onDocumentMouseUp( event )
 
 function hideMenuObjUI_2D(cdm)
 {
+	if(objDeActiveColor_2D_selectBox(clickO.obj)) { return; }
+	
 	var obj = clickO.last_obj;
 	if(!cdm) { cdm = {type: ''}; }
 	

@@ -8,6 +8,8 @@ function clickObject3D(cdm)
 	var obj = cdm.obj;
 	var rayhit = cdm.rayhit;
 	
+	if(clickWall_2D_selectBox( rayhit )) { return; }
+	
 	obj.updateMatrixWorld();
 	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );			 
 	

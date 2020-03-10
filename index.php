@@ -62,8 +62,29 @@
 		</div>
 
 		<svg id="svgFrame" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" style="position: absolute; z-index: 1">
-		</svg>		
+		</svg>	
+
+		<div id='selectBoxFrame'></div>
 	</div>
+	
+	
+	
+	
+	<style type="text/css">
+		#selectBoxFrame
+		{
+			width: 0;
+			height: 0;
+			line-height: 0;
+			background-color: #707070;
+			position: absolute;
+			z-index: 100;
+			visibility: hidden;
+			-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=40)";
+			filter: alpha(opacity=40);
+			opacity: .4;
+		}
+	</style>	
 
 	<script>
 		function getLotIdObject3D(id)
