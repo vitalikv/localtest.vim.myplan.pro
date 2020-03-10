@@ -179,7 +179,8 @@ function splitWalls( wall, point )
 	var width = wall.userData.wall.width;
 	var height = wall.userData.wall.height_1;
 	var offsetZ = wall.userData.wall.offsetZ;
-	var material = wall.material;   
+	var material = wall.material; 
+	var userData = wall.userData;
 	var p1 = { id : wall.userData.wall.p[0].userData.id, pos : wall.userData.wall.p[0].position.clone() };
 	var p2 = { id : wall.userData.wall.p[1].userData.id, pos : wall.userData.wall.p[1].position.clone() };
 	
@@ -243,8 +244,8 @@ function splitWalls( wall, point )
 	// накладываем материал
 	wall_1.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ];  
 	wall_2.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ];
-	wall_1.userData.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ]; 
-	wall_2.userData.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ]; 
+	wall_1.userData.material = userData.material; 
+	wall_2.userData.material = userData.material; 
 	
 	for ( var i = 0; i < v2.length/2; i++ ) { wall_1.userData.wall.v[i] = v2[i].clone(); wall_1.geometry.vertices[i] = v2[i].clone(); }
 	
