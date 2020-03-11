@@ -469,7 +469,7 @@ function upLineUU(line1, line2, s1, s2, pointC)
 	
 	if(!crossP[1]) { if(intersectWall_2(m1a, m1b, m2a, m2b)) { cross = true; } }	// стенки стен пересекаются	 
 	
-	if(cross)
+	if(!crossP[1])
 	{		
 		var per1 = line1.worldToLocal( crossP[0].clone() ).x;
 		var per2 = line2.worldToLocal( crossP[0].clone() ).x;

@@ -1269,8 +1269,9 @@ function crtW( cdm )
 	wall.userData.wall.html = {};
 	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
 	wall.userData.wall.svg = {};
-	//wall.userData.wall.svg.lineW = [createSvgLine({count: 1})[0], createSvgLine({count: 1, color: '#00ff00'})[0]];
 	wall.userData.wall.svg.lineW = null;
+	//wall.userData.wall.svg.lineW = [createSvgLine({count: 1})[0], createSvgLine({count: 1, color: '#00ff00'})[0]];
+	//showElementSvg(wall.userData.wall.svg.lineW);
 	wall.userData.wall.show = true;
 	
 	var v = wall.geometry.vertices;
