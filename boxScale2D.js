@@ -616,6 +616,18 @@ function showSvgSizeObj(cdm)
 			// произошло смщение 
 			if(arrN.length > 0)
 			{ 
+		
+	var tempV = new THREE.Vector3(0.1, 0, 0).project(camera);
+	var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+	var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+	
+	var tempV2 = new THREE.Vector3(0.0, 0, 0).project(camera);
+	var x2 = (tempV2.x *  .5 + .5) * canvas.clientWidth;
+	var y2 = (tempV2.y * -.5 + .5) * canvas.clientHeight;
+	
+	console.log(x - x2, tempV);
+
+	
 				for ( var j = 0; j < arrN.length; j++ )
 				{
 					var num = arrN[j]; 
