@@ -65,6 +65,9 @@
 		</svg>	
 
 		<div id='selectBoxFrame'></div>
+		
+		<div id='htmlBlock'></div>
+		
 	</div>
 	
 	

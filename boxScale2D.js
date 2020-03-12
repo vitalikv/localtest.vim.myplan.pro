@@ -439,7 +439,7 @@ function showSvgSizeObj(cdm)
 		}
 		
 	
-		
+		// объект находится в помещении 
 		if(floor)
 		{	
 			if(cdm.getObjRoom)
@@ -519,6 +519,8 @@ function showSvgSizeObj(cdm)
 					}				
 				}
 				
+				// объект находится в комнате, но не нашел ближайшую стену, занчит он находится в стене
+				// находим ближайшую стену в противоположном направлении и получаем точку пересечения
 				if(!pos2)
 				{
 					for ( var i = 0; i < contour.length; i++ )
@@ -549,7 +551,7 @@ function showSvgSizeObj(cdm)
 
 				}
 				
-				
+				// смотрим есть ли объекты в комнате которые находятся по близости
 				for ( var i = 0; i < arrO.length; i++ )
 				{
 					var v = arrO[i].v;
@@ -584,6 +586,7 @@ function showSvgSizeObj(cdm)
 				}
 
 
+				// если можно провести прямую до стен/объектов, то показываем линию и размер, иначе скрываем
 				if(pos2)
 				{
 					
@@ -603,7 +606,7 @@ function showSvgSizeObj(cdm)
 					
 					// приклеивание к стенам/объектам
 					if(dist < 0.1)
-					{
+					{  
 						arrN[arrN.length] = n;						
 					}
 					
@@ -612,10 +615,10 @@ function showSvgSizeObj(cdm)
 			
 			// произошло смщение 
 			if(arrN.length > 0)
-			{
-				for ( var i = 0; i < arrN.length; i++ )
+			{ 
+				for ( var j = 0; j < arrN.length; j++ )
 				{
-					var num = arrN[i]; 
+					var num = arrN[j]; 
 					
 					//var pos3 = new THREE.Vector3().subVectors( pos2, posStart ); 
 					var x1 = 0;
@@ -668,6 +671,8 @@ function showSvgSizeObj(cdm)
 						circle[i].cx.baseVal.value += x1;
 						circle[i].cy.baseVal.value += y1;
 					}
+					
+					
 					
 					var box1 = infProject.svg.furn.box1;
 					
