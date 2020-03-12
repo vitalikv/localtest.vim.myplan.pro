@@ -36,7 +36,7 @@ function changeCamera(cam)
 		
 		for( var i = 0; i < infProject.scene.array.cubeCam.length; i++ )
 		{
-			updateCubeCam({obj: infProject.scene.array.cubeCam[i]});
+			//updateCubeCam({obj: infProject.scene.array.cubeCam[i]});
 		}		
 		
 		// прячем стены
