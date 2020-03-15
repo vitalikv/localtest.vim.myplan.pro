@@ -469,7 +469,7 @@ function upLineUU(line1, line2, s1, s2, pointC)
 	
 	if(!crossP[1]) { if(intersectWall_2(m1a, m1b, m2a, m2b)) { cross = true; } }	// стенки стен пересекаются	 
 	
-	if(!crossP[1])
+	if(cross)
 	{		
 		var per1 = line1.worldToLocal( crossP[0].clone() ).x;
 		var per2 = line2.worldToLocal( crossP[0].clone() ).x;
@@ -477,30 +477,9 @@ function upLineUU(line1, line2, s1, s2, pointC)
 		var per4 = line2.worldToLocal( pointC.clone() ).x;
 	}
 	else
-	{
-		var vpc = line1.worldToLocal( pointC.clone() );
-		vpc.z = m1a.z;
-		
-		crossP[0] = vpc;
-		crossP[0] = line1.localToWorld( crossP[0].clone() );
-		 
-		var rs = line1.userData.wall.width - line2.userData.wall.width;
-		
-		if(rs < -0.1) 
-		{
-			var per1 = line1.worldToLocal( crossPointTwoLine_2(m1a, m1b, pointC, m2b)[0] ).x;
-			var per2 = line2.worldToLocal( pointC.clone() ).x;
-		}
-		else if(rs > 0.1)
-		{
-			var per1 = line1.worldToLocal( pointC.clone() ).x;
-			var per2 = line2.worldToLocal( crossPointTwoLine_2(pointC, m1b, m2a, m2b)[0] ).x;
-		}
-		else 
-		{ 
-			var per1 = line1.worldToLocal( crossP[0].clone() ).x; 
-			var per2 = line2.worldToLocal( crossP[0].clone() ).x;			
-		}		
+	{		
+		var per1 = line1.worldToLocal( pointC.clone() ).x; 
+		var per2 = line2.worldToLocal( pointC.clone() ).x;		
 		
 		var per3 = line1.worldToLocal( pointC.clone() ).x;
 		var per4 = line2.worldToLocal( pointC.clone() ).x;	
@@ -554,11 +533,11 @@ function upLineUU(line1, line2, s1, s2, pointC)
 function intersectWall_2(p0, p1, p2, p3)
 {			
 	var dir = new THREE.Vector3().subVectors( p1, p0 ).normalize();
-	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
+	var v1 = new THREE.Vector3().addScaledVector( dir, 0.5 );
 	var p1 = new THREE.Vector3().addVectors( p1, v1 );		
 		
 	var dir = new THREE.Vector3().subVectors( p3, p2 ).normalize();
-	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
+	var v1 = new THREE.Vector3().addScaledVector( dir, 0.5 );
 	var p3 = new THREE.Vector3().addVectors( p3, v1 );	
 	
 	if( !CrossLine(p0, p1, p2, p3) ) { /*console.log(false);*/ return false; }		
