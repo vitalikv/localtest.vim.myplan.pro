@@ -35,6 +35,7 @@ autoBuilding.js
 svg_1.js
 html_1.js
 selectionBox.js
+undoRedo.js
 ';
 
 $arrF = array();

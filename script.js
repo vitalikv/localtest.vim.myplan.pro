@@ -186,11 +186,14 @@ infProject.calc.boxScale2D.pos2D = new THREE.Vector2();
 infProject.calc.boxScale2D.pos3D = new THREE.Vector3();
 infProject.calc.boxScale2D.arrO = [];
 
-infProject.ui = {}
+infProject.ui = {};
 infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
 
-
+infProject.ur = {};
+infProject.ur.count = -1;
+infProject.ur.back = [];
+infProject.ur.forward = [];
 
 //infProject.tools = { selectionBox : null }
 infProject.tools.selectionBox = { msdown : false, coords : new THREE.Vector2(), mStart : new THREE.Vector2(), mEnd : new THREE.Vector2(), button : false }
@@ -1796,7 +1799,10 @@ document.addEventListener("keydown", function (e)
 	}
 
 
-	if(e.keyCode == 46) { detectDeleteObj(); }
+	if(e.keyCode == 46 || e.keyCode == 8) { detectDeleteObj(); }
+	
+	if(e.keyCode == 90 && e.ctrlKey) { setInfoEvent1( 'undo' ); }	// ctrl + z
+	if(e.keyCode == 89 && e.ctrlKey) { setInfoEvent1( 'redo' ); }	// ctrl + y	
 	
 	if(clickO.keys[18] && e.keyCode == 90) { loadFile({json: true}); }		// alt + z
 	if(clickO.keys[18] && e.keyCode == 72) { disposeHierchy(scene, disposeNode); getConsoleRendererInfo(); }		// alt + h
@@ -1816,7 +1822,7 @@ document.addEventListener("keydown", function (e)
 	
 	if(e.keyCode == 66) { switchCamera3D(); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
-	if(e.keyCode == 89) { saveFile({txt: true}); } 			// y
+	if(e.keyCode == 89 && !e.ctrlKey) { saveFile({txt: true}); } 			// y
 	//if(e.keyCode == 86) { resetScene(); getAutoBuildingJson(); } // v
 } );
 

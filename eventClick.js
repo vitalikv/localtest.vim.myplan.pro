@@ -22,7 +22,7 @@ $('[nameId="button_wrap_plan"]').mousedown(function () { changeRightMenuUI_1({el
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { objRotateReset(); });	
 $('[nameId="button_copy_obj"]').mousedown(function () { copyObj(); });
-$('[nameId="button_delete_obj"]').mousedown(function () { deleteObjectPop(clickO.last_obj); });
+$('[nameId="button_delete_obj"]').mousedown(function () { deleteObjectPop({obj: clickO.last_obj}); });
 
 
 $('[data-action="wall"]').mousedown(function () { clickInterface({button:'point_1'}); });

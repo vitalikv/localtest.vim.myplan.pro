@@ -112,7 +112,9 @@ function clickGizmo( intersect )
 	
 	planeMath.updateMatrixWorld();
 	var dir = planeMath.worldToLocal( intersect.point.clone() );	
-	gizmo.userData.gizmo.active.rotY = Math.atan2(dir.x, dir.y);	
+	gizmo.userData.gizmo.active.rotY = Math.atan2(dir.x, dir.y);
+
+	getInfoObj_UndoRedo({obj: gizmo.userData.gizmo.obj});
 }
 
 
@@ -122,6 +124,11 @@ function moveGizmo( event )
 {	
 	var intersects = rayIntersect( event, planeMath, 'one' );	 	 
 	if(intersects.length == 0) return;
+	
+	if(!clickO.actMove)
+	{
+		clickO.actMove = true;
+	}	
 	
 	
 	var gizmo = infProject.tools.gizmo;
@@ -186,5 +193,13 @@ function moveGizmo( event )
 }
 
 
+
+function clickMouseUpGizmo(cdm)
+{	
+	if(clickO.actMove)
+	{	
+		getInfoEvent23({obj: infProject.tools.gizmo.userData.gizmo.obj, type: 'move'});
+	}		
+}
 
 

@@ -43,7 +43,7 @@ function mouseDownRight()
 		}
 		else if(obj.userData.tag == 'obj')
 		{
-			deleteObjectPop(obj); 
+			deleteObjectPop({obj: obj}); 
 		}		
 
 		clickO = resetPop.clickO();
@@ -342,6 +342,7 @@ function onDocumentMouseUp( event )
 		else if(tag == 'controll_wd') { clickMouseUpToggleWD(obj); } 
 		else if(tag == 'obj') { clickMouseUpObject(obj); }
 		else if(tag == 'pivot') { clickMouseUpPivot(); }
+		else if(tag == 'gizmo') { clickMouseUpGizmo(); }
 		
 		if(tag == 'free_dw') {  }
 		else if (tag == 'point') 

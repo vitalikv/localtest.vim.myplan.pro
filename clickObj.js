@@ -67,10 +67,28 @@ function clickObject3D(cdm)
 	showSvgSizeObj({obj: obj, boxCircle: true, getObjRoom: true, resetPos: true});
 	
 	getLotIdObject3D(obj.userData.obj3D.lotid);
+	
+	getInfoObj_UndoRedo({obj: obj});
+	
+	// объект добавлен в сцену через каталог, то отправляем в undo/redo, что его можно удалить
+	if(obj.userData.obj3D.newO)
+	{
+		delete obj.userData.obj3D.newO;
+		
+		getInfoEvent25({obj: obj});		// undo/redo
+	}
 }
 
 
 
+// получаем инфорамация для undo/redo
+function getInfoObj_UndoRedo(cdm)
+{
+	var obj = cdm.obj;
+	
+	obj.userData.obj3D.ur.pos = obj.position.clone();
+	obj.userData.obj3D.ur.q = obj.quaternion.clone(); 	
+}
 
 
 
@@ -110,86 +128,78 @@ function clickMouseUpObject(obj)
 	{		 
 		updateCubeCam({obj: obj});	// CubeCamera (material Reflection)
 		
+		
+		getInfoEvent23({obj: obj, type: 'move'}); 
+		
 		if(camera == cameraTop)
-		{			
-			var circle = infProject.svg.furn.boxCircle;	
-
-			for ( var i = 0; i < circle.length; i++ )
+		{	
+			// svg линии
+			if(1==1)
 			{
-				var x = ( ( circle[i].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-				var y = - ( ( circle[i].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-				var A = new THREE.Vector3(x, y, -1);
-				A.unproject(camera);
-				
-				circle[i].userData.svg.circle.pos = A;
-				
-				//updateSvgCircle({el: circle[i]});
-			}
-			
-			// box1
-			{	
-				var arrP = [];
-				var box1 = infProject.svg.furn.box1; 			
-					
-				for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
+				var circle = infProject.svg.furn.boxCircle;	
+
+				for ( var i = 0; i < circle.length; i++ )
 				{
-					var arrS = box1.userData.svg.path.arrS[i];
-					
-					var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var x = ( ( circle[i].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[i].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
 					var A = new THREE.Vector3(x, y, -1);
 					A.unproject(camera);
-
-					arrP[arrP.length] = A;
-				}	
-						
-				arrP[arrP.length] = arrP[0];
-				
-				box1.userData.svg.path.arrP = arrP;
-				//updateSvgPath({el: box1});
-			}
-			
-			// box2
-			{	
-				var arrP = [];
-				var box2 = infProject.svg.furn.box2; 
-				
-				for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
-				{
-					var arrS = box1.userData.svg.path.arrS[i];
 					
-					var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var A = new THREE.Vector3(x, y, -1);
-					A.unproject(camera);
-
-					arrP[arrP.length] = A;
-				}	
+					circle[i].userData.svg.circle.pos = A;
+					
+					//updateSvgCircle({el: circle[i]});
+				}
+				
+				// box1
+				{	
+					var arrP = [];
+					var box1 = infProject.svg.furn.box1; 			
 						
-				arrP[arrP.length] = arrP[0];
-				
-				box2.userData.svg.path.arrP = arrP;
-				//updateSvgPath({el: box2});
-			}
+					for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+						var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+						var A = new THREE.Vector3(x, y, -1);
+						A.unproject(camera);
 
-
-			// offsetLine
-			upSvgLinePosScene({el: infProject.svg.furn.offset});
-			upSvgLinePosScene({el: infProject.svg.furn.size});
-			
-			
-			if(1==2)
-			{
-				infProject.calc.boxScale2D.sizeLine = null;
-				infProject.calc.boxScale2D.boxCircle = null;
-				infProject.calc.boxScale2D.box1 = null;
-				infProject.calc.boxScale2D.box2 = null;
-				infProject.calc.boxScale2D.offsetLine = null;
-				
-				infProject.calc.boxScale2D.box1 = {pos: {screen: new THREE.Vector2(), scene: new THREE.Vector3()}};
-				infProject.calc.boxScale2D.box1.pos.screen = [];
+						arrP[arrP.length] = A;
+					}	
 							
+					arrP[arrP.length] = arrP[0];
+					
+					box1.userData.svg.path.arrP = arrP;
+					//updateSvgPath({el: box1});
+				}
 				
+				// box2
+				{	
+					var arrP = [];
+					var box2 = infProject.svg.furn.box2; 
+					
+					for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+						var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+						var A = new THREE.Vector3(x, y, -1);
+						A.unproject(camera);
+
+						arrP[arrP.length] = A;
+					}	
+							
+					arrP[arrP.length] = arrP[0];
+					
+					box2.userData.svg.path.arrP = arrP;
+					//updateSvgPath({el: box2});
+				}
+
+
+				// offsetLine
+				upSvgLinePosScene({el: infProject.svg.furn.offset});
+				upSvgLinePosScene({el: infProject.svg.furn.size});
 			}
 		}
 	}	
@@ -199,9 +209,15 @@ function clickMouseUpObject(obj)
 	
 
 // удаление объекта
-function deleteObjectPop(obj)
+function deleteObjectPop(cdm)
 { 
+	var obj = cdm.obj;	
+	
 	if(obj.userData.tag != 'obj') return;
+	
+	var undoRedo = true;
+	if(cdm.undoRedo !== undefined) { undoRedo = cdm.undoRedo; }	
+	if(undoRedo) { getInfoEvent24({obj: obj}); }
 	
 	clickO = resetPop.clickO(); 
 	

@@ -29,6 +29,7 @@ async function getListObjTypesApi()
 			lotid : 32,
 			url : infProject.path+'import/glb/wd/okno1x1.glb', 
 			name : 'окно 1',
+			type: 'wd',
 			planeMath : 1.5,
 			glb : true,
 			stopUI: true,
@@ -39,6 +40,7 @@ async function getListObjTypesApi()
 			lotid : 33,
 			url : infProject.path+'import/glb/wd/dver2x1.glb', 
 			name : 'дверь',
+			type: 'wd',
 			planeMath : 0.1,
 			glb : true,
 			stopUI: true,
@@ -51,6 +53,7 @@ async function getListObjTypesApi()
 		lotid : 4,
 		url : infProject.path+'import/vm_door_1.fbx', 
 		name : 'дверь',
+		type: 'wd',
 		planeMath : 1.0,
 		material : true,
 		stopUI: true,
@@ -306,326 +309,6 @@ async function getListObjTypesApi()
 }
 
 
-function infoListObj()
-{
-	var arr = [];		
-	
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 5,
-			url : infProject.path+'import/vm_furn_2.fbx', 
-			name : 'кухня',
-			planeMath : 0.1,
-			stopUI: true,
-		}	
-		
-		arr[arr.length] =
-		{
-			lotid : 6,
-			url : infProject.path+'import/vm_furn_3.fbx', 
-			name : 'шкаф',
-			planeMath : 0.1,
-			stopUI: true,
-		}	
-
-		arr[arr.length] =
-		{
-			lotid : 7,
-			url : infProject.path+'import/vm_furn_4.fbx', 
-			name : 'кухня +',
-			planeMath : 0.0,
-			stopUI: true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 9,
-			url : infProject.path+'import/vm_furn_5.fbx', 
-			name : 'унитаз',
-			planeMath : 0.0,
-			stopUI: true,
-		}	
-		
-		arr[arr.length] =
-		{
-			lotid : 10,
-			url : infProject.path+'import/vm_furn_6.fbx', 
-			name : 'комод',
-			planeMath : 0.0,
-			stopUI: true,
-		}		
-	}
-	
-	
-	arr[arr.length] =
-	{
-		lotid : 4,
-		url : infProject.path+'import/vm_door_1.fbx', 
-		name : 'дверь',
-		planeMath : 1.0,
-		material : true,
-		stopUI: true,
-	}
-
-	arr[arr.length] =
-	{
-		lotid : 8,
-		url : infProject.path+'import/vm_light_point_1.fbx', 
-		name : 'светильник',
-		type: 'light point',
-		planeMath : infProject.settings.height - 0.05,
-	}
-
-	// спальня -->
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 11,
-			url : infProject.path+'import/glb/спальня/80105983_krovat_dafna10.glb', 
-			name : 'кровать',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 12,
-			url : infProject.path+'import/glb/спальня/80274115_Пуф_ПФ-1.glb', 
-			name : 'Пуф_ПФ',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 13,
-			url : infProject.path+'import/glb/спальня/80286563_Туалетный_стол_Sherlock.glb', 
-			name : 'Туалетный_стол',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 14,
-			url : infProject.path+'import/glb/спальня/80318441_Кровать_с_подъёмным_механизмом_Paola.glb', 
-			name : 'Кровать_с_подъёмным_механизмом',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 15,
-			url : infProject.path+'import/glb/спальня/80318442_Тумба_прикроватная_Paola.glb', 
-			name : 'Тумба_прикроватная',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 16,
-			url : infProject.path+'import/glb/спальня/80318445_Зеркало_навесное_Paola.glb', 
-			name : 'Зеркало_навесное',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 17,
-			url : infProject.path+'import/glb/спальня/80328489_Шкаф-купе_Home_Стандарт_160_см.glb', 
-			name : 'Шкаф-купе_Стандарт_160_см',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-	}
-	// <-- спальня
-	
-	
-	// кухня -->
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 18,
-			url : infProject.path+'import/glb/кухня/80310580_Стол_Мюнхен.glb', 
-			name : 'Стол_Мюнхен',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 19,
-			url : infProject.path+'import/glb/кухня/80320714_Стул_Новара.glb', 
-			name : 'Стул_Новара',
-			planeMath : 0.0,
-			glb : true,
-		}	
-
-		arr[arr.length] =
-		{
-			lotid : 20,
-			url : infProject.path+'import/glb/кухня/80321220_Кухонный_гарнитур_Софи.glb', 
-			name : 'Кухонный_гарнитур_Софи',
-			planeMath : 0.0,
-			glb : true,
-		}		
-	}
-	// <-- кухня
-	
-	// прихожая -->
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 21,
-			url : infProject.path+'import/glb/прихожая/80288366_Тумба_для_обуви_Гранада.glb', 
-			name : 'Тумба_для_обуви_Гранада 1',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 22,
-			url : infProject.path+'import/glb/прихожая/80288367_Шкаф_для_одежды_Гранада.glb', 
-			name : 'Шкаф_для_одежды_Гранада',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 23,
-			url : infProject.path+'import/glb/прихожая/80288368_Тумба_для_обуви_Гранада.glb', 
-			name : 'Тумба_для_обуви_Гранада 2',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 24,
-			url : infProject.path+'import/glb/прихожая/80311598_Шкаф-купе_2-дверный_Slide_120х220_см.glb', 
-			name : 'Шкаф-купе_2-дверный',
-			planeMath : 0.0,
-			glb : true,
-		}		
-	}
-	// <-- прихожая	
-	
-	
-	// зал -->
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 25,
-			url : infProject.path+'import/glb/зал/80088931_Комод_НК-3.glb', 
-			name : 'Комод_НК-3',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 26,
-			url : infProject.path+'import/glb/зал/80295027_Стеллаж_Стенли.glb', 
-			name : 'Стеллаж_Стенли',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 27,
-			url : infProject.path+'import/glb/зал/80310320_Шкаф-купе_3-дверный_Slide_210х220_см.glb', 
-			name : 'Шкаф-купе_3-дверный_Slide_210х220_см',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 28,
-			url : infProject.path+'import/glb/зал/80311525_Кресло_рабочее_Boss_II.glb', 
-			name : 'Кресло_рабочее_Boss_II',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 29,
-			url : infProject.path+'import/glb/зал/80322444_Журнальный_стол_Лофт.glb', 
-			name : 'Журнальный_стол_Лофт',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 30,
-			url : infProject.path+'import/glb/зал/80327766_Угловой_диван-кровать_Вольберг.glb', 
-			name : 'Угловой_диван-кровать_Вольберг',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 31,
-			url : infProject.path+'import/glb/зал/80328867_Письменный_стол_Рокс.glb', 
-			name : 'Письменный_стол_Рокс',
-			planeMath : 0.0,
-			glb : true,
-		}		
-				
-	}
-	// <-- зал	
-	
-
-	// wd -->
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 32,
-			url : infProject.path+'import/glb/wd/okno1x1.glb', 
-			name : 'окно 1',
-			planeMath : 1.5,
-			glb : true,
-			stopUI: true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 33,
-			url : infProject.path+'import/glb/wd/dver2x1.glb', 
-			name : 'дверь',
-			planeMath : 0.1,
-			glb : true,
-		}		
-	}
-	// <-- wd	
-	
-	
-	for(var i = 0; i < arr.length; i++)
-	{
-		//arr[i].lotid = i+1;
-	}
-	
-	
-	return arr;
-}
-
 
 
 function infoListTexture()
@@ -729,7 +412,7 @@ function loadObjServer(cdm)
 			{ 
 				var obj = object.scene.children[0];
 				
-				var obj = addObjInBase({lotid: lotid, obj: obj});
+				var obj = addObjInBase({lotid: lotid, inf: inf, obj: obj});
 				
 				if(cdm.loadFromFile)	// загрузка из сохраненного файла json 
 				{
@@ -752,7 +435,7 @@ function loadObjServer(cdm)
 				
 				var obj = object.children[0];
 				
-				var obj = addObjInBase({lotid: lotid, obj: obj});
+				var obj = addObjInBase({lotid: lotid, inf: inf, obj: obj});
 				
 				if(cdm.loadFromFile)	// загрузка из сохраненного файла json 
 				{
@@ -812,13 +495,6 @@ function addObjInBase(cdm)
 	
 	
 	obj.geometry.computeBoundingBox();	
-
-	obj.userData.bound = JSON.parse( JSON.stringify(obj.geometry.boundingBox));
-	
-	var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
-	var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
-	
-	obj.userData.box = new THREE.Vector3(x, 1, z);
 	
 	var geometries = [];
 	
@@ -900,6 +576,7 @@ function addObjInScene(inf, cdm)
 	//if(cdm.rot){ obj.rotation.set(cdm.rot.x, cdm.rot.y, cdm.rot.z); }					
 	if(cdm.q){ obj.quaternion.set(cdm.q.x, cdm.q.y, cdm.q.z, cdm.q.w); }
 	
+
 	if(cdm.id){ obj.userData.id = cdm.id; }
 	else { obj.userData.id = countId; countId++; }
 	
@@ -909,6 +586,22 @@ function addObjInScene(inf, cdm)
 	obj.userData.obj3D.nameRus = inf.name;
 	obj.userData.obj3D.typeGroup = '';
 	obj.userData.obj3D.helper = null;
+	
+	obj.userData.obj3D.ur = {};
+	obj.userData.obj3D.ur.pos = new THREE.Vector3();
+	obj.userData.obj3D.ur.q = new THREE.Quaternion();
+	
+	if(!cdm.id){ obj.userData.obj3D.newO = true; }
+	
+	obj.geometry.computeBoundingBox();	
+	
+	// получаем начальные размеры объекта, что потом можно было масштабировать от начальных размеров
+	if(1==1)
+	{
+		var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
+		var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;	
+		obj.userData.obj3D.box = new THREE.Vector3(x, 1, z);
+	}	
 	
 
 	if(inf.type)

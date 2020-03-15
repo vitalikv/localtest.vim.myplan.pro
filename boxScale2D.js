@@ -240,8 +240,8 @@ function moveElementBoxScale2D(e)
 		
 		
 		var obj = clickO.last_obj;		
-		obj.scale.x = x/obj.userData.box.x;
-		obj.scale.z = z/obj.userData.box.z;		
+		obj.scale.x = x/obj.userData.obj3D.box.x;
+		obj.scale.z = z/obj.userData.obj3D.box.z;		
 	}
 	
 	

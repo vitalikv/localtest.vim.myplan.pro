@@ -139,6 +139,8 @@ function clickPivot( intersect )
 	}
 	
 	planeMath.position.copy( intersect.point );
+	
+	getInfoObj_UndoRedo({obj: pivot.userData.pivot.obj});
 } 
 
 
@@ -226,7 +228,9 @@ function setScalePivotGizmo()
 function clickMouseUpPivot(cdm)
 {	
 	if(clickO.actMove)
-	{		 
+	{	
+		getInfoEvent23({obj: infProject.tools.pivot.userData.pivot.obj, type: 'move'});
+		
 		updateCubeCam({obj: infProject.tools.pivot.userData.pivot.obj});	// CubeCamera (material Reflection)
 	}		
 }
