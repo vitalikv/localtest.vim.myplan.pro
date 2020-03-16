@@ -586,9 +586,9 @@ async function loadFilePL(arr)
 {     
 	resetScene();
 
-	getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
-	getListObjTypesApi();	// получаем в массив список объектов
-	
+	await getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
+	await getListObjTypesApi();		// получаем в массив список объектов
+	 
 	if(!arr) return;
 	
 	//console.log(arr);
@@ -775,7 +775,11 @@ async function loadFilePL(arr)
 // получаем типы помещений из api, добавляем в меню
 async function getListRoomTypesApi()
 {
-	var url = infProject.settings.api.type.room;
+	var url = infProject.settings.api.type.room; 
+	
+	
+	if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_room_zone.json'; }
+	
 
 	var response = await fetch(url, { method: 'GET' });
 	var json = await response.json();

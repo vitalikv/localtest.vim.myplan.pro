@@ -364,8 +364,6 @@ function changeTextureRoom_UI_1(cdm)
 // назначаем всем построеннным комнатам тип помещения
 function assignListRoomTypesApi(cdm)
 {
-	var json = infProject.settings.room.type;
-
 	var arr = cdm.arr;
 	var floor = infProject.scene.array.floor;
 	
@@ -405,9 +403,11 @@ function assignRoomType(cdm)
 	elem.style.display = 'none';
 	elem.userData.elem.show = false;
 	
+	
+	
 	if(!id) return;
 	if(!obj) return;
-	if(type.length == 0) return;
+	if(type.length == 0) return;	
 	
 	for(var i = 0; i < type.length; i++)
 	{ 
