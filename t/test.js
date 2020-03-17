@@ -2632,7 +2632,7 @@ function fname_s_067(cdm)
 	
 	clickO.elem = elem;
 	
-	var circle = infProject.svg.furn.boxCircle;
+	var circle = infProject.svg.furn.boxCircle.elem;
 	
 	
 	
@@ -2838,7 +2838,7 @@ function fname_s_068(e)
 	
 	
 	{
-		var circle = infProject.svg.furn.boxCircle;	
+		var circle = infProject.svg.furn.boxCircle.elem;	
 
 		var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 		var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
@@ -8597,11 +8597,11 @@ infProject.html.furn.size = fname_s_0325({count: 2, display: 'none', tag: 'elem_
 infProject.html.furn.offset = fname_s_0325({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	
-infProject.svg.furn.size = fname_s_0314({count: 2});
-infProject.svg.furn.offset = fname_s_0314({count: 4});
+infProject.svg.furn.size.elem = fname_s_0314({count: 2});
+infProject.svg.furn.offset.elem = fname_s_0314({count: 4});
 infProject.svg.furn.box2 = fname_s_0316({count: 1, color: 'rgb(176, 110, 12)', dasharray: true})[0];
 infProject.svg.furn.box1 = fname_s_0316({count: 1})[0];
-infProject.svg.furn.boxCircle = fname_s_0315({count: 8}); 
+infProject.svg.furn.boxCircle.elem = fname_s_0315({count: 8}); 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = fname_s_0203();
 
@@ -8739,7 +8739,7 @@ var offset = new THREE.Vector3();
 	
 	fname_s_0265();
 	
-	fname_s_0322({el: infProject.svg.furn.boxCircle}); 
+	fname_s_0322({el: infProject.svg.furn.boxCircle.elem}); 
 }
 
 
@@ -11078,9 +11078,9 @@ function fname_s_0252(cdm)
 		var sizeX = x1.distanceTo( x2 );
 		var sizeZ = z1.distanceTo( z2 );
 		
-		fname_s_0317({el: infProject.svg.furn.size[0], point: [x1, x2]});
-		fname_s_0317({el: infProject.svg.furn.size[1], point: [z1, z2]});
-		fname_s_0320(infProject.svg.furn.size);
+		fname_s_0317({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
+		fname_s_0317({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
+		fname_s_0320(infProject.svg.furn.size.elem);
 
 		var html = infProject.html.furn.size;
 		
@@ -11119,7 +11119,7 @@ function fname_s_0252(cdm)
 	
 	if(cdm.boxCircle)
 	{
-		var circle = infProject.svg.furn.boxCircle;
+		var circle = infProject.svg.furn.boxCircle.elem;
 		
 		
 		
@@ -11241,7 +11241,7 @@ function fname_s_0252(cdm)
 			var posLeft = new THREE.Vector3().subVectors( p1, p4 ).divideScalar( 2 ).add(p4);
 			var posRight = new THREE.Vector3().subVectors( p2, p3 ).divideScalar( 2 ).add(p3);
 			
-			var offsetLine = infProject.svg.furn.offset;
+			var offsetLine = infProject.svg.furn.offset.elem;
 			var offsetLabel = infProject.html.furn.offset;
 			
 			var contour = floor.userData.room.contour;
@@ -11350,7 +11350,7 @@ function fname_s_0252(cdm)
 		}
 		else
 		{
-			fname_s_0321(infProject.svg.furn.offset);
+			fname_s_0321(infProject.svg.furn.offset.elem);
 			fname_s_0324(infProject.html.furn.offset);
 		}
 		
@@ -11460,11 +11460,11 @@ function fname_s_0256(obj)
 	pivot.userData.pivot.obj = null;
 	gizmo.userData.gizmo.obj = null;
 
-	fname_s_0321(infProject.svg.furn.boxCircle);
+	fname_s_0321(infProject.svg.furn.boxCircle.elem);
 	fname_s_0321([infProject.svg.furn.box1]);
 	fname_s_0321([infProject.svg.furn.box2]);
-	fname_s_0321(infProject.svg.furn.size);
-	fname_s_0321(infProject.svg.furn.offset);
+	fname_s_0321(infProject.svg.furn.size.elem);
+	fname_s_0321(infProject.svg.furn.offset.elem);
 	
 	fname_s_0324(infProject.html.furn.size);
 	fname_s_0324(infProject.html.furn.offset);

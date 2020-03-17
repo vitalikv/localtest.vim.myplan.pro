@@ -136,7 +136,7 @@ function clickMouseUpObject(obj)
 			// svg линии
 			if(1==1)
 			{
-				var circle = infProject.svg.furn.boxCircle;	
+				var circle = infProject.svg.furn.boxCircle.elem;	
 
 				for ( var i = 0; i < circle.length; i++ )
 				{
@@ -198,8 +198,8 @@ function clickMouseUpObject(obj)
 
 
 				// offsetLine
-				upSvgLinePosScene({el: infProject.svg.furn.offset});
-				upSvgLinePosScene({el: infProject.svg.furn.size});
+				upSvgLinePosScene({el: infProject.svg.furn.offset.elem});
+				upSvgLinePosScene({el: infProject.svg.furn.size.elem});
 			}
 		}
 	}	
@@ -274,11 +274,11 @@ function hidePivotGizmo(obj)
 	pivot.userData.pivot.obj = null;
 	gizmo.userData.gizmo.obj = null;
 
-	hideElementSvg(infProject.svg.furn.boxCircle);
+	hideElementSvg(infProject.svg.furn.boxCircle.elem);
 	hideElementSvg([infProject.svg.furn.box1]);
 	hideElementSvg([infProject.svg.furn.box2]);
-	hideElementSvg(infProject.svg.furn.size);
-	hideElementSvg(infProject.svg.furn.offset);
+	hideElementSvg(infProject.svg.furn.size.elem);
+	hideElementSvg(infProject.svg.furn.offset.elem);
 	
 	hideElementHtml(infProject.html.furn.size);
 	hideElementHtml(infProject.html.furn.offset);

@@ -165,11 +165,17 @@ infProject.html.furn.size = createHtmlLabelWall({count: 2, display: 'none', tag:
 infProject.html.furn.offset = createHtmlLabelWall({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	// хранятся все svg
-infProject.svg.furn.size = createSvgLine({count: 2});
-infProject.svg.furn.offset = createSvgLine({count: 4});
+infProject.svg.furn.size = {};
+infProject.svg.furn.size.elem = createSvgLine({count: 2});
+infProject.svg.furn.size.show = infProject.settings.obj.cam2D.show.size;
+infProject.svg.furn.offset = {};
+infProject.svg.furn.offset.elem = createSvgLine({count: 4});
+infProject.svg.furn.offset.show = infProject.settings.obj.cam2D.show.offset;
 infProject.svg.furn.box2 = createSvgPath({count: 1, color: 'rgb(176, 110, 12)', dasharray: true})[0];
 infProject.svg.furn.box1 = createSvgPath({count: 1})[0];
-infProject.svg.furn.boxCircle = createSvgCircle({count: 8}); 
+infProject.svg.furn.boxCircle = {};
+infProject.svg.furn.boxCircle.elem = createSvgCircle({count: 8});
+infProject.svg.furn.boxCircle.show = infProject.settings.obj.cam2D.show.scale; 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = createCenterCamObj();
 // controllWD контроллеры для изменения ширины/длины wd
@@ -320,7 +326,7 @@ var offset = new THREE.Vector3();
 
 	//getAutoBuildingJson();
 	
-	assignEventSvgScaleSizeObj({el: infProject.svg.furn.boxCircle}); 
+	assignEventSvgScaleSizeObj({el: infProject.svg.furn.boxCircle.elem}); 
 }
 
 //----------- start

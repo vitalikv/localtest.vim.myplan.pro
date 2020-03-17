@@ -64,6 +64,9 @@ $infProject['settings']['wall']['color']['front'] = 0xada186;
 $infProject['settings']['svg']['tag'] = 'http://www.w3.org/2000/svg';
 $infProject['settings']['obj']['material']['texture'] = '';
 $infProject['settings']['obj']['material']['color'] = 0xebebeb;
+$infProject['settings']['obj']['cam2D']['show']['size'] = true;
+$infProject['settings']['obj']['cam2D']['show']['offset'] = true;
+$infProject['settings']['obj']['cam2D']['show']['scale'] = true;
 
 $jsonPhp = json_encode($infProject);
 

@@ -11,9 +11,9 @@ function clickElementBoxScale(cdm)
 	
 	clickO.elem = elem;
 	
-	var circle = infProject.svg.furn.boxCircle;
+	var circle = infProject.svg.furn.boxCircle.elem;
 	
-	// infProject.svg.furn.boxCircle раположение точек масштаба на экране
+	// infProject.svg.furn.boxCircle.elem раположение точек масштаба на экране
 	// 0 top-left
 	// 1 top-center
 	// 2 top-right
@@ -216,7 +216,7 @@ function moveElementBoxScale2D(e)
 	
 	// меняем масштаб объекта
 	{
-		var circle = infProject.svg.furn.boxCircle;	
+		var circle = infProject.svg.furn.boxCircle.elem;	
 
 		var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 		var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
@@ -291,10 +291,6 @@ function showSvgSizeObj(cdm)
 	var obj = cdm.obj;
 		
 	
-	
-
-		
-	
 	if(cdm.resetPos)
 	{
 		infProject.calc.boxScale2D.pos2D = null;
@@ -323,13 +319,17 @@ function showSvgSizeObj(cdm)
 		var sizeX = x1.distanceTo( x2 );
 		var sizeZ = z1.distanceTo( z2 );
 		
-		updateSvgLine({el: infProject.svg.furn.size[0], point: [x1, x2]});
-		updateSvgLine({el: infProject.svg.furn.size[1], point: [z1, z2]});
-		showElementSvg(infProject.svg.furn.size);
+		updateSvgLine({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
+		updateSvgLine({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
+		
 
 		var html = infProject.html.furn.size;
 		
-		showElementHtml(html);
+		if(infProject.svg.furn.size.show)
+		{
+			showElementHtml(html);
+			showElementSvg(infProject.svg.furn.size.elem);
+		}
 		
 		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
 		html[0].userData.elem.pos = posLabel;	
@@ -364,7 +364,7 @@ function showSvgSizeObj(cdm)
 	// точки масштабирования 
 	if(cdm.boxCircle)
 	{
-		var circle = infProject.svg.furn.boxCircle;
+		var circle = infProject.svg.furn.boxCircle.elem;
 		
 		// circle[0] top-left
 		// circle[1] top-center
@@ -393,7 +393,7 @@ function showSvgSizeObj(cdm)
 		// right center
 		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
 		
-		showElementSvg(circle);		
+		if(infProject.svg.furn.boxCircle.show) { showElementSvg(circle); }		
 	}	
 
 
@@ -465,7 +465,7 @@ function showSvgSizeObj(cdm)
 			var posLeft = new THREE.Vector3().subVectors( p1, p4 ).divideScalar( 2 ).add(p4);
 			var posRight = new THREE.Vector3().subVectors( p2, p3 ).divideScalar( 2 ).add(p3);
 			
-			var offsetLine = infProject.svg.furn.offset;
+			var offsetLine = infProject.svg.furn.offset.elem;
 			var offsetLabel = infProject.html.furn.offset;
 			
 			var contour = floor.userData.room.contour;
@@ -591,9 +591,13 @@ function showSvgSizeObj(cdm)
 				{
 					
 					updateSvgLine({el: line, point: [posStart, pos2]});
-					showElementSvg([line]);
 					
-					showElementHtml([html]);
+					if(infProject.svg.furn.offset.show)
+					{
+						showElementSvg([line]);					
+						showElementHtml([html]);
+					}
+					
 					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
 					html.userData.elem.pos = posLabel;					
 					
@@ -639,7 +643,7 @@ function showSvgSizeObj(cdm)
 					var x1 = 0;
 					var y1 = 0;
 					
-					var offsetLine = infProject.svg.furn.offset;
+					var offsetLine = infProject.svg.furn.offset.elem;
 		
 					if(num==0 || num==1) 
 					{
@@ -668,7 +672,7 @@ function showSvgSizeObj(cdm)
 						offsetLine[3].x1.baseVal.value += x1;
 					}
 					
-					var lineSize = infProject.svg.furn.size;
+					var lineSize = infProject.svg.furn.size.elem;
 					lineSize[0].x1.baseVal.value += x1;
 					lineSize[0].y1.baseVal.value += y1;					
 					lineSize[0].x2.baseVal.value += x1;
@@ -679,7 +683,7 @@ function showSvgSizeObj(cdm)
 					lineSize[1].x2.baseVal.value += x1;
 					lineSize[1].y2.baseVal.value += y1;					
 						
-					var circle = infProject.svg.furn.boxCircle;
+					var circle = infProject.svg.furn.boxCircle.elem;
 					
 					for ( var i = 0; i < circle.length; i++ )
 					{
@@ -724,9 +728,9 @@ function showSvgSizeObj(cdm)
 				
 				// sizeLabel
 				{
-					upSvgLinePosScene({el: infProject.svg.furn.size});
+					upSvgLinePosScene({el: infProject.svg.furn.size.elem});
 					
-					var sizeLine = infProject.svg.furn.size;
+					var sizeLine = infProject.svg.furn.size.elem;
 					var sizeLabel = infProject.html.furn.size;					
 					
 					for ( var i = 0; i < sizeLabel.length; i++ )
@@ -752,9 +756,9 @@ function showSvgSizeObj(cdm)
 				
 				// offsetLabel
 				{
-					upSvgLinePosScene({el: infProject.svg.furn.offset});
+					upSvgLinePosScene({el: infProject.svg.furn.offset.elem});
 					
-					var offsetLine = infProject.svg.furn.offset;
+					var offsetLine = infProject.svg.furn.offset.elem;
 					var offsetLabel = infProject.html.furn.offset;
 					
 					for ( var i = 0; i < offsetLabel.length; i++ )
@@ -779,7 +783,7 @@ function showSvgSizeObj(cdm)
 				
 				// смещение 3D объекта
 				{
-					var circle = infProject.svg.furn.boxCircle;	
+					var circle = infProject.svg.furn.boxCircle.elem;	
 
 					var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 					var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
@@ -806,7 +810,7 @@ function showSvgSizeObj(cdm)
 		}
 		else
 		{
-			hideElementSvg(infProject.svg.furn.offset);
+			hideElementSvg(infProject.svg.furn.offset.elem);
 			hideElementHtml(infProject.html.furn.offset);
 		}
 		
@@ -837,7 +841,7 @@ function offsetSvgSizeObj(cdm)
 		
 		//console.log(x1, y1);
 		
-		var offsetLine = infProject.svg.furn.offset;
+		var offsetLine = infProject.svg.furn.offset.elem;
 
 		for ( var i = 0; i < offsetLine.length; i++ )
 		{
@@ -848,7 +852,7 @@ function offsetSvgSizeObj(cdm)
 		}
 
 		
-		var lineSize = infProject.svg.furn.size;
+		var lineSize = infProject.svg.furn.size.elem;
 		
 		for ( var i = 0; i < lineSize.length; i++ )
 		{
@@ -858,7 +862,7 @@ function offsetSvgSizeObj(cdm)
 			lineSize[i].y2.baseVal.value += y1;				
 		}							
 			
-		var circle = infProject.svg.furn.boxCircle;
+		var circle = infProject.svg.furn.boxCircle.elem;
 		
 		for ( var i = 0; i < circle.length; i++ )
 		{
