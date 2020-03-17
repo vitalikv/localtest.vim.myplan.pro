@@ -286,7 +286,7 @@ function clickUpElementBoxScale()
 // кликнули на объект, показываем размеры объекта
 function showSvgSizeObj(cdm)
 {
-	if(camera != cameraTop) return;
+	//if(camera != cameraTop) return;
 	
 	var obj = cdm.obj;
 		
@@ -634,7 +634,14 @@ function showSvgSizeObj(cdm)
 		console.log(x - x2, y - y2);		
 	}
 
-	
+
+					var circle = infProject.svg.furn.boxCircle.elem;
+					var x = ( ( circle[0].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[0].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var dirOff = new THREE.Vector3(x, y, -1);
+					dirOff.unproject(camera);
+					
+					
 				for ( var j = 0; j < arrN.length; j++ )
 				{
 					var num = arrN[j]; 
@@ -692,6 +699,12 @@ function showSvgSizeObj(cdm)
 					}
 					
 					
+					var x = ( ( circle[0].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[0].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var B = new THREE.Vector3(x, y, -1);
+					B.unproject(camera);
+ 
+										
 					
 					var box1 = infProject.svg.furn.box1;
 					
@@ -783,27 +796,18 @@ function showSvgSizeObj(cdm)
 				
 				// смещение 3D объекта
 				{
-					var circle = infProject.svg.furn.boxCircle.elem;	
-
-					var x = ( ( circle[2].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[2].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var A = new THREE.Vector3(x, y, -1);
+					var posCenter = B.sub(dirOff);
 					
-					var x = ( ( circle[3].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[3].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var B = new THREE.Vector3(x, y, -1);
-								
-					A.unproject(camera);
-					B.unproject(camera);
-
-					var posCenter = new THREE.Vector3().subVectors( B, A ).divideScalar( 2 ).add(A);
+					//console.log(posCenter);
 					
-					obj.position.x = posCenter.x;
-					obj.position.z = posCenter.z;
+					obj.position.x += posCenter.x;
+					obj.position.z += posCenter.z;
 		
-					
-					infProject.tools.gizmo.position.x = posCenter.x;
-					infProject.tools.gizmo.position.z = posCenter.z;
+
+					infProject.tools.pivot.position.x += posCenter.x;
+					infProject.tools.pivot.position.z += posCenter.z;					
+					infProject.tools.gizmo.position.x += posCenter.x;
+					infProject.tools.gizmo.position.z += posCenter.z;
 				}
 				
 			}							
