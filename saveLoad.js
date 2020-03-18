@@ -150,9 +150,6 @@ function resetScene()
 	
 	
 	
-	//disposeHierchy(scene, disposeNode);
-	
-	
 	obj_point = [];
 	room = [];
 	ceiling = [];
@@ -208,70 +205,48 @@ function getConsoleRendererInfo()
 
 
 // удалем из GPU объекты
-function disposeHierchy(node, callback) 
+function disposeHierchy(cdm) 
 {
-	for (var i = node.children.length - 1; i >= 0; i--) 
+	var obj = cdm.obj;	
+	
+	obj.traverse(function(child) 
 	{
-		if(node.children[i].userData.tag)
-		{
-			var tag = node.children[i].userData.tag;
-			
-			if(tag == 'point' || tag == 'wall' || tag == 'window' || tag == 'door' || tag == 'room' || tag == 'ceiling' || tag == 'obj')
-			{
-				var child = node.children[i];
-
-				disposeHierchy(child, callback);
-				callback(child);			
-			}			
-		}			
-	}
+		disposeNode(child);
+	});	
 }
+
 
 
 function disposeNode(node) 
 {
-        if (node instanceof THREE.Mesh || node instanceof THREE.Line) 
+	if (node instanceof THREE.Mesh || node instanceof THREE.Line) 
+	{
+		if (node.geometry) { node.geometry.dispose(); }
+		
+		if (node.material) 
 		{
-            if (node.geometry) { node.geometry.dispose(); }
+			var materialArray = [];
 			
-            if (node.material) 
+			if(node.material instanceof Array) { materialArray = node.material; }
+			else { materialArray = [node.material]; }
+			
+			if(materialArray) 
 			{
-                var materialArray;
-                if (node.material instanceof THREE.MeshFaceMaterial || node.material instanceof THREE.MultiMaterial) 
+				materialArray.forEach(function (mtrl, idx) 
 				{
-                    materialArray = node.material.materials;
-                }
-                else if(node.material instanceof Array) 
-				{
-                    materialArray = node.material;
-                }
-                
-				if(materialArray) 
-				{
-                    materialArray.forEach(function (mtrl, idx) 
-					{
-                        if (mtrl.map) mtrl.map.dispose();
-                        if (mtrl.lightMap) mtrl.lightMap.dispose();
-                        if (mtrl.bumpMap) mtrl.bumpMap.dispose();
-                        if (mtrl.normalMap) mtrl.normalMap.dispose();
-                        if (mtrl.specularMap) mtrl.specularMap.dispose();
-                        if (mtrl.envMap) mtrl.envMap.dispose();
-                        mtrl.dispose();
-                    });
-                }
-                else 
-				{
-                    if (node.material.map) node.material.map.dispose();
-                    if (node.material.lightMap) node.material.lightMap.dispose();
-                    if (node.material.bumpMap) node.material.bumpMap.dispose();
-                    if (node.material.normalMap) node.material.normalMap.dispose();
-                    if (node.material.specularMap) node.material.specularMap.dispose();
-                    if (node.material.envMap) node.material.envMap.dispose();
-                    node.material.dispose();
-                }
-            }
-        }
+					if (mtrl.map) mtrl.map.dispose();
+					if (mtrl.lightMap) mtrl.lightMap.dispose();
+					if (mtrl.bumpMap) mtrl.bumpMap.dispose();
+					if (mtrl.normalMap) mtrl.normalMap.dispose();
+					if (mtrl.specularMap) mtrl.specularMap.dispose();
+					if (mtrl.envMap) mtrl.envMap.dispose();
+					mtrl.dispose();
+				});
+			}
+		}
+	}
 }
+
 
 
 
@@ -857,7 +832,14 @@ function loadObjInBase(cdm)
 	
 	for ( var i = 0; i < lotid.length; i++ )
 	{
-		loadObjServer({lotid: lotid[i], loadFromFile: true, furn: furn});
+		for ( var i2 = 0; i2 < furn.length; i2++ )
+		{
+			if(lotid[i] != furn[i2].lotid) continue;
+			 
+			loadObjServer({lotid: furn[i2].lotid, pos: furn[i2].pos, q: furn[i2].q, loadFromFile: true, furn: furn});
+			
+			break;
+		}
 	}	
 }
 

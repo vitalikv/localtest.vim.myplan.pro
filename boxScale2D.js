@@ -325,7 +325,7 @@ function showSvgSizeObj(cdm)
 
 		var html = infProject.html.furn.size;
 		
-		if(infProject.svg.furn.size.show)
+		if(infProject.svg.furn.size.show && camera == cameraTop)
 		{
 			showElementHtml(html);
 			showElementSvg(infProject.svg.furn.size.elem);
@@ -356,7 +356,8 @@ function showSvgSizeObj(cdm)
 		var box1 = infProject.svg.furn.box1;
 		
 		updateSvgPath({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
-		showElementSvg([box1]);	
+		
+		if(camera == cameraTop) { showElementSvg([box1]); }			
 	}
 	
 	
@@ -393,7 +394,7 @@ function showSvgSizeObj(cdm)
 		// right center
 		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
 		
-		if(infProject.svg.furn.boxCircle.show) { showElementSvg(circle); }		
+		if(infProject.svg.furn.boxCircle.show && camera == cameraTop) { showElementSvg(circle); }		
 	}	
 
 
@@ -420,7 +421,8 @@ function showSvgSizeObj(cdm)
 		
 		
 		updateSvgPath({el: box2, arrP: [p1, p2, p3, p4, p1]});
-		showElementSvg([box2]);		
+		
+		if(camera == cameraTop) { showElementSvg([box2]); }		
 	}
 	
 	
@@ -476,6 +478,8 @@ function showSvgSizeObj(cdm)
 			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1), html: offsetLabel[1]};
 			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0), html: offsetLabel[2]};
 			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0), html: offsetLabel[3]};
+			
+			var pos3 = new THREE.Vector3();
 			
 			for ( var n = 0; n < arr.length; n++ )
 			{
@@ -592,7 +596,7 @@ function showSvgSizeObj(cdm)
 					
 					updateSvgLine({el: line, point: [posStart, pos2]});
 					
-					if(infProject.svg.furn.offset.show)
+					if(infProject.svg.furn.offset.show && camera == cameraTop)
 					{
 						showElementSvg([line]);					
 						showElementHtml([html]);
@@ -610,7 +614,8 @@ function showSvgSizeObj(cdm)
 					
 					// приклеивание к стенам/объектам
 					if(dist < 0.1)
-					{  
+					{   
+						pos3.add(pos2.clone().sub(posStart));
 						arrN[arrN.length] = n;						
 					}
 					
@@ -620,27 +625,6 @@ function showSvgSizeObj(cdm)
 			// произошло смщение 
 			if(arrN.length > 0)
 			{ 
-	
-	if(1==2)
-	{
-		var tempV = new THREE.Vector3(0.1, 0, 0).project(camera);
-		var x = (tempV.x *  .5 + .5) * canvas.clientWidth;
-		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
-		
-		var tempV2 = new THREE.Vector3(0.0, 0, 0).project(camera);
-		var x2 = (tempV2.x *  .5 + .5) * canvas.clientWidth;
-		var y2 = (tempV2.y * -.5 + .5) * canvas.clientHeight;
-		
-		console.log(x - x2, y - y2);		
-	}
-
-
-					var circle = infProject.svg.furn.boxCircle.elem;
-					var x = ( ( circle[0].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[0].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var dirOff = new THREE.Vector3(x, y, -1);
-					dirOff.unproject(camera);
-					
 					
 				for ( var j = 0; j < arrN.length; j++ )
 				{
@@ -696,15 +680,7 @@ function showSvgSizeObj(cdm)
 					{
 						circle[i].cx.baseVal.value += x1;
 						circle[i].cy.baseVal.value += y1;
-					}
-					
-					
-					var x = ( ( circle[0].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
-					var y = - ( ( circle[0].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
-					var B = new THREE.Vector3(x, y, -1);
-					B.unproject(camera);
- 
-										
+					}					
 					
 					var box1 = infProject.svg.furn.box1;
 					
@@ -796,18 +772,16 @@ function showSvgSizeObj(cdm)
 				
 				// смещение 3D объекта
 				{
-					var posCenter = B.sub(dirOff);
-					
 					//console.log(posCenter);
 					
-					obj.position.x += posCenter.x;
-					obj.position.z += posCenter.z;
+					obj.position.x += pos3.x;
+					obj.position.z += pos3.z;
 		
 
-					infProject.tools.pivot.position.x += posCenter.x;
-					infProject.tools.pivot.position.z += posCenter.z;					
-					infProject.tools.gizmo.position.x += posCenter.x;
-					infProject.tools.gizmo.position.z += posCenter.z;
+					infProject.tools.pivot.position.x += pos3.x;
+					infProject.tools.pivot.position.z += pos3.z;					
+					infProject.tools.gizmo.position.x += pos3.x;
+					infProject.tools.gizmo.position.z += pos3.z;
 				}
 				
 			}							

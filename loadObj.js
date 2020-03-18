@@ -7,18 +7,20 @@ async function getListObjTypesApi()
 	
 	var arr = [];
 
-	if(window.location.hostname == 'localtest.vim.myplan.pro'){}
-	else if(window.location.hostname == 'remstok'){}
-	else 
-	{
-		var response = await fetch(url, { method: 'GET' });
-		var json = await response.json();
+	if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_model.json'; }
+	
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var url_2 = infProject.settings.api.models+json[i].model;
 		
-		for(var i = 0; i < json.length; i++)
-		{
-			arr[i] = { lotid: json[i].id, name: json[i].title, url: infProject.settings.api.models+json[i].model, planeMath : 0.0, glb : true, };		
-		}		
-	}
+		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
+		
+		arr[i] = { lotid: json[i].id, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
+	}		
+
 	
 	
 	// wd -->
@@ -396,15 +398,17 @@ function loadObjServer(cdm)
 	
 	if(cdm.loadFromFile){ obj = null; }
 	
-	if(obj)
+	if(obj)		// объект есть в кэше
 	{ 
 		inf.obj = obj.clone();
 		console.log('---------');
 		if(obj) { addObjInScene(inf, cdm); }
 	}
-	else
+	else		// объекта нет в кэше
 	{
-	
+		
+		createSpotObj(inf, cdm);
+		
 		if(inf.glb)
 		{ 
 			var loader = new THREE.GLTFLoader();
@@ -550,6 +554,64 @@ function addObjInBase(cdm)
 }
 
 
+function createSpotObj(inf, cdm)
+{
+	if(!inf.spot) return;
+	if(!inf.spot.coordinates) return;
+	
+	var v = inf.spot.coordinates[0];
+	var height = (inf.height) ? inf.height : 0.1;
+	
+	var point = [];
+	for ( var i = 0; i < v.length - 1; i++ ) 
+	{  
+		point[i] = new THREE.Vector2 ( v[i][0], v[i][1] );		
+	}	 	
+	
+	var geometry = new THREE.ExtrudeGeometry( new THREE.Shape(point), { bevelEnabled: false, depth: height } );
+	geometry.rotateX(-Math.PI / 2);
+	geometry.rotateY(Math.PI);
+	var material = new THREE.MeshPhongMaterial( { color: 0xe3e3e5, transparent: true, opacity: 0.8 } );
+	
+	
+	var obj = new THREE.Mesh( geometry, material ); 
+	
+	console.trace();
+	console.log(88888, cdm, inf);
+	scene.add(obj);
+	
+	obj.userData.tag = 'obj_spot';
+	
+	
+	obj.updateMatrixWorld();
+	obj.geometry.computeBoundingBox();
+	var bound = obj.geometry.boundingBox;
+	
+	var posC = new THREE.Vector3((bound.max.x - bound.min.x)/2 + bound.min.x, 0, (bound.max.z - bound.min.z)/2 + bound.min.z);
+	
+	var posC = obj.localToWorld( posC.clone() );
+	posC.y = 0;	
+	
+	if(cdm.pos) { obj.position.copy(new THREE.Vector3(cdm.pos.x, cdm.pos.y, cdm.pos.z).sub(posC)); } 
+	if(cdm.q) { obj.quaternion.copy(cdm.q); }
+	
+	if(cdm.cursor) { clickO.move = obj; }
+}
+
+
+
+// удаление пятно объекта
+function deleteSpotObj(cdm)
+{ 
+	var obj = cdm.obj;	
+	
+	if(!obj) return;
+	if(obj.userData.tag != 'obj_spot') return;
+	
+	disposeNode(obj);
+	scene.remove(obj); 
+}
+
 
 
 // добавляем объект в сцену
@@ -564,7 +626,10 @@ function addObjInScene(inf, cdm)
 	
 	var obj = inf.obj;
 	
-	if(cdm.pos){ obj.position.copy(cdm.pos); }
+var cube = new THREE.Mesh( createGeometryCube(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
+scene.add( cube ); 
+	
+	if(cdm.pos){ obj.position.copy(cdm.pos); cube.position.copy(cdm.pos);}
 	else if(inf.planeMath)
 	{ 
 		obj.position.y = inf.planeMath;
@@ -572,6 +637,14 @@ function addObjInScene(inf, cdm)
 		planeMath.rotation.set(-Math.PI/2, 0, 0);
 		planeMath.updateMatrixWorld(); 
 	}
+	
+var cube = new THREE.Mesh( createGeometryCube(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
+scene.add( cube ); 	
+	obj.updateMatrixWorld();
+	obj.geometry.computeBoundingSphere();
+	var posC = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );	
+	cube.position.set(posC.x, obj.position.y, posC.z);
+	
 	
 	//if(cdm.rot){ obj.rotation.set(cdm.rot.x, cdm.rot.y, cdm.rot.z); }					
 	if(cdm.q){ obj.quaternion.set(cdm.q.x, cdm.q.y, cdm.q.z, cdm.q.w); }
@@ -629,7 +702,7 @@ function addObjInScene(inf, cdm)
 	 
 	updateListTubeUI_1({o: obj, type: 'add'});	// добавляем объект в UI список материалов 
 	
-	if(cdm.cursor) { clickO.move = obj; } 
+	if(cdm.cursor) { deleteSpotObj({obj: clickO.move}); clickO.move = obj; } 
 	
 	renderCamera();
 }
