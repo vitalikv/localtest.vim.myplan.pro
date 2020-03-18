@@ -21,7 +21,7 @@ var resetPop =
 	
 	infProjectSceneArray : function()
 	{
-		var array = { point : obj_point, wall : [], window : [], door : [], floor : room, ceiling : ceiling, obj : [] };
+		var array = { point: obj_point, wall: [], window: [], door: [], floor: room, ceiling: ceiling, obj: [], objSpot: [] };
 		array.cubeCam = [];
 		array.lineGrid = { limit : false };
 		array.base = (infProject.start)? infProject.scene.array.base : [];	// массив клонируемых объектов
@@ -825,21 +825,19 @@ function loadObjInBase(cdm)
 	
 	for ( var i = 0; i < furn.length; i++ )
 	{
-		lotid[lotid.length] = Number(furn[i].lotid); 
+		lotid[lotid.length] = Number(furn[i].lotid);
+
+		var inf = getInfoObj({lotid: furn[i].lotid}); 
+		if(!inf) continue;	// объект не существует в API
+
+		createSpotObj(inf, furn[i]);
 	}
 	
 	lotid = [...new Set(lotid)];  
 	
 	for ( var i = 0; i < lotid.length; i++ )
 	{
-		for ( var i2 = 0; i2 < furn.length; i2++ )
-		{
-			if(lotid[i] != furn[i2].lotid) continue;
-			 
-			loadObjServer({lotid: furn[i2].lotid, pos: furn[i2].pos, q: furn[i2].q, loadFromFile: true, furn: furn});
-			
-			break;
-		}
+		loadObjServer({lotid: lotid[i], loadFromFile: true, furn: furn});
 	}	
 }
 
