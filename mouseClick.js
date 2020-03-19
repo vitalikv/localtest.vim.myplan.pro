@@ -305,6 +305,7 @@ function onDocumentMouseMove( event )
 		else if ( camera == cameraWall ) { moveCameraWall2D( event ); }
 	}
 	
+	activeHover2D( event );
 
 	renderCamera();
 }

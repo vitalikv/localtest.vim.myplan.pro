@@ -166,15 +166,15 @@ infProject.html.furn.offset = createHtmlLabelWall({count: 4, display: 'none', ta
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	// хранятся все svg
 infProject.svg.furn.size = {};
-infProject.svg.furn.size.elem = createSvgLine({count: 2});
+infProject.svg.furn.size.elem = createSvgLine({count: 2, color: infProject.settings.svg.scaleBox.color});
 infProject.svg.furn.size.show = infProject.settings.obj.cam2D.show.size;
 infProject.svg.furn.offset = {};
-infProject.svg.furn.offset.elem = createSvgLine({count: 4});
+infProject.svg.furn.offset.elem = createSvgLine({count: 4, color: infProject.settings.svg.scaleBox.color});
 infProject.svg.furn.offset.show = infProject.settings.obj.cam2D.show.offset;
-infProject.svg.furn.box2 = createSvgPath({count: 1, color: 'rgb(176, 110, 12)', dasharray: true})[0];
-infProject.svg.furn.box1 = createSvgPath({count: 1})[0];
+infProject.svg.furn.box2 = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, dasharray: true})[0];
+infProject.svg.furn.box1 = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
 infProject.svg.furn.boxCircle = {};
-infProject.svg.furn.boxCircle.elem = createSvgCircle({count: 8});
+infProject.svg.furn.boxCircle.elem = createSvgCircle({count: 8, color: infProject.settings.svg.scaleBox.color});
 infProject.svg.furn.boxCircle.show = infProject.settings.obj.cam2D.show.scale; 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = createCenterCamObj();
@@ -1127,7 +1127,7 @@ function createToolPoint()
 	
 	var geometry = new THREE.SphereGeometry( 0.1, 16, 16 );
 	
-	var obj = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color : 0xcccccc, transparent: true, opacity: 1.0, depthTest: false, lightMap : lightMap_1 } ) );
+	var obj = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color : 0xcccccc, transparent: true, opacity: 0.5, depthTest: false } ) );
 	obj.userData.tag = 'tool_point';
 	obj.userData.tool_point = {};
 	obj.renderOrder = 1;
@@ -1277,6 +1277,7 @@ function crtW( cdm )
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
 	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
+	//infProject.settings.html.fonts.wall.show
 	wall.userData.wall.svg = {};
 	wall.userData.wall.svg.lineW = null;
 	//wall.userData.wall.svg.lineW = [createSvgLine({count: 1})[0], createSvgLine({count: 1, color: '#00ff00'})[0]];

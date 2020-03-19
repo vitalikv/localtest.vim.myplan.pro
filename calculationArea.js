@@ -66,8 +66,8 @@ function upLabelPlan_1(arrWall, Zoom)
 			var d1 = Math.abs( v[6].x - v[0].x );		
 			var d2 = Math.abs( v[10].x - v[4].x );
 
-			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
-			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';			
+			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100;
+			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100;			
 		}		
 		 
 		var dir = new THREE.Vector3().subVectors( p2, p1 );
