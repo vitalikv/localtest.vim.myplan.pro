@@ -1,7 +1,7 @@
 
 
 // подсчитываем площадь стены
-function calculationSpaceWall( wall, index )
+function calculationSpaceWall( wall, index ) 
 {
 	wall.updateMatrixWorld();
 	
@@ -161,9 +161,9 @@ function getYardageSpace( room )
 		
 		if(infProject.settings.floor.areaPoint == 'inside')
 		{
-			for (i = 0; i < n; i++) { arrW[i].updateMatrixWorld(); }
+			for (var i = 0; i < n; i++) { arrW[i].updateMatrixWorld(); }
 			
-			for (i = 0; i < n; i++) 
+			for (var i = 0; i < n; i++) 
 			{
 				var ch = (arrS[i] == 0) ? 4 : 6;				
 				var p1 = arrW[i].localToWorld( arrW[i].userData.wall.v[ ch ].clone() );						
