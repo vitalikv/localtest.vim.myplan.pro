@@ -32,7 +32,9 @@ $('[add_lotid]').mousedown(function () { clickInterface({button: 'add_lotid', va
 $('[data-action="screenshot"]').mousedown(function () { saveAsImage(); return false; }); 				
 
 
-
+$('[nameId="zoom_camera_butt_m"]').mousedown(function () { zoomLoop = 'zoomOut'; });
+$('[nameId="zoom_camera_butt_p"]').mousedown(function () { zoomLoop = 'zoomIn'; });
+$(window).mouseup(function () { zoomLoop = ''; });
 
 
 $('[data-action="deleteObj"]').mousedown(function () { detectDeleteObj(); return false; });
