@@ -75,3 +75,22 @@
 
 
 
+
+<div style="position: absolute; width: 100%; bottom: 110px; z-index: 2;" nameId="menu_loader_slider_UI">		
+	
+	<div style="width: 260px; height: 60px; margin: auto; padding-bottom: 30px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.5);">
+	
+		<div style="padding: 15px 0 0 0; font-size: 18px; text-align: center; color: #666;">
+			Загрузка объектов
+		</div>
+		
+		<div style="padding: 15px 0; font-size: 16px; text-align: center; color: #666;" nameId="txt_loader_slider_UI">
+			0%
+		</div>
+		
+	</div>
+	
+</div>
+
+	
+

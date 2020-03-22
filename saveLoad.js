@@ -855,9 +855,14 @@ function loadObjFromBase(cdm)
 
 			infProject.project.load.furn[infProject.project.load.furn.length] = furn[i].id;
 			
+			console.log(infProject.project.load.furn.length, infProject.project.file.object.length);
+			
+			$('[nameId="txt_loader_slider_UI"]').text(((infProject.project.load.furn.length/infProject.project.file.object.length)*100) + '%');
+			
 			if(infProject.project.load.furn.length == infProject.project.file.object.length)
 			{ 
 				readyProject();
+				$('[nameId="menu_loader_slider_UI"]').hide();
 			}
 		}
 	}	
@@ -878,7 +883,7 @@ function readyProject(cdm)
 		} 
 	}	
 	countId++; 
-	// восстанавливаем countId	
+	// восстанавливаем countId		
 	
 	console.log('READY', countId);
 	
