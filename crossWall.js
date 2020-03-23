@@ -157,12 +157,12 @@ function spPoint(A,B,C){
 // опредяляем, надодится точка D за пределами прямой или нет (точка D пересекает прямую АВ, идущая перпендикулярна от точки С)  
 function calScal(A,B,C)
 {	
-	var AB = { x : B.x - A.x, y : B.z - A.z }
-	var CD = { x : C.x - A.x, y : C.z - A.z }
+	var AB = { x : B.x - A.x, y : B.z - A.z };
+	var CD = { x : C.x - A.x, y : C.z - A.z };
 	var r1 = AB.x * CD.x + AB.y * CD.y;				// скалярное произведение векторов
 
-	var AB = { x : A.x - B.x, y : A.z - B.z }
-	var CD = { x : C.x - B.x, y : C.z - B.z }
+	var AB = { x : A.x - B.x, y : A.z - B.z };
+	var CD = { x : C.x - B.x, y : C.z - B.z };
 	var r2 = AB.x * CD.x + AB.y * CD.y;
 
 	var cross = (r1 < 0 | r2 < 0) ? false : true;	// если true , то точка D находится на отрезке AB	

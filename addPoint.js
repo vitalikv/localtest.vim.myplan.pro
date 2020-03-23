@@ -16,7 +16,7 @@ function rayFurniture( obj )
 	
 	var intersects = ray.intersectObjects( room, true );	
 	
-	var floor = (intersects.length == 0) ? null : intersects[0].object				
+	var floor = (intersects.length == 0) ? null : intersects[0].object;				
 	
 	return { id : (floor) ? floor.userData.id : 0, obj : floor };
 }
@@ -144,7 +144,7 @@ function addPoint_1( wall, point )
 	  
 	point.userData.point.last.cdm = 'add_point';
 	
-	var walls = splitWalls( wall, point )	
+	var walls = splitWalls( wall, point );	
 
 	point.userData.point.type = null; 
 

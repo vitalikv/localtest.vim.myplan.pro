@@ -84,12 +84,17 @@ fclose($newFile);
 //getFunct($arrF);
 
 
-echo '<br><br>--------<br><br>';
+echo '<br><br>';
+echo 'Файл до сжатия ' . strlen($file2) . ' байт <br><br>--------<br><br>';
 
 
 $file2 = preg_replace('#(\/\/(.*?)(\n|$|\r|(\r\n)))|(\/\*(.*?)\*\/)#i','',$file2);	// удаляем комменты
 
 
+//$file2 = str_replace(array("\r", "\n", "\t"), "", $file2);	// Удаляем символы перевода строк и вертикальной табуляции
+$file2 = str_replace(array("\r", "\n", "\t"), "", $file2);	// Удаляем символы перевода строк и вертикальной табуляции
+
+echo 'Сжатый файл ' . strlen($file2) . ' байт <br><br>--------<br><br>';
 
 
 for ($i = 0; $i < count($arrF); $i++)
@@ -135,7 +140,8 @@ for ($i = 0; $i < count($arrF); $i++)
 	}	
 }
 
-echo $file2;
+
+//echo $file2;
 
 $newFile = fopen('t/test.js', 'w');
 fwrite($newFile, $file2);
@@ -157,8 +163,5 @@ function getFunct($text)
 }
 
 
-
-
-echo 11;
 
 

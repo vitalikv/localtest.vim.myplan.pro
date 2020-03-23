@@ -57,7 +57,7 @@ camera3D.userData.camera.save.radius = 0;
 
 //----------- cameraWall
 var cameraWall = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
-cameraWall.zoom = 2
+cameraWall.zoom = 2;
 //----------- cameraWall
 
 
@@ -153,7 +153,7 @@ infProject.scene.array = resetPop.infProjectSceneArray();
 infProject.scene.block = { key : { scroll : false } };		// блокировка действий/клавишь
 infProject.scene.block.click = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
-infProject.geometry = { circle : createCircleSpline() }
+infProject.geometry = { circle : createCircleSpline() };
 infProject.geometry.cone = [createGeometryCone_1({r1: 0.003, r2: 0.03, h: 0.25}), createGeometryCone_1({r1: 0.001, r2: 0.04, h: 0.1})];
 infProject.scene.size = { wd_1: {} };	// wd_1 линейки для окон/мебели
 infProject.scene.size.wd_1.line = createRulerWin({count : 6, color : 0x616161});	
@@ -179,7 +179,7 @@ infProject.svg.furn.boxCircle.show = infProject.settings.obj.cam2D.show.scale;
 infProject.camera = { d3: { theta: 0, phi: 75 } };
 infProject.camera.d3.targetO = createCenterCamObj();
 // controllWD контроллеры для изменения ширины/длины wd
-infProject.tools = { pivot: createPivot_2(), gizmo: createGizmo360_2(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() } 
+infProject.tools = { pivot: createPivot_2(), gizmo: createGizmo360_2(), cutWall: [], point: createToolPoint(), axis: createLineAxis(), controllWD: createControllWD() }; 
 infProject.tools.floorPl = createPlaneOutlineFloor();
 infProject.catalog = { obj: [], texture: infoListTexture() }; 
 infProject.listColor = resetPop.listColor(); 
@@ -202,7 +202,7 @@ infProject.ur.back = [];
 infProject.ur.forward = [];
 
 //infProject.tools = { selectionBox : null }
-infProject.tools.selectionBox = { msdown : false, coords : new THREE.Vector2(), mStart : new THREE.Vector2(), mEnd : new THREE.Vector2(), button : false }
+infProject.tools.selectionBox = { msdown : false, coords : new THREE.Vector2(), mStart : new THREE.Vector2(), mEnd : new THREE.Vector2(), button : false };
 	
 
 console.log(infProject); 
@@ -238,7 +238,7 @@ var offset = new THREE.Vector3();
 	scene.add( lights[ 3 ] );
 	
 
-	var light = new THREE.AmbientLight( 0xffffff, 0.93 )
+	var light = new THREE.AmbientLight( 0xffffff, 0.93 );
 	scene.add( light );
 	
 	infProject.scene.light.global = {ambient: light, point: lights};
@@ -344,7 +344,7 @@ if(1==2)
 	var rotY = Math.atan2(dir.x, dir.y) - Math.PI/2;
 
 
-	var pos = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value))
+	var pos = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value));
 
 	var dx = new THREE.Vector2();
 	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
@@ -356,7 +356,7 @@ if(1==2)
 	var x1 = l3.x2.baseVal.value - l1.x2.baseVal.value;
 	var y1 = l3.y2.baseVal.value - l1.y2.baseVal.value;
 
-	var pos = new THREE.Vector2(l2.x2.baseVal.value - l2.x1.baseVal.value, -(l2.y2.baseVal.value - l2.y1.baseVal.value))
+	var pos = new THREE.Vector2(l2.x2.baseVal.value - l2.x1.baseVal.value, -(l2.y2.baseVal.value - l2.y1.baseVal.value));
 
 	var dx = new THREE.Vector2();
 	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
@@ -1697,7 +1697,7 @@ var openFileImage = function (strData, filename)
 	{
 		location.replace(uri);
 	}
-} 
+}; 
   
  
 	

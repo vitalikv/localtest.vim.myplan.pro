@@ -301,11 +301,11 @@ function readURL_2(e)
 		reader.onload = function (e) 
 		{						
 			loadInputFile({data: e.target.result});
-		}				
+		};				
 
 		reader.readAsArrayBuffer(this.files[0]);  									
-	}
-}
+	};
+};
 
 
 $('[nameId="butt_main_load_obj"]').mousedown(function () { $('[nameId="window_main_load_obj"]').css({"display":"block"}); });

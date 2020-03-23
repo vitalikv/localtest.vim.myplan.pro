@@ -35,7 +35,7 @@ async function getListObjTypesApi()
 			planeMath : 1.5,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -46,8 +46,8 @@ async function getListObjTypesApi()
 			planeMath : 0.1,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 	// <-- wd		
 	
 	arr[arr.length] =
@@ -59,7 +59,7 @@ async function getListObjTypesApi()
 		planeMath : 1.0,
 		material : true,
 		stopUI: true,
-	}
+	};
 
 	arr[arr.length] =
 	{
@@ -68,7 +68,7 @@ async function getListObjTypesApi()
 		name : 'светильник',
 		type: 'light point',
 		planeMath : infProject.settings.height - 0.05,
-	}
+	};
 
 	// спальня -->
 	if(1==1)
@@ -81,7 +81,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -91,7 +91,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			//stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -101,7 +101,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -111,7 +111,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -121,7 +121,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -131,7 +131,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -141,9 +141,9 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
-	}
+	};
 	// <-- спальня
 	
 	
@@ -158,7 +158,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -168,7 +168,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}	
+		};	
 
 		arr[arr.length] =
 		{
@@ -178,8 +178,8 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 	// <-- кухня
 	
 	// прихожая -->
@@ -193,7 +193,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -203,7 +203,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -213,7 +213,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -223,8 +223,8 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 	// <-- прихожая	
 	
 	
@@ -239,7 +239,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -249,7 +249,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -259,7 +259,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -269,7 +269,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -279,7 +279,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -289,7 +289,7 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			//stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -299,9 +299,9 @@ async function getListObjTypesApi()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
+		};		
 				
-	}
+	};
 	// <-- зал	
 
 	
@@ -320,42 +320,42 @@ function infoListTexture()
 	arr[0] =
 	{
 		url : infProject.path+'img/load/floor_1.jpg', 
-	}
+	};
 	
 	arr[1] =
 	{
 		url : infProject.path+'img/load/w1.jpg', 
-	}
+	};
 
 	arr[2] =
 	{
 		url : infProject.path+'img/load/kirpich.jpg', 
-	}
+	};
 
 	arr[3] =
 	{
 		url : infProject.path+'img/load/beton.jpg', 
-	}	
+	};	
 
 	arr[4] =
 	{
 		url : infProject.path+'img/load/w2.jpg', 
-	}
+	};
 
 	arr[5] =
 	{
 		url : infProject.path+'img/load/f1.jpg', 
-	}
+	};
 
 	arr[6] =
 	{
 		url : infProject.path+'img/load/f2.jpeg', 
-	}
+	};
 
 	arr[7] =
 	{
 		url : infProject.path+'img/load/f3.jpg', 
-	}	
+	};	
 	
 	return arr;
 }

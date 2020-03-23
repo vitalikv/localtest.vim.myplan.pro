@@ -61,9 +61,11 @@ var resetPop =
 	
 	active : function()
 	{
-		return { create : true, delete : true, click2D : true, click3D : true, move : true, replace : true, unlock : true };
-	},	
-}
+		var inf = { create : true, delete : true, click2D : true, click3D : true, move : true, replace : true, unlock : true };
+		
+		return inf;
+	}	
+};
 
 
 
@@ -613,7 +615,7 @@ async function loadFilePL(arr)
 		
 		for ( var i2 = 0; i2 < arrO.length; i2++ )
 		{					
-			wall[i].arrO[i2] = {  }
+			wall[i].arrO[i2] = {  };
 			
 			wall[i].arrO[i2].id = arrO[i2].id;
 			wall[i].arrO[i2].pos = new THREE.Vector3(arrO[i2].pos.x, arrO[i2].pos.y, 0);
@@ -855,9 +857,7 @@ function loadObjFromBase(cdm)
 
 			infProject.project.load.furn[infProject.project.load.furn.length] = furn[i].id;
 			
-			console.log(infProject.project.load.furn.length, infProject.project.file.object.length);
-			
-			$('[nameId="txt_loader_slider_UI"]').text(((infProject.project.load.furn.length/infProject.project.file.object.length)*100) + '%');
+			$('[nameId="txt_loader_slider_UI"]').text((Math.round(infProject.project.load.furn.length/infProject.project.file.object.length)*100) + '%');
 			
 			if(infProject.project.load.furn.length == infProject.project.file.object.length)
 			{ 
