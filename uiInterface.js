@@ -96,50 +96,11 @@ function showHideMenuTexture_2(cdm)
 }
 
 
-// добавляем/обновляем/удаляем в список материалов новый объект, который добавляем в сцену UI
-function updateListTubeUI_1(cdm)
-{
-	if(cdm.type == 'add')
-	{
-		var obj = cdm.o;
-		
-		var tag = obj.userData.tag; 
-		
-		if(tag == 'obj')
-		{   
-			var str = 
-			'<div class="right_panel_1_1_list_item" uuid="'+obj.uuid+'">\
-			<div class="right_panel_1_1_list_item_text">'+obj.userData.obj3D.nameRus+'</div>\
-			</div>';			
-		}
-		else
-		{
-			return;
-		}
-		
-		$('[list_ui="wf"]').prepend(str);
-		
-		var q = $('[list_ui="wf"]')[0].children[0];
-		q.uuid = obj.uuid;
-		
-		infProject.ui.list_wf[infProject.ui.list_wf.length] = q;	
-	}
-	
-	if(cdm.type == 'delete')
-	{
-		for(var i = 0; i < infProject.ui.list_wf.length; i++)
-		{
-			if(infProject.ui.list_wf[i].uuid == cdm.uuid) { infProject.ui.list_wf[i].remove(); break; }
-		}				
-	}	
-}
-
 
 // переключаем вкладки правой панели 
 function changeRightMenuUI_1(cdm)
 {
 	$('[nameId="wrap_catalog"]').hide();
-	$('[nameId="wrap_list_obj"]').hide();
 	$('[nameId="wrap_object"]').hide();
 	$('[nameId="wrap_plan"]').hide();
 	
@@ -156,10 +117,6 @@ function changeRightMenuUI_1(cdm)
 	if(name == "button_wrap_catalog") 
 	{
 		$('[nameId="wrap_catalog"]').show();
-	}
-	if(name == "button_wrap_list_obj") 
-	{
-		$('[nameId="wrap_list_obj"]').show();
 	}
 	if(name == "button_wrap_object") 
 	{

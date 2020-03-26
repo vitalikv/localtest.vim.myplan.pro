@@ -255,9 +255,8 @@ function deleteObjectPop(cdm)
 			disposeNode( arr[i].userData.cubeCam );
 			scene.remove( arr[i].userData.cubeCam );
 		}
-		deleteValueFromArrya({arr : infProject.scene.array.obj, o : arr[i]});
-		updateListTubeUI_1({uuid: arr[i].uuid, type: 'delete'});
-		disposeNode(arr[i]);
+		deleteValueFromArrya({arr : infProject.scene.array.obj, o : arr[i]});		
+		disposeHierchy({obj: arr[i]}); 
 		scene.remove(arr[i]); 
 	}
 	
@@ -361,8 +360,6 @@ function copyObj(cdm)
 	//clone.position.add(pos);		// смещение к нулю
 	infProject.scene.array.obj[infProject.scene.array.obj.length] = clone; 
 	scene.add( clone );	
-
-	//updateListTubeUI_1({o: clone, type: 'add'});	// добавляем объект в UI список материалов 		
 	 
 	
 	//hidePivotGizmo(obj);

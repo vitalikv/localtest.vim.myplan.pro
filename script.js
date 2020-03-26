@@ -193,7 +193,6 @@ infProject.calc.boxScale2D.pos3D = new THREE.Vector3();
 infProject.calc.boxScale2D.arrO = [];
 
 infProject.ui = {};
-infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
 
 infProject.ur = {};
@@ -1810,7 +1809,7 @@ document.addEventListener("keydown", function (e)
 	if(e.keyCode == 89 && e.ctrlKey || e.keyCode == 89 && e.keyCode == 91) { setInfoEvent1( 'redo' ); }	// ctrl + y	
 	
 	if(clickO.keys[18] && e.keyCode == 90) { loadFile({json: true}); }		// alt + z
-	if(clickO.keys[18] && e.keyCode == 72) { disposeHierchy(scene, disposeNode); getConsoleRendererInfo(); }		// alt + h
+	if(clickO.keys[18] && e.keyCode == 72) { disposeHierchy({obj: scene}); getConsoleRendererInfo(); }		// alt + h
 	if(clickO.keys[18] && e.keyCode == 77) { loadFile({id: 0}); }				// alt + m
 	if(clickO.keys[18] && e.keyCode == 84) { saveFile({json: true}); }			// alt + t
 	if(clickO.keys[18] && e.keyCode == 86) { console.log(infProject); }

@@ -142,17 +142,7 @@ function resetScene()
 	{
 		disposeNode( cubeCam[i] );
 		scene.remove( cubeCam[i] );		
-	}
-	
-	
-	// удаляем список материалов UI
-	for(var i = 0; i < infProject.ui.list_wf.length; i++)
-	{
-		infProject.ui.list_wf[i].remove();
-	}		
-	
-	infProject.ui.list_wf = [];
-	
+	}	
 	
 	
 	obj_point = [];
@@ -201,7 +191,7 @@ function getConsoleRendererInfo()
 {	
 	console.log(renderer.info.programs);
 	console.log(renderer.info.render);
-	console.log(renderer.info.memory, scene);	
+	console.log(renderer.info.memory);	
 }
 
 
@@ -569,9 +559,14 @@ async function loadFilePL(arr)
 	await getListRoomTypesApi();	// получаем типы помещений из api, добавляем в меню
 	await getListObjTypesApi();		// получаем в массив список объектов
 	 
-	if(!arr) return;
-	
+	//if(!arr) return;	
 	//console.log(arr);
+	
+	if(!arr.points) { arr.points = []; }
+	if(!arr.walls) { arr.walls = []; }
+	if(!arr.rooms) { arr.rooms = []; }
+	if(!arr.object) { arr.object = []; }
+	if(!arr.height) { arr.height = 3.2; }
 	
 	infProject.project = { file: arr, load: { furn: [] } };
 		

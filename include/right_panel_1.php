@@ -24,11 +24,6 @@
 					<div class="right_panel_1_item_block_text">
 						каталог
 					</div>	
-				</div>
-				<div class="right_panel_1_item_block" nameId="button_wrap_list_obj" style="display: none;">
-					<div class="right_panel_1_item_block_text">
-						список
-					</div>	
 				</div>			
 			</div>
 			<div class="button_catalog_close" nameId="button_catalog_close">
@@ -322,26 +317,6 @@
 			</div>	
 		</div>
 
-		
-		<div class="flex_column_1" nameId="wrap_list_obj" style="display: none;">
-			<div class="right_panel_1_1_h">Список материалов</div>
-			
-			<div class="right_panel_1_1_list" list_ui="wf">
-				
-				<?if(1 == 2){?>
-				<div class="right_panel_1_1_list_item">
-					<div class="right_panel_1_1_list_item_color"></div>
-					<div class="right_panel_1_1_list_item_text">
-						труба 20
-					</div>	
-					<div class="right_panel_1_1_list_item_text">
-						3.2м
-					</div>				
-				</div>
-				<?}?>
-				
-			</div>
-		</div>
 		
 		
 		<div class="flex_column_1" nameId="wrap_catalog" style="display: none;">

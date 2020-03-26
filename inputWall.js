@@ -443,7 +443,15 @@ function changeAllHeightWall_1(cdm)
 		}
 		
 		upLabelPlan_1( infProject.scene.array.wall );
-		clickPointUP_BSP( infProject.scene.array.wall );			
+		clickPointUP_BSP( infProject.scene.array.wall );
+
+		var floor = infProject.scene.array.floor;
+		var ceiling = infProject.scene.array.ceiling;
+		
+		for ( var i = 0; i < floor.length; i++ )
+		{		
+			ceiling[i].position.set( 0, height.num, 0 ); 	
+		}		
 	}
 	
 	if(cdm.input)

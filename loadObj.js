@@ -699,11 +699,7 @@ function addObjInScene(inf, cdm)
 	
 	infProject.scene.array.obj[infProject.scene.array.obj.length] = obj;
 
-	scene.add( obj );
-	 
-	updateListTubeUI_1({o: obj, type: 'add'});	// добавляем объект в UI список материалов 
-	
-	
+	scene.add( obj );		
 	
 	if(cdm.cursor) 	// объект был добавлен в сцену из каталога
 	{ 
@@ -1046,10 +1042,6 @@ function setParamObj(cdm)
 		}, options );
 		
 	}
-	
-
-					
-	updateListTubeUI_1({o: obj, type: 'add'});	// добавляем объект в UI список материалов 
 	
 	//clickO.move = obj;
 	
