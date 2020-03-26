@@ -89,7 +89,9 @@ function changeDepthColor()
 	
 	var label = [];
 	for ( var i = 0; i < wall.length; i++ )
-	{				
+	{
+		if(!wall[i].userData.wall.html.label) continue;
+		
 		for ( var i2 = 0; i2 <  wall[i].userData.wall.html.label.length; i2++ )
 		{
 			label[label.length] = wall[i].userData.wall.html.label[i2];  

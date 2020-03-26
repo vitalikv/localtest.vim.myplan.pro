@@ -1269,16 +1269,18 @@ function crtW( cdm )
 	wall.userData.wall.height_0 = 0;
 	wall.userData.wall.height_1 = Math.round(height * 100) / 100;		
 	wall.userData.wall.offsetZ = Math.round(offsetZ * 100) / 100;
-	wall.userData.wall.outline = null;
-	wall.userData.wall.zone = null; 
 	wall.userData.wall.arrO = [];
 	wall.userData.wall.last = { pos : new THREE.Vector3(), rot : new THREE.Vector3() }; 
 	wall.userData.wall.area = { top : 0 }; 
 	//wall.userData.wall.active = { click: true, hover: true };	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
-	wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
-	//infProject.settings.html.fonts.wall.show
+	
+	if(infProject.settings.html.fonts.wall.show)
+	{
+		wall.userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});
+	}
+	
 	wall.userData.wall.svg = {};
 	wall.userData.wall.svg.lineW = null;
 	//wall.userData.wall.svg.lineW = [createSvgLine({count: 1})[0], createSvgLine({count: 1, color: '#00ff00'})[0]];

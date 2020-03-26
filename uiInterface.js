@@ -172,11 +172,14 @@ function activeObjRightPanelUI_1(cdm)
 			
 			changeTextureWall_UI_1({obj: obj});			
 
-			obj.userData.wall.html.label[0].textContent = 'A';
-			obj.userData.wall.html.label[1].textContent = 'B';
-						
-			upPosLabels_2({elem: obj.userData.wall.html.label[0]});
-			upPosLabels_2({elem: obj.userData.wall.html.label[1]});			
+			if(obj.userData.wall.html.label)
+			{
+				obj.userData.wall.html.label[0].textContent = 'A';
+				obj.userData.wall.html.label[1].textContent = 'B';
+							
+				upPosLabels_2({elem: obj.userData.wall.html.label[0]});
+				upPosLabels_2({elem: obj.userData.wall.html.label[1]});
+			}			
 		}
 		
 		$('[nameId="rp_menu_wall"]').show();

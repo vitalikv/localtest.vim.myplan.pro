@@ -88,13 +88,15 @@ function deleteWall_2(wall)
 	deleteOneOnPointValue(p1, wall);
 	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
 	
-	
-	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+	if(wall.userData.wall.html.label)
 	{
-		deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
-		wall.userData.wall.html.label[i].remove();
+		for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+		{
+			deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+			wall.userData.wall.html.label[i].remove();
+		}
 	}
-	 
+	
 	scene.remove( wall );
 	
 	if(p0.w.length == 0){ deletePointFromArr( p0 ); scene.remove( p0 ); }
@@ -142,12 +144,14 @@ function deleteWall_3(wall, cdm)
 	deleteOneOnPointValue(p1, wall);
 	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
 	
-	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+	if(wall.userData.wall.html.label)
 	{
-		deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
-		wall.userData.wall.html.label[i].remove();
-	}	
-	
+		for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
+		{
+			deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+			wall.userData.wall.html.label[i].remove();
+		}	
+	}
 	
 	scene.remove( wall );
 	

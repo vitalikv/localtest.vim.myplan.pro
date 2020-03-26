@@ -85,19 +85,18 @@ function resetScene()
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{ 		
-		deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[0]});
-		deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[1]});
-		
-		wall[i].userData.wall.html.label[0].remove();
-		wall[i].userData.wall.html.label[1].remove();
-		
-		if(wall[i].userData.wall.outline) { scene.remove(wall[i].userData.wall.outline); }
-		if(wall[i].userData.wall.zone) { disposeNode(wall[i].userData.wall.zone.label); scene.remove(wall[i].userData.wall.zone.label); }			
+		if(wall[i].userData.wall.html.label)
+		{
+			for ( var i2 = 0; i2 < wall[i].userData.wall.html.label.length; i2++ )
+			{
+				deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[i2]});
+				wall[i].userData.wall.html.label[i2].remove();
+			}
+		}					
 		
 		wall[i].userData.wall.p = [];
-		wall[i].userData.wall.outline = null;
-		wall[i].userData.wall.zone = null;
 		
+		disposeHierchy({obj: wall[i]});
 		scene.remove(wall[i]); 
 	}
 	
@@ -122,8 +121,8 @@ function resetScene()
 	
 	for ( var i = 0; i < floor.length; i++ )
 	{		
-		disposeNode(floor[i]);
-		disposeNode(ceiling[i]);
+		disposeHierchy({obj: floor[i]});
+		disposeHierchy({obj: ceiling[i]});
 		
 		deleteValueFromArrya({arr: infProject.html.label, o: floor[i].userData.room.html.label});
 		floor[i].userData.room.html.label.remove(); 
@@ -134,13 +133,13 @@ function resetScene()
 	
 	for ( var i = 0; i < obj.length; i++ )
 	{ 
-		disposeNode(obj[i]);
+		disposeHierchy({obj: obj[i]});
 		scene.remove(obj[i]);
 	}
 
 	for ( var i = 0; i < cubeCam.length; i++ )
 	{
-		disposeNode( cubeCam[i] );
+		disposeHierchy({obj: cubeCam[i]});
 		scene.remove( cubeCam[i] );		
 	}	
 	

@@ -331,15 +331,26 @@ function showSvgSizeObj(cdm)
 			showElementSvg(infProject.svg.furn.size.elem);
 		}
 		
+		var dir = new THREE.Vector3().subVectors( x2, x1 );
+		var rotY = Math.atan2(dir.x, dir.z);		
+		if(rotY <= 0.001){ rotY += Math.PI / 2;  }
+		else { rotY -= Math.PI / 2; }		
+		
 		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
 		html[0].userData.elem.pos = posLabel;	
-		html[0].style.transform = 'translate(-50%, -50%)';
+		html[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 		html[0].textContent = Math.round(sizeX * 100) / 100 + '';		
 		upPosLabels_2({elem: html[0]});
 
+
+		var dir = new THREE.Vector3().subVectors( z2, z1 );
+		var rotY = Math.atan2(dir.x, dir.z);		
+		if(rotY <= 0.001){ rotY += Math.PI / 2;  }
+		else { rotY -= Math.PI / 2; }
+		
 		var posLabel = new THREE.Vector3().subVectors( z2, z1 ).divideScalar( 2 ).add(z1); 
 		html[1].userData.elem.pos = posLabel;	
-		html[1].style.transform = 'translate(-50%, -50%)';
+		html[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 		html[1].textContent = Math.round(sizeZ * 100) / 100 + '';		
 		upPosLabels_2({elem: html[1]});		
 	}

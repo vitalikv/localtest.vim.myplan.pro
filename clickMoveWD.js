@@ -237,6 +237,8 @@ function hideSizeWD( obj )
 				{
 					for ( var i = 0; i < arrWallFront.wall.length; i++ )
 					{
+						if(!arrWallFront.wall[i].obj.userData.wall.html.label) continue;
+						
 						arrWallFront.wall[i].obj.userData.wall.html.label[0].style.display = 'block';
 						arrWallFront.wall[i].obj.userData.wall.html.label[1].style.display = 'block';
 						
