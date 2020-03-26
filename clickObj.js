@@ -211,21 +211,41 @@ function clickMouseUpObject(obj)
 // удаление объекта
 function deleteObjectPop(cdm)
 { 
-	var obj = cdm.obj;	
-	
-	if(obj.userData.tag != 'obj') return;
-	
-	var undoRedo = true;
-	if(cdm.undoRedo !== undefined) { undoRedo = cdm.undoRedo; }	
-	if(undoRedo) { getInfoEvent24({obj: obj}); }
-	
-	clickO = resetPop.clickO(); 
-	
-	hidePivotGizmo(obj);
+	if(!cdm) { cdm = {}; }
 	
 	var arr = [];
 	
-	arr[0] = obj;
+	if(cdm.obj)
+	{
+		if(cdm.obj.userData.tag == 'obj') { arr[0] = cdm.obj; }
+	}
+	else
+	{
+		if(clickO.selectBox.arr.length > 0)
+		{
+			for(var i = 0; i < clickO.selectBox.arr.length; i++)
+			{
+				if(clickO.selectBox.arr[i].userData.tag != 'obj') continue;
+				
+				arr[arr.length] = clickO.selectBox.arr[i];
+			}
+		}
+		else
+		{
+			if(clickO.last_obj.userData.tag == 'obj') { arr[0] = clickO.last_obj; }
+		}
+	}	
+	
+	if(arr.length == 0) return;	
+		
+	
+	var undoRedo = true;
+	if(cdm.undoRedo !== undefined) { undoRedo = cdm.undoRedo; }	
+	if(undoRedo) { getInfoEvent24({arr: arr}); }	
+	
+	clickO = resetPop.clickO(); 
+	
+	hidePivotGizmo(arr[0]);
 	
 	for(var i = 0; i < arr.length; i++)
 	{	
@@ -242,6 +262,8 @@ function deleteObjectPop(cdm)
 	}
 	
 	outlineRemoveObj();
+	
+	renderCamera();
 }
 
 

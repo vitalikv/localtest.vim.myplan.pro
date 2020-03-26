@@ -72,7 +72,7 @@ function fname_s_02(cdm)
 	var wall = cdm.wall;
 	var value = cdm.length;
 	
-	var wallR = fname_s_0116(wall);
+	var wallR = fname_s_0119(wall);
 	fname_s_041(wallR);
 
 	var p1 = wall.userData.wall.p[1];
@@ -177,8 +177,8 @@ function fname_s_02(cdm)
 			fname_s_03(walls[i]);
 		}			 		 
 		
-		fname_s_0118(p0);
-		fname_s_0118(p1);
+		fname_s_0121(p0);
+		fname_s_0121(p1);
 		fname_s_044( [wall] );
 		if(cdm.side == 'wall_length_1'){ d = Math.abs( v[6].x - v[0].x ); }
 		else if(cdm.side == 'wall_length_2'){ d = Math.abs( v[10].x - v[4].x ); }
@@ -191,7 +191,7 @@ function fname_s_02(cdm)
 	} 	
 	 
 	fname_s_044( wallR );		
-	fname_s_0158( fname_s_0128(wall) );  				 			
+	fname_s_0161( fname_s_0131(wall) );  				 			
 	
 	fname_s_029({obj: wall});
 
@@ -316,7 +316,7 @@ function fname_s_04(cdm)
 	if(!wall){ return; } 
 	if(wall.userData.tag != 'wall'){ return; } 
 	
-	var width = fname_s_0240({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
+	var width = fname_s_0245({ value: width, unit: 1, limit: {min: 0.01, max: 1} });
 	
 	if(!width) 
 	{
@@ -327,7 +327,7 @@ function fname_s_04(cdm)
 
 	var width = width.num; 
 	
-	var wallR = fname_s_0116(wall);
+	var wallR = fname_s_0119(wall);
 	
 	fname_s_041(wallR);
 			
@@ -372,8 +372,8 @@ function fname_s_04(cdm)
 	
 	var p0 = wall.userData.wall.p[0];
 	var p1 = wall.userData.wall.p[1];
-	fname_s_0119(p0);	
-    fname_s_0119(p1);	
+	fname_s_0122(p0);	
+    fname_s_0122(p1);	
 	
 	
 	for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
@@ -394,7 +394,7 @@ function fname_s_04(cdm)
 	}	
 	
 	fname_s_044( wallR );	 				
-	fname_s_046( fname_s_0128(wall) );
+	fname_s_046( fname_s_0131(wall) );
 	
 	fname_s_042(wallR);
 	
@@ -411,7 +411,7 @@ function fname_s_04(cdm)
 
 function fname_s_05(cdm)
 {  	
-	var height = fname_s_0240({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
+	var height = fname_s_0245({ value: cdm.height, unit: 1, limit: {min: 0.1, max: 5} });
 	
 	if(!height) 
 	{
@@ -497,7 +497,7 @@ function fname_s_07(point)
 			var p2 = wall[i2].userData.wall.p[0].position;
 			var p3 = wall[i2].userData.wall.p[1].position;
 			
-			if(fname_s_0122(p0, p1, p2, p3)) { return true; }	
+			if(fname_s_0125(p0, p1, p2, p3)) { return true; }	
 		}
 	}
 	
@@ -623,12 +623,12 @@ function fname_s_017(A,B,C){
 
 function fname_s_018(A,B,C)
 {	
-	var AB = { x : B.x - A.x, y : B.z - A.z }
-	var CD = { x : C.x - A.x, y : C.z - A.z }
+	var AB = { x : B.x - A.x, y : B.z - A.z };
+	var CD = { x : C.x - A.x, y : C.z - A.z };
 	var r1 = AB.x * CD.x + AB.y * CD.y;				
 
-	var AB = { x : A.x - B.x, y : A.z - B.z }
-	var CD = { x : C.x - B.x, y : C.z - B.z }
+	var AB = { x : A.x - B.x, y : A.z - B.z };
+	var CD = { x : C.x - B.x, y : C.z - B.z };
 	var r2 = AB.x * CD.x + AB.y * CD.y;
 
 	var cross = (r1 < 0 | r2 < 0) ? false : true;	
@@ -914,8 +914,8 @@ function fname_s_029(cdm)
 			obj.userData.wall.html.label[0].textContent = 'A';
 			obj.userData.wall.html.label[1].textContent = 'B';
 						
-			fname_s_0205({elem: obj.userData.wall.html.label[0]});
-			fname_s_0205({elem: obj.userData.wall.html.label[1]});			
+			fname_s_0211({elem: obj.userData.wall.html.label[0]});
+			fname_s_0211({elem: obj.userData.wall.html.label[1]});			
 		}
 		
 		$('[nameId="rp_menu_wall"]').show();
@@ -935,7 +935,7 @@ function fname_s_029(cdm)
 		if(obj.userData.obj3D.type == "light point")
 		{
 			$('[nameId="rp_bl_light"]').show();
-			fname_s_0206({value: obj.children[1].intensity});			
+			fname_s_0212({value: obj.children[1].intensity});			
 		}
 		    
 		$('[nameId="bl_object_3d"]').show();
@@ -1019,7 +1019,7 @@ function fname_s_033(cdm)
 	else if(cdm.el[0] == $('[nameId="rp_wind_above_floor_1"]')[0]) { var inf = { json: infProject.settings.wind, name: 'h1' }; }	
 	else { return; }	
 	
-	var res = fname_s_0240({ value: value, unit: 1, limit: {min: 0.01, max: 5} });	
+	var res = fname_s_0245({ value: value, unit: 1, limit: {min: 0.01, max: 5} });	
 	
 	if(!res) 
 	{
@@ -1046,7 +1046,7 @@ function fname_s_034(cdm)
 
 function fname_s_035(cdm) 
 {
-	var res = fname_s_0160({obj: cdm.obj});
+	var res = fname_s_0163({obj: cdm.obj});
 	
 	$('[nameId="wall_texture_1img"]').attr('src', res.floor.userData.material.img);  
 	if(res.ceiling.userData.material) { $('[nameId="wall_texture_2img"]').attr('src', res.ceiling.userData.material.img); }
@@ -1058,33 +1058,8 @@ function fname_s_035(cdm)
 
 
 
-async function fname_s_036(cdm)
+function fname_s_036(cdm)
 {
-	var url = infProject.settings.api.type.room;
-
-	var response = await fetch(url, { method: 'GET' });
-	var json = await response.json();
-
-	infProject.settings.room.type = json;	
-	
-	for(var i = 0; i < json.length; i++)
-	{		
-		var str = 
-		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
-			<div class="right_panel_1_1_list_item_text">'
-			+json[i].title+
-			'</div>\
-		</div>';
-		
-		
-		var el = $(str).appendTo('[list_ui="room_type"]');
-		var id = json[i].id;
-		(function(id) 
-		{
-			el.on('mousedown', function(){ fname_s_037({button: true, id: id}); });	
-		}(id));		
-	}
-
 	var arr = cdm.arr;
 	var floor = infProject.scene.array.floor;
 	
@@ -1105,8 +1080,7 @@ async function fname_s_036(cdm)
 		}		
 	}
 	
-	renderCamera();
-		
+	renderCamera();		
 }
 
 
@@ -1125,9 +1099,11 @@ function fname_s_037(cdm)
 	elem.style.display = 'none';
 	elem.userData.elem.show = false;
 	
+	
+	
 	if(!id) return;
 	if(!obj) return;
-	if(type.length == 0) return;
+	if(type.length == 0) return;	
 	
 	for(var i = 0; i < type.length; i++)
 	{ 
@@ -1139,6 +1115,8 @@ function fname_s_037(cdm)
 		elem.textContent = type[i].title;
 		elem.style.display = 'block';
 		elem.userData.elem.show = true;
+		
+		fname_s_0211({elem: elem});
 		
 		break;
 	}
@@ -1160,13 +1138,13 @@ function fname_s_038( wd, wall )
 	var p2 = wall.userData.wall.p[1].position;	
 	var d = p1.distanceTo( p2 );		
 	
-	wall.geometry = fname_s_0212(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);		
+	wall.geometry = fname_s_0218(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);		
 		var v = wall.geometry.vertices;
 	
 	for ( var i = 0; i < v.length; i++ ) { v[i] = wall.userData.wall.v[i].clone(); }
 	
 	
-	fname_s_0229( wall ); 
+	fname_s_0235( wall ); 
 	
 		var arrO = wall.userData.wall.arrO;
 	
@@ -1266,7 +1244,8 @@ function fname_s_040( wd, objsBSP, wall )
 		var p2 = wall.userData.wall.p[1].position;	
 		var d = p1.distanceTo( p2 );		
 		
-		wall.geometry = fname_s_0212(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);			 
+		wall.geometry.dispose();
+		wall.geometry = fname_s_0218(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);			 
 				var v = wall.geometry.vertices;
 		for ( var i2 = 0; i2 < v.length; i2++ ) { v[i2] = wall.userData.wall.v[i2].clone(); }	
 		wall.geometry.verticesNeedUpdate = true;
@@ -1295,7 +1274,7 @@ function fname_s_042( arrW )
 			fname_s_040( wd, objsBSP );			
 		}
 		
-		fname_s_0229( wall ); 
+		fname_s_0235( wall ); 
 	}
 } 
 
@@ -1307,7 +1286,7 @@ function fname_s_042( arrW )
  
 
 
-function fname_s_043( wall, index )
+function fname_s_043( wall, index ) 
 {
 	wall.updateMatrixWorld();
 	
@@ -1372,8 +1351,8 @@ function fname_s_044(arrWall, Zoom)
 			var d1 = Math.abs( v[6].x - v[0].x );		
 			var d2 = Math.abs( v[10].x - v[4].x );
 
-			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
-			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';			
+			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100;
+			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100;			
 		}		
 		 
 		var dir = new THREE.Vector3().subVectors( p2, p1 );
@@ -1414,8 +1393,8 @@ function fname_s_044(arrWall, Zoom)
 			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			
-			fname_s_0205({elem: wall.userData.wall.html.label[0]});
-			fname_s_0205({elem: wall.userData.wall.html.label[1]});
+			fname_s_0211({elem: wall.userData.wall.html.label[0]});
+			fname_s_0211({elem: wall.userData.wall.html.label[1]});
 			
 		}		 
 
@@ -1442,8 +1421,8 @@ function fname_s_045(cdm)
 	wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
 	wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
 				
-	fname_s_0205({elem: wall.userData.wall.html.label[0]});
-	fname_s_0205({elem: wall.userData.wall.html.label[1]});	
+	fname_s_0211({elem: wall.userData.wall.html.label[0]});
+	fname_s_0211({elem: wall.userData.wall.html.label[1]});	
 }
 
 
@@ -1467,9 +1446,9 @@ function fname_s_046( room )
 		
 		if(infProject.settings.floor.areaPoint == 'inside')
 		{
-			for (i = 0; i < n; i++) { arrW[i].updateMatrixWorld(); }
+			for (var i = 0; i < n; i++) { arrW[i].updateMatrixWorld(); }
 			
-			for (i = 0; i < n; i++) 
+			for (var i = 0; i < n; i++) 
 			{
 				var ch = (arrS[i] == 0) ? 4 : 6;				
 				var p1 = arrW[i].localToWorld( arrW[i].userData.wall.v[ ch ].clone() );						
@@ -1583,7 +1562,7 @@ function fname_s_046( room )
 			elem.userData.elem.pos = new THREE.Vector3(pos.x, 0.2, pos.z);			
 			elem.style.transform = 'translate(-50%, -50%) rotate(0deg)';
 			
-			fname_s_0205({elem: elem});						
+			fname_s_0211({elem: elem});						
 		}
 	}
 
@@ -1653,7 +1632,7 @@ function fname_s_048( obj )
 	
 	var intersects = ray.intersectObjects( room, true );	
 	
-	var floor = (intersects.length == 0) ? null : intersects[0].object				
+	var floor = (intersects.length == 0) ? null : intersects[0].object;				
 	
 	return { id : (floor) ? floor.userData.id : 0, obj : floor };
 }
@@ -1703,7 +1682,7 @@ function fname_s_049(point)
 
 function fname_s_050(point) 
 {
-	fname_s_0158(point.zone); 
+	fname_s_0161(point.zone); 
 	
 	fname_s_042(param_wall.wallR);
 }
@@ -1729,7 +1708,7 @@ function fname_s_051(point)
 	
 	if(flag)
 	{
-		fname_s_0123( point, param_wall.wallR ); 			
+		fname_s_0126( point, param_wall.wallR ); 			
 		
 				
 	}
@@ -1760,13 +1739,13 @@ function fname_s_053()
 {
 	var wall = clickO.obj;
 	clickO.obj = null;
-	fname_s_0182();
+	fname_s_0187();
 	
 	var pos1 = wall.userData.wall.p[0].position;
 	var pos2 = wall.userData.wall.p[1].position;
 	
 	var pos = new THREE.Vector3().subVectors( pos2, pos1 ).divideScalar( 2 ).add(pos1); 
-	var point = fname_s_0220( pos, 0 );
+	var point = fname_s_0226( pos, 0 );
 	
 	fname_s_054( wall, point );
 }
@@ -1781,7 +1760,7 @@ function fname_s_054( wall, point )
 	  
 	point.userData.point.last.cdm = 'add_point';
 	
-	var walls = fname_s_056( wall, point )	
+	var walls = fname_s_056( wall, point );	
 
 	point.userData.point.type = null; 
 
@@ -1816,7 +1795,8 @@ function fname_s_056( wall, point )
 	var width = wall.userData.wall.width;
 	var height = wall.userData.wall.height_1;
 	var offsetZ = wall.userData.wall.offsetZ;
-	var material = wall.material;   
+	var material = wall.material; 
+	var userData = wall.userData;
 	var p1 = { id : wall.userData.wall.p[0].userData.id, pos : wall.userData.wall.p[0].position.clone() };
 	var p2 = { id : wall.userData.wall.p[1].userData.id, pos : wall.userData.wall.p[1].position.clone() };
 	
@@ -1842,7 +1822,7 @@ function fname_s_056( wall, point )
 	var wallC = point.w[0];
 	var point_0 = point.p[0];
 	
-	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall] : fname_s_0117(wallC);
+	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall] : fname_s_0120(wallC);
 	fname_s_041( arrW );	
 	
 	
@@ -1854,34 +1834,34 @@ function fname_s_056( wall, point )
 	if(point.userData.point.last.cdm == 'new_point_2' || point.userData.point.last.cdm == 'new_point')
 	{	
 		var zone = fname_s_048( point.w[0] ).obj;
-		var oldZ_1 = fname_s_0159(zone);
+		var oldZ_1 = fname_s_0162(zone);
 	}
 
 	var v2 = wall.userData.wall.v;
 	for ( var i2 = 0; i2 < wall.userData.wall.v.length; i2++ ) { v2[i2] = wall.userData.wall.v[i2].clone(); }
 
-	var oldZones = fname_s_0180( wall );   	
-	var oldZ = fname_s_0159( oldZones );
-	fname_s_0173( oldZones );						
+	var oldZones = fname_s_0183( wall );   	
+	var oldZ = fname_s_0162( oldZones );
+	fname_s_0176( oldZones );						
 	
-	fname_s_0148( wall, {dw : 'no delete'} );  							
-	
-	
-	var point1 = fname_s_0236( 'point', p1.id );
-	var point2 = fname_s_0236( 'point', p2.id );	
-	
-	if(point1 == null) { point1 = fname_s_0220( p1.pos, p1.id ); }
-	if(point2 == null) { point2 = fname_s_0220( p2.pos, p2.id ); }		
+	fname_s_0151( wall, {dw : 'no delete'} );  							
 	
 	
-	var wall_1 = fname_s_0221({ p: [point1, point], width: width, offsetZ : offsetZ, height : height });	 			
-	var wall_2 = fname_s_0221({ p: [point, point2], width: width, offsetZ : offsetZ, height : height });
+	var point1 = fname_s_0242( 'point', p1.id );
+	var point2 = fname_s_0242( 'point', p2.id );	
+	
+	if(point1 == null) { point1 = fname_s_0226( p1.pos, p1.id ); }
+	if(point2 == null) { point2 = fname_s_0226( p2.pos, p2.id ); }		
+	
+	
+	var wall_1 = fname_s_0227({ p: [point1, point], width: width, offsetZ : offsetZ, height : height });	 			
+	var wall_2 = fname_s_0227({ p: [point, point2], width: width, offsetZ : offsetZ, height : height });
 
 	
 	wall_1.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ];  
 	wall_2.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ];
-	wall_1.userData.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ]; 
-	wall_2.userData.material = [ material[0].clone(), material[1].clone(), material[2].clone(), material[3].clone() ]; 
+	wall_1.userData.material = userData.material; 
+	wall_2.userData.material = userData.material; 
 	
 	for ( var i = 0; i < v2.length/2; i++ ) { wall_1.userData.wall.v[i] = v2[i].clone(); wall_1.geometry.vertices[i] = v2[i].clone(); }
 	
@@ -1889,29 +1869,29 @@ function fname_s_056( wall, point )
 	for ( var i = v2.length/2; i < v2.length; i++ ) { v2[i].x -= sub; } 
 	for ( var i = v2.length/2; i < v2.length; i++ ) { wall_2.userData.wall.v[i] = v2[i].clone(); wall_2.geometry.vertices[i] = v2[i].clone(); }
 	
-	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall_1, wall_2] : fname_s_0117(wallC);
+	var arrW = (point.userData.point.last.cdm == 'add_point') ? [wall_1, wall_2] : fname_s_0120(wallC);
 	
 	if(point.userData.point.last.cdm == 'add_point')
 	{
-		fname_s_0119(point);
+		fname_s_0122(point);
 	}
 	else
 	{
-		fname_s_0119(point);
-		fname_s_0119(point_0);
+		fname_s_0122(point);
+		fname_s_0122(point_0);
 	}
 	
 	fname_s_044(arrW); 	
 	fname_s_042( arrW );
 	
-	var newZones = fname_s_0163();		
+	var newZones = fname_s_0166();		
 	
 	
 	var flag = false;
 	if(point.userData.point.last.cdm == 'new_point_2' || point.userData.point.last.cdm == 'new_point') { if(zone) { flag = true; } }	
 	
-	if(flag) { fname_s_0179(newZones, oldZ_1[0], true); } 
-	else { fname_s_0177(oldZ, newZones, 'add'); }		
+	if(flag) { fname_s_0182(newZones, oldZ_1[0], true); } 
+	else { fname_s_0180(oldZ, newZones, 'add'); }		
 	
 	
 	
@@ -1955,7 +1935,7 @@ function fname_s_057( point )
 	
 	if(point.userData.point.type == 'create_wall')			
 	{		 	
-		var wall = fname_s_0221({ p: [point, point.userData.point.cross] }); 		 
+		var wall = fname_s_0227({ p: [point, point.userData.point.cross] }); 		 
 		point.userData.point.type = 'continue_create_wall';
 		point.userData.point.cross.userData.point.last.cdm = 'new_wall_from_point';
 		clickO.move = point;
@@ -1969,8 +1949,8 @@ function fname_s_057( point )
 			if(fname_s_07(point)) return; 	
 			
 			point.userData.point.type = null; 			
-			var point2 = fname_s_0220( point.position, 0 );			
-			var wall = fname_s_0221({ p: [point, point2] }); 			
+			var point2 = fname_s_0226( point.position, 0 );			
+			var wall = fname_s_0227({ p: [point, point2] }); 			
 			clickO.move = point2;
 			fname_s_044( point.p[0].w );			
 			point2.userData.point.type = 'continue_create_wall'; 
@@ -1986,7 +1966,7 @@ function fname_s_057( point )
 		{			
 			if(point.userData.point.cross.userData.point.last.cdm == 'new_point_1' && clickO.move.userData.point.cross == point || point.userData.point.cross == point.p[0])
 			{ 
-				fname_s_0147(point.w[0]);
+				fname_s_0150(point.w[0]);
 				clickO.move = null;
 				clickO = resetPop.clickO();
 			}						
@@ -2028,14 +2008,14 @@ function fname_s_058(point)
 	var m = (wall.userData.wall.p[0] == point) ? 0 : 1;	
 	wall.userData.wall.p[m] = point1;
 	
-	fname_s_0153(point2, wall);			
-	fname_s_0154(point);
+	fname_s_0156(point2, wall);			
+	fname_s_0157(point);
 	scene.remove(point);
 
-	fname_s_0119(point1);
+	fname_s_0122(point1);
 	fname_s_044( point1.w ); 
 
-	fname_s_0178(wall);   
+	fname_s_0181(wall);   
 	
 	if(!point.userData.point.type) 
 	{ 
@@ -2122,11 +2102,11 @@ function fname_s_059( wall, point )
 		point.userData.point.type = null;
 		point.userData.point.last.cdm = 'new_point_1'; 
 		var point1 = point;		
-		var point2 = fname_s_0220( point.position.clone(), 0 );			 							
+		var point2 = fname_s_0226( point.position.clone(), 0 );			 							
 		
 		point2.userData.point.cross = point1;
 		
-		var newWall = fname_s_0221({p: [point1, point2] }); 
+		var newWall = fname_s_0227({p: [point1, point2] }); 
 		var arrW = fname_s_056( wall, point1 );
 		
 		
@@ -2203,10 +2183,10 @@ function fname_s_059( wall, point )
 function fname_s_060( point1 )
 {  		
 	point1.userData.point.type = null;		
-	var point2 = fname_s_0220( point1.position.clone(), 0 );			
+	var point2 = fname_s_0226( point1.position.clone(), 0 );			
 	point2.userData.point.type = 'continue_create_wall';
 	
-	var wall = fname_s_0221({ p: [point1, point2] });		
+	var wall = fname_s_0227({ p: [point1, point2] });		
 	
 	clickO.move = point2; 
 	
@@ -2358,7 +2338,7 @@ function fname_s_061(cdm)
 		obj.userData.door.form.v2 = v2;		
 	}
 	
-	fname_s_0219( obj );
+	fname_s_0225( obj );
 	
 	scene.add( obj );
 	
@@ -2395,7 +2375,7 @@ function fname_s_062( event, obj )
 	for ( var i = 0; i < door.length; i++ ){ arrDp[arrDp.length] = door[i]; } 
 	arrDp[arrDp.length] = planeMath; 
 
-	var intersects = fname_s_0224( event, arrDp, 'arr' );
+	var intersects = fname_s_0230( event, arrDp, 'arr' );
 	
 	var wall = null;
 	
@@ -2530,7 +2510,7 @@ function fname_s_064( cdm )
 	
 	if(obj.userData.door.lotid)
 	{
-		fname_s_0269({type: 'wd', wd: obj, lotid: obj.userData.door.lotid});
+		fname_s_0274({type: 'wd', wd: obj, lotid: obj.userData.door.lotid});
 	}
 
  	
@@ -2554,7 +2534,7 @@ function fname_s_065(inf, cdm)
 	wd.add( objPop );
 	
 	
-	fname_s_0274({obj: wd});	
+	fname_s_0281({obj: wd});	
 	
 	wd.userData.door.objPop = objPop;
 	
@@ -2628,7 +2608,7 @@ function fname_s_067(cdm)
 	var event = cdm.event;
 	var elem = cdm.elem;
 	
-	var pos = fname_s_0223(event);
+	var pos = fname_s_0229(event);
 	
 	clickO.elem = elem;
 	
@@ -2763,7 +2743,7 @@ function fname_s_067(cdm)
 function fname_s_068(e)
 {
 	var elem = clickO.elem;
-	var pos = fname_s_0223(e);
+	var pos = fname_s_0229(e);
 	
 	var inf = elem.userData.svg.circle.inf;
 	
@@ -2782,8 +2762,7 @@ function fname_s_068(e)
 		
 		
 		elem.setAttributeNS(null, "cx", pos.x);
-		elem.setAttributeNS(null, "cy", pos.z);				
-		
+		elem.setAttributeNS(null, "cy", pos.z);						
 	}
 
 	
@@ -2862,8 +2841,8 @@ function fname_s_068(e)
 		
 		
 		var obj = clickO.last_obj;		
-		obj.scale.x = x/obj.userData.box.x;
-		obj.scale.z = z/obj.userData.box.z;		
+		obj.scale.x = x/obj.userData.obj3D.box.x;
+		obj.scale.z = z/obj.userData.obj3D.box.z;		
 	}
 	
 	
@@ -2875,11 +2854,13 @@ function fname_s_068(e)
 		obj.position.z = posCenter.z;			
 	}
 	
-	fname_s_0252({obj: obj});
+	
 	
 	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );
 	infProject.tools.pivot.position.copy(pos);
 	infProject.tools.gizmo.position.copy(pos);
+	
+	fname_s_070({obj: obj});
 	
 	e.stopPropagation();	
 }
@@ -2894,11 +2875,659 @@ function fname_s_069()
 	
 	if(!obj) return;
 	
-	fname_s_0252({obj: obj, boxCircle: true});
+	fname_s_070({obj: obj, boxCircle: true});
 	
 	clickO.elem = null;
 }
 
+
+
+
+
+
+function fname_s_070(cdm)
+{
+	
+	
+	var obj = cdm.obj;
+		
+	
+	if(cdm.resetPos)
+	{
+		infProject.calc.boxScale2D.pos2D = null;
+		infProject.calc.boxScale2D.pos3D = null;		
+	}
+	
+	if(cdm.setPos && 1==2)
+	{
+		fname_s_071(cdm);
+		
+		return;
+	}
+
+	obj.updateMatrixWorld();
+	obj.geometry.computeBoundingBox();	
+	
+	
+	
+	{
+		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
+		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
+		
+		
+		var sizeX = x1.distanceTo( x2 );
+		var sizeZ = z1.distanceTo( z2 );
+		
+		fname_s_0324({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
+		fname_s_0324({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
+		
+
+		var html = infProject.html.furn.size;
+		
+		if(infProject.svg.furn.size.show && camera == cameraTop)
+		{
+			fname_s_0331(html);
+			fname_s_0328(infProject.svg.furn.size.elem);
+		}
+		
+		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
+		html[0].userData.elem.pos = posLabel;	
+		html[0].style.transform = 'translate(-50%, -50%)';
+		html[0].textContent = Math.round(sizeX * 100) / 100 + '';		
+		fname_s_0211({elem: html[0]});
+
+		var posLabel = new THREE.Vector3().subVectors( z2, z1 ).divideScalar( 2 ).add(z1); 
+		html[1].userData.elem.pos = posLabel;	
+		html[1].style.transform = 'translate(-50%, -50%)';
+		html[1].textContent = Math.round(sizeZ * 100) / 100 + '';		
+		fname_s_0211({elem: html[1]});		
+	}
+	
+	
+	
+	{
+		var v = [];
+		v[0] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );	
+		v[1] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );	
+		v[2] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.min.z) );	
+		v[3] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.min.z) );	
+		
+		var box1 = infProject.svg.furn.box1;
+		
+		fname_s_0326({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+		
+		if(camera == cameraTop) { fname_s_0328([box1]); }			
+	}
+	
+	
+	
+	
+	if(cdm.boxCircle)
+	{
+		var circle = infProject.svg.furn.boxCircle.elem;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		fname_s_0325({el: circle[0], pos: v[2]});
+		fname_s_0325({el: circle[1], pos: new THREE.Vector3().subVectors( v[3], v[2] ).divideScalar( 2 ).add(v[2])});
+		fname_s_0325({el: circle[2], pos: v[3]});
+		
+		
+		fname_s_0325({el: circle[3], pos: v[0]});
+		fname_s_0325({el: circle[4], pos: new THREE.Vector3().subVectors( v[1], v[0] ).divideScalar( 2 ).add(v[0])});
+		fname_s_0325({el: circle[5], pos: v[1]});		
+		
+		
+		fname_s_0325({el: circle[6], pos: new THREE.Vector3().subVectors( v[2], v[0] ).divideScalar( 2 ).add(v[0])});
+		
+		
+		fname_s_0325({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
+		
+		if(infProject.svg.furn.boxCircle.show && camera == cameraTop) { fname_s_0328(circle); }		
+	}	
+
+
+	
+	
+	{
+		var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
+		
+		for(var i = 0; i < v.length; i++)
+		{
+			if(v[i].x < bound.min.x) { bound.min.x = v[i].x; }
+			if(v[i].x > bound.max.x) { bound.max.x = v[i].x; }
+			if(v[i].z < bound.min.z) { bound.min.z = v[i].z; }
+			if(v[i].z > bound.max.z) { bound.max.z = v[i].z; }		
+		}			
+		
+		
+		var box2 = infProject.svg.furn.box2;
+		
+		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	
+		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	
+		var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	
+		var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	
+		
+		
+		fname_s_0326({el: box2, arrP: [p1, p2, p3, p4, p1]});
+		
+		if(camera == cameraTop) { fname_s_0328([box2]); }		
+	}
+	
+	
+	
+	{
+		var floor = null;
+		
+		for ( var i = 0; i < infProject.scene.array.floor.length; i++ )
+		{
+			var ray = new THREE.Raycaster();
+			ray.set( new THREE.Vector3(obj.position.x, 1, obj.position.z), new THREE.Vector3(0, -1, 0) );
+			
+			var intersects = ray.intersectObject( infProject.scene.array.floor[i] );	
+			
+			if(intersects[0]) { floor = intersects[0].object; break; }							
+		}
+		
+	
+		
+		if(floor)
+		{	
+			if(cdm.getObjRoom)
+			{
+				var arrO = fname_s_072({ignoreObj: obj, floor: floor});		
+				infProject.calc.boxScale2D.arrO = arrO;				
+			}
+			else
+			{
+				var arrO = infProject.calc.boxScale2D.arrO;
+			}
+			
+			var arrN = [];
+			
+			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	
+			var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	
+			var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	
+			var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	
+
+			
+			var posTop = new THREE.Vector3().subVectors( p2, p1 ).divideScalar( 2 ).add(p1); 
+			var posBottom = new THREE.Vector3().subVectors( p3, p4 ).divideScalar( 2 ).add(p4);
+			var posLeft = new THREE.Vector3().subVectors( p1, p4 ).divideScalar( 2 ).add(p4);
+			var posRight = new THREE.Vector3().subVectors( p2, p3 ).divideScalar( 2 ).add(p3);
+			
+			var offsetLine = infProject.svg.furn.offset.elem;
+			var offsetLabel = infProject.html.furn.offset;
+			
+			var contour = floor.userData.room.contour;
+			
+			var arr = [];
+			
+			arr[0] = {line: offsetLine[0], posStart: posTop, dir: new THREE.Vector3(0,0,-1), html: offsetLabel[0]};
+			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1), html: offsetLabel[1]};
+			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0), html: offsetLabel[2]};
+			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0), html: offsetLabel[3]};
+			
+			var pos3 = new THREE.Vector3();
+			
+			for ( var n = 0; n < arr.length; n++ )
+			{
+				
+				var dir = arr[n].dir;
+				var posStart = arr[n].posStart;
+				var line = arr[n].line;
+				var html = arr[n].html;
+				
+				fname_s_0329([line]);
+				fname_s_0332([html]);
+				
+				
+				var min = 9999999;
+				var pos2 = null;
+				var posIntr = null;
+				
+				for ( var i = 0; i < contour.length; i++ )
+				{
+					var i2 = (contour.length - 1 == i) ? 0 : i+1;
+
+					
+					var res = fname_s_010(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
+					
+					if(!res[1])	
+					{
+						var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
+						
+						
+						if(fname_s_013(posStart, posEnd, contour[i], contour[i2])) 
+						{	
+							var dist = res[0].distanceTo(posStart);
+							
+							if(min > dist)
+							{
+								pos2 = res[0];
+								
+								min = dist;
+							}
+						}
+					}				
+				}
+				
+				
+				
+				if(!pos2)
+				{
+					for ( var i = 0; i < contour.length; i++ )
+					{
+						var i2 = (contour.length - 1 == i) ? 0 : i+1;
+
+						
+						var res = fname_s_010(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
+						
+						if(!res[1])	
+						{
+							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, -0.1) );
+							
+							
+							if(fname_s_013(posStart, posEnd, contour[i], contour[i2])) 
+							{	
+								var dist = res[0].distanceTo(posStart);
+								
+								if(min > dist)
+								{
+									pos2 = res[0];
+									
+									min = dist;
+								}
+							}
+						}				
+					}
+
+				}
+				
+				
+				for ( var i = 0; i < arrO.length; i++ )
+				{
+					var v = arrO[i].v;
+					
+					for ( var i2 = 0; i2 < v.length; i2++ )
+					{
+						var i3 = (v.length - 1 == i2) ? 0 : i2+1;
+						
+						
+						
+						var res = fname_s_010(posStart, posStart.clone().add(dir), v[i2], v[i3]);								
+						
+						if(!res[1])	
+						{
+							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
+	
+							
+							if(fname_s_013(posStart, posEnd, v[i2], v[i3])) 
+							{	
+								var dist = res[0].distanceTo(posStart);
+								
+								if(min > dist)
+								{
+									pos2 = res[0];
+									
+									min = dist;
+								}
+							}
+						}				
+						
+					}
+				}
+
+
+				
+				if(pos2)
+				{
+					
+					fname_s_0324({el: line, point: [posStart, pos2]});
+					
+					if(infProject.svg.furn.offset.show && camera == cameraTop)
+					{
+						fname_s_0328([line]);					
+						fname_s_0331([html]);
+					}
+					
+					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
+					html.userData.elem.pos = posLabel;					
+					
+					var dist = pos2.distanceTo(posStart);
+					html.style.transform = 'translate(-50%, -50%)';
+					html.textContent = Math.round(dist * 100) / 100 + '';
+					
+					fname_s_0211({elem: html});
+					
+					
+					
+					if(dist < 0.1)
+					{   
+						pos3.add(pos2.clone().sub(posStart));
+						arrN[arrN.length] = n;						
+					}
+					
+				}
+			}
+			
+			
+			if(arrN.length > 0)
+			{ 
+					
+				for ( var j = 0; j < arrN.length; j++ )
+				{
+					var num = arrN[j]; 
+					
+					
+					var x1 = 0;
+					var y1 = 0;
+					
+					var offsetLine = infProject.svg.furn.offset.elem;
+		
+					if(num==0 || num==1) 
+					{
+						var y1 = offsetLine[num].y2.baseVal.value - offsetLine[num].y1.baseVal.value;
+						
+						offsetLine[0].y1.baseVal.value += y1;
+						offsetLine[1].y1.baseVal.value += y1;
+						
+						offsetLine[2].y1.baseVal.value += y1;
+						offsetLine[2].y2.baseVal.value += y1;
+
+						offsetLine[3].y1.baseVal.value += y1;
+						offsetLine[3].y2.baseVal.value += y1;							
+					}						
+					else if(num==2 || num==3) 
+					{
+						var x1 = offsetLine[num].x2.baseVal.value - offsetLine[num].x1.baseVal.value;
+						
+						offsetLine[0].x1.baseVal.value += x1;
+						offsetLine[0].x2.baseVal.value += x1;
+						
+						offsetLine[1].x1.baseVal.value += x1;
+						offsetLine[1].x2.baseVal.value += x1;							
+
+						offsetLine[2].x1.baseVal.value += x1;
+						offsetLine[3].x1.baseVal.value += x1;
+					}
+					
+					var lineSize = infProject.svg.furn.size.elem;
+					lineSize[0].x1.baseVal.value += x1;
+					lineSize[0].y1.baseVal.value += y1;					
+					lineSize[0].x2.baseVal.value += x1;
+					lineSize[0].y2.baseVal.value += y1;
+					
+					lineSize[1].x1.baseVal.value += x1;
+					lineSize[1].y1.baseVal.value += y1;					
+					lineSize[1].x2.baseVal.value += x1;
+					lineSize[1].y2.baseVal.value += y1;					
+						
+					var circle = infProject.svg.furn.boxCircle.elem;
+					
+					for ( var i = 0; i < circle.length; i++ )
+					{
+						circle[i].cx.baseVal.value += x1;
+						circle[i].cy.baseVal.value += y1;
+					}					
+					
+					var box1 = infProject.svg.furn.box1;
+					
+					var path = 'M';
+					for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						path += (arrS.x + x1)+' '+(arrS.y + y1)+',';
+						
+						arrS.x += x1;
+						arrS.y += y1;
+					}
+
+					box1.setAttribute("d", path);
+					
+					
+					var box2 = infProject.svg.furn.box2;
+					
+					var path = 'M';
+					for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box2.userData.svg.path.arrS[i];
+						
+						path += (arrS.x + x1)+' '+(arrS.y + y1)+', ';
+						
+						arrS.x += x1;
+						arrS.y += y1;
+					}
+
+					box2.setAttribute("d", path);						
+				}
+				
+				
+				
+				{
+					fname_s_0327({el: infProject.svg.furn.size.elem});
+					
+					var sizeLine = infProject.svg.furn.size.elem;
+					var sizeLabel = infProject.html.furn.size;					
+					
+					for ( var i = 0; i < sizeLabel.length; i++ )
+					{
+						var p = sizeLine[i].userData.svg.line.p;
+						
+						var posLabel = new THREE.Vector3().subVectors( p[1], p[0] ).divideScalar( 2 ).add(p[0]); 
+						sizeLabel[i].userData.elem.pos = posLabel;					
+						
+						var dist = p[0].distanceTo(p[1]);
+						sizeLabel[i].style.transform = 'translate(-50%, -50%)';
+						sizeLabel[i].textContent = Math.round(dist * 100) / 100 + '';
+						
+						fname_s_0211({elem: sizeLabel[i]});
+
+						if(dist < 0.01)
+						{
+							fname_s_0332([sizeLabel[i]]);
+						}
+					}									
+				}
+				
+				
+				
+				{
+					fname_s_0327({el: infProject.svg.furn.offset.elem});
+					
+					var offsetLine = infProject.svg.furn.offset.elem;
+					var offsetLabel = infProject.html.furn.offset;
+					
+					for ( var i = 0; i < offsetLabel.length; i++ )
+					{
+						var p = offsetLine[i].userData.svg.line.p;
+						
+						var posLabel = new THREE.Vector3().subVectors( p[1], p[0] ).divideScalar( 2 ).add(p[0]); 
+						offsetLabel[i].userData.elem.pos = posLabel;					
+						
+						var dist = p[0].distanceTo(p[1]);
+						offsetLabel[i].style.transform = 'translate(-50%, -50%)';
+						offsetLabel[i].textContent = Math.round(dist * 100) / 100 + '';
+						
+						fname_s_0211({elem: offsetLabel[i]});
+
+						if(dist < 0.01)
+						{
+							fname_s_0332([offsetLabel[i]]);
+						}
+					}
+				}
+				
+				
+				{
+					
+					
+					obj.position.x += pos3.x;
+					obj.position.z += pos3.z;
+		
+
+					infProject.tools.pivot.position.x += pos3.x;
+					infProject.tools.pivot.position.z += pos3.z;					
+					infProject.tools.gizmo.position.x += pos3.x;
+					infProject.tools.gizmo.position.z += pos3.z;
+				}
+				
+			}							
+		}
+		else
+		{
+			fname_s_0329(infProject.svg.furn.offset.elem);
+			fname_s_0332(infProject.html.furn.offset);
+		}
+		
+	}
+}
+
+
+
+
+function fname_s_071(cdm)
+{
+	var offset_2D = new THREE.Vector2();
+	var offset_3D = new THREE.Vector3();
+	
+	if(infProject.calc.boxScale2D.pos2D)
+	{
+		offset_2D = new THREE.Vector2().subVectors( cdm.setPos.pos2D, infProject.calc.boxScale2D.pos2D );
+		offset_3D = new THREE.Vector3().subVectors( cdm.setPos.pos3D, infProject.calc.boxScale2D.pos3D );
+	}
+	
+	infProject.calc.boxScale2D.pos2D = cdm.setPos.pos2D;
+	infProject.calc.boxScale2D.pos3D = cdm.setPos.pos3D;
+			
+	
+	{					
+		var x1 = offset_2D.x;
+		var y1 = offset_2D.y;
+		
+		
+		
+		var offsetLine = infProject.svg.furn.offset.elem;
+
+		for ( var i = 0; i < offsetLine.length; i++ )
+		{
+			offsetLine[i].x1.baseVal.value += x1;
+			offsetLine[i].x2.baseVal.value += x1;				
+			offsetLine[i].y1.baseVal.value += y1;
+			offsetLine[i].y2.baseVal.value += y1;						
+		}
+
+		
+		var lineSize = infProject.svg.furn.size.elem;
+		
+		for ( var i = 0; i < lineSize.length; i++ )
+		{
+			lineSize[i].x1.baseVal.value += x1;
+			lineSize[i].y1.baseVal.value += y1;					
+			lineSize[i].x2.baseVal.value += x1;
+			lineSize[i].y2.baseVal.value += y1;				
+		}							
+			
+		var circle = infProject.svg.furn.boxCircle.elem;
+		
+		for ( var i = 0; i < circle.length; i++ )
+		{
+			circle[i].cx.baseVal.value += x1;
+			circle[i].cy.baseVal.value += y1;
+		}
+		
+		var box1 = infProject.svg.furn.box1;
+		
+		for ( var i = 0; i < box1.pathSegList.length; i++ )
+		{
+			box1.pathSegList[i].x += x1;
+			box1.pathSegList[i].y += y1;
+		}						
+		
+		var box2 = infProject.svg.furn.box2;
+		
+		for ( var i = 0; i < box2.pathSegList.length; i++ )
+		{
+			box2.pathSegList[i].x += x1;
+			box2.pathSegList[i].y += y1;
+		}
+
+
+		var offsetLabel = infProject.html.furn.offset;			
+		
+		for ( var i = 0; i < offsetLabel.length; i++ )
+		{
+			offsetLabel[i].style.left = offsetLabel[i].offsetLeft + x1 + "px";
+			offsetLabel[i].style.top = offsetLabel[i].offsetTop + y1 + "px";
+		}
+
+		var sizeLabel = infProject.html.furn.size;			
+		
+		for ( var i = 0; i < sizeLabel.length; i++ )
+		{
+			sizeLabel[i].style.left = sizeLabel[i].offsetLeft + x1 + "px";
+			sizeLabel[i].style.top = sizeLabel[i].offsetTop + y1 + "px";
+		}			
+	}		
+	
+}
+
+
+
+
+function fname_s_072(cdm)
+{
+	
+	
+	var arr = [];	
+	
+	var floor = cdm.floor;		
+	var obj = (cdm.ignoreObj) ? cdm.ignoreObj : null;	
+
+	
+	for ( var i = 0; i < infProject.scene.array.obj.length; i++ )
+	{				
+		var obj_2 = infProject.scene.array.obj[i];
+		
+		if(obj_2 == obj) continue;
+		
+		var ray = new THREE.Raycaster();
+		ray.set( new THREE.Vector3(obj_2.position.x, 1, obj_2.position.z), new THREE.Vector3(0, -1, 0) );
+		
+		var intersects = ray.intersectObject( floor );	
+		
+		if(intersects[0]) 
+		{
+			
+			{
+				var v = [];
+				v[0] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.max.z) );	
+				v[1] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.max.z) );	
+				
+				v[2] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.min.z) );	
+				v[3] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.min.z) );	
+			}
+
+			arr[arr.length] = { o: obj_2, v: v };
+		}					
+	}
+
+
+	return arr;
+}
 
 
 
@@ -2919,7 +3548,7 @@ var vk_click = '';
 
 
 
-function fname_s_070()
+function fname_s_073()
 {
 	
 	clickO.buttonAct = null;
@@ -2933,22 +3562,22 @@ function fname_s_070()
 		
 		if(obj.userData.tag == 'point') 
 		{ 	
-			if(obj.w.length == 0){ fname_s_0149(obj); }  
+			if(obj.w.length == 0){ fname_s_0152(obj); }  
 			else 
 			{ 
 				if(obj.userData.point.type == 'continue_create_wall')
 				{
 					var point = obj.p[0]; 
-					fname_s_0147(obj.w[0]); 
+					fname_s_0150(obj.w[0]); 
 					
 				}
 				
-				if(point.userData.point.last.cdm == 'new_point_1') { fname_s_0150( point ).wall.userData.id = point.userData.point.last.cross.walls.old; }
+				if(point.userData.point.last.cdm == 'new_point_1') { fname_s_0153( point ).wall.userData.id = point.userData.point.last.cross.walls.old; }
 			}
 		}
 		else if(obj.userData.tag == 'obj')
 		{
-			fname_s_0255(obj); 
+			fname_s_0260({obj: obj}); 
 		}		
 
 		clickO = resetPop.clickO();
@@ -2959,7 +3588,7 @@ function fname_s_070()
 
 
 
-function fname_s_071( event ) 
+function fname_s_074( event ) 
 {
 	
 
@@ -2976,6 +3605,7 @@ function fname_s_071( event )
 	long_click = false;
 	lastClickTime = new Date().getTime();
 
+	if(fname_s_0335(event)) { return; }		
 	
 	if(event.changedTouches)
 	{
@@ -2995,11 +3625,11 @@ function fname_s_071( event )
 	infProject.tools.axis[0].visible = false;
 	infProject.tools.axis[1].visible = false;
 
-	fname_s_088( event, vk_click );
-	fname_s_089( event, vk_click );
+	fname_s_091( event, vk_click );
+	fname_s_092( event, vk_click );
 
 
-	if ( vk_click == 'right' ) { fname_s_070( event ); return; } 
+	if ( vk_click == 'right' ) { fname_s_073( event ); return; } 
 
 
 	if(clickO.move)
@@ -3012,9 +3642,10 @@ function fname_s_071( event )
 	 
 	clickO.obj = null; 	
 	clickO.actMove = false;	
-	clickO.rayhit = fname_s_072(event); 
+	clickO.selectBox.drag = false;
+	clickO.rayhit = fname_s_075(event); 
 	
-	fname_s_073({type: 'down'});
+	fname_s_076({type: 'down'});
 	
 	renderCamera();
 }
@@ -3023,14 +3654,14 @@ function fname_s_071( event )
 
 
 
-function fname_s_072(event)
+function fname_s_075(event)
 { 
 	var rayhit = null;	
 				
 	
 	if(infProject.tools.pivot.visible)
 	{
-		var ray = fname_s_0224( event, infProject.tools.pivot.children, 'arr' );
+		var ray = fname_s_0230( event, infProject.tools.pivot.children, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; return rayhit; }		
 	}
 	
@@ -3039,31 +3670,31 @@ function fname_s_072(event)
 		var arr = [];
 		for ( var i = 0; i < infProject.tools.gizmo.children.length; i++ ){ arr[i] = infProject.tools.gizmo.children[i]; }
 		
-		var ray = fname_s_0224( event, arr, 'arr' );
+		var ray = fname_s_0230( event, arr, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; return rayhit; }		
 	}
 
 	if(!infProject.scene.block.click.controll_wd)
 	{
-		var ray = fname_s_0224( event, infProject.tools.controllWD, 'arr' );
+		var ray = fname_s_0230( event, infProject.tools.controllWD, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.door)
 	{
-		var ray = fname_s_0224( event, infProject.scene.array.door, 'arr' );
+		var ray = fname_s_0230( event, infProject.scene.array.door, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.window)
 	{
-		var ray = fname_s_0224( event, infProject.scene.array.window, 'arr' );
+		var ray = fname_s_0230( event, infProject.scene.array.window, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 	
 	if(!infProject.scene.block.click.point)
 	{
-		var ray = fname_s_0224( event, infProject.scene.array.point, 'arr' );
+		var ray = fname_s_0230( event, infProject.scene.array.point, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 
@@ -3076,14 +3707,14 @@ function fname_s_072(event)
 			arr[arr.length] = infProject.scene.array.wall[i]; 
 		}		
 		
-		var ray = fname_s_0224( event, arr, 'arr' );
+		var ray = fname_s_0230( event, arr, 'arr' );
 		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
 	}
 
 	
 	if(!infProject.scene.block.click.obj)
 	{
-		var ray = fname_s_0224( event, infProject.scene.array.obj, 'arr' );
+		var ray = fname_s_0230( event, infProject.scene.array.obj, 'arr' );
 		
 		if(ray.length > 0)
 		{   
@@ -3100,7 +3731,7 @@ function fname_s_072(event)
 	
 	if(!rayhit)
 	{
-		var ray = fname_s_0224( event, infProject.scene.array.floor, 'arr' );
+		var ray = fname_s_0230( event, infProject.scene.array.floor, 'arr' );
 		if(ray.length > 0) { rayhit = ray[0]; }			
 	}	
 	
@@ -3109,13 +3740,12 @@ function fname_s_072(event)
 }
 
 
-function fname_s_073(cdm)
+function fname_s_076(cdm)
 {
-	fname_s_076(cdm);
-	
-	if(!clickO.rayhit) return; 
+	if(!clickO.rayhit) { fname_s_079(cdm); return; }
 
 	var obj = clickO.obj = clickO.rayhit.object;
+	fname_s_079(cdm);
 	
 	var tag = obj.userData.tag;
 	var rayhit = clickO.rayhit;
@@ -3124,23 +3754,23 @@ function fname_s_073(cdm)
 	if(cdm.type == 'down')
 	{  
 		if(fname_s_063(clickO.move)) { flag = false; }
-		else if( tag == 'pivot' ) { fname_s_0247( rayhit ); }
-		else if( tag == 'gizmo' ) { fname_s_0261( rayhit ); } 
-		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0125( rayhit ); }
-		else if( tag == 'point' ) { fname_s_0108( rayhit ); }
-		else if( tag == 'window' ) { fname_s_0135( rayhit ); }
-		else if( tag == 'door' ) { fname_s_0135( rayhit ); }
-		else if( tag == 'controll_wd' ) { fname_s_0104( rayhit ); }
-		else if( tag == 'obj' && camera == cameraTop ) { fname_s_0251({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { fname_s_0251({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'pivot' ) { fname_s_0252( rayhit ); }
+		else if( tag == 'gizmo' ) { fname_s_0266( rayhit ); } 
+		else if( tag == 'wall' && camera == cameraTop ) { fname_s_0128( rayhit ); }
+		else if( tag == 'point' ) { fname_s_0111( rayhit ); }
+		else if( tag == 'window' ) { fname_s_0138( rayhit ); }
+		else if( tag == 'door' ) { fname_s_0138( rayhit ); }
+		else if( tag == 'controll_wd' ) { fname_s_0107( rayhit ); }
+		else if( tag == 'obj' && camera == cameraTop ) { fname_s_0256({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj == obj) { fname_s_0256({obj: obj, rayhit: rayhit}); }
 		else { flag = false; }
 	}
 	else if(cdm.type == 'up')
 	{	
-		if( tag == 'wall' && camera == camera3D ) { fname_s_0126({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { fname_s_0251({obj: obj, rayhit: rayhit}); }
-		else if( tag == 'room' && camera == cameraTop ) { fname_s_0162({obj: obj}); }
-		else if( tag == 'room' && camera == camera3D ) { fname_s_0162({obj: obj}); }
+		if( tag == 'wall' && camera == camera3D ) { fname_s_0129({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'obj' && camera == camera3D && infProject.tools.pivot.userData.pivot.obj !== obj ) { fname_s_0256({obj: obj, rayhit: rayhit}); }
+		else if( tag == 'room' && camera == cameraTop ) { fname_s_0165({obj: obj}); }
+		else if( tag == 'room' && camera == camera3D ) { fname_s_0165({obj: obj}); }
 		else { flag = false; }
 	}	
 
@@ -3149,7 +3779,7 @@ function fname_s_073(cdm)
 	{
 		if(camera == cameraTop)
 		{
-			fname_s_0181(obj);
+			fname_s_0186(obj);
 		}		
 
 		if(tag == 'pivot') { obj = infProject.tools.pivot.userData.pivot.obj; }
@@ -3157,12 +3787,12 @@ function fname_s_073(cdm)
 		
 		clickO.last_obj = obj;
 		
-		fname_s_078( obj );
+		fname_s_081( obj );
 	}
 }
 
 
-function fname_s_074( event ) 
+function fname_s_077( event ) 
 { 
 	if(event.changedTouches)
 	{
@@ -3171,9 +3801,11 @@ function fname_s_074( event )
 		isMouseDown2 = true;
 	}
 	
+	if(fname_s_0336(event)) { return; }		
+	
 	if(clickO.elem) { fname_s_068(event); }
 
-	fname_s_0226( event );
+	fname_s_0232( event );
 		
 
 	if ( !long_click ) { long_click = ( lastClickTime - new Date().getTime() < catchTime ) ? true : false; }
@@ -3184,38 +3816,46 @@ function fname_s_074( event )
 	{
 		var tag = obj.userData.tag;
 			
-		if ( tag == 'pivot' ) { fname_s_0248( event ); }
-		else if ( tag == 'gizmo' ) { fname_s_0263( event ); }
-		else if ( tag == 'wall' ) { fname_s_0129( event, obj ); }
-		else if ( tag == 'window' ) { fname_s_0139( event, obj ); }
-		else if ( tag == 'door' ) { fname_s_0139( event, obj ); }
-		else if ( tag == 'controll_wd' ) { fname_s_0105( event, obj ); }
-		else if ( tag == 'point' ) { fname_s_0110( event, obj ); }
-		else if ( tag == 'room' ) { fname_s_087( event ); }		
+		if ( tag == 'pivot' ) { fname_s_0253( event ); }
+		else if ( tag == 'gizmo' ) { fname_s_0268( event ); }
+		else if ( tag == 'wall' ) { fname_s_0132( event, obj ); }
+		else if ( tag == 'window' ) { fname_s_0142( event, obj ); }
+		else if ( tag == 'door' ) { fname_s_0142( event, obj ); }
+		else if ( tag == 'controll_wd' ) { fname_s_0108( event, obj ); }
+		else if ( tag == 'point' ) { fname_s_0113( event, obj ); }
+		else if ( tag == 'room' ) { fname_s_090( event ); }		
 		else if ( tag == 'free_dw' ) { fname_s_062( event, obj ); }
-		else if ( tag == 'obj' ) { fname_s_0253( event ); }
+		else if ( tag == 'obj' ) { fname_s_0258( event ); }
+		else if ( tag == 'obj_spot' ) { fname_s_0258( event ); }
 	}
+	else if(camera == cameraTop && clickO.selectBox.drag) 
+	{		
+		fname_s_0341(event); 
+	}	
 	else 
 	{
-		if ( camera == camera3D ) { fname_s_087( event ); }
-		else if ( camera == cameraTop ) { fname_s_090( event ); }
-		else if ( camera == cameraWall ) { fname_s_091( event ); }
+		if ( camera == camera3D ) { fname_s_090( event ); }
+		else if ( camera == cameraTop ) { fname_s_093( event ); }
+		else if ( camera == cameraWall ) { fname_s_094( event ); }
 	}
 	
+	fname_s_0184( event );
 
 	renderCamera();
 }
 
 
-function fname_s_075( event )  
+function fname_s_078( event )  
 {
 
+	if(fname_s_0337(event)) { return; }		
+	
 	if(!long_click) 
 	{ 
-		fname_s_073({type: 'up'}); 
+		fname_s_076({type: 'up'}); 
 	}	
 	
-	var obj = clickO.move;	
+	var obj = clickO.move;		
 	
 	
 	if(clickO.elem)
@@ -3230,14 +3870,15 @@ function fname_s_075( event )
 		if(tag == 'point') 
 		{  		
 			var point = clickO.move;
-			fname_s_0124(point); 
+			fname_s_0127(point); 
 			if(!clickO.move.userData.point.type) { fname_s_049(clickO.move); }						
 		}
-		else if(tag == 'wall') { fname_s_0134(obj); }
-		else if(tag == 'window' || obj.userData.tag == 'door') { fname_s_0144(obj); }	
-		else if(tag == 'controll_wd') { fname_s_0107(obj); } 
-		else if(tag == 'obj') { fname_s_0254(obj); }
-		else if(tag == 'pivot') { fname_s_0250(); }
+		else if(tag == 'wall') { fname_s_0137(obj); }
+		else if(tag == 'window' || obj.userData.tag == 'door') { fname_s_0147(obj); }	
+		else if(tag == 'controll_wd') { fname_s_0110(obj); } 
+		else if(tag == 'obj') { fname_s_0259(obj); }
+		else if(tag == 'pivot') { fname_s_0255(); }
+		else if(tag == 'gizmo') { fname_s_0270(); }
 		
 		if(tag == 'free_dw') {  }
 		else if (tag == 'point') 
@@ -3247,6 +3888,11 @@ function fname_s_075( event )
 		}		
 		else { clickO.move = null; }		
 	}
+	else if(clickO.selectBox.drag)
+	{		
+		fname_s_0342();
+	}	
+	
 	
 	param_win.click = false;
 	isMouseDown1 = false;
@@ -3267,8 +3913,10 @@ function fname_s_075( event )
 
 
 
-function fname_s_076(cdm)
+function fname_s_079(cdm)
 {
+	if(fname_s_0343(clickO.obj)) { return; }
+	
 	var obj = clickO.last_obj;
 	if(!cdm) { cdm = {type: ''}; }
 	
@@ -3276,36 +3924,36 @@ function fname_s_076(cdm)
 	
 	if(obj)
 	{ 
-		fname_s_0182(); 
+		fname_s_0187(); 
 		
 
 		var tag = obj.userData.tag;
 		
 		if(cdm.type == 'down')
 		{
-			if(tag == 'wall' && camera == cameraTop) { fname_s_077(obj); }
-			else if(tag == 'point' && camera == cameraTop) { fname_s_077(obj); }
-			else if(tag == 'window' && camera == cameraTop) { fname_s_0141(obj); fname_s_077(obj); }
-			else if(tag == 'door' && camera == cameraTop) { fname_s_0141(obj); fname_s_077(obj); }
-			else if(tag == 'obj' && camera == cameraTop) { fname_s_0256(obj); }			
+			if(tag == 'wall' && camera == cameraTop) { fname_s_080(obj); }
+			else if(tag == 'point' && camera == cameraTop) { fname_s_080(obj); }
+			else if(tag == 'window' && camera == cameraTop) { fname_s_0144(obj); fname_s_080(obj); }
+			else if(tag == 'door' && camera == cameraTop) { fname_s_0144(obj); fname_s_080(obj); }
+			else if(tag == 'obj' && camera == cameraTop) { fname_s_0261(obj); }			
 			else { flag = false; }
 		}
 		else if(cdm.type == 'up')
 		{
-			if(tag == 'wall' && camera == camera3D) { fname_s_077(obj); fname_s_0202(); }
-			else if(tag == 'room' && camera == cameraTop) { fname_s_077(obj); fname_s_0202(); }
-			else if(tag == 'room' && camera == camera3D) { fname_s_077(obj); fname_s_0202(); }
-			else if(tag == 'obj' && camera == camera3D) { fname_s_0256(obj); }
+			if(tag == 'wall' && camera == camera3D) { fname_s_080(obj); fname_s_0208(); }
+			else if(tag == 'room' && camera == cameraTop) { fname_s_080(obj); fname_s_0208(); }
+			else if(tag == 'room' && camera == camera3D) { fname_s_080(obj); fname_s_0208(); }
+			else if(tag == 'obj' && camera == camera3D) { fname_s_0261(obj); }
 			else { flag = false; }
 		}
 		else
 		{
-			if(tag == 'wall') { fname_s_077(obj); }
-			else if(tag == 'point') { fname_s_077(obj); }
-			else if(tag == 'window') { fname_s_0141(obj); fname_s_077(obj); }
-			else if(tag == 'door') { fname_s_0141(obj); fname_s_077(obj); }
-			else if(tag == 'room') { fname_s_077(obj); }
-			else if(tag == 'obj') { fname_s_0256(obj); }
+			if(tag == 'wall') { fname_s_080(obj); }
+			else if(tag == 'point') { fname_s_080(obj); }
+			else if(tag == 'window') { fname_s_0144(obj); fname_s_080(obj); }
+			else if(tag == 'door') { fname_s_0144(obj); fname_s_080(obj); }
+			else if(tag == 'room') { fname_s_080(obj); }
+			else if(tag == 'obj') { fname_s_0261(obj); }
 			else { flag = false; }
 		}
 	}
@@ -3316,7 +3964,7 @@ function fname_s_076(cdm)
 
 
 
-function fname_s_077(obj) 
+function fname_s_080(obj) 
 {
 	if(!obj) return;  
 	if(!obj.userData) return;
@@ -3335,7 +3983,7 @@ function fname_s_077(obj)
 
 
 
-function fname_s_078( obj )
+function fname_s_081( obj )
 {
 	
 	if(!obj) return;
@@ -3385,44 +4033,44 @@ function fname_s_078( obj )
 
 
 
-function fname_s_079(cam)
+function fname_s_082(cam)
 {  
-	fname_s_0228();
+	fname_s_0234();
 	
 	camera = cam;
 	renderPass.camera = cam;
 	outlinePass.renderCamera = cam;
 	if(saoPass) saoPass.camera = cam;
-	fname_s_0202();
+	fname_s_0208();
 	
 	if(camera == cameraTop)
 	{				
 		infProject.camera.d3.targetO.visible = false;
-		fname_s_084({visible_1: false, visible_2: false});
+		fname_s_087({visible_1: false, visible_2: false});
 		
-		fname_s_080();			
-		fname_s_094( camera.zoom );
+		fname_s_083();			
+		fname_s_097( camera.zoom );
 
-		fname_s_0282();	
+		fname_s_0289();	
 		
 		fname_s_028({current: true});
 	}
 	else if(camera == camera3D)
 	{	
 		infProject.camera.d3.targetO.visible = true;
-		fname_s_084({visible_1: true, visible_2: true});
+		fname_s_087({visible_1: true, visible_2: true});
 				 
-		fname_s_094( cameraTop.zoom );
-		fname_s_080();
+		fname_s_097( cameraTop.zoom );
+		fname_s_083();
 		
 		for( var i = 0; i < infProject.scene.array.cubeCam.length; i++ )
 		{
-			fname_s_0276({obj: infProject.scene.array.cubeCam[i]});
+			
 		}		
 		
 		
-		fname_s_0280();
-		fname_s_0281();
+		fname_s_0287();
+		fname_s_0288();
 		
 		fname_s_028({current: true});
 	}
@@ -3441,7 +4089,7 @@ function fname_s_079(cam)
 
 
 
-function fname_s_080()
+function fname_s_083()
 {
 	if(camera == cameraTop)
 	{
@@ -3495,15 +4143,15 @@ function fname_s_080()
 		}		
 	}
 	
-	if(visible) { fname_s_0323(label); }
+	if(visible) { fname_s_0331(label); }
 	else 
 	{ 
-		fname_s_0324(label); 
-		fname_s_0324(infProject.html.furn.size);
-		fname_s_0324(infProject.html.furn.offset);		
+		fname_s_0332(label); 
+		fname_s_0332(infProject.html.furn.size);
+		fname_s_0332(infProject.html.furn.offset);		
 	}
 
-	fname_s_0321(infProject.svg.arr);
+	fname_s_0329(infProject.svg.arr);
 	
 	
 	for ( var i = 0; i < point.length; i++ )
@@ -3511,14 +4159,14 @@ function fname_s_080()
 		point[i].visible = visible; 
 	}		
 
-	fname_s_081(window, visible_2);
-	fname_s_081(door, visible_2);
+	fname_s_084(window, visible_2);
+	fname_s_084(door, visible_2);
 	
 }
 
 
 
-function fname_s_081(arr, visible)
+function fname_s_084(arr, visible)
 {	
 	if(arr.length == 0) return;
 	
@@ -3565,7 +4213,7 @@ function fname_s_camera3d_view(cdm)
 		newCameraPosition = { positionFirst: new THREE.Vector3(posCenter.x, 1.5, posCenter.z) };
 
 		
-		fname_s_0282();	
+		fname_s_0289();	
 	}
 	else
 	{
@@ -3587,8 +4235,8 @@ function fname_s_camera3d_view(cdm)
 		newCameraPosition = { positionFly: pos };
 
 		
-		fname_s_0280();
-		fname_s_0281();		 
+		fname_s_0287();
+		fname_s_0288();		 
 	}
 }
 
@@ -3596,7 +4244,7 @@ function fname_s_camera3d_view(cdm)
 
 
 
-function fname_s_083()  
+function fname_s_086()  
 { 	
 	cameraWall.zoom = 2;
 	camera.updateMatrixWorld();
@@ -3626,7 +4274,7 @@ function fname_s_083()
 
 
 
-function fname_s_084(cdm)
+function fname_s_087(cdm)
 {
 	var visible_1 = cdm.visible_1;
 	var visible_2 = cdm.visible_2;
@@ -3655,11 +4303,11 @@ function fname_s_084(cdm)
 
 
 
-var type_browser = fname_s_099();
+var type_browser = fname_s_0102();
 var newCameraPosition = null;
 
 
-function fname_s_085() 
+function fname_s_088() 
 {
 	
 	
@@ -3772,7 +4420,7 @@ function fname_s_085()
 
 
 
-function fname_s_086(cdm)
+function fname_s_089(cdm)
 {
 	camera3D.position.x = 0;
 	camera3D.position.y = cdm.radious * Math.sin( cdm.phi * Math.PI / 360 );
@@ -3786,7 +4434,7 @@ function fname_s_086(cdm)
 
 
 
-function fname_s_087( event )
+function fname_s_090( event )
 { 
 	if ( camera3D.userData.camera.type == 'fly' )
 	{
@@ -3808,18 +4456,18 @@ function fname_s_087( event )
 			
 			infProject.camera.d3.targetO.rotation.set( 0, camera.rotation.y, 0 );
 			
-			fname_s_0281();
+			fname_s_0288();
 		}
 		if ( isMouseDown3 )    
 		{
 			newCameraPosition = null;
 			
-			var intersects = fname_s_0224( event, planeMath, 'one' );
+			var intersects = fname_s_0230( event, planeMath, 'one' );
 			var offset = new THREE.Vector3().subVectors( camera3D.userData.camera.click.pos, intersects[0].point );
 			camera.position.add( offset );
 			infProject.camera.d3.targetO.position.add( offset );
 			
-			fname_s_0281();
+			fname_s_0288();
 		}
 	}
 	else if ( camera3D.userData.camera.type == 'first' )
@@ -3846,7 +4494,7 @@ function fname_s_087( event )
 
 
 
-function fname_s_088( event, click )
+function fname_s_091( event, click )
 {
 	if ( camera == cameraTop || camera == cameraWall) { }
 	else { return; }
@@ -3864,7 +4512,7 @@ function fname_s_088( event, click )
 		planeMath.rotation.set(-Math.PI/2,0,0);  
 		planeMath.updateMatrixWorld();
 		
-		var intersects = fname_s_0224( event, planeMath, 'one' );
+		var intersects = fname_s_0230( event, planeMath, 'one' );
 		
 		onMouseDownPosition.x = intersects[0].point.x;
 		onMouseDownPosition.z = intersects[0].point.z;	 		
@@ -3878,7 +4526,7 @@ function fname_s_088( event, click )
 		planeMath.rotation.copy( camera.rotation ); 
 		planeMath.updateMatrixWorld();
 
-		var intersects = fname_s_0224( event, planeMath, 'one' );	
+		var intersects = fname_s_0230( event, planeMath, 'one' );	
 		onMouseDownPosition.x = intersects[0].point.x;
 		onMouseDownPosition.y = intersects[0].point.y;
 		onMouseDownPosition.z = intersects[0].point.z;		 		
@@ -3888,7 +4536,7 @@ function fname_s_088( event, click )
 
 
 
-function fname_s_089( event, click )
+function fname_s_092( event, click )
 {
 	if ( camera != camera3D ) { return; }
 
@@ -3919,7 +4567,7 @@ function fname_s_089( event, click )
 		planeMath.rotation.set(-Math.PI/2, 0, 0);
 		planeMath.updateMatrixWorld();
 
-		var intersects = fname_s_0224( event, planeMath, 'one' );	
+		var intersects = fname_s_0230( event, planeMath, 'one' );	
 		camera3D.userData.camera.click.pos = intersects[0].point;  
 	}
 }
@@ -3928,7 +4576,7 @@ function fname_s_089( event, click )
 
 
 
-function fname_s_090( event ) 
+function fname_s_093( event ) 
 {
 	if(isMouseRight1 || isMouseDown1) {}
 	else { return; }
@@ -3936,7 +4584,7 @@ function fname_s_090( event )
 
 	newCameraPosition = null;	
 	
-	var intersects = fname_s_0224( event, planeMath, 'one' );
+	var intersects = fname_s_0230( event, planeMath, 'one' );
 	
 	camera.position.x += onMouseDownPosition.x - intersects[0].point.x;
 	camera.position.z += onMouseDownPosition.z - intersects[0].point.z;	
@@ -3944,11 +4592,11 @@ function fname_s_090( event )
 
 
 
-function fname_s_091( event )
+function fname_s_094( event )
 {
 	if ( !isMouseRight1 ) { return; }
 
-	var intersects = fname_s_0224( event, planeMath, 'one' );
+	var intersects = fname_s_0230( event, planeMath, 'one' );
 	
 	camera.position.x += onMouseDownPosition.x - intersects[0].point.x;
 	camera.position.y += onMouseDownPosition.y - intersects[0].point.y;	
@@ -3959,7 +4607,7 @@ function fname_s_091( event )
 
 
 
-function fname_s_092( e )
+function fname_s_095( e )
 {
 	
 	var delta = e.wheelDelta ? e.wheelDelta / 120 : e.detail ? e.detail / 3 : 0;
@@ -3968,14 +4616,14 @@ function fname_s_092( e )
 
 	if(camera == cameraTop) 
 	{ 
-		fname_s_094( camera.zoom - ( delta * 0.1 * ( camera.zoom / 2 ) ) ); 
+		fname_s_097( camera.zoom - ( delta * 0.1 * ( camera.zoom / 2 ) ) ); 
 	}
 	else if(camera == camera3D) 
 	{ 
-		fname_s_095( delta, 1 ); 
+		fname_s_098( delta, 1 ); 
 	}
 	
-	fname_s_0249();
+	fname_s_0254();
 	
 	renderCamera();
 }
@@ -3985,19 +4633,19 @@ function fname_s_092( e )
 
 
 var zoomLoop = '';
-function fname_s_093() 
+function fname_s_096() 
 {
 	var flag = false;
 	
 	if ( camera == cameraTop )
 	{
-		if ( zoomLoop == 'zoomOut' ) { fname_s_094( camera.zoom - ( 0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
-		if ( zoomLoop == 'zoomIn' ) { fname_s_094( camera.zoom - ( -0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
+		if ( zoomLoop == 'zoomOut' ) { fname_s_097( camera.zoom - ( 0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
+		if ( zoomLoop == 'zoomIn' ) { fname_s_097( camera.zoom - ( -0.05 * ( camera.zoom / 2 ) ) ); flag = true; }
 	}
 	else if ( camera == camera3D )
 	{
-		if ( zoomLoop == 'zoomOut' ) { fname_s_095( 0.3, 0.3 ); flag = true; }
-		if ( zoomLoop == 'zoomIn' ) { fname_s_095( -0.3, 0.3 ); flag = true; }
+		if ( zoomLoop == 'zoomOut' ) { fname_s_098( 0.3, 0.3 ); flag = true; }
+		if ( zoomLoop == 'zoomIn' ) { fname_s_098( -0.3, 0.3 ); flag = true; }
 	}
 	else if ( camera == cameraWall )
 	{
@@ -4014,7 +4662,7 @@ function fname_s_093()
 
 
 
-function fname_s_094( delta )
+function fname_s_097( delta )
 {
 	if(camera == cameraTop)
 	{		
@@ -4052,7 +4700,7 @@ function fname_s_094( delta )
 
 
 
-function fname_s_095( delta, z )
+function fname_s_098( delta, z )
 {
 	if ( camera != camera3D ) return;
 
@@ -4069,8 +4717,8 @@ function fname_s_095( delta, z )
 		var pos3 = new THREE.Vector3().addVectors( camera.position, dir );	
 
 
-		var qt = fname_s_0232( new THREE.Vector3().subVectors( pos1, camera.position ).normalize() );
-		var v1 = fname_s_0230( new THREE.Vector3().subVectors( pos1, pos3 ), qt );
+		var qt = fname_s_0238( new THREE.Vector3().subVectors( pos1, camera.position ).normalize() );
+		var v1 = fname_s_0236( new THREE.Vector3().subVectors( pos1, pos3 ), qt );
 
 
 		var offset = new THREE.Vector3().subVectors( pos3, pos2 );
@@ -4096,7 +4744,7 @@ function fname_s_095( delta, z )
 
 
 
-function fname_s_096()
+function fname_s_099()
 {
 	if ( camera != cameraTop ) return;
 
@@ -4137,7 +4785,7 @@ function fname_s_096()
 }
 
 
-function fname_s_097()
+function fname_s_0100()
 {
 	if ( camera != camera3D ) return;
 
@@ -4154,7 +4802,7 @@ function fname_s_097()
 }
 
 
-function fname_s_098()
+function fname_s_0101()
 {
 
 	if ( !newCameraPosition ) return;
@@ -4209,7 +4857,7 @@ function fname_s_098()
 
 
 
-function fname_s_099()
+function fname_s_0102()
 {
 	var ua = navigator.userAgent;
 
@@ -4234,7 +4882,7 @@ function fname_s_099()
 
 
 
-function fname_s_0100() 
+function fname_s_0103() 
 {
 	var arr = []; 
 	
@@ -4266,7 +4914,7 @@ function fname_s_0100()
 
 
 
-function fname_s_0101( wall, obj )
+function fname_s_0104( wall, obj )
 {	
 	var p = [];	
 	
@@ -4337,29 +4985,29 @@ function fname_s_0101( wall, obj )
 		
 
 
-function fname_s_0102(obj)
+function fname_s_0105(obj)
 {
 	var wall = obj.userData.door.wall;   
 
-	fname_s_0101( wall, obj );		
+	fname_s_0104( wall, obj );		
 	
 	
 	var boundPos = [];
 	
 	if(camera == cameraWall)
 	{
-		var arr = fname_s_0131(wall, arrWallFront.wall[0].index, fname_s_0133(wall, (arrWallFront.wall[0].index == 1) ? 1 : 0));
+		var arr = fname_s_0134(wall, arrWallFront.wall[0].index, fname_s_0136(wall, (arrWallFront.wall[0].index == 1) ? 1 : 0));
 		boundPos[0] = arr[0].clone();
 		boundPos[1] = arr[2].clone();		
 	}
 	else	
 	{
 		
-		var arr = fname_s_0131(wall, 1, fname_s_0133(wall, 1));	
+		var arr = fname_s_0134(wall, 1, fname_s_0136(wall, 1));	
 		boundPos[0] = arr[0].clone();
 		boundPos[1] = arr[2].clone();
 		
-		var arr = fname_s_0131(wall, 2, fname_s_0133(wall, 0));
+		var arr = fname_s_0134(wall, 2, fname_s_0136(wall, 0));
 		boundPos[2] = arr[0].clone();
 		boundPos[3] = arr[2].clone();  		
 	}	
@@ -4389,13 +5037,13 @@ function fname_s_0102(obj)
 		obj.userData.door.ruler.faceIndex = clickO.rayhit.face.normal.z;
 	}	 
 	
-	fname_s_0103(obj);  
+	fname_s_0106(obj);  
 }
 
 
 
 
-function fname_s_0103(wd)
+function fname_s_0106(wd)
 {
 	if(camera != cameraTop) return;
 	
@@ -4488,7 +5136,7 @@ function fname_s_0103(wd)
 		label_2[i].style.display = 'block';
 		label_2[i].userData.elem.show = true;
 		
-		fname_s_0205({elem: label_2[i]});		
+		fname_s_0211({elem: label_2[i]});		
 		
 		line[i].visible = true;			
 		line[i].updateMatrixWorld();
@@ -4520,7 +5168,7 @@ function fname_s_0103(wd)
 
 
 
-function fname_s_0104( intersect, cdm )
+function fname_s_0107( intersect, cdm )
 {
 	clickO.move = intersect.object; 
 	var controll = intersect.object;	
@@ -4559,7 +5207,7 @@ function fname_s_0104( intersect, cdm )
 	
 	var offset = new THREE.Vector3().subVectors( intersect.object.position, intersect.point ); 
 	var dir = new THREE.Vector3().subVectors( controll.position, pos2 ).normalize();  
-	var qt = fname_s_0232( dir );
+	var qt = fname_s_0238( dir );
 
 	
 	wd.userData.door.wall.controll = {  }; 
@@ -4588,9 +5236,9 @@ function fname_s_0104( intersect, cdm )
 
  
 
-function fname_s_0105( event, controll )
+function fname_s_0108( event, controll )
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 	
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 	
 	if ( intersects.length < 1 ) return; 
 	
 	var wd = controll.userData.controll_wd.obj;
@@ -4613,7 +5261,7 @@ function fname_s_0105( event, controll )
 	}	
 	
 	var pos = new THREE.Vector3().addVectors( wd.userData.door.wall.controll.offset, intersects[ 0 ].point );	
-	var v1 = fname_s_0230( new THREE.Vector3().subVectors( pos, wd.userData.door.wall.controll.pos ), wd.userData.door.wall.controll.qt );
+	var v1 = fname_s_0236( new THREE.Vector3().subVectors( pos, wd.userData.door.wall.controll.pos ), wd.userData.door.wall.controll.qt );
 	v1 = new THREE.Vector3().addScaledVector( wd.userData.door.wall.controll.dir, v1.z );  
 	v1 = new THREE.Vector3().addVectors( wd.userData.door.wall.controll.pos, v1 );	
 
@@ -4623,7 +5271,7 @@ function fname_s_0105( event, controll )
 	{		
 		var pos2 = wall.worldToLocal( v1.clone() );	
 
-		function fname_s_0106(pos, pos2)
+		function fname_s_0109(pos, pos2)
 		{
 			var res = Math.floor((pos2 - pos) * 10)/10;
 			
@@ -4632,7 +5280,7 @@ function fname_s_0105( event, controll )
  
 		if(controll.userData.controll_wd.id == 0)
 		{  
-			pos2.x = fname_s_0106(pos2.x, wd.userData.door.wall.controll.arrPos[1].x);
+			pos2.x = fname_s_0109(pos2.x, wd.userData.door.wall.controll.arrPos[1].x);
 			
 			var x_min = wd.userData.door.bound.min.x;  
 			if(pos2.x < x_min){ pos2.x = x_min; } 	
@@ -4640,7 +5288,7 @@ function fname_s_0105( event, controll )
 		}		
 		else if(controll.userData.controll_wd.id == 1)
 		{
-			pos2.x = fname_s_0106(pos2.x, wd.userData.door.wall.controll.arrPos[0].x);
+			pos2.x = fname_s_0109(pos2.x, wd.userData.door.wall.controll.arrPos[0].x);
 			
 			var x_max = wd.userData.door.bound.max.x;
 			if(pos2.x > x_max){ pos2.x = x_max; }
@@ -4648,7 +5296,7 @@ function fname_s_0105( event, controll )
 		}
 		else if(controll.userData.controll_wd.id == 2)
 		{
-			pos2.y = fname_s_0106(pos2.y, wd.userData.door.wall.controll.arrPos[3].y);
+			pos2.y = fname_s_0109(pos2.y, wd.userData.door.wall.controll.arrPos[3].y);
 			
 			var y_min = wd.userData.door.bound.min.y + 0.1;
 			if(pos2.y < y_min){ pos2.y = y_min; }
@@ -4656,7 +5304,7 @@ function fname_s_0105( event, controll )
 		}		
 		else if(controll.userData.controll_wd.id == 3)
 		{
-			pos2.y = fname_s_0106(pos2.y, wd.userData.door.wall.controll.arrPos[2].y);
+			pos2.y = fname_s_0109(pos2.y, wd.userData.door.wall.controll.arrPos[2].y);
 			
 			var y_max = wd.userData.door.bound.max.y;
 			if(pos2.y > y_max){ pos2.y = y_max; }
@@ -4695,15 +5343,15 @@ function fname_s_0105( event, controll )
 	}	
 	
 	 
-	fname_s_0142(wd);
+	fname_s_0145(wd);
 	
-	fname_s_0103(wd);
+	fname_s_0106(wd);
 }
 
 
 
 
-function fname_s_0107( controll )
+function fname_s_0110( controll )
 {
 	if(param_win.click) { param_win.click = false; return; }
 	
@@ -4732,7 +5380,7 @@ function fname_s_0107( controll )
 
 
 
-function fname_s_0108( intersect )
+function fname_s_0111( intersect )
 {
 	if(clickO.move)
 	{
@@ -4748,7 +5396,7 @@ function fname_s_0108( intersect )
 	planeMath.rotation.set(-Math.PI/2, 0, 0);	
 
 	param_win.click = true;	
-	param_wall.wallR = fname_s_0115([], clickO.move);
+	param_wall.wallR = fname_s_0118([], clickO.move);
 
 	
 	if(1==1)
@@ -4772,7 +5420,7 @@ function fname_s_0108( intersect )
 
 
 
-function fname_s_0109()
+function fname_s_0112()
 {
 	var arr = [];
 	
@@ -4795,12 +5443,12 @@ function fname_s_0109()
 
 
 
-function fname_s_0110( event, obj )
+function fname_s_0113( event, obj )
 {
 	if(obj.userData.point.type) 
 	{ 
 		if(obj.userData.point.type == 'continue_create_wall') {  } 
-		else { fname_s_0112( event, obj ); return; } 
+		else { fname_s_0115( event, obj ); return; } 
 	}	
 	
 	if(param_win.click) 
@@ -4809,7 +5457,7 @@ function fname_s_0110( event, obj )
 		param_win.click = false;
 	}	
 	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if ( intersects.length > 0 ) 
 	{
@@ -4819,7 +5467,7 @@ function fname_s_0110( event, obj )
 		var pos2 = new THREE.Vector3().subVectors( pos, obj.position );
 		
 		obj.position.copy( pos );				
-		fname_s_0112( event, obj );	
+		fname_s_0115( event, obj );	
 				
 		 
 		for ( var i = 0; i < obj.w.length; i++ )
@@ -4827,7 +5475,7 @@ function fname_s_0110( event, obj )
 			fname_s_03(obj.w[i]);	
 		}		
 	
-		fname_s_0118(obj);			
+		fname_s_0121(obj);			
 		
 		fname_s_044(obj.w); 
 	}
@@ -4835,7 +5483,7 @@ function fname_s_0110( event, obj )
 }
 
 
-function fname_s_0111(point, point2, wall, side, pos2)
+function fname_s_0114(point, point2, wall, side, pos2)
 {
 	var v = wall.userData.wall.v;
 	
@@ -4870,7 +5518,7 @@ function fname_s_0111(point, point2, wall, side, pos2)
 
 
 
-function fname_s_0112( event, obj )
+function fname_s_0115( event, obj )
 {	
 	var arrDp = [];
 	var wall = infProject.scene.array.wall;
@@ -4882,7 +5530,7 @@ function fname_s_0112( event, obj )
 	for ( var i = 0; i < door.length; i++ ){ arrDp[arrDp.length] = door[i]; }  
 	arrDp[arrDp.length] = planeMath;
 	
-	var intersects = fname_s_0224( event, arrDp, 'arr' );
+	var intersects = fname_s_0230( event, arrDp, 'arr' );
 	
 	var plane = null;
 	var point = null;
@@ -4942,7 +5590,7 @@ function fname_s_0112( event, obj )
 	{ 
 		obj.userData.point.cross = plane;
 		
-		fname_s_0113( obj );		
+		fname_s_0116( obj );		
 	}
 	else
 	{ 
@@ -4955,7 +5603,7 @@ function fname_s_0112( event, obj )
 		infProject.tools.axis[0].visible = false;
 		infProject.tools.axis[1].visible = false;
 
-		fname_s_0113( obj );
+		fname_s_0116( obj );
 	}
 }
 
@@ -4964,7 +5612,7 @@ function fname_s_0112( event, obj )
 
 
 
-function fname_s_0113( point )
+function fname_s_0116( point )
 { 
 	var pX = [];
 	var pZ = [];
@@ -4988,14 +5636,14 @@ function fname_s_0113( point )
 	{
 		var v = [];
 		for ( var i = 0; i < pX.length; i++ ){ v[i] = obj_point[pX[i]].position; }
-		var n1 = pX[fname_s_0138(v, point.position)];		 
+		var n1 = pX[fname_s_0141(v, point.position)];		 
 	} 
 	
 	if(pZ.length > 0)
 	{
 		var v = [];
 		for ( var i = 0; i < pZ.length; i++ ){ v[i] = obj_point[pZ[i]].position; }
-		var n2 = pZ[fname_s_0138(v, point.position)]; 		
+		var n2 = pZ[fname_s_0141(v, point.position)]; 		
 	}	
 	
 	
@@ -5003,13 +5651,13 @@ function fname_s_0113( point )
 	{ 
 		point.position.x = obj_point[n1].position.x; 
 		point.position.z = obj_point[n2].position.z; 		
-		fname_s_0114(point, obj_point[n1].position, infProject.tools.axis[0], 'xz'); 
-		fname_s_0114(point, obj_point[n2].position, infProject.tools.axis[1], 'xz'); 
+		fname_s_0117(point, obj_point[n1].position, infProject.tools.axis[0], 'xz'); 
+		fname_s_0117(point, obj_point[n2].position, infProject.tools.axis[1], 'xz'); 
 	}
 	else
 	{
-		(pX.length > 0) ? fname_s_0114(point, obj_point[n1].position, infProject.tools.axis[0], 'x') : infProject.tools.axis[0].visible = false;
-		(pZ.length > 0) ? fname_s_0114(point, obj_point[n2].position, infProject.tools.axis[1], 'z') : infProject.tools.axis[1].visible = false;
+		(pX.length > 0) ? fname_s_0117(point, obj_point[n1].position, infProject.tools.axis[0], 'x') : infProject.tools.axis[0].visible = false;
+		(pZ.length > 0) ? fname_s_0117(point, obj_point[n2].position, infProject.tools.axis[1], 'z') : infProject.tools.axis[1].visible = false;
 	}
 }
 
@@ -5017,7 +5665,7 @@ function fname_s_0113( point )
 
 
 
-function fname_s_0114(point, pos2, lineAxis, axis)
+function fname_s_0117(point, pos2, lineAxis, axis)
 {
 	
 	if(axis == 'x') { point.position.x = pos2.x; }
@@ -5037,7 +5685,7 @@ function fname_s_0114(point, pos2, lineAxis, axis)
 
 
 
-function fname_s_0115(arr, point) 
+function fname_s_0118(arr, point) 
 {	
 	for ( var i = 0; i < point.p.length; i++ )
 	{				
@@ -5060,7 +5708,7 @@ function fname_s_0115(arr, point)
 
 
 
-function fname_s_0116(wall) 
+function fname_s_0119(wall) 
 {	
 	var arr = [];
 
@@ -5087,7 +5735,7 @@ function fname_s_0116(wall)
 
 
 
-function fname_s_0117(wall) 
+function fname_s_0120(wall) 
 {	
 	var arr = [];
 
@@ -5111,10 +5759,10 @@ function fname_s_0117(wall)
 
 
 
-function fname_s_0118(point)
+function fname_s_0121(point)
 {		
 	
-	fname_s_0119(point);	
+	fname_s_0122(point);	
 
 	
 	
@@ -5122,13 +5770,13 @@ function fname_s_0118(point)
 	for ( var j = 0; j < arrP.length; j++ )
 	{
 		
-		if(arrP[j].p.length > 1) { fname_s_0119(arrP[j]); }		
+		if(arrP[j].p.length > 1) { fname_s_0122(arrP[j]); }		
 	}
 	
 }
 
 
-function fname_s_0119(point)
+function fname_s_0122(point)
 {
 	var arrP = point.p;
 	var arrW = point.w;
@@ -5163,14 +5811,14 @@ function fname_s_0119(point)
 	{ 
 		var i2 = (i == arrD.length - 1) ? 0 : (i + 1);
 		
-		fname_s_0120(arrW[arrD[i].id], arrW[arrD[i2].id], arrS[arrD[i].id], arrS[arrD[i2].id], point.position); 
+		fname_s_0123(arrW[arrD[i].id], arrW[arrD[i2].id], arrS[arrD[i].id], arrS[arrD[i2].id], point.position); 
 	}	
 
 }
 
 
 
-function fname_s_0120(line1, line2, s1, s2, pointC)
+function fname_s_0123(line1, line2, s1, s2, pointC)
 {
 	var v1 = line1.geometry.vertices;
 	var v2 = line2.geometry.vertices;
@@ -5198,7 +5846,7 @@ function fname_s_0120(line1, line2, s1, s2, pointC)
 
 	var cross = false;
 	
-	if(!crossP[1]) { if(fname_s_0121(m1a, m1b, m2a, m2b)) { cross = true; } }	
+	if(!crossP[1]) { if(fname_s_0124(m1a, m1b, m2a, m2b)) { cross = true; } }	
 	
 	if(cross)
 	{		
@@ -5208,30 +5856,9 @@ function fname_s_0120(line1, line2, s1, s2, pointC)
 		var per4 = line2.worldToLocal( pointC.clone() ).x;
 	}
 	else
-	{
-		var vpc = line1.worldToLocal( pointC.clone() );
-		vpc.z = m1a.z;
-		
-		crossP[0] = vpc;
-		crossP[0] = line1.localToWorld( crossP[0].clone() );
-		 
-		var rs = line1.userData.wall.width - line2.userData.wall.width;
-		
-		if(rs < -0.1) 
-		{
-			var per1 = line1.worldToLocal( fname_s_09(m1a, m1b, pointC, m2b)[0] ).x;
-			var per2 = line2.worldToLocal( pointC.clone() ).x;
-		}
-		else if(rs > 0.1)
-		{
-			var per1 = line1.worldToLocal( pointC.clone() ).x;
-			var per2 = line2.worldToLocal( fname_s_09(pointC, m1b, m2a, m2b)[0] ).x;
-		}
-		else 
-		{ 
-			var per1 = line1.worldToLocal( crossP[0].clone() ).x; 
-			var per2 = line2.worldToLocal( crossP[0].clone() ).x;			
-		}		
+	{		
+		var per1 = line1.worldToLocal( pointC.clone() ).x; 
+		var per2 = line2.worldToLocal( pointC.clone() ).x;		
 		
 		var per3 = line1.worldToLocal( pointC.clone() ).x;
 		var per4 = line2.worldToLocal( pointC.clone() ).x;	
@@ -5260,8 +5887,8 @@ function fname_s_0120(line1, line2, s1, s2, pointC)
 		var m1a = line1.localToWorld( v1[n1].clone() );
 		var m1b = line1.localToWorld( v1[n2].clone() );		
 		
-		if(s1 == 1) { fname_s_0317({el: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { fname_s_0317({el: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { fname_s_0324({el: line1.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { fname_s_0324({el: line1.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}
 
 	if(line2.userData.wall.svg.lineW && 1==1)
@@ -5270,8 +5897,8 @@ function fname_s_0120(line1, line2, s1, s2, pointC)
 		var m1a = line2.localToWorld( v2[f1].clone() );
 		var m1b = line2.localToWorld( v2[f2].clone() );		
 		
-		if(s1 == 1) { fname_s_0317({el: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
-		else { fname_s_0317({el: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
+		if(s1 == 1) { fname_s_0324({el: line2.userData.wall.svg.lineW[0], point: [m1a, m1b]}); }
+		else { fname_s_0324({el: line2.userData.wall.svg.lineW[1], point: [m1a, m1b]}); }
 	}	
 }
 
@@ -5282,14 +5909,14 @@ function fname_s_0120(line1, line2, s1, s2, pointC)
 
  
  
-function fname_s_0121(p0, p1, p2, p3)
+function fname_s_0124(p0, p1, p2, p3)
 {			
 	var dir = new THREE.Vector3().subVectors( p1, p0 ).normalize();
-	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
+	var v1 = new THREE.Vector3().addScaledVector( dir, 0.5 );
 	var p1 = new THREE.Vector3().addVectors( p1, v1 );		
 		
 	var dir = new THREE.Vector3().subVectors( p3, p2 ).normalize();
-	var v1 = new THREE.Vector3().addScaledVector( dir, 10.2 );
+	var v1 = new THREE.Vector3().addScaledVector( dir, 0.5 );
 	var p3 = new THREE.Vector3().addVectors( p3, v1 );	
 	
 	if( !fname_s_013(p0, p1, p2, p3) ) {  return false; }		
@@ -5300,7 +5927,7 @@ function fname_s_0121(p0, p1, p2, p3)
 
 
  
-function fname_s_0122(p0, p1, p2, p3) 
+function fname_s_0125(p0, p1, p2, p3) 
 {			
 	var dir = new THREE.Vector3().subVectors( p1, p0 ).normalize();
 	var v1 = new THREE.Vector3().addScaledVector( dir, 0.01 );
@@ -5316,7 +5943,7 @@ function fname_s_0122(p0, p1, p2, p3)
 
 
 
-function fname_s_0123( point, walls )
+function fname_s_0126( point, walls )
 {
 	point.position.copy( point.userData.point.last.pos );
 	
@@ -5325,9 +5952,9 @@ function fname_s_0123( point, walls )
 		fname_s_03(point.w[i], {point:point});		
 	}		
 	
-	fname_s_0118(point);  
+	fname_s_0121(point);  
 	fname_s_044(walls);
-	fname_s_0158(point.zone); 
+	fname_s_0161(point.zone); 
 	
 	fname_s_042(walls);
 	
@@ -5336,13 +5963,13 @@ function fname_s_0123( point, walls )
 }
 
 
-function fname_s_0124(obj)
+function fname_s_0127(obj)
 {  	
 	if(fname_s_021(obj.userData.point.last.pos, obj.position)) { return; }		
 	
 	obj.userData.point.last.pos = obj.position.clone();
 	
-	fname_s_0118(obj);			
+	fname_s_0121(obj);			
 	
 	fname_s_044(param_wall.wallR);	 
 }
@@ -5356,7 +5983,7 @@ function fname_s_0124(obj)
 var param_wall = { click : false, wallR : [], posS : 0, qt_1 : [], qt_2 : [], arrZone : [] };
 
 
-function fname_s_0125( intersect )
+function fname_s_0128( intersect )
 {
 	var obj = intersect.object;
 	
@@ -5369,27 +5996,27 @@ function fname_s_0125( intersect )
 	param_win.click = true;	
 	param_wall.posS = new THREE.Vector3().addVectors( intersect.point, offset );	
 	  
-	param_wall.wallR = fname_s_0116(obj);
+	param_wall.wallR = fname_s_0119(obj);
 
 	var p = obj.userData.wall.p;
 	
 	for ( var i = 0; i < p[0].w.length; i++ )
 	{  
 		var dir = new THREE.Vector3().subVectors( p[0].position, p[0].p[i].position ).normalize();	
-		param_wall.qt_1[i] = fname_s_0232(dir);
+		param_wall.qt_1[i] = fname_s_0238(dir);
 	}
 	
 	for ( var i = 0; i < p[1].w.length; i++ )
 	{ 
 		var dir = new THREE.Vector3().subVectors( p[1].position, p[1].p[i].position ).normalize();
-		param_wall.qt_2[i] = fname_s_0232(dir);
+		param_wall.qt_2[i] = fname_s_0238(dir);
 	}
 	
-	param_wall.arrZone = fname_s_0128(obj);
+	param_wall.arrZone = fname_s_0131(obj);
 
 	clickO.click.wall = [...new Set([...p[0].w, ...p[1].w])];  
 	
-	fname_s_0127(obj);
+	fname_s_0130(obj);
 	
 	if(camera == cameraTop)
 	{
@@ -5398,7 +6025,7 @@ function fname_s_0125( intersect )
 }
 
 
-function fname_s_0126(cdm)
+function fname_s_0129(cdm)
 {
 	var intersect = cdm.rayhit;
 	
@@ -5415,18 +6042,18 @@ function fname_s_0126(cdm)
 	clickO.obj = obj;
 	clickO.index = index;  	
 
-	fname_s_0201({arr: [obj]});
+	fname_s_0207({arr: [obj]});
 	fname_s_029({obj: obj, side: index});
 }
 
 
 
-function fname_s_0127(wall)
+function fname_s_0130(wall)
 {
 	wall.userData.wall.p[0].userData.point.last.pos = wall.userData.wall.p[0].position.clone();
 	wall.userData.wall.p[1].userData.point.last.pos = wall.userData.wall.p[1].position.clone();
 	
-	var walls = fname_s_0116(wall);
+	var walls = fname_s_0119(wall);
 	
 	for ( var i = 0; i < walls.length; i++ )
 	{		
@@ -5447,7 +6074,7 @@ function fname_s_0127(wall)
 
 
 
-function fname_s_0128( wall )
+function fname_s_0131( wall )
 {
 	var m = 0;
 	arr = [];
@@ -5473,10 +6100,10 @@ function fname_s_0128( wall )
 
 
 
-function fname_s_0129( event, obj ) 
+function fname_s_0132( event, obj ) 
 {		
 	
-	if(camera == camera3D) { fname_s_087( event ); return; }
+	if(camera == camera3D) { fname_s_090( event ); return; }
 	
 	if(param_win.click) 
 	{
@@ -5484,7 +6111,7 @@ function fname_s_0129( event, obj )
 		param_win.click = false;
 	}	
 	
-	var intersects = fname_s_0224( event, planeMath, 'one' );
+	var intersects = fname_s_0230( event, planeMath, 'one' );
 	
 	if ( intersects.length > 0 ) 
 	{
@@ -5496,8 +6123,8 @@ function fname_s_0129( event, obj )
 		var z1 = obj.userData.wall.p[0].position.x - obj.userData.wall.p[1].position.x;	
 		var dir = new THREE.Vector3(x1, 0, z1).normalize();						
 		
-		var qt1 = fname_s_0232(dir);
-		var v1 = fname_s_0230( new THREE.Vector3().subVectors( pos, param_wall.posS ), qt1 );	
+		var qt1 = fname_s_0238(dir);
+		var v1 = fname_s_0236( new THREE.Vector3().subVectors( pos, param_wall.posS ), qt1 );	
 		v1 = new THREE.Vector3().addScaledVector( dir, v1.z );
 		pos = new THREE.Vector3().addVectors( param_wall.posS, v1 );
 
@@ -5506,8 +6133,8 @@ function fname_s_0129( event, obj )
 		
 		
 		
-		pos2 = new THREE.Vector3().subVectors ( fname_s_0130(obj.userData.wall.p[0], pos2, param_wall.qt_1, dir), obj.userData.wall.p[0].position ); 
-		pos2 = new THREE.Vector3().subVectors ( fname_s_0130(obj.userData.wall.p[1], pos2, param_wall.qt_2, dir), obj.userData.wall.p[1].position );
+		pos2 = new THREE.Vector3().subVectors ( fname_s_0133(obj.userData.wall.p[0], pos2, param_wall.qt_1, dir), obj.userData.wall.p[0].position ); 
+		pos2 = new THREE.Vector3().subVectors ( fname_s_0133(obj.userData.wall.p[1], pos2, param_wall.qt_2, dir), obj.userData.wall.p[1].position );
 		
 		
 		pos2 = new THREE.Vector3(pos2.x, 0, pos2.z);
@@ -5521,8 +6148,8 @@ function fname_s_0129( event, obj )
 			fname_s_03(clickO.click.wall[i]);		
 		}
 		
-		fname_s_0118(obj.userData.wall.p[0]);
-		fname_s_0118(obj.userData.wall.p[1]);
+		fname_s_0121(obj.userData.wall.p[0]);
+		fname_s_0121(obj.userData.wall.p[1]);
 		
 		fname_s_044(obj.userData.wall.p[0].w);
 		fname_s_044(obj.userData.wall.p[1].w);
@@ -5535,7 +6162,7 @@ function fname_s_0129( event, obj )
 
 
 
-function fname_s_0130(point, pos2, qt, dir2)
+function fname_s_0133(point, pos2, qt, dir2)
 {
 	var pos = new THREE.Vector3().addVectors ( point.position, pos2 );	
 	
@@ -5554,7 +6181,7 @@ function fname_s_0130(point, pos2, qt, dir2)
 			var x2_b = v[10].x;
 			
 
-			var v2 = fname_s_0230( new THREE.Vector3().subVectors( new THREE.Vector3(0,0,0), pos2 ), qt[i] );
+			var v2 = fname_s_0236( new THREE.Vector3().subVectors( new THREE.Vector3(0,0,0), pos2 ), qt[i] );
 			
 			var fg1 = false;
 			var fg2 = false;
@@ -5604,7 +6231,7 @@ function fname_s_0130(point, pos2, qt, dir2)
 		}
 		else if(point.start[i] == 1)
 		{
-			var v2 = fname_s_0230( new THREE.Vector3().subVectors( pos2, new THREE.Vector3(0,0,0) ), qt[i] );
+			var v2 = fname_s_0236( new THREE.Vector3().subVectors( pos2, new THREE.Vector3(0,0,0) ), qt[i] );
 			
 			var n = v.length;				
 			var x1_a = v[n - 12].x;
@@ -5674,11 +6301,11 @@ function fname_s_0130(point, pos2, qt, dir2)
 
 
 
-function fname_s_0131(wall, index, room) 
+function fname_s_0134(wall, index, room) 
 {
 	var p = wall.userData.wall.p;
 	var dir1 = new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize();						
-	var unique = fname_s_0132([{ obj : wall, dir : 'forward' }], p, dir1);	
+	var unique = fname_s_0135([{ obj : wall, dir : 'forward' }], p, dir1);	
 	
 	var arrW = [];
 	var arrS = [];
@@ -5847,7 +6474,7 @@ function fname_s_0131(wall, index, room)
 
 
 
-function fname_s_0132(arr, p, dir1)
+function fname_s_0135(arr, p, dir1)
 {
 	
 	var arrW = [...new Set([...p[0].w, ...p[1].w])];		
@@ -5869,7 +6496,7 @@ function fname_s_0132(arr, p, dir1)
 		if(str) 
 		{ 	
 			arr[arr.length] = { obj : arrW[i], dir : str }; 
-			arr = fname_s_0132(arr, arrW[i].userData.wall.p, dir1); 
+			arr = fname_s_0135(arr, arrW[i].userData.wall.p, dir1); 
 		}
 	}		
 
@@ -5879,7 +6506,7 @@ function fname_s_0132(arr, p, dir1)
 
 
 
-function fname_s_0133(wall, index)
+function fname_s_0136(wall, index)
 {
 	var num = -1;
 	
@@ -5906,14 +6533,14 @@ function fname_s_0133(wall, index)
 
 
 
-function fname_s_0134(wall)
+function fname_s_0137(wall)
 {
 	if(fname_s_021(wall.userData.wall.last.pos, wall.position)) { return; }		
 	
-	fname_s_0118( wall.userData.wall.p[ 0 ] );
-	fname_s_0118( wall.userData.wall.p[ 1 ] );
+	fname_s_0121( wall.userData.wall.p[ 0 ] );
+	fname_s_0121( wall.userData.wall.p[ 1 ] );
 	fname_s_044( param_wall.wallR ); 
-	fname_s_0158( param_wall.arrZone ); 		
+	fname_s_0161( param_wall.arrZone ); 		
 	
 	fname_s_042(param_wall.wallR);
 }
@@ -5924,7 +6551,7 @@ function fname_s_0134(wall)
 var param_win = { click : false };
 
 
-function fname_s_0135( intersect )
+function fname_s_0138( intersect )
 {	
 	var obj = intersect.object;
 
@@ -5951,12 +6578,12 @@ function fname_s_0135( intersect )
 
 	obj.userData.door.offset = new THREE.Vector3().subVectors( obj.position, pos );	
 	
-	fname_s_0136(obj);	
+	fname_s_0139(obj);	
 	
 	if(camera == cameraTop)
 	{
-		fname_s_0102( obj ); 	
-		fname_s_0142( obj );		
+		fname_s_0105( obj ); 	
+		fname_s_0145( obj );		
 		
 		fname_s_029({obj: obj}); 	
 	}
@@ -5967,7 +6594,7 @@ function fname_s_0135( intersect )
 
 
 
-function fname_s_0136(wd)
+function fname_s_0139(wd)
 {
 	wd.geometry.computeBoundingBox();
 	
@@ -5985,7 +6612,7 @@ function fname_s_0136(wd)
 	{
 		arrWD.left.updateMatrixWorld();
 		var pos = arrWD.left.worldToLocal( wd.position.clone() );	 	
-		var n = fname_s_0138(arrWD.left.geometry.vertices, pos);
+		var n = fname_s_0141(arrWD.left.geometry.vertices, pos);
 		
 		var pos = arrWD.left.localToWorld( arrWD.left.geometry.vertices[n].clone() );		
 		
@@ -5997,7 +6624,7 @@ function fname_s_0136(wd)
 	{
 		arrWD.right.updateMatrixWorld();
 		var pos = arrWD.right.worldToLocal( wd.position.clone() );	 	
-		var n = fname_s_0138(arrWD.right.geometry.vertices, pos);
+		var n = fname_s_0141(arrWD.right.geometry.vertices, pos);
 		
 		var pos = arrWD.right.localToWorld( arrWD.right.geometry.vertices[n].clone() );
 		
@@ -6011,7 +6638,7 @@ function fname_s_0136(wd)
 
 
 
-function fname_s_0137(wd)
+function fname_s_0140(wd)
 {	
 	var wall = wd.userData.door.wall;
 
@@ -6040,7 +6667,7 @@ function fname_s_0137(wd)
 
 
 
-function fname_s_0138(v, pos)
+function fname_s_0141(v, pos)
 {
 	var minDist = 99999;
 	var hit = 0;
@@ -6061,12 +6688,12 @@ function fname_s_0138(v, pos)
 
  
 
-function fname_s_0139( event, wd ) 
+function fname_s_0142( event, wd ) 
 {
 	if(camera == camera3D) { return; }
 	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 	
-	if ( intersects.length > 0 ) { fname_s_0140( wd, intersects[ 0 ].point ); }	
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 	
+	if ( intersects.length > 0 ) { fname_s_0143( wd, intersects[ 0 ].point ); }	
 }
 
 
@@ -6074,7 +6701,7 @@ var objsBSP = null;
 var objClone = new THREE.Mesh();
 var wallClone = new THREE.Mesh();
 
-function fname_s_0140( wd, pos )
+function fname_s_0143( wd, pos )
 {
 	var wall = wd.userData.door.wall;
 	
@@ -6125,14 +6752,14 @@ function fname_s_0140( wd, pos )
 	
 	for ( var i = 0; i < infProject.tools.controllWD.length; i++ ) { infProject.tools.controllWD[i].position.add( pos2 ); } 	
 	
-	fname_s_0103(wd); 	
+	fname_s_0106(wd); 	
 }
 
 
 
 
 
-function fname_s_0141( obj )
+function fname_s_0144( obj )
 {	
 	if(clickO.rayhit) 
 	{
@@ -6189,7 +6816,7 @@ function fname_s_0141( obj )
 
 
 
-function fname_s_0142(wd)
+function fname_s_0145(wd)
 {			
 	wd.geometry.computeBoundingBox();
 	
@@ -6209,7 +6836,7 @@ function fname_s_0142(wd)
 
 
 
-function fname_s_0143(wd)
+function fname_s_0146(wd)
 {  
 	if(!wd) return;
 	if(wd.userData.tag == 'window' || wd.userData.tag == 'door'){}
@@ -6228,9 +6855,9 @@ function fname_s_0143(wd)
 	var y2 = (Math.abs(wd.geometry.boundingBox.max.y) + Math.abs(wd.geometry.boundingBox.min.y));
 	var h2 = wd.userData.door.h1 + wd.geometry.boundingBox.min.y;	
 		
-	var resX = fname_s_0240({ value: x, unit: 1, limit: {min: 0.1, max: 5} });
-	var resY = fname_s_0240({ value: y, unit: 1, limit: {min: 0.1, max: 5} });
-	var resH = fname_s_0240({ value: h, unit: 1, limit: {min: 0, max: 5} });
+	var resX = fname_s_0245({ value: x, unit: 1, limit: {min: 0.1, max: 5} });
+	var resY = fname_s_0245({ value: y, unit: 1, limit: {min: 0.1, max: 5} });
+	var resH = fname_s_0245({ value: h, unit: 1, limit: {min: 0, max: 5} });
 	
 	x = (!resX) ? x2 : resX.num;
 	y = (!resY) ? y2 : resY.num;	 
@@ -6252,8 +6879,8 @@ function fname_s_0143(wd)
 	
 	wd.updateMatrixWorld();
 	
-	fname_s_0102(wd);	
-	fname_s_0142(wd);	
+	fname_s_0105(wd);	
+	fname_s_0145(wd);	
 	
 	renderCamera();
 }
@@ -6307,7 +6934,7 @@ function сhangeSizePosWD( wd, pos, x, y )
 
 
 
-function fname_s_0144(wd)
+function fname_s_0147(wd)
 {
 	if(param_win.click) { param_win.click = false; return; }
 	
@@ -6331,7 +6958,7 @@ function fname_s_0144(wd)
 
 
 
-function fname_s_0145()
+function fname_s_0148()
 {
 	var obj = clickO.last_obj;
 	
@@ -6349,28 +6976,28 @@ function fname_s_0145()
 		if ( tag == 'wall' ) return;
 	}	
 		
-	if ( tag == 'wall' ) { fname_s_0146( obj ).room; }
-	else if ( tag == 'point' ) { if(obj.p.length == 2) { fname_s_0150( obj ); } }
-	else if ( tag == 'window' || tag == 'door' ) { fname_s_0151( obj ); }
-	else if ( tag == 'obj' ) { fname_s_0255(obj); }
+	if ( tag == 'wall' ) { fname_s_0149( obj ).room; }
+	else if ( tag == 'point' ) { if(obj.p.length == 2) { fname_s_0153( obj ); } }
+	else if ( tag == 'window' || tag == 'door' ) { fname_s_0154( obj ); }
+	else if ( tag == 'obj' ) { fname_s_0260({obj: obj}); }
 	
 	 renderCamera();
 }
 
 
-function fname_s_0146( wall )
+function fname_s_0149( wall )
 {	
-	fname_s_077(wall);
+	fname_s_080(wall);
 	
 	var points = wall.userData.wall.p;
 
-	var arrZone = fname_s_0180( wall );
-	var oldZ = fname_s_0159(arrZone);
-	fname_s_0173(arrZone); 
+	var arrZone = fname_s_0183( wall );
+	var oldZ = fname_s_0162(arrZone);
+	fname_s_0176(arrZone); 
 	
 	var zone = (arrZone.length == 0) ? fname_s_048( wall ).obj : null; 
 	
-	fname_s_0147(wall);
+	fname_s_0150(wall);
 	
 	var newZones = [];
 	
@@ -6381,9 +7008,9 @@ function fname_s_0146( wall )
 		var n = 0;
 		for ( var i = 0; i < oldZ.length; i++ ) { if(oldZ[i].floor.userData.room.areaTxt > area) { n = i; } }
 		
-		newZones = fname_s_0163();
+		newZones = fname_s_0166();
 
-		if(newZones.length > 0) { fname_s_0179([newZones[0]], oldZ[n], false); } 
+		if(newZones.length > 0) { fname_s_0182([newZones[0]], oldZ[n], false); } 
 	}
 	else
 	{	
@@ -6395,36 +7022,36 @@ function fname_s_0146( wall )
 
 
 
-function fname_s_0147(wall)
+function fname_s_0150(wall)
 {
-	fname_s_0182();
+	fname_s_0187();
 	
 	var arr = wall.userData.wall.arrO;
 
 	for(var i = 0; i < arr.length; i++)
 	{
-		if(arr[i].userData.tag == 'window') { fname_s_0152({arr : infProject.scene.array.window, o : arr[i]}); }
-		if(arr[i].userData.tag == 'door') { fname_s_0152({arr : infProject.scene.array.door, o : arr[i]}); }
+		if(arr[i].userData.tag == 'window') { fname_s_0155({arr : infProject.scene.array.window, o : arr[i]}); }
+		if(arr[i].userData.tag == 'door') { fname_s_0155({arr : infProject.scene.array.door, o : arr[i]}); }
 		scene.remove( arr[i] );
 	}
 
 	var p0 = wall.userData.wall.p[0];
 	var p1 = wall.userData.wall.p[1]; 
-	fname_s_0153(p0, wall);
-	fname_s_0153(p1, wall);
-	fname_s_0152({arr : infProject.scene.array.wall, o : wall});;
+	fname_s_0156(p0, wall);
+	fname_s_0156(p1, wall);
+	fname_s_0155({arr : infProject.scene.array.wall, o : wall});;
 	
 	
 	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
 	{
-		fname_s_0152({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		fname_s_0155({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
 		wall.userData.wall.html.label[i].remove();
 	}
 	 
 	scene.remove( wall );
 	
-	if(p0.w.length == 0){ fname_s_0154( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ fname_s_0154( p1 ); scene.remove( p1 ); }
+	if(p0.w.length == 0){ fname_s_0157( p0 ); scene.remove( p0 ); }
+	if(p1.w.length == 0){ fname_s_0157( p1 ); scene.remove( p1 ); }
 
 
 	var arrW = [];
@@ -6432,8 +7059,8 @@ function fname_s_0147(wall)
 	for ( var i = 0; i < p1.w.length; i++ ) { arrW[arrW.length] = p1.w[i]; }  
 	fname_s_041( arrW );	
 	
-	if(p0.w.length > 0){ fname_s_0119(p0); }
-	if(p1.w.length > 0){ fname_s_0119(p1); }
+	if(p0.w.length > 0){ fname_s_0122(p0); }
+	if(p1.w.length > 0){ fname_s_0122(p1); }
 
 	fname_s_044(arrW);
 	
@@ -6442,12 +7069,12 @@ function fname_s_0147(wall)
 
 
 
-function fname_s_0148(wall, cdm)
+function fname_s_0151(wall, cdm)
 {
 	if(!cdm) { cdm = {}; }
 	if(!cdm.dw) { cdm.dw = ''; }
 	
-	fname_s_0182();
+	fname_s_0187();
 	
 	if(cdm.dw == 'no delete') {}
 	else
@@ -6456,52 +7083,52 @@ function fname_s_0148(wall, cdm)
 		
 		for(var i = 0; i < arr.length; i++)
 		{
-			if(arr[i].userData.tag == 'window') { fname_s_0152({arr : infProject.scene.array.window, o : arr[i]}); }
-			if(arr[i].userData.tag == 'door') { fname_s_0152({arr : infProject.scene.array.door, o : arr[i]}); }
+			if(arr[i].userData.tag == 'window') { fname_s_0155({arr : infProject.scene.array.window, o : arr[i]}); }
+			if(arr[i].userData.tag == 'door') { fname_s_0155({arr : infProject.scene.array.door, o : arr[i]}); }
 			scene.remove( arr[i] );
 		}		
 	}
 
 	var p0 = wall.userData.wall.p[0];
 	var p1 = wall.userData.wall.p[1]; 
-	fname_s_0153(p0, wall);
-	fname_s_0153(p1, wall);
-	fname_s_0152({arr : infProject.scene.array.wall, o : wall});;
+	fname_s_0156(p0, wall);
+	fname_s_0156(p1, wall);
+	fname_s_0155({arr : infProject.scene.array.wall, o : wall});;
 	
 	for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
 	{
-		fname_s_0152({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
+		fname_s_0155({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
 		wall.userData.wall.html.label[i].remove();
 	}	
 	
 	
 	scene.remove( wall );
 	
-	if(p0.w.length == 0){ fname_s_0154( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ fname_s_0154( p1 ); scene.remove( p1 ); }
+	if(p0.w.length == 0){ fname_s_0157( p0 ); scene.remove( p0 ); }
+	if(p1.w.length == 0){ fname_s_0157( p1 ); scene.remove( p1 ); }
 
 }
 
 
 
-function fname_s_0149( point )
+function fname_s_0152( point )
 {
-	fname_s_0154(point); 
+	fname_s_0157(point); 
 	scene.remove(point);
 }
 
 
-function fname_s_0150( point )
+function fname_s_0153( point )
 {
 	if(!point){ return [ null, null ]; }
 	if(point.p.length != 2){ return [ null, null ]; }
 	
-	fname_s_077(point);
+	fname_s_080(point);
 	
 	var wall_1 = point.w[0];
 	var wall_2 = point.w[1];
 		
-	var arrW_2 = fname_s_0115([], point);
+	var arrW_2 = fname_s_0118([], point);
 	
 	fname_s_041( arrW_2 );
 	 
@@ -6566,26 +7193,26 @@ function fname_s_0150( point )
 		if(wd.userData.door.open_type) { arrO[n].open_type = wd.userData.door.open_type; }
 	}
 	
-	var oldZones = fname_s_0180( wall_1 );   	
-	var oldZ = fname_s_0159( oldZones );
-	fname_s_0173( oldZones );						
+	var oldZones = fname_s_0183( wall_1 );   	
+	var oldZ = fname_s_0162( oldZones );
+	fname_s_0176( oldZones );						
 
 	
-	fname_s_0148( wall_1 );		
-	fname_s_0148( wall_2 );		
+	fname_s_0151( wall_1 );		
+	fname_s_0151( wall_2 );		
 	 
 
 	
-	var point1 = fname_s_0236( 'point', p1.id );
-	var point2 = fname_s_0236( 'point', p2.id );	
+	var point1 = fname_s_0242( 'point', p1.id );
+	var point2 = fname_s_0242( 'point', p2.id );	
 	
-	if(point1 == null) { point1 = fname_s_0220( p1.pos, p1.id ); }
-	if(point2 == null) { point2 = fname_s_0220( p2.pos, p2.id ); }	
+	if(point1 == null) { point1 = fname_s_0226( p1.pos, p1.id ); }
+	if(point2 == null) { point2 = fname_s_0226( p2.pos, p2.id ); }	
 	
-	var wall = fname_s_0221({ p: [point1, point2], width: width, offsetZ : offsetZ, height : height }); 
+	var wall = fname_s_0227({ p: [point1, point2], width: width, offsetZ : offsetZ, height : height }); 
 
-	fname_s_0119(point1);
-	fname_s_0119(point2);
+	fname_s_0122(point1);
+	fname_s_0122(point2);
 	
 	var arrW = [];
 	for ( var i = 0; i < arrW_2.length; i++ ) { arrW[arrW.length] = arrW_2[i]; }
@@ -6593,8 +7220,8 @@ function fname_s_0150( point )
 	
 	fname_s_044( arrW );	
 	
-	var newZones = fname_s_0163();		
-	fname_s_0177(oldZ, newZones, 'delete');		
+	var newZones = fname_s_0166();		
+	fname_s_0180(oldZ, newZones, 'delete');		
 	
 	
 	
@@ -6618,33 +7245,33 @@ function fname_s_0150( point )
 
 
 
-function fname_s_0151( obj )
+function fname_s_0154( obj )
 {	
 	var wall = obj.userData.door.wall; 		
 	
 	fname_s_038( obj );		
 		
-	fname_s_0152({arr : wall.userData.wall.arrO, o : obj});	
+	fname_s_0155({arr : wall.userData.wall.arrO, o : obj});	
 	
-	if(obj.userData.tag == 'window') { fname_s_077(obj); }
-	if(obj.userData.tag == 'door') { fname_s_077(obj); }
+	if(obj.userData.tag == 'window') { fname_s_080(obj); }
+	if(obj.userData.tag == 'door') { fname_s_080(obj); }
 	
 	clickO = resetPop.clickO();
-	fname_s_0141( obj ); 
+	fname_s_0144( obj ); 
 	
 	
 	if(obj.userData.cubeCam)
 	{
-		fname_s_0152({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
-		fname_s_0187( obj.userData.cubeCam );
+		fname_s_0155({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
+		fname_s_0192( obj.userData.cubeCam );
 		scene.remove( obj.userData.cubeCam );			
 	}
 	
 	
-	if(obj.userData.tag == 'window') { fname_s_0152({arr : infProject.scene.array.window, o : obj}); }
-	if(obj.userData.tag == 'door') { fname_s_0152({arr : infProject.scene.array.door, o : obj}); }
+	if(obj.userData.tag == 'window') { fname_s_0155({arr : infProject.scene.array.window, o : obj}); }
+	if(obj.userData.tag == 'door') { fname_s_0155({arr : infProject.scene.array.door, o : obj}); }
 	
-	fname_s_0187( obj );
+	fname_s_0192( obj );
 	scene.remove( obj );	
 }
 
@@ -6654,7 +7281,7 @@ function fname_s_0151( obj )
 
 
 
-function fname_s_0152(cdm)
+function fname_s_0155(cdm)
 {
 	var arr = cdm.arr;
 	var o = cdm.o;
@@ -6664,7 +7291,7 @@ function fname_s_0152(cdm)
 
 
 
-function fname_s_0153(point, wall)
+function fname_s_0156(point, wall)
 {
 	var n = -1;
 	for ( var i = 0; i < point.w.length; i++ ){ if(point.w[i].userData.id == wall.userData.id) { n = i; break; } }
@@ -6678,7 +7305,7 @@ function fname_s_0153(point, wall)
 
 
 
-function fname_s_0154(point)
+function fname_s_0157(point)
 {
 	var n = -1;
 	for ( var i = 0; i < obj_point.length; i++ ){ if(obj_point[i].userData.id == point.userData.id) { n = i; break; } }
@@ -6692,7 +7319,7 @@ function fname_s_0154(point)
 
 
 
-function fname_s_0155(cdm)
+function fname_s_0158(cdm)
 {	
 	var arrP = cdm.point;
 	var arrW = cdm.wall;
@@ -6737,8 +7364,7 @@ function fname_s_0155(cdm)
 	floor.userData.room.w = floor.w;
 	floor.userData.room.s = floor.s;
 	floor.userData.room.zone = { id: 0, name: '' };
-	floor.userData.room.zone.id = (infProject.settings.room.type.length > 0) ? infProject.settings.room.type[0].id : undefined;
-	floor.userData.room.outline = null;
+	floor.userData.room.zone.id = undefined;
 	floor.userData.room.contour = [];
 	floor.userData.room.height = infProject.settings.floor.height;
 	floor.userData.room.html = {};
@@ -6760,16 +7386,16 @@ function fname_s_0155(cdm)
 	
 	if(cdm.material)
 	{  
-		fname_s_0225({obj: floor, material: cdm.material});	
+		fname_s_0231({obj: floor, material: cdm.material});	
 	}
 	
 	if(infProject.settings.floor.o)
 	{ 	
-		floor.userData.room.html.label = fname_s_0325({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
+		floor.userData.room.html.label = fname_s_0333({count: 1, display: 'none', tag: 'elem_type_room'})[0]; 
 		
 		if(infProject.settings.floor.label.visible) 
 		{ 
-			fname_s_037({id: floor.userData.room.zone.id, obj: floor});			 
+			
 		} 
 			
 		fname_s_046([floor]); 
@@ -6788,7 +7414,7 @@ function fname_s_0155(cdm)
 		arrW[i].userData.wall.room.side2[ind] = floor; 
 	}	
 	
-	fname_s_0156(arrP, floor);
+	fname_s_0159(arrP, floor);
 	
 	floor.castShadow = true; 
 	floor.receiveShadow = true;
@@ -6803,7 +7429,7 @@ function fname_s_0155(cdm)
 
 
 
-function fname_s_0156(arrP, zone)
+function fname_s_0159(arrP, zone)
 {
 	for ( var i = 0; i < arrP.length - 1; i++ ) 
 	{  
@@ -6817,7 +7443,7 @@ function fname_s_0156(arrP, zone)
 
 
 
-function fname_s_0157(zone, newPoint, replacePoint)
+function fname_s_0160(zone, newPoint, replacePoint)
 {
 	for ( var i = 0; i < zone.length; i++ )  
 	{  		
@@ -6832,7 +7458,7 @@ function fname_s_0157(zone, newPoint, replacePoint)
 
 
 
-function fname_s_0158(arrRoom)
+function fname_s_0161(arrRoom)
 {  
 	if(!infProject.settings.floor.o) { return; }
 	
@@ -6857,7 +7483,7 @@ function fname_s_0158(arrRoom)
 		geometry.dispose();
 		
 		arrRoom[i].position.y = infProject.settings.floor.posY;
-		fname_s_0229( arrRoom[i] );
+		fname_s_0235( arrRoom[i] );
 		fname_s_046([arrRoom[i]]); 
 
 		
@@ -6884,7 +7510,7 @@ function fname_s_0158(arrRoom)
 
 
 
-function fname_s_0159(arr) 
+function fname_s_0162(arr) 
 {
 	var arrN = [];
 	if(!Array.isArray(arr)) { var res = arr; var arr = [res]; }
@@ -6903,7 +7529,7 @@ function fname_s_0159(arr)
 
 
 
-function fname_s_0160(cdm) 
+function fname_s_0163(cdm) 
 {
 	var result = null;
 	var obj = cdm.obj;
@@ -6933,7 +7559,7 @@ function fname_s_0160(cdm)
 
 
 
-function fname_s_0161()
+function fname_s_0164()
 {
 	var shape = new THREE.Shape( [new THREE.Vector2(-2, 1), new THREE.Vector2(2, 1), new THREE.Vector2(2, -1), new THREE.Vector2(-2, -1)] );
 	var geometry = new THREE.ShapeGeometry( shape );
@@ -6947,7 +7573,7 @@ function fname_s_0161()
 }
 
 
-function fname_s_0162(cdm)
+function fname_s_0165(cdm)
 {
 	var obj = cdm.obj;
 	
@@ -6963,7 +7589,7 @@ function fname_s_0162(cdm)
 	var plane = infProject.tools.floorPl;	
 	plane.geometry.dispose();
 	plane.geometry = new THREE.ShapeGeometry( new THREE.Shape(contour2) );	
-	fname_s_0201({arr: [plane]});
+	fname_s_0207({arr: [plane]});
 	 
 	fname_s_029({obj: obj});
 }
@@ -6976,7 +7602,7 @@ function fname_s_0162(cdm)
 
 
 
-function fname_s_0163()
+function fname_s_0166()
 {		
 	var arrRoom = [];
 	
@@ -6990,18 +7616,18 @@ function fname_s_0163()
 			
 			
 
-			var p = fname_s_0166([obj_point[i]], obj_point[i].p[i2]); 		
+			var p = fname_s_0169([obj_point[i]], obj_point[i].p[i2]); 		
 			 
 			
 			if(p[0] != p[p.length - 1]){ continue; }	
 			if(p.length > 5){ if(p[1] == p[p.length - 2]) continue; }
 			if(fname_s_047(p) <= 0){ continue; }		
-			if(fname_s_0164( obj_point[i].zone, p )){ continue; }
+			if(fname_s_0167( obj_point[i].zone, p )){ continue; }
 								
 			 
-			var arr = fname_s_0167(p);						
+			var arr = fname_s_0170(p);						
 			
-			arrRoom[arrRoom.length] = fname_s_0155({point : p, wall : arr[0], side : arr[1]});			
+			arrRoom[arrRoom.length] = fname_s_0158({point : p, wall : arr[0], side : arr[1]});			
 			break; 
 		}
 	}
@@ -7015,7 +7641,7 @@ function fname_s_0163()
 
 
 
-function fname_s_0164( arrRoom, arrP )
+function fname_s_0167( arrRoom, arrP )
 {
 	var flag = false;
 	
@@ -7053,7 +7679,7 @@ function fname_s_0164( arrRoom, arrP )
  
 
 
-function fname_s_0165(p1, p2)
+function fname_s_0168(p1, p2)
 {
 	for ( var i = 0; i < p1.zone.length; i++ )
 	{
@@ -7075,7 +7701,7 @@ function fname_s_0165(p1, p2)
 
 
 
-function fname_s_0166(arr, point)
+function fname_s_0169(arr, point)
 {
 	var p2 = arr[arr.length - 1];
 	arr[arr.length] = point;
@@ -7115,7 +7741,7 @@ function fname_s_0166(arr, point)
 		
 		for ( var i = 0; i < arrD.length; i++ )
 		{			
-			if(arr[0] != arrD[i][1]) { return fname_s_0166(arr, arrD[i][1]); }
+			if(arr[0] != arrD[i][1]) { return fname_s_0169(arr, arrD[i][1]); }
 			else { arr[arr.length] = arrD[i][1]; break; }						
 		}
 	}
@@ -7128,7 +7754,7 @@ function fname_s_0166(arr, point)
 
  
 
-function fname_s_0167(p)
+function fname_s_0170(p)
 {
 	var w = [];  
 	var s = [];
@@ -7160,25 +7786,25 @@ function fname_s_0167(p)
 
 
 
-function fname_s_0168( point, obj, arrRoom, num, cdm )
+function fname_s_0171( point, obj, arrRoom, num, cdm )
 {
-	fname_s_0174(arrRoom);		
-	fname_s_0169(cdm, arrRoom, num, point); 				
+	fname_s_0177(arrRoom);		
+	fname_s_0172(cdm, arrRoom, num, point); 				
 	
-	for ( var i = 0; i < arrRoom.length; i++ ) { fname_s_0170(arrRoom[i], num[i], point, cdm); }	
+	for ( var i = 0; i < arrRoom.length; i++ ) { fname_s_0173(arrRoom[i], num[i], point, cdm); }	
 	
-	if(obj.userData.tag == 'wall'){ var arr = fname_s_0116(obj); }
-	else if(obj.userData.tag == 'point'){ var arr = fname_s_0115([], obj); }
+	if(obj.userData.tag == 'wall'){ var arr = fname_s_0119(obj); }
+	else if(obj.userData.tag == 'point'){ var arr = fname_s_0118([], obj); }
 
 	fname_s_044(arr);				
-	fname_s_0158(arrRoom);		
+	fname_s_0161(arrRoom);		
 }
 
  
 
 
 
-function fname_s_0169(cdm, arrRoom, numS, point)
+function fname_s_0172(cdm, arrRoom, numS, point)
 {
 	var zone = arrRoom;
 	var num = numS;
@@ -7214,11 +7840,11 @@ function fname_s_0169(cdm, arrRoom, numS, point)
 
 
 
-function fname_s_0170(zoneIndex, num, point, cdm)
+function fname_s_0173(zoneIndex, num, point, cdm)
 {		
-	var arr = fname_s_0167(zoneIndex.p);	
+	var arr = fname_s_0170(zoneIndex.p);	
 	
-	fname_s_0156(zoneIndex.p, zoneIndex);	
+	fname_s_0159(zoneIndex.p, zoneIndex);	
 				
 	zoneIndex.w = arr[0]; 		
 	zoneIndex.s = arr[1];	
@@ -7228,7 +7854,7 @@ function fname_s_0170(zoneIndex, num, point, cdm)
 
 
 
-function fname_s_0171(point1, point2)
+function fname_s_0174(point1, point2)
 {
 	for ( var i = 0; i < point2.zone.length; i++ )
 	{ 
@@ -7244,7 +7870,7 @@ function fname_s_0171(point1, point2)
 }
 
 
-function fname_s_0172(point1, point2) 
+function fname_s_0175(point1, point2) 
 {
 	var arr = [];
 	
@@ -7263,7 +7889,7 @@ function fname_s_0172(point1, point2)
 
  
 
-function fname_s_0173(arrRoom)
+function fname_s_0176(arrRoom)
 {
 	var roomType = [];
 	var arrN = [];
@@ -7294,7 +7920,7 @@ function fname_s_0173(arrRoom)
 		}
 	}
 
-	fname_s_0174(arrRoom);
+	fname_s_0177(arrRoom);
 	
 	for ( var i = arrN.length - 1; i >= 0; i-- )
 	{
@@ -7313,11 +7939,11 @@ function fname_s_0173(arrRoom)
 		ceiling.splice(arrN[i], 1);	 
 		
 		
-		fname_s_0152({arr: infProject.html.label, o: floor.userData.room.html.label});
+		fname_s_0155({arr: infProject.html.label, o: floor.userData.room.html.label});
 		floor.userData.room.html.label.remove();
 	
-		fname_s_0187( floor );
-		fname_s_0187( ceil );		
+		fname_s_0192( floor );
+		fname_s_0192( ceil );		
 		
 		scene.remove( floor );
 		scene.remove( ceil );		
@@ -7329,7 +7955,7 @@ function fname_s_0173(arrRoom)
 
 
 
-function fname_s_0174(arrRoom)
+function fname_s_0177(arrRoom)
 {
 	for ( var i = 0; i < arrRoom.length; i++ )
 	{
@@ -7351,7 +7977,7 @@ function fname_s_0174(arrRoom)
 
 
 
-function fname_s_0175( arrRoom, arrP )
+function fname_s_0178( arrRoom, arrP )
 {
 	var flag = false;
 	var ln = 0;
@@ -7381,7 +8007,7 @@ function fname_s_0175( arrRoom, arrP )
 
 
 
-function fname_s_0176(cdm) 
+function fname_s_0179(cdm) 
 {	
 	var ray = new THREE.Raycaster();
 	ray.set( new THREE.Vector3(cdm.pos.x, 1, cdm.pos.z), new THREE.Vector3(0, -1, 0) );
@@ -7397,7 +8023,7 @@ function fname_s_0176(cdm)
 
 
 
-function fname_s_0177( oldZ, newZones, cdm ) 
+function fname_s_0180( oldZ, newZones, cdm ) 
 {
 	
 	for ( var i = 0; i < newZones.length; i++ ) 
@@ -7422,7 +8048,7 @@ function fname_s_0177( oldZ, newZones, cdm )
 			
 			if(countNew == count)
 			{
-				fname_s_0179([newZones[i]], oldZ[i2], false);				
+				fname_s_0182([newZones[i]], oldZ[i2], false);				
 				break;
 			}			
 		}
@@ -7435,23 +8061,23 @@ function fname_s_0177( oldZ, newZones, cdm )
 
 
 
-function fname_s_0178(wall) 
+function fname_s_0181(wall) 
 {
 	var oldZone = fname_s_048( wall ).obj;
-	var oldZ = fname_s_0159(oldZone);
+	var oldZ = fname_s_0162(oldZone);
 	
-	if(oldZone) { fname_s_0173( [oldZone] ); }			
+	if(oldZone) { fname_s_0176( [oldZone] ); }			
 		
-	var newZones = fname_s_0163();			
+	var newZones = fname_s_0166();			
 	 
-	if(oldZone) { fname_s_0179(newZones, oldZ[0], true); } 
+	if(oldZone) { fname_s_0182(newZones, oldZ[0], true); } 
 }
 
 
 
-function fname_s_0179(newZones, oldZ, addId)
+function fname_s_0182(newZones, oldZ, addId)
 {
-	var newZ = fname_s_0159(newZones);
+	var newZ = fname_s_0162(newZones);
 	
 	for ( var i = 0; i < newZ.length; i++ )
 	{	 
@@ -7480,7 +8106,7 @@ function fname_s_0179(newZones, oldZ, addId)
 
 
 
-function fname_s_0180( wall )
+function fname_s_0183( wall )
 {
 	var arrRoom = [];	
 	for ( var i = 0; i < wall.userData.wall.p[0].zone.length; i++ ) 
@@ -7505,9 +8131,85 @@ function fname_s_0180( wall )
 
 
 
+function fname_s_0184( event )
+{
+	if (camera != cameraTop) { return; }
+	if (isMouseDown1) { return; }
+
+	if ( clickO.move ) 
+	{
+		var tag = clickO.move.userData.tag;
+		
+		if (tag == 'free_dw') { return; }
+		if (tag == 'point') { if (clickO.move.userData.point.type) return; }		
+	}
+	
+	var rayhit = null;
+		
+	
+
+	if(!infProject.scene.block.hover.point)
+	{
+		var ray = fname_s_0230( event, infProject.scene.array.point, 'arr' );
+		if(!rayhit) { if(ray.length > 0) { rayhit = ray[0]; } }		
+	}
+	
+
+	if ( rayhit ) 
+	{
+		
+		var object = rayhit.object;
+		var tag = object.userData.tag; 				
+
+		
+		if ( clickO.hover == object ) { return; }				
 
 
-function fname_s_0181(obj)
+		if ( tag == 'point' ) 
+		{ 
+			
+			object.material.opacity = 1;
+			$('html,body').css('cursor', 'move');
+		}
+
+		
+		fname_s_0185();
+
+		clickO.hover = object;
+	}
+	else
+	{
+		fname_s_0185();
+	}
+}
+
+
+
+
+function fname_s_0185()
+{
+	if ( !clickO.hover ) { return; }
+
+	var object = clickO.hover;
+	var tag = object.userData.tag;  	
+	
+	if( tag == 'point' ) 
+	{ 
+		
+		object.material.opacity = 0.75;
+		$('html,body').css('cursor', 'default');
+	}
+	
+	clickO.hover = null;
+}
+
+
+
+
+
+
+
+function fname_s_0186(obj)
 { 
 	if(camera != cameraTop) return;
 	if(!obj) { return; }   
@@ -7515,20 +8217,20 @@ function fname_s_0181(obj)
 			
 	var tag = obj.userData.tag;
 	
-	if(tag == 'window'){ fname_s_0201({arr: [obj]}); }
-	else if(tag == 'point'){ fname_s_0201({arr: [obj]}); }	 
-	else if(tag == 'wall'){ fname_s_0201({arr: [obj]}); } 	
-	else if(tag == 'door'){ fname_s_0201({arr: [obj]}); }	
+	if(tag == 'window'){ fname_s_0207({arr: [obj]}); }
+	else if(tag == 'point'){ fname_s_0207({arr: [obj]}); }	 
+	else if(tag == 'wall'){ fname_s_0207({arr: [obj]}); } 	
+	else if(tag == 'door'){ fname_s_0207({arr: [obj]}); }	
 	
 	
-	if(clickO.hover == obj) { clickO.hover = null; }
+	
 }
  
 
 	
  
 
-function fname_s_0182() 
+function fname_s_0187() 
 {	
 	if(camera != cameraTop) return;
 	if(!clickO.last_obj){ return; }
@@ -7541,11 +8243,10 @@ function fname_s_0182()
 		if(clickO.rayhit.object.userData.tag == 'controll_wd'){ if(clickO.rayhit.object.userData.controll_wd.obj == o) { return; } }      		
 	}
 	 
-	if(o.userData.tag == 'wall'){ fname_s_0202(); fname_s_045({wall: o}); }	
-	else if(o.userData.tag == 'point'){ fname_s_0202(); }	
-	else if(o.userData.tag == 'window'){ fname_s_0202(); }
-	else if(o.userData.tag == 'door'){ fname_s_0202(); }	
-	
+	if(o.userData.tag == 'wall'){ fname_s_0208(); fname_s_045({wall: o}); }	
+	else if(o.userData.tag == 'point'){ fname_s_0208(); }	
+	else if(o.userData.tag == 'window'){ fname_s_0208(); }
+	else if(o.userData.tag == 'door'){ fname_s_0208(); }	
 	
 	if(clickO.hover == clickO.last_obj) { clickO.hover = null; }
 } 
@@ -7562,11 +8263,11 @@ function fname_s_0182()
 
 
 
-function fname_s_0183(href) 
+function fname_s_0188(href) 
 {
 	var url = new URL(href); 
 	var url = url.searchParams.get('file');  
-	if(url) { fname_s_0192(url); }
+	if(url) { fname_s_0197(url); }
 }
 
 
@@ -7582,7 +8283,7 @@ var resetPop =
 	
 	infProjectSceneArray : function()
 	{
-		var array = { point : obj_point, wall : [], window : [], door : [], floor : room, ceiling : ceiling, obj : [] };
+		var array = { point: obj_point, wall: [], window: [], door: [], floor: room, ceiling: ceiling, obj: [], objSpot: [] };
 		array.cubeCam = [];
 		array.lineGrid = { limit : false };
 		array.base = (infProject.start)? infProject.scene.array.base : [];	
@@ -7612,7 +8313,7 @@ var resetPop =
 		inf.actMove = false;
 		inf.pos = { clickDown : new THREE.Vector3() };
 		inf.click = { wall : [], point : [], side_wall: 0 };
-		inf.selectBox = { arr : [], drag : false, move : false, walls : [], walls_2 : [], point : [] };
+		inf.selectBox = { arr : [], drag : false, move : false };
 		inf.keys = [];
 		inf.options = null;
 		inf.elem = null;
@@ -7622,15 +8323,17 @@ var resetPop =
 	
 	active : function()
 	{
-		return { create : true, delete : true, click2D : true, click3D : true, move : true, replace : true, unlock : true };
-	},	
-}
+		var inf = { create : true, delete : true, click2D : true, click3D : true, move : true, replace : true, unlock : true };
+		
+		return inf;
+	}	
+};
 
 
 
-function fname_s_0184() 
+function fname_s_0189() 
 {	
-	fname_s_077(clickO.last_obj);
+	fname_s_080(clickO.last_obj);
 	
 	
 	var wall = infProject.scene.array.wall;
@@ -7644,11 +8347,14 @@ function fname_s_0184()
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{ 		
+		fname_s_0155({arr: infProject.html.label, o: wall[i].userData.wall.html.label[0]});
+		fname_s_0155({arr: infProject.html.label, o: wall[i].userData.wall.html.label[1]});
+		
 		wall[i].userData.wall.html.label[0].remove();
 		wall[i].userData.wall.html.label[1].remove();
 		
 		if(wall[i].userData.wall.outline) { scene.remove(wall[i].userData.wall.outline); }
-		if(wall[i].userData.wall.zone) { fname_s_0187(wall[i].userData.wall.zone.label); scene.remove(wall[i].userData.wall.zone.label); }			
+		if(wall[i].userData.wall.zone) { fname_s_0192(wall[i].userData.wall.zone.label); scene.remove(wall[i].userData.wall.zone.label); }			
 		
 		wall[i].userData.wall.p = [];
 		wall[i].userData.wall.outline = null;
@@ -7659,44 +8365,44 @@ function fname_s_0184()
 	
 	for ( var i = 0; i < point.length; i++ )
 	{ 
-		fname_s_0187(point[i]);
+		fname_s_0192(point[i]);
 		scene.remove(point[i]); 
 	}	
 	
 	for ( var i = 0; i < window.length; i++ )
 	{ 
-		fname_s_0187(window[i]); 
+		fname_s_0192(window[i]); 
 		scene.remove(window[i]); 
 	}
 	
 	for ( var i = 0; i < door.length; i++ )
 	{ 
-		fname_s_0187(door[i]); 
+		fname_s_0192(door[i]); 
 		scene.remove(door[i]); 
 	}	
 	
 	
 	for ( var i = 0; i < floor.length; i++ )
 	{		
-		fname_s_0187(floor[i]);
-		fname_s_0187(floor[i].label);
-		fname_s_0187(ceiling[i]);
+		fname_s_0192(floor[i]);
+		fname_s_0192(ceiling[i]);
 		
-		scene.remove(floor[i].label); 
-		if(floor[i].userData.room.outline) { scene.remove(floor[i].userData.room.outline); }
+		fname_s_0155({arr: infProject.html.label, o: floor[i].userData.room.html.label});
+		floor[i].userData.room.html.label.remove(); 
+		
 		scene.remove(floor[i]); 
 		scene.remove(ceiling[i]);	
 	}
 	
 	for ( var i = 0; i < obj.length; i++ )
 	{ 
-		fname_s_0187(obj[i]);
+		fname_s_0192(obj[i]);
 		scene.remove(obj[i]);
 	}
 
 	for ( var i = 0; i < cubeCam.length; i++ )
 	{
-		fname_s_0187( cubeCam[i] );
+		fname_s_0192( cubeCam[i] );
 		scene.remove( cubeCam[i] );		
 	}
 	
@@ -7711,9 +8417,6 @@ function fname_s_0184()
 	
 	
 	
-	
-	
-	
 	obj_point = [];
 	room = [];
 	ceiling = [];
@@ -7724,7 +8427,7 @@ function fname_s_0184()
 	
 	
 	var cube = infProject.tools.controllWD;
-	for ( var i = 0; i < cube.length; i++ ) { cube[i].visible = false; }
+	
 	
 	var line = infProject.scene.size.wd_1.line;
 	
@@ -7751,12 +8454,12 @@ function fname_s_0184()
 	infProject.scene.light.lamp = [];
 	
 	
-	fname_s_0185();
+	fname_s_0190();
 }
 
 
 
-function fname_s_0185()
+function fname_s_0190()
 {	
 	
 	
@@ -7769,75 +8472,53 @@ function fname_s_0185()
 
 
 
-function fname_s_0186(node, callback) 
+function fname_s_0191(cdm) 
 {
-	for (var i = node.children.length - 1; i >= 0; i--) 
+	var obj = cdm.obj;	
+	
+	obj.traverse(function(child) 
 	{
-		if(node.children[i].userData.tag)
-		{
-			var tag = node.children[i].userData.tag;
-			
-			if(tag == 'point' || tag == 'wall' || tag == 'window' || tag == 'door' || tag == 'room' || tag == 'ceiling' || tag == 'obj')
-			{
-				var child = node.children[i];
+		fname_s_0192(child);
+	});	
+}
 
-				fname_s_0186(child, callback);
-				callback(child);			
-			}			
-		}			
+
+
+function fname_s_0192(node) 
+{
+	if (node instanceof THREE.Mesh || node instanceof THREE.Line) 
+	{
+		if (node.geometry) { node.geometry.dispose(); }
+		
+		if (node.material) 
+		{
+			var materialArray = [];
+			
+			if(node.material instanceof Array) { materialArray = node.material; }
+			else { materialArray = [node.material]; }
+			
+			if(materialArray) 
+			{
+				materialArray.forEach(function (mtrl, idx) 
+				{
+					if (mtrl.map) mtrl.map.dispose();
+					if (mtrl.lightMap) mtrl.lightMap.dispose();
+					if (mtrl.bumpMap) mtrl.bumpMap.dispose();
+					if (mtrl.normalMap) mtrl.normalMap.dispose();
+					if (mtrl.specularMap) mtrl.specularMap.dispose();
+					if (mtrl.envMap) mtrl.envMap.dispose();
+					mtrl.dispose();
+				});
+			}
+		}
 	}
 }
 
 
-function fname_s_0187(node) 
-{
-        if (node instanceof THREE.Mesh || node instanceof THREE.Line) 
-		{
-            if (node.geometry) { node.geometry.dispose(); }
-			
-            if (node.material) 
-			{
-                var materialArray;
-                if (node.material instanceof THREE.MeshFaceMaterial || node.material instanceof THREE.MultiMaterial) 
-				{
-                    materialArray = node.material.materials;
-                }
-                else if(node.material instanceof Array) 
-				{
-                    materialArray = node.material;
-                }
-                
-				if(materialArray) 
-				{
-                    materialArray.forEach(function (mtrl, idx) 
-					{
-                        if (mtrl.map) mtrl.map.dispose();
-                        if (mtrl.lightMap) mtrl.lightMap.dispose();
-                        if (mtrl.bumpMap) mtrl.bumpMap.dispose();
-                        if (mtrl.normalMap) mtrl.normalMap.dispose();
-                        if (mtrl.specularMap) mtrl.specularMap.dispose();
-                        if (mtrl.envMap) mtrl.envMap.dispose();
-                        mtrl.dispose();
-                    });
-                }
-                else 
-				{
-                    if (node.material.map) node.material.map.dispose();
-                    if (node.material.lightMap) node.material.lightMap.dispose();
-                    if (node.material.bumpMap) node.material.bumpMap.dispose();
-                    if (node.material.normalMap) node.material.normalMap.dispose();
-                    if (node.material.specularMap) node.material.specularMap.dispose();
-                    if (node.material.envMap) node.material.envMap.dispose();
-                    node.material.dispose();
-                }
-            }
-        }
-}
 
 
 
-
-function fname_s_0188()
+function fname_s_0193()
 {
 	var json = 
 	{
@@ -7902,7 +8583,7 @@ function fname_s_0188()
 			walls[i].startShift = new THREE.Vector3(dir.z, 0, dir.x);			
 		}
 				
-		var wd = fname_s_0189(wall[i]);		
+		var wd = fname_s_0194(wall[i]);		
 		walls[i].windows = wd.windows;
 		walls[i].doors = wd.doors;
 
@@ -7940,9 +8621,9 @@ function fname_s_0188()
 		
 		object[m].q = {x: obj.quaternion.x, y: obj.quaternion.y, z: obj.quaternion.z, w: obj.quaternion.w};
 		
-		object[m].type = obj.userData.obj3D.type;
+		object[m].typeGroup = obj.userData.obj3D.typeGroup;
 		
-		if(obj.userData.obj3D.type == "light point")
+		if(obj.userData.obj3D.typeGroup == "light point")
 		{
 			object[m].light = { intensity: obj.children[1].intensity };
 		}
@@ -7980,7 +8661,7 @@ function fname_s_0188()
 
 
 
-function fname_s_0189(wall)
+function fname_s_0194(wall)
 {
 	var windows = [], doors = [];
 	
@@ -8012,8 +8693,8 @@ function fname_s_0189(wall)
 		
 		
 			var v7 = wd.localToWorld( center.clone() );			
-			var qt1 = fname_s_0232( new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize() );
-			var x = fname_s_0230(new THREE.Vector3().subVectors( v7, p[0].position ), qt1).z; 
+			var qt1 = fname_s_0238( new THREE.Vector3().subVectors( p[1].position, p[0].position ).normalize() );
+			var x = fname_s_0236(new THREE.Vector3().subVectors( v7, p[0].position ), qt1).z; 
 			
 			x = x / p[1].position.distanceTo( p[0].position );		
 			var y = wall.worldToLocal( wd.localToWorld(new THREE.Vector3(0, wd.geometry.boundingBox.min.y, 0)) ).y;
@@ -8038,13 +8719,13 @@ function fname_s_0189(wall)
 
 function fname_s_get_json()
 {
-	return JSON.stringify( fname_s_0188() );
+	return JSON.stringify( fname_s_0193() );
 }
 
-function fname_s_0191(cdm) 
+function fname_s_0196(cdm) 
 { 
 	
-	var json = JSON.stringify( fname_s_0188() );
+	var json = JSON.stringify( fname_s_0193() );
 	
 	if(cdm.json)
 	{
@@ -8099,9 +8780,9 @@ function fname_s_0191(cdm)
 
 
 
-function fname_s_0192(cdm) 
+function fname_s_0197(cdm) 
 {
-	if(cdm.id == 0) { fname_s_0184(); return; }	 
+	if(cdm.id == 0) { fname_s_0189(); return; }	 
 	
 	
 	if(cdm.json)	
@@ -8145,7 +8826,11 @@ function fname_s_0192(cdm)
 
 async function fname_s_load_f(arr) 
 {     
-	fname_s_0184();					
+	fname_s_0189();
+
+	await fname_s_0199();	
+	await fname_s_0271();		
+	 
 	if(!arr) return;
 	
 	
@@ -8195,7 +8880,7 @@ async function fname_s_load_f(arr)
 		
 		for ( var i2 = 0; i2 < arrO.length; i2++ )
 		{					
-			wall[i].arrO[i2] = {  }
+			wall[i].arrO[i2] = {  };
 			
 			wall[i].arrO[i2].id = arrO[i2].id;
 			wall[i].arrO[i2].pos = new THREE.Vector3(arrO[i2].pos.x, arrO[i2].pos.y, 0);
@@ -8212,11 +8897,11 @@ async function fname_s_load_f(arr)
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{ 
-		var point1 = fname_s_0236( 'point', wall[i].points[0].id );
-		var point2 = fname_s_0236( 'point', wall[i].points[1].id );	
+		var point1 = fname_s_0242( 'point', wall[i].points[0].id );
+		var point2 = fname_s_0242( 'point', wall[i].points[1].id );	
 		
-		if(point1 == null) { point1 = fname_s_0220( wall[i].points[0].pos, wall[i].points[0].id ); }
-		if(point2 == null) { point2 = fname_s_0220( wall[i].points[1].pos, wall[i].points[1].id ); }
+		if(point1 == null) { point1 = fname_s_0226( wall[i].points[0].pos, wall[i].points[0].id ); }
+		if(point2 == null) { point2 = fname_s_0226( wall[i].points[1].pos, wall[i].points[1].id ); }
 	
 
 		
@@ -8225,18 +8910,18 @@ async function fname_s_load_f(arr)
 		var inf = { id: wall[i].id, p: [point1, point2], width: wall[i].width, offsetZ: -offsetZ, height: wall[i].height, load: true };
 		
 		
-		var obj = fname_s_0221(inf); 		
+		var obj = fname_s_0227(inf); 		
 		
 		obj.updateMatrixWorld();
 		arrW[arrW.length] = obj;
 	}	
 	 
 	
-	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0119(obj_point[i]); }
+	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0122(obj_point[i]); }
 	
 	fname_s_044(infProject.scene.array.wall);	
 
-	fname_s_0163();
+	fname_s_0166();
 	
 	
 	for ( var n = 0; n < infProject.scene.array.floor.length; n++ )
@@ -8245,7 +8930,7 @@ async function fname_s_load_f(arr)
 		{
 			if(rooms[i].reference)
 			{
-				var floor = fname_s_0176({pos: rooms[i].reference, obj: infProject.scene.array.floor[n]});
+				var floor = fname_s_0179({pos: rooms[i].reference, obj: infProject.scene.array.floor[n]});
 				
 				if(floor.o == infProject.scene.array.floor[n])
 				{
@@ -8257,7 +8942,7 @@ async function fname_s_load_f(arr)
 			}
 			else if(rooms[i].contour)
 			{
-				if(!fname_s_0175( infProject.scene.array.floor[n], rooms[i].contour )) continue;
+				if(!fname_s_0178( infProject.scene.array.floor[n], rooms[i].contour )) continue;
 				
 				infProject.scene.array.floor[n].userData.id = rooms[i].id;
 				infProject.scene.array.ceiling[n].userData.id = rooms[i].id;
@@ -8308,18 +8993,18 @@ async function fname_s_load_f(arr)
 		
 		
 		
-		fname_s_0194({arr: arrTexture});
+		fname_s_0200({arr: arrTexture});
 	}
 	
 	
 	fname_s_036({arr: rooms});	
 	
-	fname_s_0195({furn: furn});
+	fname_s_0201({furn: furn});
 
 	
-	fname_s_0197();
-	fname_s_094( camera.zoom );
-	fname_s_096();
+	fname_s_0203();
+	fname_s_097( camera.zoom );
+	fname_s_099();
 
 	renderCamera();
 	
@@ -8328,7 +9013,45 @@ async function fname_s_load_f(arr)
 
 
 
-function fname_s_0194(cdm)
+
+
+async function fname_s_0199()
+{
+	var url = infProject.settings.api.type.room; 
+	
+	
+	if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_room_zone.json'; }
+	
+
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+
+	infProject.settings.room.type = json;	
+	
+	var json = infProject.settings.room.type;
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var str = 
+		'<div class="right_panel_1_1_list_item" type_room="'+json[i].id+'">\
+			<div class="right_panel_1_1_list_item_text">'
+			+json[i].title+
+			'</div>\
+		</div>';
+		
+		
+		var el = $(str).appendTo('[list_ui="room_type"]');
+		var id = json[i].id;
+		(function(id) 
+		{
+			el.on('mousedown', function(){ fname_s_037({button: true, id: id}); });	
+		}(id));		
+	}	
+}
+
+
+
+function fname_s_0200(cdm)
 {
 	
 	
@@ -8340,21 +9063,21 @@ function fname_s_0194(cdm)
 		{
 			if(cdm.arr[i].objId == wall[i2].userData.id)
 			{ 
-				fname_s_0225({obj: wall[i2], material: cdm.arr[i]});
+				fname_s_0231({obj: wall[i2], material: cdm.arr[i]});
 			}			
 		}
 		for ( var i2 = 0; i2 < room.length; i2++ )
 		{
 			if(cdm.arr[i].objId == room[i2].userData.id && cdm.arr[i].tag == 'room')
 			{ 
-				fname_s_0225({obj: room[i2], material: cdm.arr[i]});
+				fname_s_0231({obj: room[i2], material: cdm.arr[i]});
 			}			
 		}	
 		for ( var i2 = 0; i2 < ceiling.length; i2++ )
 		{
 			if(cdm.arr[i].objId == ceiling[i2].userData.id && cdm.arr[i].tag == 'ceiling')
 			{ 
-				fname_s_0225({obj: ceiling[i2], material: cdm.arr[i]});
+				fname_s_0231({obj: ceiling[i2], material: cdm.arr[i]});
 			}			
 		}			
 	}
@@ -8362,27 +9085,32 @@ function fname_s_0194(cdm)
 
 
 
-function fname_s_0195(cdm)
+function fname_s_0201(cdm)
 {
 	var furn = cdm.furn;
 	var lotid = [];
 	
 	for ( var i = 0; i < furn.length; i++ )
 	{
-		lotid[lotid.length] = Number(furn[i].lotid); 
+		lotid[lotid.length] = Number(furn[i].lotid);
+
+		var inf = fname_s_0273({lotid: furn[i].lotid}); 
+		if(!inf) continue;	
+
+		fname_s_0277(inf, furn[i]);
 	}
 	
 	lotid = [...new Set(lotid)];  
 	
 	for ( var i = 0; i < lotid.length; i++ )
 	{
-		fname_s_0269({lotid: lotid[i], loadFromFile: true, furn: furn});
+		fname_s_0274({lotid: lotid[i], loadFromFile: true, furn: furn});
 	}	
 }
 
 
 
-function fname_s_0196(cdm)
+function fname_s_0202(cdm)
 { 
 	var furn = cdm.furn;
 	
@@ -8390,13 +9118,16 @@ function fname_s_0196(cdm)
 	{  
 		if(Number(cdm.lotid) == Number(furn[i].lotid))
 		{			
-			fname_s_0269(furn[i]);  
+			fname_s_0274(furn[i]);  
 
 			infProject.project.load.furn[infProject.project.load.furn.length] = furn[i].id;
 			
+			$('[nameId="txt_loader_slider_UI"]').text((Math.round(infProject.project.load.furn.length/infProject.project.file.object.length)*100) + '%');
+			
 			if(infProject.project.load.furn.length == infProject.project.file.object.length)
 			{ 
-				fname_s_0197();
+				fname_s_0203();
+				$('[nameId="menu_loader_slider_UI"]').hide();
 			}
 		}
 	}	
@@ -8404,7 +9135,7 @@ function fname_s_0196(cdm)
 
 
 
-function fname_s_0197(cdm)
+function fname_s_0203(cdm)
 {
 	
 	
@@ -8421,8 +9152,8 @@ function fname_s_0197(cdm)
 	
 	
 	
-	fname_s_079(cameraTop);
-	fname_s_096();	
+	fname_s_082(cameraTop);
+	fname_s_099();	
 }
 
 
@@ -8489,43 +9220,43 @@ camera3D.userData.camera.save.radius = 0;
 
 
 var cameraWall = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 1, 1000 );
-cameraWall.zoom = 2
+cameraWall.zoom = 2;
 
 
 
 
 
 
-var cube = new THREE.Mesh( fname_s_0210(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
+var cube = new THREE.Mesh( fname_s_0216(0.07, 0.07, 0.07), new THREE.MeshLambertMaterial( { color : 0x030202, transparent: true, opacity: 1, depthTest: false } ) );
 
 
 
 
 
 
-function fname_s_0198() 
+function fname_s_0204() 
 {
-	requestAnimationFrame( fname_s_0198 );	
+	requestAnimationFrame( fname_s_0204 );	
 
-	fname_s_093();	
-	fname_s_098();
+	fname_s_096();	
+	fname_s_0101();
 	
-	fname_s_085();
+	fname_s_088();
 }
 
 
 function renderCamera()
 {
 	camera.updateMatrixWorld();	
-	fname_s_0204();
+	fname_s_0210();
 	composer.render();
 }
 
 
 
 
-window.addEventListener( 'resize', fname_s_0200, false );
-function fname_s_0200() 
+window.addEventListener( 'resize', fname_s_0206, false );
+function fname_s_0206() 
 { 
 	var aspect = containerF.clientWidth / containerF.clientHeight;
 	var d = infProject.settings.cam2D;
@@ -8547,7 +9278,7 @@ function fname_s_0200()
 	cameraWall.updateProjectionMatrix();
 	
 	renderer.setSize(containerF.clientWidth, containerF.clientHeight);
-	fname_s_0204({resize: true});
+	fname_s_0210({resize: true});
 	
 	renderCamera();
 }
@@ -8585,36 +9316,58 @@ infProject.scene.array = resetPop.infProjectSceneArray();
 infProject.scene.block = { key : { scroll : false } };		
 infProject.scene.block.click = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
 infProject.scene.block.hover = {wall: false, point: false, door: false, window: false, room: false, tube: false, controll_wd: false, obj: false};
-infProject.geometry = { circle : fname_s_0216() }
-infProject.geometry.cone = [fname_s_0217({r1: 0.003, r2: 0.03, h: 0.25}), fname_s_0217({r1: 0.001, r2: 0.04, h: 0.1})];
+infProject.geometry = { circle : fname_s_0222() };
+infProject.geometry.cone = [fname_s_0223({r1: 0.003, r2: 0.03, h: 0.25}), fname_s_0223({r1: 0.001, r2: 0.04, h: 0.1})];
 infProject.scene.size = { wd_1: {} };	
-infProject.scene.size.wd_1.line = fname_s_0215({count : 6, color : 0x616161});	
+infProject.scene.size.wd_1.line = fname_s_0221({count : 6, color : 0x616161});	
 infProject.html = {};
 infProject.html.label = [];	
-infProject.html.wd = fname_s_0325({count: 6, display: 'none', tag: 'elem_wd_size'});
+infProject.html.wd = fname_s_0333({count: 6, display: 'none', tag: 'elem_wd_size'});
 infProject.html.furn = {};
-infProject.html.furn.size = fname_s_0325({count: 2, display: 'none', tag: 'elem_furn_size', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
-infProject.html.furn.offset = fname_s_0325({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
+infProject.html.furn.size = fname_s_0333({count: 2, display: 'none', tag: 'elem_furn_size', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
+infProject.html.furn.offset = fname_s_0333({count: 4, display: 'none', tag: 'elem_furn_offset', style: 'border: 1px solid #646464; padding: 2px 5px; background: #fff;'});
 infProject.svg = {furn: {}};
 infProject.svg.arr = []; 	
-infProject.svg.furn.size.elem = fname_s_0314({count: 2});
-infProject.svg.furn.offset.elem = fname_s_0314({count: 4});
-infProject.svg.furn.box2 = fname_s_0316({count: 1, color: 'rgb(176, 110, 12)', dasharray: true})[0];
-infProject.svg.furn.box1 = fname_s_0316({count: 1})[0];
-infProject.svg.furn.boxCircle.elem = fname_s_0315({count: 8}); 
+infProject.svg.furn.size = {};
+infProject.svg.furn.size.elem = fname_s_0321({count: 2, color: infProject.settings.svg.scaleBox.color});
+infProject.svg.furn.size.show = infProject.settings.obj.cam2D.show.size;
+infProject.svg.furn.offset = {};
+infProject.svg.furn.offset.elem = fname_s_0321({count: 4, color: infProject.settings.svg.scaleBox.color});
+infProject.svg.furn.offset.show = infProject.settings.obj.cam2D.show.offset;
+infProject.svg.furn.box2 = fname_s_0323({count: 1, color: infProject.settings.svg.scaleBox.color, dasharray: true})[0];
+infProject.svg.furn.box1 = fname_s_0323({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
+infProject.svg.furn.boxCircle = {};
+infProject.svg.furn.boxCircle.elem = fname_s_0322({count: 8, color: infProject.settings.svg.scaleBox.color});
+infProject.svg.furn.boxCircle.show = infProject.settings.obj.cam2D.show.scale; 
 infProject.camera = { d3: { theta: 0, phi: 75 } };
-infProject.camera.d3.targetO = fname_s_0203();
+infProject.camera.d3.targetO = fname_s_0209();
 
-infProject.tools = { pivot: fname_s_0245(), gizmo: fname_s_0260(), cutWall: [], point: fname_s_0218(), axis: fname_s_0213(), controllWD: fname_s_0100() } 
-infProject.tools.floorPl = fname_s_0161();
-infProject.catalog = { obj: [], texture: fname_s_0267() }; 
+infProject.tools = { pivot: fname_s_0250(), gizmo: fname_s_0265(), cutWall: [], point: fname_s_0224(), axis: fname_s_0219(), controllWD: fname_s_0103() }; 
+infProject.tools.floorPl = fname_s_0164();
+infProject.catalog = { obj: [], texture: fname_s_0272() }; 
 infProject.listColor = resetPop.listColor(); 
 infProject.start = true; 
 
-infProject.ui = {}
+
+infProject.calc = {};
+infProject.calc.boxScale2D = {sizeLine: null, boxCircle: null, box1: null, box2: null, offsetLine: null};
+infProject.calc.boxScale2D.pos2D = new THREE.Vector2();
+infProject.calc.boxScale2D.pos3D = new THREE.Vector3();
+infProject.calc.boxScale2D.arrO = [];
+
+infProject.ui = {};
 infProject.ui.list_wf = [];
 infProject.ui.right_menu = {active: ''};
 
+infProject.ur = {};
+infProject.ur.count = -1; 
+infProject.ur.back = [];
+infProject.ur.forward = [];
+
+
+infProject.tools.selectionBox = { msdown : false, fname_s_0334 : new THREE.Vector2(), mStart : new THREE.Vector2(), mEnd : new THREE.Vector2(), button : false };
+	
+
  
 
 
@@ -8622,7 +9375,7 @@ infProject.ui.right_menu = {active: ''};
 
 
 
-var planeMath = fname_s_0209();
+var planeMath = fname_s_0215();
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var offset = new THREE.Vector3();
@@ -8648,12 +9401,14 @@ var offset = new THREE.Vector3();
 	scene.add( lights[ 3 ] );
 	
 
-	var light = new THREE.AmbientLight( 0xffffff, 0.93 )
+	var light = new THREE.AmbientLight( 0xffffff, 0.93 );
 	scene.add( light );
 	
 	infProject.scene.light.global = {ambient: light, point: lights};
 }
 
+
+var ccc = new THREE.Color().setHex( '0x'+infProject.settings.profile.color );
 
 
 
@@ -8695,16 +9450,16 @@ var offset = new THREE.Vector3();
 		composer.addPass( fxaaPass ); 	
 	}	
 	
-
-	outlinePass.visibleEdgeColor.set( 'rgb(255, 162, 23)' );
-	outlinePass.hiddenEdgeColor.set( 'rgb(255, 162, 23)' );
+	
+	outlinePass.visibleEdgeColor.set( ccc );
+	outlinePass.hiddenEdgeColor.set( ccc );
 	outlinePass.edgeStrength = Number( 5 );		
 	outlinePass.edgeThickness = Number( 0.01 );	
 
 	outlinePass.selectedObjects = [];
 
 
-	function fname_s_0201( cdm )
+	function fname_s_0207( cdm )
 	{	
 		if(!cdm) cdm = {};
 		
@@ -8715,7 +9470,7 @@ var offset = new THREE.Vector3();
 		outlinePass.selectedObjects = arr;  
 	}
 
-	function fname_s_0202()
+	function fname_s_0208()
 	{
 		outlinePass.selectedObjects = [];
 	}	
@@ -8725,8 +9480,8 @@ var offset = new THREE.Vector3();
 
 
 {
-	fname_s_0208();
-	fname_s_086({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
+	fname_s_0214();
+	fname_s_089({radious: infProject.settings.cam3D, theta: 90, phi: 35});		
 	
 	fname_s_023();		
 	fname_s_024();
@@ -8735,11 +9490,8 @@ var offset = new THREE.Vector3();
 	fname_s_032({});
 
 	
-
 	
-	fname_s_0265();
-	
-	fname_s_0322({el: infProject.svg.furn.boxCircle.elem}); 
+	fname_s_0330({el: infProject.svg.furn.boxCircle.elem}); 
 }
 
 
@@ -8747,9 +9499,9 @@ var offset = new THREE.Vector3();
 
 if(1==2)
 {
-	var l1 = fname_s_0314({count: 1, x1: 400, y1: 700, x2: 800, y2: 400})[0];
+	var l1 = fname_s_0321({count: 1, x1: 400, y1: 700, x2: 800, y2: 400})[0];
 	l1.setAttribute("display", "block");
-	var l2 = fname_s_0314({count: 1, x1: 800, y1: 400, x2: 600, y2: 200})[0];
+	var l2 = fname_s_0321({count: 1, x1: 800, y1: 400, x2: 600, y2: 200})[0];
 	l2.setAttribute("display", "block");
 
 	var dir = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value)).normalize();
@@ -8757,25 +9509,25 @@ if(1==2)
 	var rotY = Math.atan2(dir.x, dir.y) - Math.PI/2;
 
 
-	var pos = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value))
+	var pos = new THREE.Vector2(l1.x2.baseVal.value - l1.x1.baseVal.value, -(l1.y2.baseVal.value - l1.y1.baseVal.value));
 
 	var dx = new THREE.Vector2();
 	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
 	dx.y = pos.x * Math.sin(rotY) + pos.y * Math.cos(rotY);
 
-	var l3 = fname_s_0314({count: 1, x1: l1.x1.baseVal.value, y1: l1.y1.baseVal.value, x2: dx.x+l1.x1.baseVal.value, y2: -dx.y+l1.y1.baseVal.value})[0];
+	var l3 = fname_s_0321({count: 1, x1: l1.x1.baseVal.value, y1: l1.y1.baseVal.value, x2: dx.x+l1.x1.baseVal.value, y2: -dx.y+l1.y1.baseVal.value})[0];
 	l3.setAttribute("display", "block");
 
 	var x1 = l3.x2.baseVal.value - l1.x2.baseVal.value;
 	var y1 = l3.y2.baseVal.value - l1.y2.baseVal.value;
 
-	var pos = new THREE.Vector2(l2.x2.baseVal.value - l2.x1.baseVal.value, -(l2.y2.baseVal.value - l2.y1.baseVal.value))
+	var pos = new THREE.Vector2(l2.x2.baseVal.value - l2.x1.baseVal.value, -(l2.y2.baseVal.value - l2.y1.baseVal.value));
 
 	var dx = new THREE.Vector2();
 	dx.x = pos.x * Math.cos(rotY) - pos.y * Math.sin(rotY);
 	dx.y = pos.x * Math.sin(rotY) + pos.y * Math.cos(rotY);
 
-	var l4 = fname_s_0314({count: 1, x1: l2.x1.baseVal.value + x1, y1: l2.y1.baseVal.value + y1, x2: dx.x+l2.x1.baseVal.value + x1, y2: -dx.y+l2.y1.baseVal.value + y1})[0];
+	var l4 = fname_s_0321({count: 1, x1: l2.x1.baseVal.value + x1, y1: l2.y1.baseVal.value + y1, x2: dx.x+l2.x1.baseVal.value + x1, y2: -dx.y+l2.y1.baseVal.value + y1})[0];
 	l4.setAttribute("display", "block");
 
 	
@@ -8785,9 +9537,7 @@ if(1==2)
 
 
 
-
-
-function fname_s_0203()
+function fname_s_0209()
 {
 	var n = 0;
 	var v = [];
@@ -8815,7 +9565,7 @@ function fname_s_0203()
 
 	
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });	
-	var obj = new THREE.Mesh( fname_s_0214(v), material ); 
+	var obj = new THREE.Mesh( fname_s_0220(v), material ); 
 	obj.userData.tag = '';
 	obj.renderOrder = 2;
 	obj.visible = false;
@@ -8844,22 +9594,22 @@ function fname_s_0203()
 	}	
 	
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
-	var obj_2 = new THREE.Mesh( fname_s_0214(v2), material );
+	var obj_2 = new THREE.Mesh( fname_s_0220(v2), material );
 	obj_2.renderOrder = 2;
 	
 	obj.add( obj_2 );
 	scene.add( obj );
 	
-	fname_s_0219( obj );
+	fname_s_0225( obj );
 	
-	fname_s_0225({obj: obj, material: { img: infProject.path+"img/walk_1.png" }, repeat: {x: 1.9, y: 1.9}, offset: {x: 0.5, y: 0.5} });	
+	fname_s_0231({obj: obj, material: { img: infProject.path+"img/walk_1.png" }, repeat: {x: 1.9, y: 1.9}, offset: {x: 0.5, y: 0.5} });	
 	
 	return obj;
 }
 
 
 
-function fname_s_0204(cdm)
+function fname_s_0210(cdm)
 {
 	if(camera != cameraTop) return;
 	
@@ -8891,7 +9641,7 @@ function fname_s_0204(cdm)
 			continue;
 		}
 		
-		fname_s_0205({elem: elem});
+		fname_s_0211({elem: elem});
 	}
 
 	for ( var i = 0; i < infProject.svg.arr.length; i++ )
@@ -8902,21 +9652,21 @@ function fname_s_0204(cdm)
 		
 		if(svg.userData.svg.line)
 		{
-			fname_s_0317({el: svg});
+			fname_s_0324({el: svg});
 		}
 		else if(svg.userData.svg.circle)
 		{
-			fname_s_0318({el: svg});
+			fname_s_0325({el: svg});
 		}
 		else if(svg.userData.svg.path)
 		{
-			fname_s_0319({el: svg});
+			fname_s_0326({el: svg});
 		}		
 	}	
 }
 
 
-function fname_s_0205(cdm) 
+function fname_s_0211(cdm) 
 {
 	var elem = cdm.elem;
 
@@ -8936,11 +9686,11 @@ function fname_s_0205(cdm)
 
 
   
-function fname_s_0206(cdm)
+function fname_s_0212(cdm)
 {
 	if(!cdm) cdm = {};
 	
-	function fname_s_0207() 
+	function fname_s_0213() 
 	{ 	
 		var block = $('[nameId="panel_catalog_1"]')[0];
 		
@@ -8955,7 +9705,7 @@ function fname_s_0206(cdm)
 	}
 
 
-	fname_s_0207.prototype.init = function () 
+	fname_s_0213.prototype.init = function () 
 	{	
 		var self = this;
 		
@@ -8965,7 +9715,7 @@ function fname_s_0206(cdm)
 	};
 
 
-	fname_s_0207.prototype.startDrag = function (event) 
+	fname_s_0213.prototype.startDrag = function (event) 
 	{
 		var self = this;
 		
@@ -8977,7 +9727,7 @@ function fname_s_0206(cdm)
 	};
 
 
-	fname_s_0207.prototype.stopDrag = function () 
+	fname_s_0213.prototype.stopDrag = function () 
 	{
 		var self = this;
 		
@@ -8988,7 +9738,7 @@ function fname_s_0206(cdm)
 	};
 
 
-	fname_s_0207.prototype.drag = function (event) 
+	fname_s_0213.prototype.drag = function (event) 
 	{        
 		var self = this;  
 		var circleMin = $(self.circleMin); 
@@ -9018,7 +9768,7 @@ function fname_s_0206(cdm)
 	};
 
 
-	fname_s_0207.prototype.update = function () 
+	fname_s_0213.prototype.update = function () 
 	{
 		var self = this;
 		var circleMin = $(self.circleMin);
@@ -9045,7 +9795,7 @@ function fname_s_0206(cdm)
 			{
 				if(obj.userData.tag == 'obj')
 				{
-					if(obj.userData.obj3D.type == 'light point')
+					if(obj.userData.obj3D.typeGroup == 'light point')
 					{
 						obj.children[1].intensity = val;						
 						renderCamera();
@@ -9056,11 +9806,11 @@ function fname_s_0206(cdm)
 		
 	};
 
-	new fname_s_0207();
+	new fname_s_0213();
 }
 
 
-function fname_s_0208()
+function fname_s_0214()
 {
 	var geometry = new THREE.PlaneGeometry( 1000, 1000 );
 	var material = new THREE.MeshLambertMaterial( {color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 10.0, polygonOffsetUnits: 4.0 } );
@@ -9104,7 +9854,7 @@ function fname_s_0208()
 
 
 
-function fname_s_0209()
+function fname_s_0215()
 {
 	var geometry = new THREE.PlaneGeometry( 10000, 10000 );
 	
@@ -9122,7 +9872,7 @@ function fname_s_0209()
 
 
 
-function fname_s_0210(x, y, z, cdm)
+function fname_s_0216(x, y, z, cdm)
 {
 	var geometry = new THREE.Geometry();
 	x /= 2;
@@ -9202,7 +9952,7 @@ function fname_s_0210(x, y, z, cdm)
 
 
 
-function fname_s_0211(cdm)  
+function fname_s_0217(cdm)  
 {
 	var x = cdm.x;
 	var y = cdm.y;
@@ -9275,7 +10025,7 @@ function fname_s_0211(cdm)
 }
 
 
-function fname_s_0212(x, y, z, pr_offsetZ)
+function fname_s_0218(x, y, z, pr_offsetZ)
 {
 	var geometry = new THREE.Geometry();
 	
@@ -9368,11 +10118,11 @@ function fname_s_0212(x, y, z, pr_offsetZ)
 
 
 
-function fname_s_0213() 
+function fname_s_0219() 
 {
 	var axis = [];
 	
-	var geometry = fname_s_0210(0.5, 0.02, 0.02);		
+	var geometry = fname_s_0216(0.5, 0.02, 0.02);		
 	var v = geometry.vertices;	
 	v[3].x = v[2].x = v[5].x = v[4].x = 500;
 	v[0].x = v[1].x = v[6].x = v[7].x = -500;	
@@ -9391,7 +10141,7 @@ function fname_s_0213()
 }
 
 
-function fname_s_0214( vertices )
+function fname_s_0220( vertices )
 {
 	var geometry = new THREE.Geometry();
 
@@ -9439,7 +10189,7 @@ function fname_s_0214( vertices )
 
 
 
-function fname_s_0215(cdm)
+function fname_s_0221(cdm)
 {
 	var arr = [];
 	
@@ -9451,7 +10201,7 @@ function fname_s_0215(cdm)
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		arr[i] = new THREE.Mesh( fname_s_0210(1, 0.025, 0.025), material );
+		arr[i] = new THREE.Mesh( fname_s_0216(1, 0.025, 0.025), material );
 		var v = arr[i].geometry.vertices; 
 		v[0].x = v[1].x = v[6].x = v[7].x = -0.5;
 		v[3].x = v[2].x = v[5].x = v[4].x = 0.5;
@@ -9482,7 +10232,7 @@ function fname_s_0215(cdm)
 
 
 
-function fname_s_0216()
+function fname_s_0222()
 {
 	var count = 48;
 	var circle = [];
@@ -9502,7 +10252,7 @@ function fname_s_0216()
 
 
 
-function fname_s_0217(cdm)
+function fname_s_0223(cdm)
 {	
 	var n = 0;
 	var v = [];
@@ -9531,18 +10281,18 @@ function fname_s_0217(cdm)
 		n++;		
 	}	 
 	
-	return fname_s_0214(v);
+	return fname_s_0220(v);
 }
 
 
-function fname_s_0218()
+function fname_s_0224()
 {	
 	var n = 0;
 	var v = [];
 	
 	var geometry = new THREE.SphereGeometry( 0.1, 16, 16 );
 	
-	var obj = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color : 0xcccccc, transparent: true, opacity: 1.0, depthTest: false, lightMap : lightMap_1 } ) );
+	var obj = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color : 0xcccccc, transparent: true, opacity: 0.5, depthTest: false } ) );
 	obj.userData.tag = 'tool_point';
 	obj.userData.tool_point = {};
 	obj.renderOrder = 1;
@@ -9566,7 +10316,7 @@ function fname_s_0218()
 
 
 
-function fname_s_0219( obj )
+function fname_s_0225( obj )
 {
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -9599,7 +10349,7 @@ function fname_s_0219( obj )
 
 
 
-function fname_s_0220( pos, id )
+function fname_s_0226( pos, id )
 {
 	var point = obj_point[obj_point.length] = new THREE.Mesh( infProject.tools.point.geometry, infProject.tools.point.material.clone() );
 	point.position.copy( pos );		
@@ -9634,7 +10384,7 @@ function fname_s_0220( pos, id )
 
 
 
-function fname_s_0221( cdm ) 
+function fname_s_0227( cdm ) 
 {
 	var point1 = cdm.p[0];
 	var point2 = cdm.p[1];
@@ -9663,7 +10413,7 @@ function fname_s_0221( cdm )
 	}
 	
 	
-	var geometry = fname_s_0212(d, height, width, offsetZ);	
+	var geometry = fname_s_0218(d, height, width, offsetZ);	
 	var wall = new THREE.Mesh( geometry, materials ); 
  	infProject.scene.array.wall[infProject.scene.array.wall.length] = wall;		
 	
@@ -9691,10 +10441,12 @@ function fname_s_0221( cdm )
 	
 	wall.userData.wall.room = { side : 0, side2 : [null,null,null] };
 	wall.userData.wall.html = {};
-	wall.userData.wall.html.label = fname_s_0325({count: 2, tag: 'elem_wall_size'});
-	wall.userData.wall.svg = {};
+	wall.userData.wall.html.label = fname_s_0333({count: 2, tag: 'elem_wall_size'});
 	
+	wall.userData.wall.svg = {};
 	wall.userData.wall.svg.lineW = null;
+	
+	
 	wall.userData.wall.show = true;
 	
 	var v = wall.geometry.vertices;
@@ -9712,7 +10464,7 @@ function fname_s_0221( cdm )
 	wall.castShadow = true;	
 	wall.receiveShadow = true;
 	
-	fname_s_0229( wall );
+	fname_s_0235( wall );
 	
 	cdm.material = [];
 	cdm.material[0] = { img: infProject.path+"img/load/beton.jpg", index:1 };
@@ -9722,7 +10474,7 @@ function fname_s_0221( cdm )
 	{  
 		for ( var i = 0; i < cdm.material.length; i++ )
 		{			
-			fname_s_0225({obj: wall, material: cdm.material[i]});
+			fname_s_0231({obj: wall, material: cdm.material[i]});
 		}	
 	}
 	
@@ -9749,7 +10501,7 @@ function fname_s_0221( cdm )
 }
 
 
-function fname_s_0222( event )
+function fname_s_0228( event )
 {
 	var x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 	var y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
@@ -9758,7 +10510,7 @@ function fname_s_0222( event )
 }
 
 
-function fname_s_0223( event )
+function fname_s_0229( event )
 {
 	var x = ( ( event.clientX - containerF.offsetLeft ) );
 	var y = ( ( event.clientY - containerF.offsetTop ) );	
@@ -9767,9 +10519,9 @@ function fname_s_0223( event )
 }	
 	
 
-function fname_s_0224( event, obj, t ) 
+function fname_s_0230( event, obj, t ) 
 {
-	mouse = fname_s_0222( event );
+	mouse = fname_s_0228( event );
 	
 	raycaster.setFromCamera( mouse, camera );
 	
@@ -9784,7 +10536,7 @@ function fname_s_0224( event, obj, t )
 
 
 
-function fname_s_0225(cdm)
+function fname_s_0231(cdm)
 {
 	
 	
@@ -9854,7 +10606,7 @@ function fname_s_0225(cdm)
 
 
 
-function fname_s_0226( event )
+function fname_s_0232( event )
 {
 	if(!clickO.button) return;	
 	
@@ -9874,7 +10626,7 @@ function fname_s_0226( event )
 	
 	planeMath.updateMatrixWorld();
 
-	var intersects = fname_s_0224( event, planeMath, 'one' );
+	var intersects = fname_s_0230( event, planeMath, 'one' );
 	
 	if(intersects.length == 0) return;	
 	
@@ -9885,7 +10637,7 @@ function fname_s_0226( event )
 			clickO.obj = null; 
 			clickO.last_obj = null;
 			
-			var point = fname_s_0220( intersects[0].point, 0 );
+			var point = fname_s_0226( intersects[0].point, 0 );
 			point.position.y = 0;
 			point.userData.point.type = clickO.button; 
 			clickO.move = point;				
@@ -9900,14 +10652,14 @@ function fname_s_0226( event )
 		}			
 		else if(clickO.button == 'add_lotid')
 		{
-			fname_s_0269({lotid: clickO.options, cursor: true});
+			fname_s_0274({lotid: clickO.options, cursor: true});
 		}		
 	}
 	else if(camera == camera3D)
 	{
 		if(clickO.button == 'add_lotid')
 		{
-			fname_s_0269({lotid: clickO.options, cursor: true});
+			fname_s_0274({lotid: clickO.options, cursor: true});
 		}		
 	}
 	else if(camera == cameraWall)
@@ -9929,22 +10681,22 @@ function fname_s_active_int(cdm)
 {
 	if(clickO.move)
 	{
-		fname_s_0228();
-		fname_s_070();
+		fname_s_0234();
+		fname_s_073();
 	}
 
 	
 	if(cdm)
 	{		
-		fname_s_0228();	
+		fname_s_0234();	
 		
 		if(cdm.button == '2D')
 		{  			
-			fname_s_079(cameraTop);
+			fname_s_082(cameraTop);
 		}
 		else if(cdm.button == '3D')
 		{
-			fname_s_079(camera3D);
+			fname_s_082(camera3D);
 		}	
 		else if(cdm.button == 'point_1')
 		{
@@ -9970,18 +10722,18 @@ function fname_s_active_int(cdm)
 
 
 
-function fname_s_0228()
+function fname_s_0234()
 {
 	clickO.obj = null;
 	clickO.rayhit = null;
 	
-	fname_s_076();		
+	fname_s_079();		
 }
 
 
 
 
-function fname_s_0229( obj )
+function fname_s_0235( obj )
 { 
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -10018,20 +10770,20 @@ function fname_s_0229( obj )
 
 
 
-function fname_s_0230(dir1, qt)
+function fname_s_0236(dir1, qt)
 {	
 	return dir1.clone().applyQuaternion( qt.clone().inverse() );
 }
 
 
-function fname_s_0231(dir1, dir_local)
+function fname_s_0237(dir1, dir_local)
 {	
-	var qt = fname_s_0232(dir1);			
+	var qt = fname_s_0238(dir1);			
 	return dir_local.applyQuaternion( qt );
 }
 
 
-function fname_s_0232(dir1)
+function fname_s_0238(dir1)
 {
 	var mx = new THREE.Matrix4().lookAt( dir1, new THREE.Vector3(0,0,0), new THREE.Vector3(0,1,0) );
 	return new THREE.Quaternion().setFromRotationMatrix(mx);	
@@ -10043,7 +10795,7 @@ function fname_s_0232(dir1)
  
 
 
-function fname_s_0233() 
+function fname_s_0239() 
 { 
 	try 
 	{		
@@ -10067,7 +10819,7 @@ function fname_s_0233()
 
 
 
-function fname_s_0234() 
+function fname_s_0240() 
 { 
 	try 
 	{		
@@ -10110,13 +10862,13 @@ var openFileImage = function (strData, filename)
 	{
 		location.replace(uri);
 	}
-} 
+}; 
   
  
 	
 	
  
-function fname_s_0235()
+function fname_s_0241()
 {
 	 
 }
@@ -10124,7 +10876,7 @@ function fname_s_0235()
 
 
 
-function fname_s_0236( cdm, id )
+function fname_s_0242( cdm, id )
 {
 	var point = infProject.scene.array.point;
 	var wall = infProject.scene.array.wall;
@@ -10169,23 +10921,23 @@ function fname_s_0236( cdm, id )
 
 
 
-fname_s_0198();
+fname_s_0204();
 renderCamera();
 
 
 
 containerF.addEventListener('contextmenu', function(event) { event.preventDefault() });
-containerF.addEventListener( 'mousedown', fname_s_071, false );
-containerF.addEventListener( 'mousemove', fname_s_074, false );
-containerF.addEventListener( 'mouseup', fname_s_075, false );
+containerF.addEventListener( 'mousedown', fname_s_074, false );
+containerF.addEventListener( 'mousemove', fname_s_077, false );
+containerF.addEventListener( 'mouseup', fname_s_078, false );
 
 
-containerF.addEventListener( 'touchstart', fname_s_071, false );
-containerF.addEventListener( 'touchmove', fname_s_074, false );
-containerF.addEventListener( 'touchend', fname_s_075, false );
+containerF.addEventListener( 'touchstart', fname_s_074, false );
+containerF.addEventListener( 'touchmove', fname_s_077, false );
+containerF.addEventListener( 'touchend', fname_s_078, false );
 
-containerF.addEventListener('DOMMouseScroll', fname_s_092, false);
-containerF.addEventListener('mousewheel', fname_s_092, false);	
+containerF.addEventListener('DOMMouseScroll', fname_s_095, false);
+containerF.addEventListener('mousewheel', fname_s_095, false);	
 
 
 document.addEventListener("keydown", function (e) 
@@ -10200,18 +10952,14 @@ document.addEventListener("keydown", function (e)
 			
 			if(infProject.activeInput == 'input-height') { changeHeightWall(); } 
 			if(infProject.activeInput == 'wall_1') { fname_s_01({}); }	 		
-			if(infProject.activeInput == 'size-wd-length') { fname_s_0143(clickO.last_obj); }
-			if(infProject.activeInput == 'size-wd-height') { fname_s_0143(clickO.last_obj); }
-			if(infProject.activeInput == 'rp_wd_h1') { fname_s_0143(clickO.last_obj); }
+			if(infProject.activeInput == 'size-wd-length') { fname_s_0146(clickO.last_obj); }
+			if(infProject.activeInput == 'size-wd-height') { fname_s_0146(clickO.last_obj); }
+			if(infProject.activeInput == 'rp_wd_h1') { fname_s_0146(clickO.last_obj); }
 			if(infProject.activeInput == 'size_wall_width_1') 
 			{ 
 				var width = $('[nameid="size_wall_width_1"]').val();
 				
 				fname_s_04({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'}); 
-			}
-			else if(infProject.activeInput == 'dp_inf_1_proj')
-			{
-				fname_s_0239();
 			}			
 		}		
 		 
@@ -10219,12 +10967,15 @@ document.addEventListener("keydown", function (e)
 	}
 
 
-	if(e.keyCode == 46) { fname_s_0145(); }
+	if(e.keyCode == 46 || e.keyCode == 8) { fname_s_0148(); }
 	
-	if(clickO.keys[18] && e.keyCode == 90) { fname_s_0192({json: true}); }		
-	if(clickO.keys[18] && e.keyCode == 72) { fname_s_0186(scene, fname_s_0187); fname_s_0185(); }		
-	if(clickO.keys[18] && e.keyCode == 77) { fname_s_0239(); }				
-	if(clickO.keys[18] && e.keyCode == 84) { fname_s_0191({json: true}); }			
+	if(e.keyCode == 90 && e.ctrlKey || e.keyCode == 90 && e.keyCode == 91) { fname_s_0348( 'undo' ); }	
+	if(e.keyCode == 89 && e.ctrlKey || e.keyCode == 89 && e.keyCode == 91) { fname_s_0348( 'redo' ); }	
+	
+	if(clickO.keys[18] && e.keyCode == 90) { fname_s_0197({json: true}); }		
+	if(clickO.keys[18] && e.keyCode == 72) { fname_s_0191(scene, fname_s_0192); fname_s_0190(); }		
+	if(clickO.keys[18] && e.keyCode == 77) { fname_s_0197({id: 0}); }				
+	if(clickO.keys[18] && e.keyCode == 84) { fname_s_0196({json: true}); }			
 	if(clickO.keys[18] && e.keyCode == 86) {  }
 	if(clickO.keys[18] && e.keyCode == 86) {  }  		
 	if(clickO.keys[18] && e.keyCode == 66) 	
@@ -10239,7 +10990,7 @@ document.addEventListener("keydown", function (e)
 	
 	if(e.keyCode == 66) { fname_s_camera3d_view(); } 	
 	
-	if(e.keyCode == 89) { fname_s_0191({txt: true}); } 			
+	if(e.keyCode == 89 && !e.ctrlKey) { fname_s_0196({txt: true}); } 			
 	
 } );
 
@@ -10257,12 +11008,23 @@ document.addEventListener("keyup", function (e)
 	if(e.keyCode == 173) { zoomLoop = ''; }
 	if(e.keyCode == 61) { zoomLoop = ''; }
 	if(e.keyCode == 187) { zoomLoop = ''; }
-	if(e.keyCode == 189) { zoomLoop = ''; }		
+	if(e.keyCode == 189) { zoomLoop = ''; }
+
+
+	if(camera == cameraTop)
+	{
+		if(e.keyCode == 16){ fname_s_0338(); } 
+	}
+	
 });
 
 
 
-function fname_s_0237(cdm)
+
+
+
+
+function fname_s_0243(cdm)
 {
 	if(!cdm) return;	
 	if(infProject.settings.shader.fxaaPass == undefined) return;
@@ -10285,7 +11047,7 @@ function fname_s_0237(cdm)
 
 
 
-function fname_s_0238(cdm)
+function fname_s_0244(cdm)
 {  
 	if(!cdm) return;
 	
@@ -10332,26 +11094,10 @@ function fname_s_0238(cdm)
 
 
 
-function fname_s_0239()
-{
-	var visible = $('[nameid="dp_inf_1"]').is(":visible");
-	
-	$('[nameid="dp_inf_1"]').toggle();
-	
-	if(visible)
-	{
-		var num = Number($('[nameid="dp_inf_1_proj"]').val());
-		
-		fname_s_0192({id: num});
-		
-		
-	}
-}
 
 
 
-
-function fname_s_0240(cdm)
+function fname_s_0245(cdm)
 {	
 	var value = cdm.value; 
 	
@@ -10403,7 +11149,7 @@ $(document).ready(function ()
 	 
 	if(infProject.settings.load.file)
 	{
-		fname_s_0192({json: infProject.settings.load.file});
+		fname_s_0197({json: infProject.settings.load.file});
 	}		
 	  
 	
@@ -10455,31 +11201,33 @@ $('[nameId="button_wrap_plan"]').mousedown(function () { fname_s_028({el: this})
 
 	
 
-$('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0259(); });	
-$('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0258(); });
-$('[nameId="button_delete_obj"]').mousedown(function () { fname_s_0255(clickO.last_obj); });
+$('[nameId="obj_rotate_reset"]').mousedown(function () { fname_s_0264(); });	
+$('[nameId="button_copy_obj"]').mousedown(function () { fname_s_0263(); });
+$('[nameId="button_delete_obj"]').mousedown(function () { fname_s_0260({obj: clickO.last_obj}); });
 
 
 $('[data-action="wall"]').mousedown(function () { fname_s_active_int({button:'point_1'}); });
 $('[data-action="create_wd_2"]').mousedown(function () { fname_s_active_int({button:'create_wd_2'}); });
 $('[data-action="create_wd_3"]').mousedown(function () { fname_s_active_int({button:'create_wd_3'}); });
 $('[add_lotid]').mousedown(function () { fname_s_active_int({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
-$('[data-action="screenshot"]').mousedown(function () { fname_s_0233(); return false; }); 				
+$('[data-action="screenshot"]').mousedown(function () { fname_s_0239(); return false; }); 				
 
 
+$('[nameId="zoom_camera_butt_m"]').mousedown(function () { zoomLoop = 'zoomOut'; });
+$('[nameId="zoom_camera_butt_p"]').mousedown(function () { zoomLoop = 'zoomIn'; });
+$(window).mouseup(function () { zoomLoop = ''; });
 
 
-
-$('[data-action="deleteObj"]').mousedown(function () { fname_s_0145(); return false; });
+$('[data-action="deleteObj"]').mousedown(function () { fname_s_0148(); return false; });
 $('[data-action="fname_s_053"]').mousedown(function () { fname_s_053(); return false; });
 
 
 
-$('input').on('focus', function () { fname_s_0241({el: $(this), act: 'down'}); });
-$('input').on('change', function () { fname_s_0241({el: $(this), act: 'up'}); });
+$('input').on('focus', function () { fname_s_0246({el: $(this), act: 'down'}); });
+$('input').on('change', function () { fname_s_0246({el: $(this), act: 'up'}); });
 $('input').on('keyup', function () {  });
 
-function fname_s_0241(cdm)
+function fname_s_0246(cdm)
 {
 	var el = cdm.el;
 	
@@ -10496,13 +11244,13 @@ function fname_s_0241(cdm)
 	
 	if(cdm.act == 'up')
 	{
-		fname_s_0242();
+		fname_s_0247();
 	}
 		
 }
 
 
-function fname_s_0242(cdm)
+function fname_s_0247(cdm)
 {
 	if(infProject.activeInput == 'rp_floor_height')
 	{
@@ -10558,11 +11306,11 @@ $('[nameId="rp_button_apply"]').mousedown(function ()
 	}
 	else if(obj.userData.tag == 'window')
 	{
-		fname_s_0143(clickO.last_obj);
+		fname_s_0146(clickO.last_obj);
 	}
 	else if(obj.userData.tag == 'door')
 	{
-		fname_s_0143(clickO.last_obj);
+		fname_s_0146(clickO.last_obj);
 	}	
 });
 
@@ -10590,7 +11338,7 @@ $('[nameId="rp_button_room_texture_1"]').mousedown(function ()
 
 $('[nameId="rp_button_room_texture_2"]').mousedown(function () 
 { 
-	clickO.click.o = fname_s_0160({obj: clickO.last_obj}).ceiling;
+	clickO.click.o = fname_s_0163({obj: clickO.last_obj}).ceiling;
 	fname_s_026({type: 2}); 	
 });
 
@@ -10617,7 +11365,7 @@ $('[add_texture]').mousedown(function ()
 		};
 	}
 	
-	fname_s_0225(inf); 
+	fname_s_0231(inf); 
 }); 
 
 
@@ -10659,8 +11407,8 @@ $('[nameId="button_close_main_sett"]').mousedown(function ()
 	$('[nameId="window_main_sett"]').css({"display":"none"}); 
 });
 
-$('[nameId="checkbox_light_global"]').change(function() { fname_s_0238({visible: this.checked}); });
-$('[nameId="checkbox_fxaaPass"]').change(function() { fname_s_0237({visible: this.checked}); });
+$('[nameId="checkbox_light_global"]').change(function() { fname_s_0244({visible: this.checked}); });
+$('[nameId="checkbox_fxaaPass"]').change(function() { fname_s_0243({visible: this.checked}); });
 
 
 
@@ -10690,11 +11438,11 @@ $('[nameId="button_check_reg_2"]').mousedown(function () { changeMainMenuRegistM
 
 
 
-$('[nameId="button_show_panel_catalog"]').mousedown(function () { fname_s_0243({show: true}); });
-$('[nameId="button_catalog_close"]').mousedown(function () { fname_s_0243({show: false}); });
+$('[nameId="button_show_panel_catalog"]').mousedown(function () { fname_s_0248({show: true}); });
+$('[nameId="button_catalog_close"]').mousedown(function () { fname_s_0248({show: false}); });
 
 
-function fname_s_0243(cdm)
+function fname_s_0248(cdm)
 {
 	var show = cdm.show;
 	
@@ -10713,28 +11461,28 @@ function fname_s_0243(cdm)
 
 
 
-$('#load_obj_1').change(fname_s_0244);
+$('#load_obj_1').change(fname_s_0249);
 
-function fname_s_0244(e) 
+function fname_s_0249(e) 
 {
 	if (this.files[0]) 
 	{		
 		var reader = new FileReader();
 		reader.onload = function (e) 
 		{						
-			fname_s_0277({data: e.target.result});
-		}				
+			fname_s_0284({data: e.target.result});
+		};				
 
 		reader.readAsArrayBuffer(this.files[0]);  									
-	}
-}
+	};
+};
 
 
 $('[nameId="butt_main_load_obj"]').mousedown(function () { $('[nameId="window_main_load_obj"]').css({"display":"block"}); });
 
 $('[nameId="button_close_main_load_obj"]').mousedown(function () { $('[nameId="window_main_load_obj"]').css({"display":"none"}); });
 
-$('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0278(); });
+$('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0285(); });
 
 
 });
@@ -10747,7 +11495,7 @@ $('[nameId="butt_load_obj_2"]').mousedown(function () { fname_s_0278(); });
 
 
 
-function fname_s_0245()
+function fname_s_0250()
 {
 	var pivot = new THREE.Object3D();
 	pivot.userData.pivot = {};
@@ -10761,7 +11509,7 @@ function fname_s_0245()
 	param[2] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, -0.6), rot: new THREE.Vector3(0, Math.PI/2, 0)};
 	param[3] = {axis: 'z', pos: new THREE.Vector3(0.0, 0.0, 0.6), rot: new THREE.Vector3(0, -Math.PI/2, 0)};
 	
-	var geometry = fname_s_0211({x: 0.35, y: 0.01, z: 0.35});
+	var geometry = fname_s_0217({x: 0.35, y: 0.01, z: 0.35});
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
 	
 	for ( var i = 0; i < param.length; i++ )
@@ -10779,7 +11527,7 @@ function fname_s_0245()
 		pivot.add( obj );
 	}
 	
-	var y = fname_s_0246({axis: 'y', pos: new THREE.Vector3(0,0.1,0), rot: new THREE.Vector3(0,0,0), color: 0xcccccc});
+	var y = fname_s_0251({axis: 'y', pos: new THREE.Vector3(0,0.1,0), rot: new THREE.Vector3(0,0,0), color: 0xcccccc});
 	pivot.add( y );
 	
 	pivot.visible = false;
@@ -10799,7 +11547,7 @@ function fname_s_0245()
 
 
 
-function fname_s_0246(cdm)
+function fname_s_0251(cdm)
 {	
 	var n = 0;
 	var v = [];
@@ -10825,7 +11573,7 @@ function fname_s_0246(cdm)
 	}	
 
 	
-	var obj = new THREE.Mesh( fname_s_0214(v), new THREE.MeshPhongMaterial( { color : cdm.color, depthTest: false, transparent: true, lightMap: lightMap_1 } ) ); 
+	var obj = new THREE.Mesh( fname_s_0220(v), new THREE.MeshPhongMaterial( { color : cdm.color, depthTest: false, transparent: true, lightMap: lightMap_1 } ) ); 
 	obj.userData.tag = 'pivot';
 	obj.userData.axis = cdm.axis;
 	obj.renderOrder = 2;
@@ -10840,7 +11588,7 @@ function fname_s_0246(cdm)
 
 
 
-function fname_s_0247( intersect )
+function fname_s_0252( intersect )
 {
 	var obj = clickO.move = intersect.object;  
 	
@@ -10879,22 +11627,24 @@ function fname_s_0247( intersect )
 	{
 		axisO.updateMatrixWorld();
 		pivot.userData.pivot.active.dir = new THREE.Vector3().subVectors( pivot.position, axisO.getWorldPosition(new THREE.Vector3()) ).normalize();	
-		pivot.userData.pivot.active.qt = fname_s_0232( pivot.userData.pivot.active.dir );	
+		pivot.userData.pivot.active.qt = fname_s_0238( pivot.userData.pivot.active.dir );	
 		
 		planeMath.quaternion.copy( pivot.userData.pivot.active.qt ); 
 		planeMath.quaternion.multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI/2, 0, 0)));
 	}
 	
 	planeMath.position.copy( intersect.point );
+	
+	fname_s_0257({obj: pivot.userData.pivot.obj});
 } 
 
 
 
 
 
-function fname_s_0248( event )
+function fname_s_0253( event )
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -10916,7 +11666,7 @@ function fname_s_0248( event )
 	else
 	{
 		var subV = new THREE.Vector3().subVectors( pos, pivot.userData.pivot.active.startPos );
-		var locD = fname_s_0230(subV, pivot.userData.pivot.active.qt);						
+		var locD = fname_s_0236(subV, pivot.userData.pivot.active.qt);						
 		
 		var v1 = new THREE.Vector3().addScaledVector( pivot.userData.pivot.active.dir, locD.z );
 		pos = new THREE.Vector3().addVectors( pivot.userData.pivot.active.startPos, v1 );			
@@ -10928,23 +11678,21 @@ function fname_s_0248( event )
 	gizmo.position.add( pos2 );
 	
 	obj.position.add( pos2 );
-
-	fname_s_0252({obj: obj, boxCircle: true});
 	
-	fname_s_0249();
+	fname_s_0254();
 }
 
 
 
 
-function fname_s_0249()
+function fname_s_0254()
 {
 	var pivot = infProject.tools.pivot;
 	var gizmo = infProject.tools.gizmo;
 	
 	var pVis = false;
 	
-	if(pivot.visible) { pVis = true; }
+	if(gizmo.visible) { pVis = true; }
 	if(!pVis) { return; }
 	
 	var obj = null;
@@ -10972,11 +11720,13 @@ function fname_s_0249()
 
 
 
-function fname_s_0250(cdm)
+function fname_s_0255(cdm)
 {	
 	if(clickO.actMove)
-	{		 
-		fname_s_0276({obj: infProject.tools.pivot.userData.pivot.obj});	
+	{	
+		fname_s_0345({obj: infProject.tools.pivot.userData.pivot.obj, type: 'move'});
+		
+		fname_s_0283({obj: infProject.tools.pivot.userData.pivot.obj});	
 	}		
 }
 
@@ -10985,10 +11735,12 @@ function fname_s_0250(cdm)
 
 
 
-function fname_s_0251(cdm)
+function fname_s_0256(cdm)
 {
 	var obj = cdm.obj;
 	var rayhit = cdm.rayhit;
+	
+	if(fname_s_0340( rayhit )) { return; }
 	
 	obj.updateMatrixWorld();
 	var pos = obj.localToWorld( obj.geometry.boundingSphere.center.clone() );			 
@@ -11023,7 +11775,8 @@ function fname_s_0251(cdm)
 	
 	if(camera == cameraTop)
 	{
-		pivot.userData.pivot.axs.y.visible = false;
+		
+		pivot.visible = false;
 	}
 	else
 	{
@@ -11036,334 +11789,46 @@ function fname_s_0251(cdm)
 	gizmo.userData.gizmo.obj = obj;
 	gizmo.quaternion.copy( qt );			
 	
-	fname_s_0249();
+	fname_s_0254();
 	
-	if(camera == cameraTop) { fname_s_0202(); }
-	if(camera == camera3D) { fname_s_0201({arr: [obj]}); }
+	if(camera == cameraTop) { fname_s_0208(); }
+	if(camera == camera3D) { fname_s_0207({arr: [obj]}); }
 	
 	fname_s_029({obj: obj});	
 
-	fname_s_0252({obj: obj, boxCircle: true});
+	fname_s_070({obj: obj, boxCircle: true, getObjRoom: true, resetPos: true});
 	
 	getLotIdObject3D(obj.userData.obj3D.lotid);
+	
+	fname_s_0257({obj: obj});
+	
+	
+	if(obj.userData.obj3D.newO)
+	{
+		delete obj.userData.obj3D.newO;
+		
+		fname_s_0347({obj: obj});		
+	}
 }
 
 
 
 
-
-
-function fname_s_0252(cdm)
+function fname_s_0257(cdm)
 {
-	if(camera != cameraTop) return;
-	
 	var obj = cdm.obj;
-		
 	
-	
-	obj.updateMatrixWorld();
-	obj.geometry.computeBoundingBox();	
-	
-		
-	
-	
-	
-	{
-		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
-		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
-		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
-		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
-		
-		
-		var sizeX = x1.distanceTo( x2 );
-		var sizeZ = z1.distanceTo( z2 );
-		
-		fname_s_0317({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
-		fname_s_0317({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
-		fname_s_0320(infProject.svg.furn.size.elem);
-
-		var html = infProject.html.furn.size;
-		
-		fname_s_0323(html);
-		
-		var posLabel = new THREE.Vector3().subVectors( x2, x1 ).divideScalar( 2 ).add(x1); 
-		html[0].userData.elem.pos = posLabel;	
-		html[0].style.transform = 'translate(-50%, -50%)';
-		html[0].textContent = Math.round(sizeX * 100) / 100 + '';		
-		fname_s_0205({elem: html[0]});
-
-		var posLabel = new THREE.Vector3().subVectors( z2, z1 ).divideScalar( 2 ).add(z1); 
-		html[1].userData.elem.pos = posLabel;	
-		html[1].style.transform = 'translate(-50%, -50%)';
-		html[1].textContent = Math.round(sizeZ * 100) / 100 + '';		
-		fname_s_0205({elem: html[1]});		
-	}
-	
-	
-	
-	{
-		var v = [];
-		v[0] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z) );	
-		v[1] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z) );	
-		v[2] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.min.z) );	
-		v[3] = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.min.z) );	
-		
-		var box1 = infProject.svg.furn.box1;
-		
-		fname_s_0319({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
-		fname_s_0320([box1]);	
-	}
-	
-	
-	
-	
-	if(cdm.boxCircle)
-	{
-		var circle = infProject.svg.furn.boxCircle.elem;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		fname_s_0318({el: circle[0], pos: v[2]});
-		fname_s_0318({el: circle[1], pos: new THREE.Vector3().subVectors( v[3], v[2] ).divideScalar( 2 ).add(v[2])});
-		fname_s_0318({el: circle[2], pos: v[3]});
-		
-		
-		fname_s_0318({el: circle[3], pos: v[0]});
-		fname_s_0318({el: circle[4], pos: new THREE.Vector3().subVectors( v[1], v[0] ).divideScalar( 2 ).add(v[0])});
-		fname_s_0318({el: circle[5], pos: v[1]});		
-		
-		
-		fname_s_0318({el: circle[6], pos: new THREE.Vector3().subVectors( v[2], v[0] ).divideScalar( 2 ).add(v[0])});
-		
-		
-		fname_s_0318({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
-		
-		fname_s_0320(circle);		
-	}	
-
-
-	
-	
-	{
-		var bound = { min : { x : 999999, z : 999999 }, max : { x : -999999, z : -999999 } };
-		
-		for(var i = 0; i < v.length; i++)
-		{
-			if(v[i].x < bound.min.x) { bound.min.x = v[i].x; }
-			if(v[i].x > bound.max.x) { bound.max.x = v[i].x; }
-			if(v[i].z < bound.min.z) { bound.min.z = v[i].z; }
-			if(v[i].z > bound.max.z) { bound.max.z = v[i].z; }		
-		}			
-		
-		
-		var box2 = infProject.svg.furn.box2;
-		
-		var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	
-		var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	
-		var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	
-		var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	
-		
-		
-		fname_s_0319({el: box2, arrP: [p1, p2, p3, p4, p1]});
-		fname_s_0320([box2]);		
-	}
-	
-	
-	
-	{
-		var floor = null;
-		
-		for ( var i = 0; i < infProject.scene.array.floor.length; i++ )
-		{
-			var ray = new THREE.Raycaster();
-			ray.set( new THREE.Vector3(obj.position.x, 1, obj.position.z), new THREE.Vector3(0, -1, 0) );
-			
-			var intersects = ray.intersectObject( infProject.scene.array.floor[i] );	
-			
-			if(intersects[0]) { floor = intersects[0].object; break; }							
-		}
-		
-		
-		
-		var arrO = [];
-		
-		if(floor)
-		{
-			
-			for ( var i = 0; i < infProject.scene.array.obj.length; i++ )
-			{				
-				var obj_2 = infProject.scene.array.obj[i];
-				
-				if(obj_2 == obj) continue;
-				
-				var ray = new THREE.Raycaster();
-				ray.set( new THREE.Vector3(obj_2.position.x, 1, obj_2.position.z), new THREE.Vector3(0, -1, 0) );
-				
-				var intersects = ray.intersectObject( floor );	
-				
-				if(intersects[0]) 
-				{
-					
-					
-					
-					var v = [];
-					v[0] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.max.z) );	
-					v[1] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.max.z) );	
-					
-					v[2] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.max.x, 0, obj_2.geometry.boundingBox.min.z) );	
-					v[3] = obj_2.localToWorld( new THREE.Vector3(obj_2.geometry.boundingBox.min.x, 0, obj_2.geometry.boundingBox.min.z) );	
-
-					arrO[arrO.length] = { o: obj_2, v: v };
-				}					
-			}
-		}		
-		
-		if(floor)
-		{			
-			var p1 = new THREE.Vector3(bound.min.x, 0, bound.min.z);	
-			var p2 = new THREE.Vector3(bound.max.x, 0, bound.min.z);	
-			var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	
-			var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	
-
-			
-			var posTop = new THREE.Vector3().subVectors( p2, p1 ).divideScalar( 2 ).add(p1); 
-			var posBottom = new THREE.Vector3().subVectors( p3, p4 ).divideScalar( 2 ).add(p4);
-			var posLeft = new THREE.Vector3().subVectors( p1, p4 ).divideScalar( 2 ).add(p4);
-			var posRight = new THREE.Vector3().subVectors( p2, p3 ).divideScalar( 2 ).add(p3);
-			
-			var offsetLine = infProject.svg.furn.offset.elem;
-			var offsetLabel = infProject.html.furn.offset;
-			
-			var contour = floor.userData.room.contour;
-			
-			var arr = [];
-			
-			arr[0] = {line: offsetLine[0], posStart: posTop, dir: new THREE.Vector3(0,0,-1), html: offsetLabel[0]};
-			arr[1] = {line: offsetLine[1], posStart: posBottom, dir: new THREE.Vector3(0,0,1), html: offsetLabel[1]};
-			arr[2] = {line: offsetLine[2], posStart: posLeft, dir: new THREE.Vector3(-1,0,0), html: offsetLabel[2]};
-			arr[3] = {line: offsetLine[3], posStart: posRight, dir: new THREE.Vector3(1,0,0), html: offsetLabel[3]};
-			
-			for ( var n = 0; n < arr.length; n++ )
-			{
-				
-				var dir = arr[n].dir;
-				var posStart = arr[n].posStart;
-				var line = arr[n].line;
-				var html = arr[n].html;
-				
-				fname_s_0321([line]);
-				fname_s_0324([html]);
-				
-				
-				var min = 9999999;
-				var pos2 = null;
-	
-				for ( var i = 0; i < contour.length; i++ )
-				{
-					var i2 = (contour.length - 1 == i) ? 0 : i+1;
-
-					
-					var res = fname_s_010(posStart, posStart.clone().add(dir), contour[i], contour[i2]);								
-					
-					if(!res[1])	
-					{
-						var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
-						
-						
-						if(fname_s_013(posStart, posEnd, contour[i], contour[i2])) 
-						{	
-							var dist = res[0].distanceTo(posStart);
-							
-							if(min > dist)
-							{
-								pos2 = res[0];
-								
-								min = dist;
-							}
-						}
-					}				
-				}
-				
-				
-				for ( var i = 0; i < arrO.length; i++ )
-				{
-					var v = arrO[i].v;
-					
-					for ( var i2 = 0; i2 < v.length; i2++ )
-					{
-						var i3 = (v.length - 1 == i2) ? 0 : i2+1;
-						
-						
-						
-						var res = fname_s_010(posStart, posStart.clone().add(dir), v[i2], v[i3]);								
-						
-						if(!res[1])	
-						{
-							var posEnd = res[0].clone().add( new THREE.Vector3().addScaledVector(dir, 0.1) );
-	
-							
-							if(fname_s_013(posStart, posEnd, v[i2], v[i3])) 
-							{	
-								var dist = res[0].distanceTo(posStart);
-								
-								if(min > dist)
-								{
-									pos2 = res[0];
-									
-									min = dist;
-								}
-							}
-						}				
-						
-					}
-				}				
-
-				if(pos2)
-				{
-					
-					fname_s_0317({el: line, point: [posStart, pos2]});
-					fname_s_0320([line]);
-					
-					fname_s_0323([html]);
-					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
-					html.userData.elem.pos = posLabel;					
-					
-					var dist = pos2.distanceTo(posStart);
-					html.style.transform = 'translate(-50%, -50%)';
-					html.textContent = Math.round(dist * 100) / 100 + '';
-					
-					fname_s_0205({elem: html});
-					
-				}
-			}
-						
-		}
-		else
-		{
-			fname_s_0321(infProject.svg.furn.offset.elem);
-			fname_s_0324(infProject.html.furn.offset);
-		}
-		
-	}
+	obj.userData.obj3D.ur.pos = obj.position.clone();
+	obj.userData.obj3D.ur.q = obj.quaternion.clone(); 	
 }
 
 
 
 
 
-function fname_s_0253( event )
+function fname_s_0258( event )
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -11382,18 +11847,93 @@ function fname_s_0253( event )
 	infProject.tools.pivot.position.add( pos2 );
 	infProject.tools.gizmo.position.add( pos2 );
 
-	fname_s_0249();
+	fname_s_0254();
 	
-	fname_s_0252({obj: obj, boxCircle: true});
+	fname_s_070({obj: obj, boxCircle: true, setPos: { pos2D: new THREE.Vector2(event.clientX, event.clientY), pos3D: intersects[ 0 ].point }});
 }
 
 
 
-function fname_s_0254(obj)
+function fname_s_0259(obj)
 { 
 	if(clickO.actMove)
 	{		 
-		fname_s_0276({obj: obj});	
+		fname_s_0283({obj: obj});	
+		
+		
+		fname_s_0345({obj: obj, type: 'move'}); 
+		
+		if(camera == cameraTop)
+		{	
+			
+			if(1==1)
+			{
+				var circle = infProject.svg.furn.boxCircle.elem;	
+
+				for ( var i = 0; i < circle.length; i++ )
+				{
+					var x = ( ( circle[i].cx.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+					var y = - ( ( circle[i].cy.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+					var A = new THREE.Vector3(x, y, -1);
+					A.unproject(camera);
+					
+					circle[i].userData.svg.circle.pos = A;
+					
+					
+				}
+				
+				
+				{	
+					var arrP = [];
+					var box1 = infProject.svg.furn.box1; 			
+						
+					for ( var i = 0; i < box1.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+						var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+						var A = new THREE.Vector3(x, y, -1);
+						A.unproject(camera);
+
+						arrP[arrP.length] = A;
+					}	
+							
+					arrP[arrP.length] = arrP[0];
+					
+					box1.userData.svg.path.arrP = arrP;
+					
+				}
+				
+				
+				{	
+					var arrP = [];
+					var box2 = infProject.svg.furn.box2; 
+					
+					for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
+					{
+						var arrS = box1.userData.svg.path.arrS[i];
+						
+						var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+						var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+						var A = new THREE.Vector3(x, y, -1);
+						A.unproject(camera);
+
+						arrP[arrP.length] = A;
+					}	
+							
+					arrP[arrP.length] = arrP[0];
+					
+					box2.userData.svg.path.arrP = arrP;
+					
+				}
+
+
+				
+				fname_s_0327({el: infProject.svg.furn.offset.elem});
+				fname_s_0327({el: infProject.svg.furn.size.elem});
+			}
+		}
 	}	
 }
 
@@ -11401,13 +11941,19 @@ function fname_s_0254(obj)
 	
 
 
-function fname_s_0255(obj)
+function fname_s_0260(cdm)
 { 
+	var obj = cdm.obj;	
+	
 	if(obj.userData.tag != 'obj') return;
+	
+	var undoRedo = true;
+	if(cdm.undoRedo !== undefined) { undoRedo = cdm.undoRedo; }	
+	if(undoRedo) { fname_s_0346({obj: obj}); }
 	
 	clickO = resetPop.clickO(); 
 	
-	fname_s_0256(obj);
+	fname_s_0261(obj);
 	
 	var arr = [];
 	
@@ -11417,23 +11963,23 @@ function fname_s_0255(obj)
 	{	
 		if(arr[i].userData.cubeCam)
 		{
-			fname_s_0152({arr : infProject.scene.array.cubeCam, o : arr[i].userData.cubeCam});
-			fname_s_0187( arr[i].userData.cubeCam );
+			fname_s_0155({arr : infProject.scene.array.cubeCam, o : arr[i].userData.cubeCam});
+			fname_s_0192( arr[i].userData.cubeCam );
 			scene.remove( arr[i].userData.cubeCam );
 		}
-		fname_s_0152({arr : infProject.scene.array.obj, o : arr[i]});
+		fname_s_0155({arr : infProject.scene.array.obj, o : arr[i]});
 		fname_s_027({uuid: arr[i].uuid, type: 'delete'});
-		fname_s_0187(arr[i]);
+		fname_s_0192(arr[i]);
 		scene.remove(arr[i]); 
 	}
 	
-	fname_s_0202();
+	fname_s_0208();
 }
 
 
 
 
-function fname_s_0256(obj)
+function fname_s_0261(obj)
 {
 	if(!obj) return;
 	if(!obj.userData.tag) return;	
@@ -11460,21 +12006,21 @@ function fname_s_0256(obj)
 	pivot.userData.pivot.obj = null;
 	gizmo.userData.gizmo.obj = null;
 
-	fname_s_0321(infProject.svg.furn.boxCircle.elem);
-	fname_s_0321([infProject.svg.furn.box1]);
-	fname_s_0321([infProject.svg.furn.box2]);
-	fname_s_0321(infProject.svg.furn.size.elem);
-	fname_s_0321(infProject.svg.furn.offset.elem);
+	fname_s_0329(infProject.svg.furn.boxCircle.elem);
+	fname_s_0329([infProject.svg.furn.box1]);
+	fname_s_0329([infProject.svg.furn.box2]);
+	fname_s_0329(infProject.svg.furn.size.elem);
+	fname_s_0329(infProject.svg.furn.offset.elem);
 	
-	fname_s_0324(infProject.html.furn.size);
-	fname_s_0324(infProject.html.furn.offset);
+	fname_s_0332(infProject.html.furn.size);
+	fname_s_0332(infProject.html.furn.offset);
 	
 	
 	clickO.last_obj = null;
 	
 	fname_s_029(); 	
 	
-	fname_s_0202();
+	fname_s_0208();
 }
 
 
@@ -11484,7 +12030,7 @@ function fname_s_0256(obj)
 
 
 
-function fname_s_0257(cdm)
+function fname_s_0262(cdm)
 {
 	var obj = null;
 	var pivot = infProject.tools.pivot;
@@ -11501,9 +12047,9 @@ function fname_s_0257(cdm)
 
 
 
-function fname_s_0258(cdm) 
+function fname_s_0263(cdm) 
 {
-	var obj = fname_s_0257();
+	var obj = fname_s_0262();
 	
 	if(!obj) return;	
 	
@@ -11537,9 +12083,9 @@ function fname_s_0258(cdm)
 
 
 
-function fname_s_0259(cdm)
+function fname_s_0264(cdm)
 {
-	var obj = fname_s_0257();
+	var obj = fname_s_0262();
 	
 	if(!obj) return;
 
@@ -11579,7 +12125,7 @@ function fname_s_0259(cdm)
 
 
 
-function fname_s_0260()
+function fname_s_0265()
 {
 	var n = 0;
 	var v = [];
@@ -11612,7 +12158,7 @@ function fname_s_0260()
 	var material = new THREE.MeshPhongMaterial({ color: 0xcccccc, transparent: true, opacity: 1, depthTest: false });
 	var cdm = {axis: 'x', pos: new THREE.Vector3(0,0.0,0), rot: new THREE.Vector3(0,0,0), color: 0x00ff00};
 	
-	var obj = new THREE.Mesh( fname_s_0214(v), material ); 
+	var obj = new THREE.Mesh( fname_s_0220(v), material ); 
 	obj.userData.tag = 'gizmo';
 	obj.userData.axis = cdm.axis;
 	obj.renderOrder = 2;
@@ -11629,7 +12175,7 @@ function fname_s_0260()
 
 
 
-function fname_s_0261( intersect )
+function fname_s_0266( intersect )
 {			
 	var gizmo = infProject.tools.gizmo;
 	
@@ -11670,11 +12216,11 @@ function fname_s_0261( intersect )
 	}
 	else
 	{
-		fname_s_0262(obj, dr, rotY, false);
+		fname_s_0267(obj, dr, rotY, false);
 	}
 	
 	
-	function fname_s_0262(obj, dr, rotY, global)
+	function fname_s_0267(obj, dr, rotY, global)
 	{
 		if(global)	
 		{
@@ -11691,16 +12237,23 @@ function fname_s_0261( intersect )
 	
 	planeMath.updateMatrixWorld();
 	var dir = planeMath.worldToLocal( intersect.point.clone() );	
-	gizmo.userData.gizmo.active.rotY = Math.atan2(dir.x, dir.y);	
+	gizmo.userData.gizmo.active.rotY = Math.atan2(dir.x, dir.y);
+
+	fname_s_0257({obj: gizmo.userData.gizmo.obj});
 }
 
 
 
 
-function fname_s_0263( event )
+function fname_s_0268( event )
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' );	 	 
+	var intersects = fname_s_0230( event, planeMath, 'one' );	 	 
 	if(intersects.length == 0) return;
+	
+	if(!clickO.actMove)
+	{
+		clickO.actMove = true;
+	}	
 	
 	
 	var gizmo = infProject.tools.gizmo;
@@ -11724,15 +12277,15 @@ function fname_s_0263( event )
 	{ 
 		obj.rotateOnWorldAxis(new THREE.Vector3(0,1,0), rotY - gizmo.userData.gizmo.active.rotY);
 
-		fname_s_0252({obj: obj, boxCircle: true});
+		fname_s_070({obj: obj, boxCircle: true});
 	}
 	else 
 	{ 		
-		fname_s_0264({obj: [obj], dr: dr, rotY: rotY, centerO: obj});		 
+		fname_s_0269({obj: [obj], dr: dr, rotY: rotY, centerO: obj});		 
 	}		
 	
 	
-	function fname_s_0264(cdm)
+	function fname_s_0269(cdm)
 	{
 		var centerO = cdm.centerO;
 		var arr = cdm.obj;
@@ -11766,28 +12319,38 @@ function fname_s_0263( event )
 
 
 
+function fname_s_0270(cdm)
+{	
+	if(clickO.actMove)
+	{	
+		fname_s_0345({obj: infProject.tools.gizmo.userData.gizmo.obj, type: 'move'});
+	}		
+}
 
 
 
 
-async function fname_s_0265()
+
+async function fname_s_0271()
 {
 	var url = infProject.settings.api.list;
 	
 	var arr = [];
 
-	if(window.location.hostname == 'localtest.vim.myplan.pro'){}
-	else if(window.location.hostname == 'remstok'){}
-	else 
-	{
-		var response = await fetch(url, { method: 'GET' });
-		var json = await response.json();
+	if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_model.json'; }
+	
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+	
+	for(var i = 0; i < json.length; i++)
+	{		
+		var url_2 = infProject.settings.api.models+json[i].model;
 		
-		for(var i = 0; i < json.length; i++)
-		{
-			arr[i] = { lotid: json[i].id, name: json[i].title, url: infProject.settings.api.models+json[i].model, planeMath : 0.0, glb : true, };		
-		}		
-	}
+		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
+		
+		arr[i] = { lotid: json[i].id, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
+	}		
+
 	
 	
 		if(1==1)
@@ -11797,31 +12360,34 @@ async function fname_s_0265()
 			lotid : 32,
 			url : infProject.path+'import/glb/wd/okno1x1.glb', 
 			name : 'окно 1',
+			type: 'wd',
 			planeMath : 1.5,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
 			lotid : 33,
 			url : infProject.path+'import/glb/wd/dver2x1.glb', 
 			name : 'дверь',
+			type: 'wd',
 			planeMath : 0.1,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 		
 	arr[arr.length] =
 	{
 		lotid : 4,
 		url : infProject.path+'import/vm_door_1.fbx', 
 		name : 'дверь',
+		type: 'wd',
 		planeMath : 1.0,
 		material : true,
 		stopUI: true,
-	}
+	};
 
 	arr[arr.length] =
 	{
@@ -11830,7 +12396,7 @@ async function fname_s_0265()
 		name : 'светильник',
 		type: 'light point',
 		planeMath : infProject.settings.height - 0.05,
-	}
+	};
 
 		if(1==1)
 	{
@@ -11842,7 +12408,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11851,7 +12417,7 @@ async function fname_s_0265()
 			name : 'Пуф_ПФ',
 			planeMath : 0.0,
 			glb : true,
-					}
+					};
 
 		arr[arr.length] =
 		{
@@ -11861,7 +12427,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11871,7 +12437,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11881,7 +12447,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11891,7 +12457,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11901,9 +12467,9 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
-	}
+	};
 		
 	
 		if(1==1)
@@ -11916,7 +12482,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -11926,7 +12492,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}	
+		};	
 
 		arr[arr.length] =
 		{
@@ -11936,8 +12502,8 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 		
 		if(1==1)
 	{
@@ -11949,7 +12515,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -11959,7 +12525,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11969,7 +12535,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -11979,8 +12545,8 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
-	}
+		};		
+	};
 		
 	
 		if(1==1)
@@ -11993,7 +12559,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 		
 		arr[arr.length] =
 		{
@@ -12003,7 +12569,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -12013,7 +12579,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -12023,7 +12589,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -12033,7 +12599,7 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}
+		};
 
 		arr[arr.length] =
 		{
@@ -12042,7 +12608,7 @@ async function fname_s_0265()
 			name : 'Угловой_диван-кровать_Вольберг',
 			planeMath : 0.0,
 			glb : true,
-					}
+					};
 
 		arr[arr.length] =
 		{
@@ -12052,9 +12618,9 @@ async function fname_s_0265()
 			planeMath : 0.0,
 			glb : true,
 			stopUI: true,
-		}		
+		};		
 				
-	}
+	};
 	
 	
 	infProject.catalog.obj = arr;
@@ -12063,366 +12629,57 @@ async function fname_s_0265()
 }
 
 
-function fname_s_0266()
-{
-	var arr = [];		
-	
-	if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 5,
-			url : infProject.path+'import/vm_furn_2.fbx', 
-			name : 'кухня',
-			planeMath : 0.1,
-			stopUI: true,
-		}	
-		
-		arr[arr.length] =
-		{
-			lotid : 6,
-			url : infProject.path+'import/vm_furn_3.fbx', 
-			name : 'шкаф',
-			planeMath : 0.1,
-			stopUI: true,
-		}	
-
-		arr[arr.length] =
-		{
-			lotid : 7,
-			url : infProject.path+'import/vm_furn_4.fbx', 
-			name : 'кухня +',
-			planeMath : 0.0,
-			stopUI: true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 9,
-			url : infProject.path+'import/vm_furn_5.fbx', 
-			name : 'унитаз',
-			planeMath : 0.0,
-			stopUI: true,
-		}	
-		
-		arr[arr.length] =
-		{
-			lotid : 10,
-			url : infProject.path+'import/vm_furn_6.fbx', 
-			name : 'комод',
-			planeMath : 0.0,
-			stopUI: true,
-		}		
-	}
-	
-	
-	arr[arr.length] =
-	{
-		lotid : 4,
-		url : infProject.path+'import/vm_door_1.fbx', 
-		name : 'дверь',
-		planeMath : 1.0,
-		material : true,
-		stopUI: true,
-	}
-
-	arr[arr.length] =
-	{
-		lotid : 8,
-		url : infProject.path+'import/vm_light_point_1.fbx', 
-		name : 'светильник',
-		type: 'light point',
-		planeMath : infProject.settings.height - 0.05,
-	}
-
-		if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 11,
-			url : infProject.path+'import/glb/спальня/80105983_krovat_dafna10.glb', 
-			name : 'кровать',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 12,
-			url : infProject.path+'import/glb/спальня/80274115_Пуф_ПФ-1.glb', 
-			name : 'Пуф_ПФ',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 13,
-			url : infProject.path+'import/glb/спальня/80286563_Туалетный_стол_Sherlock.glb', 
-			name : 'Туалетный_стол',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 14,
-			url : infProject.path+'import/glb/спальня/80318441_Кровать_с_подъёмным_механизмом_Paola.glb', 
-			name : 'Кровать_с_подъёмным_механизмом',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 15,
-			url : infProject.path+'import/glb/спальня/80318442_Тумба_прикроватная_Paola.glb', 
-			name : 'Тумба_прикроватная',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 16,
-			url : infProject.path+'import/glb/спальня/80318445_Зеркало_навесное_Paola.glb', 
-			name : 'Зеркало_навесное',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 17,
-			url : infProject.path+'import/glb/спальня/80328489_Шкаф-купе_Home_Стандарт_160_см.glb', 
-			name : 'Шкаф-купе_Стандарт_160_см',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-	}
-		
-	
-		if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 18,
-			url : infProject.path+'import/glb/кухня/80310580_Стол_Мюнхен.glb', 
-			name : 'Стол_Мюнхен',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 19,
-			url : infProject.path+'import/glb/кухня/80320714_Стул_Новара.glb', 
-			name : 'Стул_Новара',
-			planeMath : 0.0,
-			glb : true,
-		}	
-
-		arr[arr.length] =
-		{
-			lotid : 20,
-			url : infProject.path+'import/glb/кухня/80321220_Кухонный_гарнитур_Софи.glb', 
-			name : 'Кухонный_гарнитур_Софи',
-			planeMath : 0.0,
-			glb : true,
-		}		
-	}
-		
-		if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 21,
-			url : infProject.path+'import/glb/прихожая/80288366_Тумба_для_обуви_Гранада.glb', 
-			name : 'Тумба_для_обуви_Гранада 1',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 22,
-			url : infProject.path+'import/glb/прихожая/80288367_Шкаф_для_одежды_Гранада.glb', 
-			name : 'Шкаф_для_одежды_Гранада',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 23,
-			url : infProject.path+'import/glb/прихожая/80288368_Тумба_для_обуви_Гранада.glb', 
-			name : 'Тумба_для_обуви_Гранада 2',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 24,
-			url : infProject.path+'import/glb/прихожая/80311598_Шкаф-купе_2-дверный_Slide_120х220_см.glb', 
-			name : 'Шкаф-купе_2-дверный',
-			planeMath : 0.0,
-			glb : true,
-		}		
-	}
-		
-	
-		if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 25,
-			url : infProject.path+'import/glb/зал/80088931_Комод_НК-3.glb', 
-			name : 'Комод_НК-3',
-			planeMath : 0.0,
-			glb : true,
-		}
-		
-		arr[arr.length] =
-		{
-			lotid : 26,
-			url : infProject.path+'import/glb/зал/80295027_Стеллаж_Стенли.glb', 
-			name : 'Стеллаж_Стенли',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 27,
-			url : infProject.path+'import/glb/зал/80310320_Шкаф-купе_3-дверный_Slide_210х220_см.glb', 
-			name : 'Шкаф-купе_3-дверный_Slide_210х220_см',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 28,
-			url : infProject.path+'import/glb/зал/80311525_Кресло_рабочее_Boss_II.glb', 
-			name : 'Кресло_рабочее_Boss_II',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 29,
-			url : infProject.path+'import/glb/зал/80322444_Журнальный_стол_Лофт.glb', 
-			name : 'Журнальный_стол_Лофт',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 30,
-			url : infProject.path+'import/glb/зал/80327766_Угловой_диван-кровать_Вольберг.glb', 
-			name : 'Угловой_диван-кровать_Вольберг',
-			planeMath : 0.0,
-			glb : true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 31,
-			url : infProject.path+'import/glb/зал/80328867_Письменный_стол_Рокс.glb', 
-			name : 'Письменный_стол_Рокс',
-			planeMath : 0.0,
-			glb : true,
-		}		
-				
-	}
-		
-
-		if(1==1)
-	{
-		arr[arr.length] =
-		{
-			lotid : 32,
-			url : infProject.path+'import/glb/wd/okno1x1.glb', 
-			name : 'окно 1',
-			planeMath : 1.5,
-			glb : true,
-			stopUI: true,
-		}
-
-		arr[arr.length] =
-		{
-			lotid : 33,
-			url : infProject.path+'import/glb/wd/dver2x1.glb', 
-			name : 'дверь',
-			planeMath : 0.1,
-			glb : true,
-		}		
-	}
-		
-	
-	for(var i = 0; i < arr.length; i++)
-	{
-			}
-	
-	
-	return arr;
-}
 
 
-
-function fname_s_0267()
+function fname_s_0272()
 {
 	var arr = [];	 	
 	
 	arr[0] =
 	{
 		url : infProject.path+'img/load/floor_1.jpg', 
-	}
+	};
 	
 	arr[1] =
 	{
 		url : infProject.path+'img/load/w1.jpg', 
-	}
+	};
 
 	arr[2] =
 	{
 		url : infProject.path+'img/load/kirpich.jpg', 
-	}
+	};
 
 	arr[3] =
 	{
 		url : infProject.path+'img/load/beton.jpg', 
-	}	
+	};	
 
 	arr[4] =
 	{
 		url : infProject.path+'img/load/w2.jpg', 
-	}
+	};
 
 	arr[5] =
 	{
 		url : infProject.path+'img/load/f1.jpg', 
-	}
+	};
 
 	arr[6] =
 	{
 		url : infProject.path+'img/load/f2.jpeg', 
-	}
+	};
 
 	arr[7] =
 	{
 		url : infProject.path+'img/load/f3.jpg', 
-	}	
+	};	
 	
 	return arr;
 }
 
 
-function fname_s_0268(cdm)
+function fname_s_0273(cdm)
 {
 	var lotid = cdm.lotid;
 	
@@ -12440,29 +12697,30 @@ function fname_s_0268(cdm)
 
 
 
-function fname_s_0269(cdm)
+function fname_s_0274(cdm)
 { 
 				
 	if(!cdm.lotid) return;
 	
 	var lotid = cdm.lotid;
 	
-	var inf = fname_s_0268({lotid: lotid});
+	var inf = fname_s_0273({lotid: lotid});
 
 	if(!inf) return;		
-	var obj = fname_s_0270({lotid: lotid});
+	var obj = fname_s_0275({lotid: lotid});
 	
 	if(cdm.loadFromFile){ obj = null; }
 	
-	if(obj)
-	{ 
+	if(obj)			{ 
 		inf.obj = obj.clone();
 		
-		if(obj) { fname_s_0272(inf, cdm); }
+		if(obj) { fname_s_0279(inf, cdm); }
 	}
-	else
-	{
-	
+	else			{
+		
+		if(cdm.loadFromFile){}
+		else { fname_s_0277(inf, cdm); }
+		
 		if(inf.glb)
 		{ 
 			var loader = new THREE.GLTFLoader();
@@ -12470,15 +12728,15 @@ function fname_s_0269(cdm)
 			{ 
 				var obj = object.scene.children[0];
 				
-				var obj = fname_s_0271({lotid: lotid, obj: obj});
+				var obj = fname_s_0276({lotid: lotid, inf: inf, obj: obj});
 				
 				if(cdm.loadFromFile)					{
-					fname_s_0196({lotid: lotid, furn: cdm.furn});
+					fname_s_0202({lotid: lotid, furn: cdm.furn});
 				}
 				else									{
 					inf.obj = obj;
 					
-					fname_s_0272(inf, cdm);							
+					fname_s_0279(inf, cdm);							
 				}
 			});				
 		}
@@ -12490,15 +12748,15 @@ function fname_s_0269(cdm)
 								
 				var obj = object.children[0];
 				
-				var obj = fname_s_0271({lotid: lotid, obj: obj});
+				var obj = fname_s_0276({lotid: lotid, inf: inf, obj: obj});
 				
 				if(cdm.loadFromFile)					{
-					fname_s_0196({lotid: lotid, furn: cdm.furn});
+					fname_s_0202({lotid: lotid, furn: cdm.furn});
 				}
 				else									{
 					inf.obj = obj;
 					
-					fname_s_0272(inf, cdm);							
+					fname_s_0279(inf, cdm);							
 				}
 			});			
 		}	
@@ -12511,7 +12769,7 @@ function fname_s_0269(cdm)
 
 
 
-function fname_s_0270(cdm)
+function fname_s_0275(cdm)
 {
 	var lotid = cdm.lotid;									var arrObj = infProject.scene.array.base;			
 	for(var i = 0; i < arrObj.length; i++)
@@ -12528,7 +12786,7 @@ function fname_s_0270(cdm)
 
 
 
-function fname_s_0271(cdm)
+function fname_s_0276(cdm)
 {
 	var lotid = cdm.lotid;									var obj = cdm.obj;
 	var base = infProject.scene.array.base;				
@@ -12542,13 +12800,6 @@ function fname_s_0271(cdm)
 	
 	
 	obj.geometry.computeBoundingBox();	
-
-	obj.userData.bound = JSON.parse( JSON.stringify(obj.geometry.boundingBox));
-	
-	var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
-	var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;
-	
-	obj.userData.box = new THREE.Vector3(x, 1, z);
 	
 	var geometries = [];
 	
@@ -12597,9 +12848,77 @@ function fname_s_0271(cdm)
 }
 
 
+function fname_s_0277(inf, cdm)
+{ 
+	if(!inf.spot) return;
+	if(!inf.spot.coordinates) return;
+	
+	var v = inf.spot.coordinates[0];
+	var height = (inf.height) ? inf.height : 0.1;
+	
+	var point = [];
+	for ( var i = 0; i < v.length - 1; i++ ) 
+	{  
+		point[i] = new THREE.Vector2 ( v[i][0], v[i][1] );		
+	}	 	
+	
+	var geometry = new THREE.ExtrudeGeometry( new THREE.Shape(point), { bevelEnabled: false, depth: height } );
+	geometry.rotateX(-Math.PI / 2);
+	geometry.rotateY(Math.PI);
+	var material = new THREE.MeshPhongMaterial( { color: 0xe3e3e5, transparent: true, opacity: 0.8 } );
+	
+	
+	var obj = new THREE.Mesh( geometry, material ); 
+	
+	infProject.scene.array.objSpot[infProject.scene.array.objSpot.length] = obj;
+	
+	scene.add(obj);
+	
+	obj.userData.tag = 'obj_spot';
+	obj.userData.objSpot = {};
+	
+	if(cdm.id) { obj.userData.objSpot.id = cdm.id; }	
+	if(cdm.pos) { obj.position.copy(cdm.pos); }
+	if(cdm.q) { obj.quaternion.copy(cdm.q); }
+	
+	if(cdm.cursor) { clickO.move = obj; }
+}
 
 
-function fname_s_0272(inf, cdm)
+
+function fname_s_0278(cdm)
+{ 
+	var obj = null;	
+	
+	if(cdm.obj)
+	{ 
+		obj = cdm.obj; 
+	}
+	else if(cdm.id)
+	{
+		var arr = infProject.scene.array.objSpot;
+		
+		for ( var i = 0; i < arr.length; i++ )
+		{
+			if(arr[i].userData.objSpot.id == cdm.id)
+			{
+				obj = arr[i];
+				break;
+			}
+		}
+	}
+	
+	if(!obj) return;
+	if(obj.userData.tag != 'obj_spot') return;
+	
+	fname_s_0155({arr: infProject.scene.array.objSpot, o: obj});
+	fname_s_0192(obj);
+	scene.remove(obj); 
+}
+
+
+
+function fname_s_0279(inf, cdm)
 {
 		if(cdm.wd)
 	{  
@@ -12620,6 +12939,7 @@ function fname_s_0272(inf, cdm)
 	
 		if(cdm.q){ obj.quaternion.set(cdm.q.x, cdm.q.y, cdm.q.z, cdm.q.w); }
 	
+
 	if(cdm.id){ obj.userData.id = cdm.id; }
 	else { obj.userData.id = countId; countId++; }
 	
@@ -12627,8 +12947,23 @@ function fname_s_0272(inf, cdm)
 	obj.userData.obj3D = {};
 	obj.userData.obj3D.lotid = cdm.lotid;
 	obj.userData.obj3D.nameRus = inf.name;
-	obj.userData.obj3D.type = '';
+	obj.userData.obj3D.typeGroup = '';
 	obj.userData.obj3D.helper = null;
+	
+	obj.userData.obj3D.ur = {};
+	obj.userData.obj3D.ur.pos = new THREE.Vector3();
+	obj.userData.obj3D.ur.q = new THREE.Quaternion();
+	
+	if(!cdm.id){ obj.userData.obj3D.newO = true; }
+	
+	obj.geometry.computeBoundingBox();	
+	
+		if(1==1)
+	{
+		var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
+		var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;	
+		obj.userData.obj3D.box = new THREE.Vector3(x, 1, z);
+	}	
 	
 
 	if(inf.type)
@@ -12640,30 +12975,37 @@ function fname_s_0272(inf, cdm)
 			{
 				if(cdm.light.intensity) { intensity = cdm.light.intensity; }
 			}
-			fname_s_0273({obj: obj, intensity: intensity}); 
+			fname_s_0280({obj: obj, intensity: intensity}); 
 		}
 	}
 	
 	obj.material.visible = false;
 
 	
-		fname_s_0274({obj: obj});			
-	
+			
 	infProject.scene.array.obj[infProject.scene.array.obj.length] = obj;
 
 	scene.add( obj );
 	 
 	fname_s_027({o: obj, type: 'add'});		
-	if(cdm.cursor) { clickO.move = obj; } 
+	
+	
+	if(cdm.cursor) 		{ 
+		fname_s_0278({obj: clickO.move});
+		clickO.move = obj; 
+	} 
+	else		{
+		fname_s_0278({id: obj.userData.id});
+	}
 	
 	renderCamera();
 }
 
 
-function fname_s_0273(cdm)
+function fname_s_0280(cdm)
 {
 	var obj = cdm.obj;
-	obj.userData.obj3D.type = 'light point';
+	obj.userData.obj3D.typeGroup = 'light point';
 	
 	
 	var light = new THREE.PointLight( 0xffffff, cdm.intensity, 10 );
@@ -12749,7 +13091,7 @@ function fname_s_0273(cdm)
 }
 
 
-function fname_s_0274(cdm)
+function fname_s_0281(cdm)
 {
 	var obj = cdm.obj;
 	var arrCubeO = [];
@@ -12773,12 +13115,12 @@ function fname_s_0274(cdm)
 		}
 	});
 
-	if(arrCubeO.length > 0) fname_s_0275({obj: obj, arrO: arrCubeO});		
+	if(arrCubeO.length > 0) fname_s_0282({obj: obj, arrO: arrCubeO});		
 	
 }
 
 
-function fname_s_0275(cdm)
+function fname_s_0282(cdm)
 {
 	var obj = cdm.obj;
 	var arrO = cdm.arrO;
@@ -12806,11 +13148,11 @@ function fname_s_0275(cdm)
 		}
 	});	
 	
-	fname_s_0276({obj: obj});
+	fname_s_0283({obj: obj});
 }
 
 
-function fname_s_0276(cdm)
+function fname_s_0283(cdm)
 {
 	var obj = cdm.obj;
 	if(!obj) return;
@@ -12831,28 +13173,28 @@ function fname_s_0276(cdm)
 
 
 
-function fname_s_0277(cdm)
+function fname_s_0284(cdm)
 {
 
 	if(1==1)		{
 		var loader = new THREE.GLTFLoader();
 		loader.parse( cdm.data, '', function ( obj ) 						
 		{ 
-						fname_s_0279({obj: obj.scene});
+						fname_s_0286({obj: obj.scene});
 		});
 		
 	}
 	else		{
 		var loader = new THREE.FBXLoader();
 		var obj = loader.parse( cdm.data );		
-		fname_s_0279({obj: obj});			
+		fname_s_0286({obj: obj});			
 	}
 
 
 }
 
 
-function fname_s_0278()
+function fname_s_0285()
 {	
 	var url = $('[nameId="input_link_obj_1"]').val(); 
 	var url = url.trim();
@@ -12862,14 +13204,14 @@ function fname_s_0278()
 		var loader = new THREE.GLTFLoader();
 		loader.load( url, function ( obj ) 						
 		{ 
-						fname_s_0279({obj: obj.scene});
+						fname_s_0286({obj: obj.scene});
 		});			
 	}
 	else		{
 		var loader = new THREE.FBXLoader();
 		loader.load( url, function ( obj ) 						
 		{ 			
-			fname_s_0279({obj: obj});
+			fname_s_0286({obj: obj});
 		});			
 	}
 }
@@ -12878,7 +13220,7 @@ function fname_s_0278()
 
 
 
-function fname_s_0279(cdm)
+function fname_s_0286(cdm)
 {
 	$('[nameId="window_main_load_obj"]').css({"display":"none"});
 		
@@ -12895,7 +13237,7 @@ function fname_s_0279(cdm)
 	obj.userData.obj3D = {};
 	obj.userData.obj3D.lotid = 0;
 	obj.userData.obj3D.nameRus = 'неизвестный объект';
-	obj.userData.obj3D.type = '';
+	obj.userData.obj3D.typeGroup = '';
  
 	
 	
@@ -12915,7 +13257,7 @@ function fname_s_0279(cdm)
 	scene.add( obj );
 	
 	
-		fname_s_0274({obj: obj});
+		fname_s_0281({obj: obj});
 
 	
 	if(1==2)
@@ -12980,14 +13322,14 @@ function fname_s_0279(cdm)
 var wallVisible = [];
 
 
-function fname_s_0280()
+function fname_s_0287()
 {
 	wallVisible = [];
 	var wall = infProject.scene.array.wall;
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{	
-		var room = fname_s_0180( wall[i] );
+		var room = fname_s_0183( wall[i] );
 		if(room.length == 1) 
 		{ 	
 			var side = 0;
@@ -13006,7 +13348,7 @@ function fname_s_0280()
 
 
 
-function fname_s_0281()
+function fname_s_0288()
 { 
 	var camPos = camera.getWorldDirection(new THREE.Vector3());
 	
@@ -13023,7 +13365,7 @@ function fname_s_0281()
 		{ 	
 			wall.renderOrder = Math.abs(res);
 			wall.userData.wall.show = false;
-			fname_s_0283({obj: wall, value: 1 - Math.abs(res)});
+			fname_s_0290({obj: wall, value: 1 - Math.abs(res)});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13034,7 +13376,7 @@ function fname_s_0281()
 		{
 			wall.renderOrder = 0;
 			wall.userData.wall.show = true;
-			fname_s_0283({obj: wall, value: 1});
+			fname_s_0290({obj: wall, value: 1});
 			
 			for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 			{
@@ -13045,7 +13387,7 @@ function fname_s_0281()
 }
 
 
-function fname_s_0282()
+function fname_s_0289()
 {		
 	for ( var i = 0; i < wallVisible.length; i++ ) 
 	{ 
@@ -13053,7 +13395,7 @@ function fname_s_0282()
 
 		wall.renderOrder = 0;
 		wall.userData.wall.show = true;
-		fname_s_0283({obj: wall, value: 1});
+		fname_s_0290({obj: wall, value: 1});
 		
 		for ( var i2 = 0; i2 < wall.userData.wall.arrO.length; i2++ ) 
 		{
@@ -13063,7 +13405,7 @@ function fname_s_0282()
 }
 
 
-function fname_s_0283(cdm)
+function fname_s_0290(cdm)
 {
 	var obj = cdm.obj;
 	
@@ -13097,7 +13439,7 @@ function fname_s_0283(cdm)
 
 
 
-function fname_s_0284()
+function fname_s_0291()
 {	
 	var ruler = [];
 	
@@ -13127,7 +13469,7 @@ function fname_s_0284()
 
 
 	
-	var line = new THREE.Mesh( fname_s_0210(1, 0.01, 0.01), new THREE.MeshPhongMaterial( { color : 0x00ff00, lightMap : lightMap_1 } ) );
+	var line = new THREE.Mesh( fname_s_0216(1, 0.01, 0.01), new THREE.MeshPhongMaterial( { color : 0x00ff00, lightMap : lightMap_1 } ) );
 	var v = line.geometry.vertices; 
 	v[0].y = v[3].y = v[4].y = v[7].y = -0.005;
 	v[1].y = v[2].y = v[5].y = v[6].y = 0.005;			
@@ -13139,7 +13481,7 @@ function fname_s_0284()
 	ruler[1].userData.subtool.line = line;
 	 	 
 	
-	fname_s_0285({ruler: ruler});
+	fname_s_0292({ruler: ruler});
 
 	return ruler;
 }
@@ -13147,7 +13489,7 @@ function fname_s_0284()
 
 
 
-function fname_s_0285(cdm)
+function fname_s_0292(cdm)
 {
 	var ruler = cdm.ruler;
 	var line = ruler[0].userData.subtool.line;
@@ -13177,7 +13519,7 @@ function fname_s_0285(cdm)
 
 
 
-function fname_s_0286()
+function fname_s_0293()
 {
 	var plane = infProject.scene.substrate.active;
 	if(!plane) return;
@@ -13186,22 +13528,22 @@ function fname_s_0286()
 	ruler[0].position.set(plane.position.x + 0.5, plane.position.y + 0.01, plane.position.z);
 	ruler[1].position.set(plane.position.x - 0.5, plane.position.y + 0.01, plane.position.z);
 
-	fname_s_0285({ruler: ruler});	
+	fname_s_0292({ruler: ruler});	
 }
 
 
 
-function fname_s_0287(cdm)
+function fname_s_0294(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
-	var obj = new THREE.Mesh( fname_s_0210(5, 0.005, 5), new THREE.MeshPhongMaterial( { color : 0xcccccc, transparent: true, opacity: 1, lightMap : lightMap_1 } ) );
+	var obj = new THREE.Mesh( fname_s_0216(5, 0.005, 5), new THREE.MeshPhongMaterial( { color : 0xcccccc, transparent: true, opacity: 1, lightMap : lightMap_1 } ) );
 	obj.position.y = 0.01;
 	obj.rotation.y = 0.0;
 	obj.userData.tag = "substrate";
 	obj.userData.substrate = { p: [], active: false, img: false };
 	obj.visible = false;
-	fname_s_0294({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
+	fname_s_0301({obj: obj, img: 'img/UV_Grid_Sm.jpg'}); 
 	scene.add( obj );	
 	
 	if(cdm.pos)
@@ -13211,7 +13553,7 @@ function fname_s_0287(cdm)
 		if(cdm.pos.z) obj.position.z = cdm.pos.z;
 	}
 		
-	var p = fname_s_0288({plane: obj});
+	var p = fname_s_0295({plane: obj});
 	
 	p[0].userData.subpoint = {plane: obj, x: p[1], z: p[3], p2: p[2], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
 	p[1].userData.subpoint = {plane: obj, x: p[0], z: p[2], p2: p[3], dir: new THREE.Vector3(), qt: new THREE.Quaternion()};
@@ -13229,11 +13571,11 @@ function fname_s_0287(cdm)
 
 
 
-function fname_s_0288(cdm)
+function fname_s_0295(cdm)
 {	
 	var plane = cdm.plane;
 	
-	function fname_s_0289()
+	function fname_s_0296()
 	{
 		var count = 48;
 		var circle = [];
@@ -13251,7 +13593,7 @@ function fname_s_0288(cdm)
 		return circle;
 	}
 	
-	var circle = fname_s_0289();
+	var circle = fname_s_0296();
 	
 	var n = 0;
 	var v = [];
@@ -13275,7 +13617,7 @@ function fname_s_0288(cdm)
 	}	
 
 	var arr = [];
-	var geometry = fname_s_0214(v);
+	var geometry = fname_s_0220(v);
 	var material = new THREE.MeshLambertMaterial( { color : 0x333333, transparent: true, opacity: 1, lightMap : lightMap_1 } );
 	
 	
@@ -13298,7 +13640,7 @@ function fname_s_0288(cdm)
 
 
 
-function fname_s_0290(cdm)
+function fname_s_0297(cdm)
 {
 	var plane = cdm.plane;
 	var point = plane.userData.substrate.p;
@@ -13329,7 +13671,7 @@ function fname_s_0290(cdm)
 	for (var i = 0; i < point.length; i++)
 	{
 		var dir = new THREE.Vector3().subVectors( point[i].userData.subpoint.p2.position, point[i].position ).normalize(); 
-		var qt = fname_s_0232( dir.clone() );
+		var qt = fname_s_0238( dir.clone() );
 		
 		point[i].userData.subpoint.dir = dir;
 		point[i].userData.subpoint.qt = qt;
@@ -13341,7 +13683,7 @@ function fname_s_0290(cdm)
 
 
 
-function fname_s_0291(cdm)
+function fname_s_0298(cdm)
 {
 	if(!infProject.scene.substrate.active) return;
 	 	
@@ -13361,14 +13703,14 @@ function fname_s_0291(cdm)
 	
 	plane.visible = visible;
 	
-	fname_s_0292({visible: visible});
+	fname_s_0299({visible: visible});
 	
 	renderCamera();
 }
 
 
 
-function fname_s_0292(cdm)
+function fname_s_0299(cdm)
 {
 	var visible = cdm.visible;
 	var plane = infProject.scene.substrate.active;
@@ -13387,14 +13729,14 @@ function fname_s_0292(cdm)
 
 
 
-function fname_s_0293(cdm)
+function fname_s_0300(cdm)
 {
 	if(!cdm) return;
 
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;
 	
-	var value = fname_s_0240({ value: cdm.value, unit: 1 });
+	var value = fname_s_0245({ value: cdm.value, unit: 1 });
 	 
 	if(!value) 
 	{
@@ -13411,8 +13753,8 @@ function fname_s_0293(cdm)
 	ruler[0].position.y = plane.position.y + 0.01;
 	ruler[1].position.y = plane.position.y + 0.01;
 
-	fname_s_0285({ruler: ruler});
-	fname_s_0290({plane: plane});
+	fname_s_0292({ruler: ruler});
+	fname_s_0297({plane: plane});
 	
 	renderCamera();	
 }
@@ -13420,7 +13762,7 @@ function fname_s_0293(cdm)
 
 
 
-function fname_s_0294(cdm)
+function fname_s_0301(cdm)
 {
 	
 	
@@ -13446,20 +13788,20 @@ function fname_s_0294(cdm)
 		
 		if(cdm.scale)
 		{
-			fname_s_0303({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
+			fname_s_0310({obj: obj, size: {x: cdm.scale/2 * ratioImg, z: cdm.scale/2}});
 		}
 		else
 		{
-			fname_s_0303({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+			fname_s_0310({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		}		
 				
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
 		var z = (Math.abs(obj.geometry.boundingBox.max.z) + Math.abs(obj.geometry.boundingBox.min.z));		
 		
-		fname_s_0290({plane: obj});
+		fname_s_0297({plane: obj});
 		
-		fname_s_0219( obj );		
+		fname_s_0225( obj );		
 		
 		texture.repeat.x = 1/x; 
 		texture.repeat.y = -1/z;			
@@ -13480,7 +13822,7 @@ function fname_s_0294(cdm)
 
 
 
-function fname_s_0295(cdm)
+function fname_s_0302(cdm)
 {
 	
 	
@@ -13507,7 +13849,7 @@ function fname_s_0295(cdm)
 		
 		var ratioImg = texture.image.width/texture.image.height;
 
-		fname_s_0303({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
+		fname_s_0310({obj: obj, size: {x: ratioImg * 2.5, z: 2.5}});
 		
 		var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
 		
@@ -13516,12 +13858,12 @@ function fname_s_0295(cdm)
 		
 		if(camera == cameraTop)
 		{
-			fname_s_0286();			
+			fname_s_0293();			
 		}
 
-		fname_s_0290({plane: obj});	
+		fname_s_0297({plane: obj});	
 		
-		fname_s_0219( obj );
+		fname_s_0225( obj );
 		
 		texture.repeat.x = 1/x; 
 		texture.repeat.y = -1/z;			
@@ -13535,9 +13877,9 @@ function fname_s_0295(cdm)
 		material.lightMap = lightMap_1;
 		material.needsUpdate = true; 					
 		
-		fname_s_0306({value: 100});
+		fname_s_0313({value: 100});
 		
-		fname_s_0291({visible: true});
+		fname_s_0298({visible: true});
 		
 		renderCamera();
 	};
@@ -13546,7 +13888,7 @@ function fname_s_0295(cdm)
 
 
 
-function fname_s_0219( obj )
+function fname_s_0225( obj )
 {
 	obj.updateMatrixWorld();
 	var geometry = obj.geometry;
@@ -13580,7 +13922,7 @@ function fname_s_0219( obj )
 
 
 
-function fname_s_0297(cdm)
+function fname_s_0304(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13594,9 +13936,9 @@ function fname_s_0297(cdm)
 
 
 
-function fname_s_0298( event ) 
+function fname_s_0305( event ) 
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13611,14 +13953,14 @@ function fname_s_0298( event )
 	
 	if(1==1)
 	{
-		fname_s_0285({ruler: infProject.scene.substrate.ruler});	
+		fname_s_0292({ruler: infProject.scene.substrate.ruler});	
 	}
 }
 
 
 
 
-function fname_s_0299(cdm)
+function fname_s_0306(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13632,9 +13974,9 @@ function fname_s_0299(cdm)
 
 
 
-function fname_s_0300( event ) 
+function fname_s_0307( event ) 
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13664,7 +14006,7 @@ function fname_s_0300( event )
 
 
 
-function fname_s_0301(cdm)
+function fname_s_0308(cdm)
 {	
 	var intersect = cdm.intersect;
 	var obj = clickO.move = cdm.intersect.object;  
@@ -13678,9 +14020,9 @@ function fname_s_0301(cdm)
 
 
 
-function fname_s_0302( event ) 
+function fname_s_0309( event ) 
 {	
-	var intersects = fname_s_0224( event, planeMath, 'one' ); 
+	var intersects = fname_s_0230( event, planeMath, 'one' ); 
 	
 	if(intersects.length == 0) return;
 	
@@ -13695,7 +14037,7 @@ function fname_s_0302( event )
 		var dir = obj.userData.subpoint.dir;
 		var qt = obj.userData.subpoint.qt;  
 		
-		var v1 = fname_s_0230( new THREE.Vector3().subVectors( ps, pos ), qt ); 
+		var v1 = fname_s_0236( new THREE.Vector3().subVectors( ps, pos ), qt ); 
 		if(v1.z < 0.5) { v1.z = 0.5; }   
 		var v1 = new THREE.Vector3().addScaledVector( dir, -v1.z );
 		pos = new THREE.Vector3().addVectors( ps, v1 );		
@@ -13735,7 +14077,7 @@ function fname_s_0302( event )
 		var x = new THREE.Vector3().subVectors( ps3, ps1 ).x;
 		var z = new THREE.Vector3().subVectors( ps2, ps1 ).z;
 		
-		fname_s_0303({obj: plane, size: {x: x/2, z: z/2}});
+		fname_s_0310({obj: plane, size: {x: x/2, z: z/2}});
 		
 		plane.position.add( pos2.clone().divideScalar( 2 ) );
 	}
@@ -13746,7 +14088,7 @@ function fname_s_0302( event )
 
 
 
-function fname_s_0303(cdm)
+function fname_s_0310(cdm)
 {
 	var obj = cdm.obj; 
 	var size = cdm.size;
@@ -13772,10 +14114,10 @@ function fname_s_0303(cdm)
 
 
 
-function fname_s_0304()
+function fname_s_0311()
 {
 	var size = $('[nameId="input_size_substrate"]').val();
-	var value = fname_s_0240({ value: size, unit: 1, abs: true, limit: {min: 0.01, max: 1000} });
+	var value = fname_s_0245({ value: size, unit: 1, abs: true, limit: {min: 0.01, max: 1000} });
 	
 	if(!value) 
 	{
@@ -13800,7 +14142,7 @@ function fname_s_0304()
 	x /= 2;
 	z /= 2;
 	
-	fname_s_0303({obj: plane, size: {x: x*ratio, z: z*ratio}});
+	fname_s_0310({obj: plane, size: {x: x*ratio, z: z*ratio}});
 		
 	
 	if(1==1)
@@ -13819,12 +14161,12 @@ function fname_s_0304()
 		ruler[1].position.x = v2.x;
 		ruler[1].position.z = v2.z;	
 
-		fname_s_0285({ruler: ruler});
+		fname_s_0292({ruler: ruler});
 	}
 	
 	$('[nameId="input_size_substrate"]').val( value.num );
 	
-	fname_s_0290({plane: plane});
+	fname_s_0297({plane: plane});
 	
 	renderCamera();
 }
@@ -13832,14 +14174,14 @@ function fname_s_0304()
 
 
 
-function fname_s_0305(cdm)
+function fname_s_0312(cdm)
 {
 	if(!cdm) return;
 
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;
 	
-	var value = fname_s_0240({ value: cdm.angle, unit: 1 });
+	var value = fname_s_0245({ value: cdm.angle, unit: 1 });
 	 
 	if(!value) 
 	{
@@ -13863,7 +14205,7 @@ function fname_s_0305(cdm)
 
 	$('[nameId="input_rotate_substrate"]').val( rot );
 	
-	fname_s_0290({plane: plane});
+	fname_s_0297({plane: plane});
 	
 	renderCamera();
 }
@@ -13872,7 +14214,7 @@ function fname_s_0305(cdm)
 
 
 
-function fname_s_0306(cdm)
+function fname_s_0313(cdm)
 {
 	var value = cdm.value;
 	
@@ -13890,7 +14232,7 @@ function fname_s_0306(cdm)
 
 
 
-function fname_s_0307(cdm)
+function fname_s_0314(cdm)
 {
 	if(!cdm) cdm = {}; 
 	
@@ -13898,7 +14240,7 @@ function fname_s_0307(cdm)
 	var plane = infProject.scene.substrate.active;	
 	if(!plane) return;		
 	
-	fname_s_0291({visible: false});	
+	fname_s_0298({visible: false});	
 	
 	
 	plane.userData.substrate.img = false;
@@ -13914,7 +14256,7 @@ function fname_s_0307(cdm)
 
 
 
-function fname_s_0308()
+function fname_s_0315()
 {
 	$.ajax
 	({
@@ -13923,14 +14265,14 @@ function fname_s_0308()
 		dataType: 'json',
 		success: function(json)
 		{ 
-			fname_s_0309({json: json});
+			fname_s_0316({json: json});
 		},
 	});	
 }
 
 
 
-function fname_s_0309(cdm)
+function fname_s_0316(cdm)
 {
 	var rooms = cdm.json.rooms;
 	var middle_wall = cdm.json.middle_wall;
@@ -13990,7 +14332,7 @@ function fname_s_0309(cdm)
 	}
 	
 
-	var geometry = fname_s_0210(0.2, 0.2, 0.2);
+	var geometry = fname_s_0216(0.2, 0.2, 0.2);
 	var material = new THREE.MeshLambertMaterial( { color : 0x00ff00, transparent: true, opacity: 1, depthTest: false }); 
 
 
@@ -14016,31 +14358,31 @@ function fname_s_0309(cdm)
 		{
 			if(!arr[i].w[i2]) continue;
 			
-			var point1 = fname_s_0236( 'point', arr[i].w[i2].p[0].id );
-			var point2 = fname_s_0236( 'point', arr[i].w[i2].p[1].id );	
+			var point1 = fname_s_0242( 'point', arr[i].w[i2].p[0].id );
+			var point2 = fname_s_0242( 'point', arr[i].w[i2].p[1].id );	
 			
-			if(point1 == null) { point1 = fname_s_0220( arr[i].w[i2].p[0].pos, arr[i].w[i2].p[0].id ); }
-			if(point2 == null) { point2 = fname_s_0220( arr[i].w[i2].p[1].pos, arr[i].w[i2].p[1].id ); }	
+			if(point1 == null) { point1 = fname_s_0226( arr[i].w[i2].p[0].pos, arr[i].w[i2].p[0].id ); }
+			if(point2 == null) { point2 = fname_s_0226( arr[i].w[i2].p[1].pos, arr[i].w[i2].p[1].id ); }	
 
-			var obj = fname_s_0221({p: [point1, point2], width: 0.01}); 
+			var obj = fname_s_0227({p: [point1, point2], width: 0.01}); 
 		}
 	}
 	
-	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0119(obj_point[i]); }
+	for ( var i = 0; i < obj_point.length; i++ ) { fname_s_0122(obj_point[i]); }
 	
 	fname_s_044(infProject.scene.array.wall);	
-	fname_s_0163();	
+	fname_s_0166();	
 	
-	fname_s_096();
+	fname_s_099();
 	
-	fname_s_0310();
+	fname_s_0317();
 	
 	renderCamera();
 }
 
 
 
-function fname_s_0310()
+function fname_s_0317()
 {
 	var floor = infProject.scene.array.floor;
 	var inf = [];
@@ -14052,7 +14394,7 @@ function fname_s_0310()
 			var wall = floor[i].userData.room.w[i2];
 			var side = floor[i].userData.room.s[i2];
 			
-			var line = fname_s_0311({wall: wall, side: side});
+			var line = fname_s_0318({wall: wall, side: side});
 			
 			for ( var i3 = 0; i3 < floor.length; i3++ )
 			{
@@ -14062,7 +14404,7 @@ function fname_s_0310()
 				
 				for ( var i4 = 0; i4 < floor[i3].userData.room.w.length; i4++ )
 				{
-					var res = fname_s_0312({dir: line, w2: floor[i3].userData.room.w[i4]});
+					var res = fname_s_0319({dir: line, w2: floor[i3].userData.room.w[i4]});
 					
 					if(res) { cross[cross.length] = res; }
 				}
@@ -14073,7 +14415,7 @@ function fname_s_0310()
 	}
 	
 	
-	function fname_s_0311(cdm)
+	function fname_s_0318(cdm)
 	{
 		var wall = cdm.wall;
 		var side = cdm.side;
@@ -14099,7 +14441,7 @@ function fname_s_0310()
 	
 	
 	
-	function fname_s_0312(cdm)
+	function fname_s_0319(cdm)
 	{
 		var dir = cdm.dir;
 		var w2 = cdm.w2;
@@ -14111,12 +14453,12 @@ function fname_s_0310()
 		
 		if( !fname_s_013(p0, p1, p2, p3) ) { return null; }		
 		
-		var pos = fname_s_0313(p0, p1, p2, p3);
+		var pos = fname_s_0320(p0, p1, p2, p3);
 		
 		if(pos && 1==2)
 		{ 
 			var material = new THREE.MeshLambertMaterial( { color : 0x00ff00, transparent: true, opacity: 1, depthTest: false }); 
-			var cube = new THREE.Mesh( fname_s_0210(0.2, 0.2, 0.2), material );
+			var cube = new THREE.Mesh( fname_s_0216(0.2, 0.2, 0.2), material );
 			cube.position.set(pos.x, 1, pos.z);
 			scene.add( cube ); 				
 		}
@@ -14126,7 +14468,7 @@ function fname_s_0310()
 
 
 	
-	function fname_s_0313(a1, a2, b1, b2)
+	function fname_s_0320(a1, a2, b1, b2)
 	{
 		var t1 = fname_s_011(a1.x, a1.z, a2.x, a2.z);
 		var t2 = fname_s_011(b1.x, b1.z, b2.x, b2.z);
@@ -14154,7 +14496,7 @@ function fname_s_0310()
 
 
 
-function fname_s_0314(cdm)
+function fname_s_0321(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
@@ -14205,7 +14547,7 @@ function fname_s_0314(cdm)
 
 
 
-function fname_s_0315(cdm)
+function fname_s_0322(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
@@ -14250,7 +14592,7 @@ function fname_s_0315(cdm)
 
 
 
-function fname_s_0316(cdm)
+function fname_s_0323(cdm)
 {
 	if(!cdm) { cdm = {}; }
 	
@@ -14281,7 +14623,8 @@ function fname_s_0316(cdm)
 		el.userData.svg.path = {};
 		el.userData.svg.path.arrP = [];
 		el.userData.svg.show = false;		
-
+		el.userData.svg.path.arrS = [];
+		
 		svg.appendChild(el);
 		
 		infProject.svg.arr[infProject.svg.arr.length] = el;
@@ -14294,7 +14637,7 @@ function fname_s_0316(cdm)
 
 
 
-function fname_s_0317(cdm)
+function fname_s_0324(cdm)
 {
 	var el = cdm.el;
 	
@@ -14327,7 +14670,7 @@ function fname_s_0317(cdm)
 
 
 
-function fname_s_0318(cdm)
+function fname_s_0325(cdm)
 {
 	var el = cdm.el;
 	
@@ -14349,7 +14692,7 @@ function fname_s_0318(cdm)
 
 
 
-function fname_s_0319(cdm)
+function fname_s_0326(cdm)
 {
 	var el = cdm.el;
 	
@@ -14360,6 +14703,7 @@ function fname_s_0319(cdm)
 	
 	var path = 'M';
 	var arrP = el.userData.svg.path.arrP;
+	var arrS = [];
 	
 	if(arrP.length == 0) return;
 	
@@ -14370,7 +14714,11 @@ function fname_s_0319(cdm)
 		var y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 		
 		path += x+' '+y+',';
+		
+		arrS[arrS.length] = new THREE.Vector2(x, y);
 	}
+	
+	el.userData.svg.path.arrS = arrS;
 
 	el.setAttribute("d", path);			
 }
@@ -14378,7 +14726,35 @@ function fname_s_0319(cdm)
 
 
 
-function fname_s_0320(arr)
+
+
+function fname_s_0327(cdm)
+{
+	var el = cdm.el;
+	
+	for ( var i = 0; i < el.length; i++ )
+	{
+		var x = ( ( el[i].x1.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( el[i].y1.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var A = new THREE.Vector3(x, y, -1);
+		A.unproject(camera);
+		
+		var x = ( ( el[i].x2.baseVal.value - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+		var y = - ( ( el[i].y2.baseVal.value - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+		var B = new THREE.Vector3(x, y, -1);
+		B.unproject(camera);					
+		
+		el[i].userData.svg.line.p = [A, B];
+	}				
+}
+
+
+
+
+
+
+
+function fname_s_0328(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14388,7 +14764,7 @@ function fname_s_0320(arr)
 
 
 
-function fname_s_0321(arr)
+function fname_s_0329(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14402,7 +14778,7 @@ function fname_s_0321(arr)
 
 
 
-function fname_s_0322(cdm)
+function fname_s_0330(cdm)
 {
 	var el = cdm.el;
 	
@@ -14453,7 +14829,7 @@ function fname_s_0322(cdm)
 
 
 
-function fname_s_0323(arr)
+function fname_s_0331(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14464,7 +14840,7 @@ function fname_s_0323(arr)
 
 
 
-function fname_s_0324(arr)
+function fname_s_0332(arr)
 {
 	for ( var i = 0; i < arr.length; i++ )
 	{
@@ -14477,13 +14853,13 @@ function fname_s_0324(arr)
 
 
 
-function fname_s_0325(cdm)
+function fname_s_0333(cdm)
 {
 	var arr = [];
 	
 	for ( var i = 0; i < cdm.count; i++ )
 	{
-		var labelContainerElem = document.querySelector('#canvasFrame');
+		var labelContainerElem = document.querySelector('#htmlBlock');
 		var elem = document.createElement('div');
 		elem.textContent = '';
 		elem.style.cssText = 'position: absolute; text-align: center;';
@@ -14529,6 +14905,456 @@ function fname_s_0325(cdm)
 
 
 
+
+
+
+
+
+
+
+
+
+function fname_s_0334(e)
+{
+    var posx = 0;
+    var posy = 0;
+    if (e.pageX || e.pageY)     
+	{
+        posx = e.pageX;
+        posy = e.pageY;
+    }
+    else if (e.clientX || e.clientY)    
+	{
+        posx = e.clientX + containerF.scrollLeft + containerF.documentElement.scrollLeft;
+        posy = e.clientY + containerF.scrollTop + containerF.documentElement.scrollTop;
+    }
+
+    return {x: posx, y : posy};
+}
+
+
+function fname_s_0335(event) 
+{ 
+	if(camera == cameraTop && clickO.keys[16]){} 
+	else { return false; }
+
+	clickO.rayhit = null;
+	fname_s_079();
+	
+	infProject.tools.selectionBox.msdown = true;
+	infProject.tools.selectionBox.fname_s_0334 = fname_s_0334(event);
+
+	infProject.tools.selectionBox.mStart.x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+	infProject.tools.selectionBox.mStart.y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+	
+	return true;
+}
+ 
+function fname_s_0336(event)
+{
+	if(camera == cameraTop && clickO.keys[16] && infProject.tools.selectionBox.msdown){}
+	else { return false; }
+	
+	var x1=0;
+	var x2=0;
+	var y1=0;
+	var y2=0;
+	var mousexy = fname_s_0334(event);  
+	x1 = infProject.tools.selectionBox.fname_s_0334.x;
+	y1 = infProject.tools.selectionBox.fname_s_0334.y;
+	x2 = mousexy.x;
+	y2 = mousexy.y;
+	if (x1==x2){return;}
+	if (y1==y2){return;}
+	if (x1>x2){
+		x1 = x1+x2;
+		x2 = x1-x2;
+		x1 = x1-x2;
+	}
+	if (y1>y2){
+		y1 = y1+y2;
+		y2 = y1-y2;
+		y1 = y1-y2;
+	}
+	var sframe = document.getElementById('selectBoxFrame'); 
+	sframe.style.top = y1+'px';
+	sframe.style.left = x1+'px';
+	sframe.style.width = x2-x1+'px';
+	sframe.style.height = y2-y1+'px'; 
+	sframe.style.visibility = infProject.tools.selectionBox.msdown?'visible':'hidden';		
+	
+	return true;
+}
+
+
+
+function fname_s_0337(event)
+{ 
+	if(camera == cameraTop && clickO.keys[16] && infProject.tools.selectionBox.msdown){}
+	else { return false; }
+	
+	infProject.tools.selectionBox.msdown = false; 
+	document.getElementById('selectBoxFrame').style.visibility = infProject.tools.selectionBox.msdown?'visible':'hidden';
+
+	infProject.tools.selectionBox.mEnd.x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+	infProject.tools.selectionBox.mEnd.y = - ( ( event.clientY - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+
+	fname_s_0339();
+	
+	
+	renderCamera();
+	
+	return true;
+}
+
+
+function fname_s_0338() 
+{  
+	infProject.tools.selectionBox.msdown = false; 
+	document.getElementById('selectBoxFrame').style.visibility = infProject.tools.selectionBox.msdown?'visible':'hidden'; 
+}	
+
+
+
+
+
+
+function fname_s_0339()
+{
+	var pos1 = new THREE.Vector3( infProject.tools.selectionBox.mStart.x, infProject.tools.selectionBox.mStart.y, -1 ).unproject( camera ); 	
+	var pos2 = new THREE.Vector3( infProject.tools.selectionBox.mEnd.x, infProject.tools.selectionBox.mEnd.y, -1 ).unproject( camera ); 		
+	
+	var bound = { min : {x:0,z:0}, max : {x:0,z:0} };
+	
+	if(pos1.x < pos2.x) { bound.min.x = pos1.x; bound.max.x = pos2.x; }
+	else { bound.min.x = pos2.x; bound.max.x = pos1.x; }
+	
+	if(pos1.z < pos2.z) { bound.min.z = pos1.z; bound.max.z = pos2.z; }
+	else { bound.min.z = pos2.z; bound.max.z = pos1.z; }
+
+
+	
+	clickO.obj = null;
+	
+	var arr = [];
+	
+	
+	for(var i = 0; i < infProject.scene.array.obj.length; i++)
+	{
+		var obj = infProject.scene.array.obj[i];
+
+		if(bound.min.x < obj.position.x && bound.max.x > obj.position.x)
+		{
+			if(bound.min.z < obj.position.z && bound.max.z > obj.position.z)
+			{
+				arr[arr.length] = obj;
+			}
+		}
+	}	
+	
+	clickO.selectBox.arr = arr;
+	
+	fname_s_0207({arr: arr});	
+}
+
+
+
+
+function fname_s_0340( intersect )
+{
+	var arr = clickO.selectBox.arr;
+	
+	if(arr.length > 0) {}
+	else { return false; }
+	
+	planeMath.position.set( 0, intersect.point.y, 0 );	
+	planeMath.rotation.set(-Math.PI/2, 0, 0);
+
+	var obj = intersect.object;	 
+	clickO.pos.clickDown = intersect.point.clone();		
+
+	
+	
+	var flag = false;
+	
+	for ( var i = 0; i < arr.length; i++ )
+	{
+		if(obj == arr[i]) 
+		{ 
+			flag = true; 
+			clickO.selectBox.drag = true;
+			clickO.selectBox.move = false;
+			break; 
+		}	
+	}
+	
+	fname_s_0207({arr: arr});
+	
+	return flag;
+}
+
+
+
+
+
+function fname_s_0341(event) 
+{
+	if(!clickO.selectBox.move) 
+	{
+		clickO.selectBox.move = true;
+	}	
+	
+	var intersect = fname_s_0230( event, planeMath, 'one' );
+	var pos2 = new THREE.Vector3().subVectors( intersect[0].point, clickO.pos.clickDown );		
+	
+	
+	for ( var i = 0; i < clickO.selectBox.arr.length; i++ ){ clickO.selectBox.arr[i].position.add(pos2); }	
+	
+	
+	clickO.pos.clickDown = intersect[0].point.clone();
+}
+ 
+
+
+
+function fname_s_0342(cdm) 
+{
+	clickO.selectBox.drag = false;
+	
+	if(!clickO.selectBox.move) return;	
+		
+	clickO.selectBox.move = false;	
+}
+
+
+
+
+
+function fname_s_0343(obj)  
+{
+	var arr = clickO.selectBox.arr;
+	
+	if(arr.length > 0) {}
+	else { return false; }
+	
+	if(obj)
+	{
+		for ( var i = 0; i < arr.length; i++ )
+		{
+			if(obj == arr[i]) { return true; }	
+		}		
+	}
+	 
+
+	fname_s_0208();
+	clickO.selectBox.arr = [];
+	
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+function fname_s_0344( o, ur )
+{
+	
+	if(ur == 'down')
+	{
+		if(infProject.ur.back.length - 1 > infProject.ur.count)
+		{
+			var d = infProject.ur.back.length - (infProject.ur.count + 1);  
+			infProject.ur.back.splice(infProject.ur.count + 1, d);  		
+		}		
+		
+		infProject.ur.count += 1; 
+		infProject.ur.back[infProject.ur.count] = o; 
+		
+	}
+	else if(ur == 'up')
+	{ 
+		infProject.ur.forward[infProject.ur.count] = o;
+		
+	}		
+}
+
+
+
+
+function fname_s_0345(cdm)
+{
+	var obj = cdm.obj;
+	
+	var ar = { cdm : 'objPop_move' };
+
+	ar.id = obj.userData.id;
+	ar.pos = obj.userData.obj3D.ur.pos.clone();
+	ar.q = obj.userData.obj3D.ur.q.clone();
+	
+	fname_s_0344( ar, 'down' );
+	
+	
+	var ar = { cdm : 'objPop_move' };
+	
+	ar.id = obj.userData.id;
+	ar.pos = obj.position.clone();
+	ar.q = obj.quaternion.clone(); 
+
+	fname_s_0344( ar, 'up' );
+}
+
+
+
+
+function fname_s_0346(cdm)
+{
+	var obj = cdm.obj;
+	
+	var ar = { cdm : 'objPop_delete' };
+
+	ar.id = obj.userData.id;
+	ar.lotid = obj.userData.obj3D.lotid;
+	ar.pos = obj.position.clone();
+	ar.q = obj.quaternion.clone(); 	
+
+	
+	fname_s_0344( ar, 'down' );
+	
+	
+	var ar = { cdm : 'objPop_delete' };	
+	ar.id = obj.userData.id; 
+
+	fname_s_0344( ar, 'up' );
+}
+
+
+
+
+function fname_s_0347(cdm)
+{
+	var obj = cdm.obj;
+	
+	var ar = { cdm : 'add_objPop' };
+	
+	ar.id = obj.userData.id;
+
+	fname_s_0344( ar, 'down' );
+	
+	
+	
+	var ar = { cdm : 'add_objPop' };
+
+	ar.id = obj.userData.id;
+	ar.lotid = obj.userData.obj3D.lotid;
+	ar.pos = obj.userData.obj3D.ur.pos.clone();
+	ar.q = obj.userData.obj3D.ur.q.clone(); 
+	
+	fname_s_0344( ar, 'up' );
+}
+
+
+
+
+
+
+
+function fname_s_0348( cdm )
+{		  
+	var n = (cdm == 'redo') ? infProject.ur.count + 1 : infProject.ur.count;	
+	
+	if(n < 0 | n > (infProject.ur.back.length - 1)){ return; }
+	
+	infProject.ur.count = n; 
+	
+	fname_s_0234();
+	
+	
+	if(infProject.ur.back[n].cdm == 'objPop_move'){ fname_s_0349(cdm); }
+	else if(infProject.ur.back[n].cdm == 'objPop_delete'){ fname_s_0350(cdm); }
+	else if(infProject.ur.back[n].cdm == 'add_objPop'){ fname_s_0351(cdm); }
+	
+		
+	if(cdm == 'undo') {  }			
+	else if(cdm == 'redo') {  }		
+	
+	if(cdm == 'undo'){ infProject.ur.count -= 1; }		
+}
+
+
+
+
+
+function fname_s_0349(cdm)
+{
+	var n = infProject.ur.count;
+	
+	if(cdm == 'undo') { var ar = infProject.ur.back[n]; }			
+	else if(cdm == 'redo') { var ar = infProject.ur.forward[n]; }		
+	
+	var obj = fname_s_0242( 'obj', ar.id ); 		
+	
+	obj.userData.obj3D.ur.pos = ar.pos;
+	obj.userData.obj3D.ur.q = ar.q;
+	
+	obj.position.copy(ar.pos);
+	obj.quaternion.copy(ar.q);
+	
+	renderCamera();
+}
+
+
+
+
+function fname_s_0350(cdm)
+{
+	var n = infProject.ur.count;
+	
+	if(cdm == 'undo') { var ar = infProject.ur.back[n]; }				
+	else if(cdm == 'redo') { var ar = infProject.ur.forward[n]; }		
+	
+	
+	if(cdm == 'undo')	
+	{ 		
+		fname_s_0274({id: ar.id, lotid: ar.lotid, pos: ar.pos, q: ar.q});
+	}
+	else if(cdm == 'redo')	
+	{ 
+		fname_s_0260({obj: fname_s_0242( 'obj', ar.id ), undoRedo: false});
+	}	
+	
+	renderCamera();
+}
+
+
+
+
+function fname_s_0351(cdm)
+{
+	var n = infProject.ur.count;
+	
+	if(cdm == 'undo') { var ar = infProject.ur.back[n]; }				
+	else if(cdm == 'redo') { var ar = infProject.ur.forward[n]; }		
+	
+	
+	if(cdm == 'undo')	
+	{ 				
+		fname_s_0260({obj: fname_s_0242( 'obj', ar.id ), undoRedo: false});
+	}
+	else if(cdm == 'redo')	
+	{ 
+		fname_s_0274({id: ar.id, lotid: ar.lotid, pos: ar.pos, q: ar.q});
+	}
+	
+	renderCamera();
+}
 
 
 

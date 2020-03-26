@@ -118,7 +118,6 @@ function objDeActiveColor_2D()
 	else if(o.userData.tag == 'point'){ outlineRemoveObj(); }	
 	else if(o.userData.tag == 'window'){ outlineRemoveObj(); }
 	else if(o.userData.tag == 'door'){ outlineRemoveObj(); }	
-	//else if(o.userData.tag == 'room'){ scene.remove(o.userData.room.outline); o.userData.room.outline = null; } 
 	
 	if(clickO.hover == clickO.last_obj) { clickO.hover = null; }
 } 

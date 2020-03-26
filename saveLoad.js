@@ -85,6 +85,9 @@ function resetScene()
 	
 	for ( var i = 0; i < wall.length; i++ )
 	{ 		
+		deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[0]});
+		deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[1]});
+		
 		wall[i].userData.wall.html.label[0].remove();
 		wall[i].userData.wall.html.label[1].remove();
 		
@@ -120,11 +123,11 @@ function resetScene()
 	for ( var i = 0; i < floor.length; i++ )
 	{		
 		disposeNode(floor[i]);
-		disposeNode(floor[i].label);
 		disposeNode(ceiling[i]);
 		
-		scene.remove(floor[i].label); 
-		if(floor[i].userData.room.outline) { scene.remove(floor[i].userData.room.outline); }
+		deleteValueFromArrya({arr: infProject.html.label, o: floor[i].userData.room.html.label});
+		floor[i].userData.room.html.label.remove(); 
+		
 		scene.remove(floor[i]); 
 		scene.remove(ceiling[i]);	
 	}

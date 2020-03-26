@@ -2,6 +2,11 @@
 
 function detectDeleteObj()
 {
+	if ( clickO.selectBox.arr.length > 0 ) 
+	{ 
+		deleteObjectPop(); 
+	}
+	
 	var obj = clickO.last_obj;
 	
 	if(!obj) return;
@@ -23,7 +28,7 @@ function detectDeleteObj()
 	else if ( tag == 'window' || tag == 'door' ) { deleteWinDoor( obj ); }
 	else if ( tag == 'obj' ) { deleteObjectPop({obj: obj}); }
 	
-	 renderCamera();
+	renderCamera();
 }
 
 

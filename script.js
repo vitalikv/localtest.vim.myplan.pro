@@ -1797,10 +1797,6 @@ document.addEventListener("keydown", function (e)
 				var width = $('[nameid="size_wall_width_1"]').val();
 				
 				inputWidthOneWall({wall:clickO.last_obj, width:{value: width}, offset:'wallRedBlueArrow'}); 
-			}
-			else if(infProject.activeInput == 'dp_inf_1_proj')
-			{
-				inputLoadProject();
 			}			
 		}		
 		 
@@ -1815,7 +1811,7 @@ document.addEventListener("keydown", function (e)
 	
 	if(clickO.keys[18] && e.keyCode == 90) { loadFile({json: true}); }		// alt + z
 	if(clickO.keys[18] && e.keyCode == 72) { disposeHierchy(scene, disposeNode); getConsoleRendererInfo(); }		// alt + h
-	if(clickO.keys[18] && e.keyCode == 77) { inputLoadProject(); }				// alt + m
+	if(clickO.keys[18] && e.keyCode == 77) { loadFile({id: 0}); }				// alt + m
 	if(clickO.keys[18] && e.keyCode == 84) { saveFile({json: true}); }			// alt + t
 	if(clickO.keys[18] && e.keyCode == 86) { console.log(infProject); }
 	if(clickO.keys[18] && e.keyCode == 86) { console.log(clickO); }  		// alt + v
@@ -1851,7 +1847,8 @@ document.addEventListener("keyup", function (e)
 	if(e.keyCode == 187) { zoomLoop = ''; }
 	if(e.keyCode == 189) { zoomLoop = ''; }
 
-
+	if(zoomLoop != '')	{ zoomLoop = ''; }
+	
 	if(camera == cameraTop)
 	{
 		if(e.keyCode == 16){ selectionBoxHide(); } 
@@ -1934,22 +1931,6 @@ function switchLight(cdm)
 }
 
 
-// загрзука проекта из базы через input
-function inputLoadProject()
-{
-	var visible = $('[nameid="dp_inf_1"]').is(":visible");
-	
-	$('[nameid="dp_inf_1"]').toggle();
-	
-	if(visible)
-	{
-		var num = Number($('[nameid="dp_inf_1_proj"]').val());
-		
-		loadFile({id: num});
-		
-		console.log(num);
-	}
-}
 
 
 

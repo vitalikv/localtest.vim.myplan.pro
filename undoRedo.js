@@ -55,26 +55,34 @@ function getInfoEvent23(cdm)
 
 
 
-// удаление popObj
+// удаление Obj
 function getInfoEvent24(cdm)
 {
-	var obj = cdm.obj;
+	var arr = cdm.arr;
 	
-	var ar = { cdm : 'objPop_delete' };
+	var inf = { cdm: 'delete_obj', arr: [] };
 
-	ar.id = obj.userData.id;
-	ar.lotid = obj.userData.obj3D.lotid;
-	ar.pos = obj.position.clone();
-	ar.q = obj.quaternion.clone(); 	
+	for(var i = 0; i < arr.length; i++)
+	{
+		inf.arr[i] = {};
+		inf.arr[i].id = arr[i].userData.id;
+		inf.arr[i].lotid = arr[i].userData.obj3D.lotid;
+		inf.arr[i].pos = arr[i].position.clone();
+		inf.arr[i].q = arr[i].quaternion.clone(); 	
+	}
+	
+	assignArrUR( inf, 'down' );
+	
+	
+	var inf = { cdm: 'delete_obj', arr: [] };
 
+	for(var i = 0; i < arr.length; i++)
+	{
+		inf.arr[i] = {};
+		inf.arr[i].id = arr[i].userData.id; 
+	}
 	
-	assignArrUR( ar, 'down' );
-	
-	
-	var ar = { cdm : 'objPop_delete' };	
-	ar.id = obj.userData.id; 
-
-	assignArrUR( ar, 'up' );
+	assignArrUR( inf, 'up' );
 }
 
 
@@ -120,7 +128,7 @@ function setInfoEvent1( cdm )
 	
 	
 	if(infProject.ur.back[n].cdm == 'objPop_move'){ setInfoEvent23(cdm); }
-	else if(infProject.ur.back[n].cdm == 'objPop_delete'){ setInfoEvent24(cdm); }
+	else if(infProject.ur.back[n].cdm == 'delete_obj'){ setInfoEvent24(cdm); }
 	else if(infProject.ur.back[n].cdm == 'add_objPop'){ setInfoEvent25(cdm); }
 	
 		
@@ -159,17 +167,23 @@ function setInfoEvent24(cdm)
 {
 	var n = infProject.ur.count;
 	
-	if(cdm == 'undo') { var ar = infProject.ur.back[n]; }				// до undo/redo  (восстанавливаем)
-	else if(cdm == 'redo') { var ar = infProject.ur.forward[n]; }		// после undo/redo	(удаляем)
+	if(cdm == 'undo') { var inf = infProject.ur.back[n]; }				// до undo/redo  (восстанавливаем)
+	else if(cdm == 'redo') { var inf = infProject.ur.forward[n]; }		// после undo/redo	(удаляем)
 	
 	
 	if(cdm == 'undo')	
 	{ 		
-		loadObjServer({id: ar.id, lotid: ar.lotid, pos: ar.pos, q: ar.q});
+		for(var i = 0; i < inf.arr.length; i++)
+		{
+			loadObjServer({id: inf.arr[i].id, lotid: inf.arr[i].lotid, pos: inf.arr[i].pos, q: inf.arr[i].q});
+		}
 	}
 	else if(cdm == 'redo')	
 	{ 
-		deleteObjectPop({obj: findObjFromId( 'obj', ar.id ), undoRedo: false});
+		for(var i = 0; i < inf.arr.length; i++)
+		{
+			deleteObjectPop({obj: findObjFromId( 'obj', inf.arr[i].id ), undoRedo: false});
+		}		
 	}	
 	
 	renderCamera();
