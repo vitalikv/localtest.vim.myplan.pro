@@ -245,6 +245,8 @@ var offset = new THREE.Vector3();
 }
 
 
+var ccc = new THREE.Color().setHex( '0x'+infProject.settings.profile.color );
+
 
 // outline render
 {
@@ -285,9 +287,9 @@ var offset = new THREE.Vector3();
 		composer.addPass( fxaaPass ); 	
 	}	
 	
-
-	outlinePass.visibleEdgeColor.set( 'rgb(255, 162, 23)' );
-	outlinePass.hiddenEdgeColor.set( 'rgb(255, 162, 23)' );
+	
+	outlinePass.visibleEdgeColor.set( ccc );
+	outlinePass.hiddenEdgeColor.set( ccc );
 	outlinePass.edgeStrength = Number( 5 );		// сила/прочность
 	outlinePass.edgeThickness = Number( 0.01 );	// толщина
 

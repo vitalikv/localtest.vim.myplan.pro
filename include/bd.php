@@ -62,6 +62,7 @@ $infProject['settings']['floor']['color'] = 0xF4F4F4;
 $infProject['settings']['wall']['label'] = 'double';
 $infProject['settings']['wall']['color']['top'] = 0x444444;
 $infProject['settings']['wall']['color']['front'] = 0xada186;
+$infProject['settings']['profile']['color'] = 'ffa217';
 $infProject['settings']['svg']['tag'] = 'http://www.w3.org/2000/svg';
 $infProject['settings']['svg']['scaleBox']['color'] = '#444444';
 $infProject['settings']['obj']['material']['texture'] = '';

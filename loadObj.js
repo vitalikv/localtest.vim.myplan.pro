@@ -695,7 +695,7 @@ function addObjInScene(inf, cdm)
 
 	
 	// CubeCamera
-	checkReflectionMaterial({obj: obj});			
+	//checkReflectionMaterial({obj: obj});			
 	
 	infProject.scene.array.obj[infProject.scene.array.obj.length] = obj;
 

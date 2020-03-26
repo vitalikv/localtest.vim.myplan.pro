@@ -420,6 +420,8 @@ function assignRoomType(cdm)
 		elem.style.display = 'block';
 		elem.userData.elem.show = true;
 		
+		upPosLabels_2({elem: elem});
+		
 		break;
 	}
 	
