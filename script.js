@@ -138,6 +138,7 @@ var camera = cameraTop;
 var obj_point = [];
 var room = [];
 var ceiling = [];
+var arr_obj_3d = [];
 var arrWallFront = [];
 //var lightMap_1 = new THREE.TextureLoader().load(infProject.path+'img/lightMap_1.png');
 var lightMap_1 = null;

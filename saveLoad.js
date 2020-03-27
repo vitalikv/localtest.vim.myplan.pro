@@ -21,7 +21,7 @@ var resetPop =
 	
 	infProjectSceneArray : function()
 	{
-		var array = { point: obj_point, wall: [], window: [], door: [], floor: room, ceiling: ceiling, obj: [], objSpot: [] };
+		var array = { point: obj_point, wall: [], window: [], door: [], floor: room, ceiling: ceiling, obj: arr_obj_3d, objSpot: [] };
 		array.cubeCam = [];
 		array.lineGrid = { limit : false };
 		array.base = (infProject.start)? infProject.scene.array.base : [];	// массив клонируемых объектов
@@ -147,6 +147,7 @@ function resetScene()
 	obj_point = [];
 	room = [];
 	ceiling = [];
+	arr_obj_3d = [];
 	arrWallFront = [];
 	
 
