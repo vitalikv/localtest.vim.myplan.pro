@@ -1510,8 +1510,6 @@ function clickButton( event )
 	
 	clickO.buttonAct = clickO.button;
 	clickO.button = null;
-
-	
 }	
 	
 
@@ -1973,8 +1971,13 @@ function checkNumberInput(cdm)
 }
 
 
-
-
+// проверяем существует ли функция
+function isCheckExsistFunction(functionToCheck)  
+{
+    var getType = {};
+	
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
 
 
 

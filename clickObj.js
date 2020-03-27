@@ -66,7 +66,10 @@ function clickObject3D(cdm)
 
 	showSvgSizeObj({obj: obj, boxCircle: true, getObjRoom: true, resetPos: true});
 	
-	getLotIdObject3D(obj.userData.obj3D.lotid);
+	
+	
+	
+	if( isCheckExsistFunction(window['getLotIdObject3D']) ) { getLotIdObject3D(obj.userData.obj3D.lotid); };	
 	
 	getInfoObj_UndoRedo({obj: obj});
 	
