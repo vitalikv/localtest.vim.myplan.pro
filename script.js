@@ -470,7 +470,7 @@ function upPosLabels_1(cdm)
 		
 		if(elem.userData.elem.show)
 		{
-			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; continue; }
+			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; }
 			else { elem.style.display = 'block'; }			
 		}
 		else
@@ -480,6 +480,14 @@ function upPosLabels_1(cdm)
 		
 		upPosLabels_2({elem: elem});
 	}
+	
+	
+	for ( var i = 0; i < infProject.html.label.length; i++ )
+	{
+		
+	}
+	
+	
 
 	for ( var i = 0; i < infProject.svg.arr.length; i++ )
 	{
@@ -507,6 +515,8 @@ function upPosLabels_2(cdm)
 {
 	var elem = cdm.elem;
 
+	if(elem.style.display == 'none') return;
+	
 	//camera.updateProjectionMatrix();
 	var tempV = elem.userData.elem.pos.clone().project(camera);
 

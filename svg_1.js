@@ -146,7 +146,9 @@ function createSvgPath(cdm)
 // обновляем положение svg на экране
 function updateSvgLine(cdm)
 {
-	var el = cdm.el;
+	var el = cdm.el;	
+	
+	if(el.getAttribute("display") == 'none') return;
 	
 	if(cdm.point)
 	{
@@ -181,6 +183,8 @@ function updateSvgCircle(cdm)
 {
 	var el = cdm.el;
 	
+	if(el.getAttribute("display") == 'none') return;
+	
 	if(cdm.pos)
 	{
 		el.userData.svg.circle.pos = cdm.pos;
@@ -202,6 +206,8 @@ function updateSvgCircle(cdm)
 function updateSvgPath(cdm)
 {
 	var el = cdm.el;
+	
+	if(el.getAttribute("display") == 'none') return;
 	
 	if(cdm.arrP)
 	{

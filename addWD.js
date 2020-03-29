@@ -78,7 +78,7 @@ function createEmptyFormWD_1(cdm)
 	}
 	
 	obj.geometry.computeBoundingBox();	
-
+	
 	for ( var i = 0; i < v.length; i++ )
 	{
 		if(obj.geometry.boundingBox.min.x + 0.05 > v[i].x) { minX[minX.length] = i; }
@@ -107,7 +107,27 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.last = { pos : new THREE.Vector3(), rot : new THREE.Vector3(), x : 0, y : 0 };
 	obj.userData.door.topMenu = true;
 	obj.userData.door.lotid = (cdm.lotid)? cdm.lotid : null;
+	obj.userData.door.svg = {};
+	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
 	//obj.userData.door.active = { click: true, hover: true };
+	
+	
+	//обновляем svg форму
+	if(1==1)
+	{
+		obj.updateMatrixWorld();
+		var v = [];
+		var bound = obj.geometry.boundingBox;
+		
+		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
+		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
+		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
+		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
+		
+		if(camera == cameraTop) { showElementSvg([obj.userData.door.svg.el]); }
+		
+		updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+	}
 	
 	
 	//default размеры
@@ -309,6 +329,23 @@ function addWD( cdm )
 	{
 		loadObjServer({type: 'wd', wd: obj, lotid: obj.userData.door.lotid});
 	}
+	
+	//обновляем svg форму
+	if(1==1)
+	{
+		obj.updateMatrixWorld();
+		var v = [];
+		var bound = obj.geometry.boundingBox;
+		
+		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
+		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
+		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
+		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
+		 
+		if(camera == cameraTop) { showElementSvg([obj.userData.door.svg.el]); }
+		
+		updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+	}	
 
  	
 	clickO.obj = null;

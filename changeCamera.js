@@ -68,13 +68,15 @@ function changeDepthColor()
 		var w2 = 1;
 		var visible = true;
 		var visible_2 = true;
+		var visible_3 = false;
 	}
-	else if(camera == camera3D || camera == cameraWall)
+	else if(camera == camera3D)
 	{
 		var depthTest = true;
 		var w2 = 0.0;
 		var visible = false;
 		var visible_2 = false;
+		var visible_3 = true;
 	}
 	else { return; } 
 	
@@ -124,7 +126,7 @@ function changeDepthColor()
 		hideElementHtml(infProject.html.furn.offset);		
 	}
 
-	hideElementSvg(infProject.svg.arr);
+	//hideElementSvg(infProject.svg.arr);
 	
 	
 	for ( var i = 0; i < point.length; i++ )
@@ -132,6 +134,31 @@ function changeDepthColor()
 		point[i].visible = visible; 
 	}		
 
+	var svg = [];
+	
+	for ( var i = 0; i < door.length; i++ )
+	{ 
+		if(!door[i].userData.door.objPop) continue;
+		door[i].userData.door.objPop.visible = visible_3; 
+		svg[svg.length] = door[i].userData.door.svg.el;
+	}	
+
+	for ( var i = 0; i < window.length; i++ )
+	{ 
+		if(!window[i].userData.door.objPop) continue;
+		window[i].userData.door.objPop.visible = visible_3;
+		svg[svg.length] = window[i].userData.door.svg.el;
+	}
+	
+	if(camera == cameraTop)
+	{
+		showElementSvg(svg);
+	}
+	else if(camera == camera3D)
+	{
+		hideElementSvg(svg);
+	}	
+	
 	showHideArrObj(window, visible_2);
 	showHideArrObj(door, visible_2);
 	
@@ -213,34 +240,6 @@ function switchCamera3D(cdm)
 	}
 }
 
-
-
-
-// выставляем zoom cameraWall, так чтобы обхватывала всю стену
-function detectZoomScreenWall()  
-{ 	
-	cameraWall.zoom = 2;
-	camera.updateMatrixWorld();
-	camera.updateProjectionMatrix();
-	
-	var posX = { min : arrWallFront.bounds.min.x.clone(), max : arrWallFront.bounds.max.x.clone() };
-	var posY = { min : arrWallFront.bounds.min.y.clone(), max : arrWallFront.bounds.max.y.clone() };
-	
-	posX.min.project(camera);
-	posY.min.project(camera);	
-	
-	
-	
-	var x = 0.6/posX.min.x;
-	var y = 0.6/posY.min.y;
-	
-	camera.zoom = (posX.min.x < posY.min.y) ? Math.abs(x) * 2 : Math.abs(y) * 2;    
-	
-	camera.updateMatrixWorld();
-	camera.updateProjectionMatrix();
-}
-
- 
 
 
 

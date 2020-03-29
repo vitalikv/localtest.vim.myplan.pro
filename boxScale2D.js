@@ -310,19 +310,6 @@ function showSvgSizeObj(cdm)
 	
 	// размеры объекта
 	{
-		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
-		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
-		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
-		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );
-		
-		
-		var sizeX = x1.distanceTo( x2 );
-		var sizeZ = z1.distanceTo( z2 );
-		
-		updateSvgLine({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
-		updateSvgLine({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
-		
-
 		var html = infProject.html.furn.size;
 		
 		if(infProject.svg.furn.size.show && camera == cameraTop)
@@ -330,6 +317,18 @@ function showSvgSizeObj(cdm)
 			showElementHtml(html);
 			showElementSvg(infProject.svg.furn.size.elem);
 		}
+		
+		var x1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var x2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.max.x, 0, obj.geometry.boundingBox.max.z - 0.06) );
+		var z1 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.min.z) );
+		var z2 = obj.localToWorld( new THREE.Vector3(obj.geometry.boundingBox.min.x + 0.06, 0, obj.geometry.boundingBox.max.z) );	
+		
+		var sizeX = x1.distanceTo( x2 );
+		var sizeZ = z1.distanceTo( z2 );
+		
+		updateSvgLine({el: infProject.svg.furn.size.elem[0], point: [x1, x2]});
+		updateSvgLine({el: infProject.svg.furn.size.elem[1], point: [z1, z2]});
+		
 		
 		var dir = new THREE.Vector3().subVectors( x2, x1 );
 		var rotY = Math.atan2(dir.x, dir.z);		
@@ -366,9 +365,9 @@ function showSvgSizeObj(cdm)
 		
 		var box1 = infProject.svg.furn.box1;
 		
-		updateSvgPath({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+		if(camera == cameraTop) { showElementSvg([box1]); }	
 		
-		if(camera == cameraTop) { showElementSvg([box1]); }			
+		updateSvgPath({el: box1, arrP: [v[0], v[1], v[3], v[2], v[0]]});		
 	}
 	
 	
@@ -377,6 +376,8 @@ function showSvgSizeObj(cdm)
 	if(cdm.boxCircle)
 	{
 		var circle = infProject.svg.furn.boxCircle.elem;
+		
+		if(infProject.svg.furn.boxCircle.show && camera == cameraTop) { showElementSvg(circle); }
 		
 		// circle[0] top-left
 		// circle[1] top-center
@@ -403,9 +404,7 @@ function showSvgSizeObj(cdm)
 		updateSvgCircle({el: circle[6], pos: new THREE.Vector3().subVectors( v[2], v[0] ).divideScalar( 2 ).add(v[0])});
 		
 		// right center
-		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});
-		
-		if(infProject.svg.furn.boxCircle.show && camera == cameraTop) { showElementSvg(circle); }		
+		updateSvgCircle({el: circle[7], pos: new THREE.Vector3().subVectors( v[3], v[1] ).divideScalar( 2 ).add(v[1])});		
 	}	
 
 
@@ -430,10 +429,9 @@ function showSvgSizeObj(cdm)
 		var p3 = new THREE.Vector3(bound.max.x, 0, bound.max.z);	// bottom-right				
 		var p4 = new THREE.Vector3(bound.min.x, 0, bound.max.z);	// bottom-left		
 		
+		if(camera == cameraTop) { showElementSvg([box2]); }
 		
-		updateSvgPath({el: box2, arrP: [p1, p2, p3, p4, p1]});
-		
-		if(camera == cameraTop) { showElementSvg([box2]); }		
+		updateSvgPath({el: box2, arrP: [p1, p2, p3, p4, p1]});	
 	}
 	
 	
@@ -604,14 +602,12 @@ function showSvgSizeObj(cdm)
 				// если можно провести прямую до стен/объектов, то показываем линию и размер, иначе скрываем
 				if(pos2)
 				{
-					
-					updateSvgLine({el: line, point: [posStart, pos2]});
-					
 					if(infProject.svg.furn.offset.show && camera == cameraTop)
 					{
 						showElementSvg([line]);					
 						showElementHtml([html]);
 					}
+					updateSvgLine({el: line, point: [posStart, pos2]});
 					
 					var posLabel = new THREE.Vector3().subVectors( pos2, posStart ).divideScalar( 2 ).add(posStart); 
 					html.userData.elem.pos = posLabel;					
