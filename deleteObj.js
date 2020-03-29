@@ -77,6 +77,12 @@ function deleteWall_2(wall)
 
 	for(var i = 0; i < arr.length; i++)
 	{
+		if(arr[i].userData.door.svg.el)
+		{
+			deleteValueFromArrya({arr: infProject.svg.arr, o: arr[i].userData.door.svg.el});
+			arr[i].userData.door.svg.el.remove();
+		}			
+		
 		if(arr[i].userData.tag == 'window') { deleteValueFromArrya({arr : infProject.scene.array.window, o : arr[i]}); }
 		if(arr[i].userData.tag == 'door') { deleteValueFromArrya({arr : infProject.scene.array.door, o : arr[i]}); }
 		scene.remove( arr[i] );
@@ -132,6 +138,12 @@ function deleteWall_3(wall, cdm)
 		
 		for(var i = 0; i < arr.length; i++)
 		{
+			if(arr[i].userData.door.svg.el)
+			{
+				deleteValueFromArrya({arr: infProject.svg.arr, o: arr[i].userData.door.svg.el});
+				arr[i].userData.door.svg.el.remove();
+			}			
+			
 			if(arr[i].userData.tag == 'window') { deleteValueFromArrya({arr : infProject.scene.array.window, o : arr[i]}); }
 			if(arr[i].userData.tag == 'door') { deleteValueFromArrya({arr : infProject.scene.array.door, o : arr[i]}); }
 			scene.remove( arr[i] );
@@ -314,15 +326,20 @@ function deleteWinDoor( obj )
 	if(obj.userData.cubeCam)
 	{
 		deleteValueFromArrya({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
-		disposeNode( obj.userData.cubeCam );
+		disposeHierchy({obj: obj.userData.cubeCam});
 		scene.remove( obj.userData.cubeCam );			
 	}
+
+	if(obj.userData.door.svg.el)
+	{
+		deleteValueFromArrya({arr: infProject.svg.arr, o: obj.userData.door.svg.el});
+		obj.userData.door.svg.el.remove();
+	}	
+	 
+	if(obj.userData.tag == 'window') { deleteValueFromArrya({arr: infProject.scene.array.window, o: obj}); }
+	if(obj.userData.tag == 'door') { deleteValueFromArrya({arr: infProject.scene.array.door, o: obj}); }
 	
-	
-	if(obj.userData.tag == 'window') { deleteValueFromArrya({arr : infProject.scene.array.window, o : obj}); }
-	if(obj.userData.tag == 'door') { deleteValueFromArrya({arr : infProject.scene.array.door, o : obj}); }
-	
-	disposeNode( obj );
+	disposeHierchy({obj: obj});
 	scene.remove( obj );	
 }
 

@@ -467,6 +467,8 @@ function moveToggleChangeWin( event, controll )
 	showTableWD(wd);
 	
 	showRulerWD_2D(wd);
+	
+	calcSvgFormWD({obj: wd});
 }
 
 
@@ -493,6 +495,8 @@ function clickMouseUpToggleWD( controll )
 		wd.material.transparent = true;
 		wd.material.opacity = 0;					
 	}
+	
+	calcSvgFormWD({obj: wd});
 	
 	clickO.last_obj = wd;
 }

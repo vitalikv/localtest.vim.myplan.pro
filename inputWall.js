@@ -298,6 +298,8 @@ function updateWall(wall, cdm)
 		wd.position.x = pos.x;
 		wd.position.z = pos.z;
 		wd.rotation.copy( wall.rotation );
+		
+		calcSvgFormWD({obj: wd});
 	}			
 }
 

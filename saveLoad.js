@@ -108,13 +108,23 @@ function resetScene()
 	
 	for ( var i = 0; i < window.length; i++ )
 	{ 
-		disposeNode(window[i]); 
+		if(window[i].userData.door.svg.el)
+		{
+			deleteValueFromArrya({arr: infProject.svg.arr, o: window[i].userData.door.svg.el});
+			window[i].userData.door.svg.el.remove();
+		}	
+		disposeHierchy({obj: window[i]});  
 		scene.remove(window[i]); 
 	}
 	
 	for ( var i = 0; i < door.length; i++ )
 	{ 
-		disposeNode(door[i]); 
+		if(door[i].userData.door.svg.el)
+		{
+			deleteValueFromArrya({arr: infProject.svg.arr, o: door[i].userData.door.svg.el});
+			door[i].userData.door.svg.el.remove();
+		}
+		disposeHierchy({obj: door[i]}); 
 		scene.remove(door[i]); 
 	}	
 	

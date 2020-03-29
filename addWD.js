@@ -113,21 +113,7 @@ function createEmptyFormWD_1(cdm)
 	
 	
 	//обновляем svg форму
-	if(1==1)
-	{
-		obj.updateMatrixWorld();
-		var v = [];
-		var bound = obj.geometry.boundingBox;
-		
-		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
-		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
-		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
-		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
-		
-		if(camera == cameraTop) { showElementSvg([obj.userData.door.svg.el]); }
-		
-		updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});
-	}
+	calcSvgFormWD({obj: obj});
 	
 	
 	//default размеры
@@ -216,8 +202,8 @@ function dragWD_2( event, obj )
 		}
 	}
 
-	if(obj.material.color == new THREE.Color(infProject.listColor.active2D)) { obj.userData.door.wall = null; return; }
-	if(!wall) { obj.userData.door.wall = null; return; }
+	if(obj.material.color == new THREE.Color(infProject.listColor.active2D)) { obj.userData.door.wall = null; calcSvgFormWD({obj: obj}); return; }
+	if(!wall) { obj.userData.door.wall = null; calcSvgFormWD({obj: obj}); return; }
 
 	
 
@@ -235,7 +221,9 @@ function dragWD_2( event, obj )
 		obj.position.set( pos.x, obj.userData.door.h1, pos.z ); 
 	}		
 
-	changeWidthWD(obj, wall);	
+	changeWidthWD(obj, wall);
+
+	calcSvgFormWD({obj: obj});
 }
 
 
@@ -331,28 +319,35 @@ function addWD( cdm )
 	}
 	
 	//обновляем svg форму
-	if(1==1)
-	{
-		obj.updateMatrixWorld();
-		var v = [];
-		var bound = obj.geometry.boundingBox;
-		
-		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
-		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
-		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
-		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
-		 
-		if(camera == cameraTop) { showElementSvg([obj.userData.door.svg.el]); }
-		
-		updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});
-	}	
-
+	calcSvgFormWD({obj: obj});	
  	
 	clickO.obj = null;
 	clickO.last_obj = null;
 	clickO.move = null;
 	
 	renderCamera();
+}
+
+
+//обновляем svg форму wd
+function calcSvgFormWD(cdm)
+{
+	if(camera != cameraTop) return;
+	
+	var obj = cdm.obj;
+	
+	obj.updateMatrixWorld();
+	var v = [];
+	var bound = obj.geometry.boundingBox;
+	
+	v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
+	v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
+	v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
+	v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
+	 
+	showElementSvg([obj.userData.door.svg.el]);
+	
+	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});	
 }
 
 

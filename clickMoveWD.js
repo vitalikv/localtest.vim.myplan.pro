@@ -205,6 +205,8 @@ function moveWD_2( wd, pos )
 	for ( var i = 0; i < infProject.tools.controllWD.length; i++ ) { infProject.tools.controllWD[i].position.add( pos2 ); } 	// меняем расположение контроллеров
 	
 	showRulerWD_2D(wd); 	// перемещаем линейки и лайблы
+	
+	calcSvgFormWD({obj: wd});
 }
 
 
@@ -406,6 +408,7 @@ function clickWDMouseUp(wd)
 		wd.material.opacity = 0;					
 	}	
 
+	calcSvgFormWD({obj: wd});
 	//if(comparePos(wd.userData.door.last.pos, wd.position)) { return; }		// не двигали	
 }
 
