@@ -228,7 +228,7 @@ function splitWalls( wall, point )
 	var oldZ = findNumberInArrRoom( oldZones );
 	deleteArrZone( oldZones );						// удаляем зоны  с которыми соприкасается стена					
 	
-	deleteWall_3( wall, {dw : 'no delete'} );  							// удаляем разделяемую стену (без удаления зон)(без удаления окон/дверей)	
+	deleteWall_3({wall: wall, delWD: false, upWall: false});  		// удаляем разделяемую стену (без удаления зон)(без удаления окон/дверей)	
 	
 	// находим точки (если стена была отдельна, то эти точки удалены и их нужно заново создать)
 	var point1 = findObjFromId( 'point', p1.id );
@@ -350,7 +350,7 @@ function addPoint_4( point )
 		{			
 			if(point.userData.point.cross.userData.point.last.cdm == 'new_point_1' && clickO.move.userData.point.cross == point || point.userData.point.cross == point.p[0])
 			{ 
-				deleteWall_2(point.w[0]);
+				deleteWall_3({wall: point.w[0]});
 				clickO.move = null;
 				clickO = resetPop.clickO();
 			}						

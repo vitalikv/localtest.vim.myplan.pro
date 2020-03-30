@@ -109,6 +109,7 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.lotid = (cdm.lotid)? cdm.lotid : null;
 	obj.userData.door.svg = {};
 	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
+	//obj.userData.door.svg.path = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
 	//obj.userData.door.active = { click: true, hover: true };
 	
 	
@@ -347,7 +348,23 @@ function calcSvgFormWD(cdm)
 	 
 	showElementSvg([obj.userData.door.svg.el]);
 	
-	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]});	
+	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]}); 
+
+
+	if(obj.userData.door.svg.path)
+	{
+		var minZ = (bound.min.z < -0.05) ? -0.05 : bound.min.z;
+		var maxZ = (bound.max.z > 0.05) ? 0.05 : bound.max.z;
+		
+		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, maxZ) );	
+		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, maxZ) );	
+		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, minZ) );	
+		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, minZ) ); 
+		
+		showElementSvg([obj.userData.door.svg.path]);
+		
+		updateSvgPath({el: obj.userData.door.svg.path, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+	}
 }
 
 
@@ -380,6 +397,11 @@ function setObjInWD(inf, cdm)
 	objPop.rotation.set(0,0,0);
 	//objPop.position.set(center.x/objPop.scale.x, center.y/objPop.scale.y, center.z/objPop.scale.z);
 	//objPop.position.copy(centerWD);
+	
+	if(camera == cameraTop)
+	{
+		objPop.visible = false;
+	}
 
 	// изменяем у ПОП объекта ширину/высоту/центрируем 
 	if(1==1)

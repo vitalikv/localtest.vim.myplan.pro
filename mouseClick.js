@@ -24,9 +24,11 @@ function mouseDownRight()
 	
 	if(obj)
 	{
-		if(obj.userData.tag == 'free_dw') { scene.remove(obj); }
-		
-		if(obj.userData.tag == 'point') 
+		if(obj.userData.tag == 'free_dw') 
+		{ 
+			deleteWinDoor({wd: obj, upWall: false}); 
+		}		
+		else if(obj.userData.tag == 'point') 
 		{ 	
 			if(obj.w.length == 0){ deleteOnePoint(obj); }  
 			else 
@@ -34,7 +36,7 @@ function mouseDownRight()
 				if(obj.userData.point.type == 'continue_create_wall')
 				{
 					var point = obj.p[0]; 
-					deleteWall_2(obj.w[0]); 
+					deleteWall_3({wall: obj.w[0]}); 
 					//upLabelPlan_1([point.w[0]]);					
 				}
 				
@@ -43,7 +45,7 @@ function mouseDownRight()
 		}
 		else if(obj.userData.tag == 'obj')
 		{
-			deleteObjectPop({obj: obj}); 
+			deleteObjectPop({obj: obj, undoRedo: false}); 
 		}		
 
 		clickO = resetPop.clickO();

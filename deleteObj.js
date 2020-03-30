@@ -18,14 +18,10 @@ function detectDeleteObj()
 	{
 		if ( tag == 'wall' ) return;
 	}
-	else if(camera == cameraWall)
-	{
-		if ( tag == 'wall' ) return;
-	}	
 		
 	if ( tag == 'wall' ) { deleteWall_1( obj ).room; }
 	else if ( tag == 'point' ) { if(obj.p.length == 2) { deletePoint( obj ); } }
-	else if ( tag == 'window' || tag == 'door' ) { deleteWinDoor( obj ); }
+	else if ( tag == 'window' || tag == 'door' ) { deleteWinDoor({wd: obj}); }
 	else if ( tag == 'obj' ) { deleteObjectPop({obj: obj}); }
 	
 	renderCamera();
@@ -44,7 +40,7 @@ function deleteWall_1( wall )
 	
 	var zone = (arrZone.length == 0) ? rayFurniture( wall ).obj : null; 
 	
-	deleteWall_2(wall);
+	deleteWall_3({wall: wall});
 	
 	var newZones = [];
 	
@@ -68,85 +64,25 @@ function deleteWall_1( wall )
 }
 
 
-// здесь только удаление стены, без обновления зон/площади/пола
-function deleteWall_2(wall)
-{
-	objDeActiveColor_2D();
-	
-	var arr = wall.userData.wall.arrO;
-
-	for(var i = 0; i < arr.length; i++)
-	{
-		if(arr[i].userData.door.svg.el)
-		{
-			deleteValueFromArrya({arr: infProject.svg.arr, o: arr[i].userData.door.svg.el});
-			arr[i].userData.door.svg.el.remove();
-		}			
-		
-		if(arr[i].userData.tag == 'window') { deleteValueFromArrya({arr : infProject.scene.array.window, o : arr[i]}); }
-		if(arr[i].userData.tag == 'door') { deleteValueFromArrya({arr : infProject.scene.array.door, o : arr[i]}); }
-		scene.remove( arr[i] );
-	}
-
-	var p0 = wall.userData.wall.p[0];
-	var p1 = wall.userData.wall.p[1]; 
-	deleteOneOnPointValue(p0, wall);
-	deleteOneOnPointValue(p1, wall);
-	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
-	
-	if(wall.userData.wall.html.label)
-	{
-		for ( var i = 0; i < wall.userData.wall.html.label.length; i++ )
-		{
-			deleteValueFromArrya({arr: infProject.html.label, o: wall.userData.wall.html.label[i]});
-			wall.userData.wall.html.label[i].remove();
-		}
-	}
-	
-	scene.remove( wall );
-	
-	if(p0.w.length == 0){ deletePointFromArr( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ deletePointFromArr( p1 ); scene.remove( p1 ); }
-
-
-	var arrW = [];
-	for ( var i = 0; i < p0.w.length; i++ ) { arrW[arrW.length] = p0.w[i]; }
-	for ( var i = 0; i < p1.w.length; i++ ) { arrW[arrW.length] = p1.w[i]; }  
-	clickMovePoint_BSP( arrW );	
-	
-	if(p0.w.length > 0){ upLineYY_2(p0); }
-	if(p1.w.length > 0){ upLineYY_2(p1); }
-
-	upLabelPlan_1(arrW);
-	
-	clickPointUP_BSP( arrW );
-}
-
 
 // удаляем разделяемую стену и окна/двери, которые принадлежат ей (без удаления зон)
-function deleteWall_3(wall, cdm)
+function deleteWall_3(cdm)
 {
-	if(!cdm) { cdm = {}; }
-	if(!cdm.dw) { cdm.dw = ''; }
+	var wall = cdm.wall;
 	
-	objDeActiveColor_2D();
+	objDeActiveColor_2D();	
 	
-	if(cdm.dw == 'no delete') {}
-	else
+	var delWD = true;	
+	if(cdm.delWD !== undefined) { delWD = cdm.delWD; }	
+	
+	// удаляем wd
+	if(delWD)
 	{
 		var arr = wall.userData.wall.arrO;
 		
 		for(var i = 0; i < arr.length; i++)
 		{
-			if(arr[i].userData.door.svg.el)
-			{
-				deleteValueFromArrya({arr: infProject.svg.arr, o: arr[i].userData.door.svg.el});
-				arr[i].userData.door.svg.el.remove();
-			}			
-			
-			if(arr[i].userData.tag == 'window') { deleteValueFromArrya({arr : infProject.scene.array.window, o : arr[i]}); }
-			if(arr[i].userData.tag == 'door') { deleteValueFromArrya({arr : infProject.scene.array.door, o : arr[i]}); }
-			scene.remove( arr[i] );
+			deleteWinDoor({wd: arr[i], upWall: false}); 
 		}		
 	}
 
@@ -154,7 +90,7 @@ function deleteWall_3(wall, cdm)
 	var p1 = wall.userData.wall.p[1]; 
 	deleteOneOnPointValue(p0, wall);
 	deleteOneOnPointValue(p1, wall);
-	deleteValueFromArrya({arr : infProject.scene.array.wall, o : wall});;
+	deleteValueFromArrya({arr: infProject.scene.array.wall, o: wall});
 	
 	if(wall.userData.wall.html.label)
 	{
@@ -165,11 +101,31 @@ function deleteWall_3(wall, cdm)
 		}	
 	}
 	
+	disposeHierchy({obj: wall});
 	scene.remove( wall );
 	
-	if(p0.w.length == 0){ deletePointFromArr( p0 ); scene.remove( p0 ); }
-	if(p1.w.length == 0){ deletePointFromArr( p1 ); scene.remove( p1 ); }
+	if(p0.w.length == 0){ deleteOnePoint( p0 ); }
+	if(p1.w.length == 0){ deleteOnePoint( p1 ); }
+	
+	
+	var upWall = true;	
+	if(cdm.upWall !== undefined) { upWall = cdm.upWall; }	
+	
+	// обновляем стены
+	if(upWall)
+	{
+		var arrW = [];
+		for ( var i = 0; i < p0.w.length; i++ ) { arrW[arrW.length] = p0.w[i]; }
+		for ( var i = 0; i < p1.w.length; i++ ) { arrW[arrW.length] = p1.w[i]; }  
+		clickMovePoint_BSP( arrW );	
+		
+		if(p0.w.length > 0){ upLineYY_2(p0); }
+		if(p1.w.length > 0){ upLineYY_2(p1); }
 
+		upLabelPlan_1(arrW);
+		
+		clickPointUP_BSP( arrW );
+	}	
 }
 
 
@@ -177,6 +133,7 @@ function deleteWall_3(wall, cdm)
 function deleteOnePoint( point )
 {
 	deletePointFromArr(point); 
+	disposeHierchy({obj: point});
 	scene.remove(point);
 }
 
@@ -261,8 +218,8 @@ function deletePoint( point )
 	deleteArrZone( oldZones );						// удаляем зоны  с которыми соприкасается стена									
 
 	
-	deleteWall_3( wall_1 );		// удаляем разделяемую стену и окна/двери, которые принадлежат ей (без удаления зон)		
-	deleteWall_3( wall_2 );		// удаляем разделяемую стену и окна/двери, которые принадлежат ей (без удаления зон)	
+	deleteWall_3({wall: wall_1, upWall: false});		// удаляем разделяемую стену и окна/двери, которые принадлежат ей (без удаления зон)		
+	deleteWall_3({wall: wall_2, upWall: false});		// удаляем разделяемую стену и окна/двери, которые принадлежат ей (без удаления зон)	
 	 
 
 	// находим точки (если стена была отдельна, то эти точки удалены и их нужно заново создать)
@@ -308,41 +265,59 @@ function deletePoint( point )
 
 
 // удаление объекта (окно/дверь) из сцены
-function deleteWinDoor( obj )
+function deleteWinDoor(cdm)
 {	
-	var wall = obj.userData.door.wall; 		
+	var wd = cdm.wd;	
 	
-	clickMoveWD_BSP( obj );		
-		
-	deleteValueFromArrya({arr : wall.userData.wall.arrO, o : obj});	
+	var upWall = true;	// удаляем wd из стены и обновляем geometry стену
+	if(cdm.upWall !== undefined) { upWall = cdm.upWall; }	
 	
-	if(obj.userData.tag == 'window') { hideMenuUI(obj); }
-	if(obj.userData.tag == 'door') { hideMenuUI(obj); }
-	
-	clickO = resetPop.clickO();
-	hideSizeWD( obj ); 
-	
-	
-	if(obj.userData.cubeCam)
+	if(upWall)
 	{
-		deleteValueFromArrya({arr : infProject.scene.array.cubeCam, o : obj.userData.cubeCam});
-		disposeHierchy({obj: obj.userData.cubeCam});
-		scene.remove( obj.userData.cubeCam );			
+		if(wd.userData.door.wall)
+		{
+			var wall = wd.userData.door.wall; 			
+			clickMoveWD_BSP( wd );				
+			deleteValueFromArrya({arr: wall.userData.wall.arrO, o: wd});
+		}	
+		
+		if(wd.userData.tag == 'window') { hideMenuUI(wd); }
+		if(wd.userData.tag == 'door') { hideMenuUI(wd); }
+		
+		clickO = resetPop.clickO();
+		hideSizeWD( wd ); 
+	}
+	
+	if(wd.userData.cubeCam)
+	{
+		deleteValueFromArrya({arr: infProject.scene.array.cubeCam, o: wd.userData.cubeCam});
+		disposeHierchy({obj: wd.userData.cubeCam});
+		scene.remove( wd.userData.cubeCam );			
 	}
 
-	if(obj.userData.door.svg.el)
+	deleteSvgWD({obj: wd});
+	 
+	if(wd.userData.tag == 'window') { deleteValueFromArrya({arr: infProject.scene.array.window, o: wd}); }
+	if(wd.userData.tag == 'door') { deleteValueFromArrya({arr: infProject.scene.array.door, o: wd}); }
+	
+	disposeHierchy({obj: wd}); 
+	scene.remove( wd );	
+}
+
+
+
+
+// удаляем svg у wd
+function deleteSvgWD(cdm)
+{
+	var obj = cdm.obj;
+	
+	if(obj.userData.door.svg.el) 
 	{
 		deleteValueFromArrya({arr: infProject.svg.arr, o: obj.userData.door.svg.el});
 		obj.userData.door.svg.el.remove();
 	}	
-	 
-	if(obj.userData.tag == 'window') { deleteValueFromArrya({arr: infProject.scene.array.window, o: obj}); }
-	if(obj.userData.tag == 'door') { deleteValueFromArrya({arr: infProject.scene.array.door, o: obj}); }
-	
-	disposeHierchy({obj: obj});
-	scene.remove( obj );	
 }
-
 
 
 

@@ -16,6 +16,8 @@ function clickMoveWD_BSP( wd, wall )
 	var p2 = wall.userData.wall.p[1].position;	
 	var d = p1.distanceTo( p2 );		
 	
+
+	wall.geometry.dispose();
 	wall.geometry = createGeometryWall(d, wall.userData.wall.height_1, wall.userData.wall.width, wall.userData.wall.offsetZ);	// обновляем стену до простой стены
 	
 	// добавляем откосы

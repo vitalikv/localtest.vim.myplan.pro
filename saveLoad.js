@@ -102,28 +102,20 @@ function resetScene()
 	
 	for ( var i = 0; i < point.length; i++ )
 	{ 
-		disposeNode(point[i]);
+		disposeHierchy(point[i]);
 		scene.remove(point[i]); 
 	}	
 	
 	for ( var i = 0; i < window.length; i++ )
 	{ 
-		if(window[i].userData.door.svg.el)
-		{
-			deleteValueFromArrya({arr: infProject.svg.arr, o: window[i].userData.door.svg.el});
-			window[i].userData.door.svg.el.remove();
-		}	
-		disposeHierchy({obj: window[i]});  
+		deleteSvgWD({obj: window[i]});	
+		disposeHierchy({obj: window[i]});   
 		scene.remove(window[i]); 
 	}
 	
 	for ( var i = 0; i < door.length; i++ )
 	{ 
-		if(door[i].userData.door.svg.el)
-		{
-			deleteValueFromArrya({arr: infProject.svg.arr, o: door[i].userData.door.svg.el});
-			door[i].userData.door.svg.el.remove();
-		}
+		deleteSvgWD({obj: door[i]});
 		disposeHierchy({obj: door[i]}); 
 		scene.remove(door[i]); 
 	}	
@@ -225,7 +217,7 @@ function disposeHierchy(cdm)
 function disposeNode(node) 
 {
 	if (node instanceof THREE.Mesh || node instanceof THREE.Line) 
-	{
+	{ 
 		if (node.geometry) { node.geometry.dispose(); }
 		
 		if (node.material) 

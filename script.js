@@ -479,14 +479,7 @@ function upPosLabels_1(cdm)
 		}
 		
 		upPosLabels_2({elem: elem});
-	}
-	
-	
-	for ( var i = 0; i < infProject.html.label.length; i++ )
-	{
-		
-	}
-	
+	}	
 	
 
 	for ( var i = 0; i < infProject.svg.arr.length; i++ )
@@ -1824,7 +1817,8 @@ document.addEventListener("keydown", function (e)
 	if(clickO.keys[18] && e.keyCode == 77) { loadFile({id: 0}); }				// alt + m
 	if(clickO.keys[18] && e.keyCode == 84) { saveFile({json: true}); }			// alt + t
 	if(clickO.keys[18] && e.keyCode == 86) { console.log(infProject); }
-	if(clickO.keys[18] && e.keyCode == 86) { console.log(clickO); }  		// alt + v
+	if(clickO.keys[18] && e.keyCode == 86) { console.log(clickO); }  		
+	if(clickO.keys[18] && e.keyCode == 86) { console.log(renderer.info.memory); }	// alt + v
 	if(clickO.keys[18] && e.keyCode == 66) 	// alt + b
 	{ 
 		if(infProject.settings.shader.saoPass)
