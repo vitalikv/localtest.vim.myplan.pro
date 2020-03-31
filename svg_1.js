@@ -114,14 +114,24 @@ function createSvgPath(cdm)
 		el.setAttribute("d", 'M100 100, 300 100, 300 600, 200 600');
 		el.setAttribute("stroke-width", "2px");		
 		el.setAttribute("fill", "none");
+		el.setAttribute("stroke", "rgb(255, 162, 23)");
 		
 		if(cdm.dasharray)
 		{
 			el.setAttribute("stroke-dasharray", "20 10");
-		}		
+		}
 		
-		if(cdm.color){ el.setAttribute("stroke", cdm.color); }
-		else { el.setAttribute("stroke", "rgb(255, 162, 23)"); }	
+		if(cdm.stroke_width)
+		{
+			el.setAttribute("stroke-width", cdm.stroke_width);
+		}		
+
+		if(cdm.fill)
+		{
+			el.setAttribute("fill", cdm.fill); 
+		}
+		
+		if(cdm.color){ el.setAttribute("stroke", cdm.color); }	
 		
 		el.setAttribute("display", "none");
 		

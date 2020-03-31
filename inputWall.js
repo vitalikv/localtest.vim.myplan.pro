@@ -392,7 +392,9 @@ function inputWidthOneWall(cdm)
 		wd.geometry.elementsNeedUpdate = true;
 		wd.geometry.computeBoundingSphere();
 		wd.geometry.computeBoundingBox();
-		wd.geometry.computeFaceNormals();		
+		wd.geometry.computeFaceNormals(); 
+
+		calcSvgFormWD({obj: wd});
 	}	
 	
 	upLabelPlan_1( wallR );	 				

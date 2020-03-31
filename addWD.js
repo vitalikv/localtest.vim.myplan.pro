@@ -108,8 +108,11 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.topMenu = true;
 	obj.userData.door.lotid = (cdm.lotid)? cdm.lotid : null;
 	obj.userData.door.svg = {};
-	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
-	//obj.userData.door.svg.path = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
+	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: '#ffffff', stroke_width: "1px"})[0];
+	
+	var fillColor = (type == 'door') ? '#e0e0e0' : '#ffffff';
+	
+	obj.userData.door.svg.path = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: fillColor, stroke_width: "1px"})[0];
 	//obj.userData.door.active = { click: true, hover: true };
 	
 	
@@ -356,12 +359,38 @@ function calcSvgFormWD(cdm)
 		var minZ = (bound.min.z < -0.05) ? -0.05 : bound.min.z;
 		var maxZ = (bound.max.z > 0.05) ? 0.05 : bound.max.z;
 		
-		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, maxZ) );	
-		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, maxZ) );	
-		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, minZ) );	
-		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, minZ) ); 
+		v[0] = new THREE.Vector3(bound.min.x, 0, maxZ);	
+		v[1] = new THREE.Vector3(bound.max.x, 0, maxZ);	
+		v[2] = new THREE.Vector3(bound.min.x, 0, minZ);	
+		v[3] = new THREE.Vector3(bound.max.x, 0, minZ); 
 		
-		showElementSvg([obj.userData.door.svg.path]);
+		if(obj.userData.tag == 'door')
+		{
+			var dist = [];
+			dist[0] = bound.max.x - bound.min.x;
+			dist[1] = (maxZ - minZ)/2;
+			dist[2] = bound.max.x - bound.min.x;
+			dist[3] = (maxZ - minZ)/2;
+			
+			var v0 = new THREE.Vector3((bound.max.x - bound.min.x) + bound.min.x, 0, (maxZ - minZ)/2 + minZ);
+			
+			for(var i = 0; i < v.length; i++)
+			{
+				
+				var radXZ = Math.atan2(v[i].x - v0.x, v[i].z - v0.z);
+				radXZ += Math.PI/2;
+				
+				v[i].x = Math.sin(radXZ)*dist[i] + v0.x - (maxZ - minZ)/2;
+				v[i].z = Math.cos(radXZ)*dist[i] + v0.z;
+			}
+		}
+		
+		for(var i = 0; i < v.length; i++)
+		{
+			v[i] = obj.localToWorld( v[i].clone() );
+		}				
+		
+		showElementSvg([obj.userData.door.svg.path]); 
 		
 		updateSvgPath({el: obj.userData.door.svg.path, arrP: [v[0], v[1], v[3], v[2], v[0]]});
 	}
