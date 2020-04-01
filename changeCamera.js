@@ -141,6 +141,9 @@ function changeDepthColor()
 		if(!door[i].userData.door.objPop) continue;
 		door[i].userData.door.objPop.visible = visible_3; 
 		svg[svg.length] = door[i].userData.door.svg.el;
+		
+		if(door[i].userData.door.svg.path) { svg[svg.length] = door[i].userData.door.svg.path; }
+		if(door[i].userData.door.svg.arc) { svg[svg.length] = door[i].userData.door.svg.arc; }
 	}	
 
 	for ( var i = 0; i < window.length; i++ )
@@ -148,6 +151,8 @@ function changeDepthColor()
 		if(!window[i].userData.door.objPop) continue;
 		window[i].userData.door.objPop.visible = visible_3;
 		svg[svg.length] = window[i].userData.door.svg.el;
+		
+		if(window[i].userData.door.svg.path) { svg[svg.length] = window[i].userData.door.svg.path; }
 	}
 	
 	if(camera == cameraTop)

@@ -316,6 +316,18 @@ function deleteSvgWD(cdm)
 	{
 		deleteValueFromArrya({arr: infProject.svg.arr, o: obj.userData.door.svg.el});
 		obj.userData.door.svg.el.remove();
+	}
+
+	if(obj.userData.door.svg.path) 
+	{ 
+		deleteValueFromArrya({arr: infProject.svg.arr, o: obj.userData.door.svg.path});
+		obj.userData.door.svg.path.remove();		
+	}
+	
+	if(obj.userData.door.svg.arc) 
+	{ 
+		deleteValueFromArrya({arr: infProject.svg.arr, o: obj.userData.door.svg.arc});
+		obj.userData.door.svg.arc.remove();			
 	}	
 }
 

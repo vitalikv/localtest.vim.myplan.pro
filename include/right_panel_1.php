@@ -234,7 +234,7 @@
 					
 					<div class="flex_column_1">
 						<div class="right_panel_1_1_h">
-							Тип помещения
+							Помещения
 						</div>					
 						<div class="right_panel_1_1_list" list_ui="room_type">
 						

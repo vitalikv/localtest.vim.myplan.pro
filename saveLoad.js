@@ -102,7 +102,7 @@ function resetScene()
 	
 	for ( var i = 0; i < point.length; i++ )
 	{ 
-		disposeHierchy(point[i]);
+		disposeHierchy({obj: point[i]});
 		scene.remove(point[i]); 
 	}	
 	

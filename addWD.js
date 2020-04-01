@@ -358,7 +358,11 @@ function calcSvgFormWD(cdm)
 	
 	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]}); 
 
-	var dsfds = v[0].clone();
+
+	// центр открытия двери 
+	{
+		var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+	}
 
 	if(obj.userData.door.svg.path)
 	{
@@ -404,7 +408,7 @@ function calcSvgFormWD(cdm)
 	if(obj.userData.door.svg.arc)
 	{
 		showElementSvg([obj.userData.door.svg.arc]);
-		updateSvgArc({el: obj.userData.door.svg.arc, param: {p2: v[2], p1: dsfds} });
+		updateSvgArc({el: obj.userData.door.svg.arc, param: {p2: v[2], p1: posOpen} });
 	}
 }
 

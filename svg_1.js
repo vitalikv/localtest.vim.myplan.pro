@@ -322,7 +322,7 @@ function updateSvgArc(cdm)
 	
 	var p1 = el.userData.svg.arc.param.p1;
 	var p2 = el.userData.svg.arc.param.p2;
-	var r = el.userData.svg.arc.param.r;
+	//var r = el.userData.svg.arc.param.r;
 	
 	//camera.updateProjectionMatrix();
 	var tempV = p1.clone().project(camera);
@@ -334,7 +334,7 @@ function updateSvgArc(cdm)
 	var x2 = (tempV.x *  .5 + .5) * canvas.clientWidth;
 	var y2 = (tempV.y * -.5 + .5) * canvas.clientHeight;	
 
-	var r = Math.abs(x1 - x2);
+	var r = new THREE.Vector2(x1, y1).distanceTo( new THREE.Vector2(x2, y2) );
 
 	el.setAttribute("d", 'M'+x1+','+y1+'A'+r+','+r+' 0 0,0 '+x2+','+y2);		
 }
