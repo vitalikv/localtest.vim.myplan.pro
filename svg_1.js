@@ -40,8 +40,7 @@ function createSvgLine(cdm)
 		line.userData = {};
 		line.userData.svg = {};
 		line.userData.svg.line = {};
-		line.userData.svg.line.p = [new THREE.Vector3(), new THREE.Vector3()];
-		line.userData.svg.show = false;		
+		line.userData.svg.line.p = [new THREE.Vector3(), new THREE.Vector3()];		
 		
 		svg.appendChild(line);
 		
@@ -84,8 +83,7 @@ function createSvgCircle(cdm)
 		circle.userData.svg = {};
 		circle.userData.svg.circle = {};
 		//circle.userData.svg.circle.r = 300;
-		circle.userData.svg.circle.pos = new THREE.Vector3();
-		circle.userData.svg.show = false;		
+		circle.userData.svg.circle.pos = new THREE.Vector3();		
 
 		svg.appendChild(circle);
 		
@@ -138,8 +136,7 @@ function createSvgPath(cdm)
 		el.userData = {};
 		el.userData.svg = {};
 		el.userData.svg.path = {};
-		el.userData.svg.path.arrP = [];
-		el.userData.svg.show = false;		
+		el.userData.svg.path.arrP = [];		
 		el.userData.svg.path.arrS = [];
 		
 		svg.appendChild(el);
@@ -149,6 +146,66 @@ function createSvgPath(cdm)
 	}
 	
 	return arr;
+}
+
+
+
+// создаем svg дугу
+function createSvgArc(cdm)
+{
+	if(!cdm) { cdm = {}; }
+	
+	var arr = [];
+	
+	var svg = document.querySelector('#svgFrame');
+	
+	for ( var i = 0; i < cdm.count; i++ )
+	{
+		var el  = document.createElementNS(infProject.settings.svg.tag, "path");
+
+		//<path d=\"M$x1,$y1 A$R1,$R1 0 0,0 $x2,$y2\"/>
+		var p1 = new THREE.Vector2(0, 0);
+		var p2 = new THREE.Vector2(0, 0);
+		var r = 0;
+		el.setAttribute("d", 'M'+p1.x+','+p1.y+'A'+r+','+r+' 0 0,0 '+p2.x+','+p2.y);
+		el.setAttribute("stroke-width", "1px");		
+		el.setAttribute("fill", "none");
+		el.setAttribute("stroke", "rgb(255, 162, 23)");
+		
+		if(cdm.dasharray)
+		{
+			el.setAttribute("stroke-dasharray", "20 10");
+		}
+		
+		if(cdm.stroke_width)
+		{
+			el.setAttribute("stroke-width", cdm.stroke_width);
+		}		
+
+		if(cdm.fill)
+		{
+			el.setAttribute("fill", cdm.fill); 
+		}
+		
+		if(cdm.color){ el.setAttribute("stroke", cdm.color); }	
+		
+		el.setAttribute("display", "none");
+		
+		el.userData = {};
+		el.userData.svg = {};
+		el.userData.svg.arc = {};
+		el.userData.svg.arc.param = {};
+		el.userData.svg.arc.param.p1 = p1;
+		el.userData.svg.arc.param.p2 = p2;
+		el.userData.svg.arc.param.r = r;		
+		
+		svg.appendChild(el);
+		
+		infProject.svg.arr[infProject.svg.arr.length] = el;
+		arr[arr.length] = el;
+	}
+	
+	return arr;	
 }
 
 
@@ -244,6 +301,42 @@ function updateSvgPath(cdm)
 	el.userData.svg.path.arrS = arrS;
 
 	el.setAttribute("d", path);			
+}
+
+
+
+
+
+// обновляем svg дугу
+function updateSvgArc(cdm)
+{
+	var el = cdm.el;
+	
+	if(el.getAttribute("display") == 'none') return;
+	
+	
+	if(cdm.param)
+	{
+		el.userData.svg.arc.param = cdm.param;
+	}
+	
+	var p1 = el.userData.svg.arc.param.p1;
+	var p2 = el.userData.svg.arc.param.p2;
+	var r = el.userData.svg.arc.param.r;
+	
+	//camera.updateProjectionMatrix();
+	var tempV = p1.clone().project(camera);
+	var x1 = (tempV.x *  .5 + .5) * canvas.clientWidth;
+	var y1 = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+	
+	var tempV = p2.clone().project(camera);
+	var x2 = (tempV.x *  .5 + .5) * canvas.clientWidth;
+	var y2 = (tempV.y * -.5 + .5) * canvas.clientHeight;	
+
+	var r = Math.abs(x1 - x2);
+
+	el.setAttribute("d", 'M'+x1+','+y1+'A'+r+','+r+' 0 0,0 '+x2+','+y2);		
 }
 
 

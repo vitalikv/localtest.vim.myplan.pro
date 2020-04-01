@@ -499,6 +499,10 @@ function upPosLabels_1(cdm)
 		else if(svg.userData.svg.path)
 		{
 			updateSvgPath({el: svg});
+		}
+		else if(svg.userData.svg.arc)
+		{
+			updateSvgArc({el: svg});
 		}		
 	}	
 }

@@ -110,9 +110,14 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.svg = {};
 	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: '#ffffff', stroke_width: "1px"})[0];
 	
-	var fillColor = (type == 'door') ? '#e0e0e0' : '#ffffff';
-	
+	var fillColor = (type == 'door') ? '#e0e0e0' : '#ffffff';	
 	obj.userData.door.svg.path = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: fillColor, stroke_width: "1px"})[0];
+	
+	if(type == 'door')
+	{
+		obj.userData.door.svg.arc = createSvgArc({count: 1, color: infProject.settings.svg.scaleBox.color})[0];
+	}
+	
 	//obj.userData.door.active = { click: true, hover: true };
 	
 	
@@ -353,6 +358,7 @@ function calcSvgFormWD(cdm)
 	
 	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]}); 
 
+	var dsfds = v[0].clone();
 
 	if(obj.userData.door.svg.path)
 	{
@@ -390,9 +396,15 @@ function calcSvgFormWD(cdm)
 			v[i] = obj.localToWorld( v[i].clone() );
 		}				
 		
-		showElementSvg([obj.userData.door.svg.path]); 
-		
+		showElementSvg([obj.userData.door.svg.path]); 		
 		updateSvgPath({el: obj.userData.door.svg.path, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+	}
+	
+	
+	if(obj.userData.door.svg.arc)
+	{
+		showElementSvg([obj.userData.door.svg.arc]);
+		updateSvgArc({el: obj.userData.door.svg.arc, param: {p2: v[2], p1: dsfds} });
 	}
 }
 
