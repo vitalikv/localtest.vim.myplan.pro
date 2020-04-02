@@ -107,6 +107,7 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.last = { pos : new THREE.Vector3(), rot : new THREE.Vector3(), x : 0, y : 0 };
 	obj.userData.door.topMenu = true;
 	obj.userData.door.lotid = (cdm.lotid)? cdm.lotid : null;
+	obj.userData.door.openId = 0;
 	obj.userData.door.svg = {};
 	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: '#ffffff', stroke_width: "1px"})[0];
 	
@@ -338,32 +339,68 @@ function addWD( cdm )
 }
 
 
+
+// меняем положение wd
+function swSetDW_1(cdm)
+{
+	var obj = cdm.obj;
+	var type = cdm.type;
+	
+	if(!obj.userData.door) return;
+	
+	if(type == 'r-l')
+	{		
+		obj.userData.door.openId = (obj.userData.door.openId == 0) ? 1 : 0;
+	}
+	else if(type == 't-b')
+	{
+		obj.userData.door.openId = (obj.userData.door.openId == 2) ? 3 : 2;
+	}
+	
+	console.log(333, obj.userData.door.openId);
+	calcSvgFormWD({obj: obj});
+	
+	renderCamera();
+}
+
+
+
 //обновляем svg форму wd
 function calcSvgFormWD(cdm)
 {
 	if(camera != cameraTop) return;
 	
 	var obj = cdm.obj;
+	var openId = obj.userData.door.openId;	// положение открытие wd (в какую сторону повернут obj3D)
 	
 	obj.updateMatrixWorld();
-	var v = [];
-	var bound = obj.geometry.boundingBox;
 	
-	v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
-	v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
-	v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
-	v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
-	 
-	showElementSvg([obj.userData.door.svg.el]);
-	
-	updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]}); 
-
-
-	// центр открытия двери 
+	// базовая форма svg
 	{
-		var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+		var v = [];
+		var bound = obj.geometry.boundingBox;
+		
+		v[0] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.max.z) );	
+		v[1] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.max.z) );	
+		v[2] = obj.localToWorld( new THREE.Vector3(bound.min.x, 0, bound.min.z) );	
+		v[3] = obj.localToWorld( new THREE.Vector3(bound.max.x, 0, bound.min.z) );	
+		 
+		showElementSvg([obj.userData.door.svg.el]);	
+		updateSvgPath({el: obj.userData.door.svg.el, arrP: [v[0], v[1], v[3], v[2], v[0]]}); 
 	}
 
+	// центр открытия двери 
+	if(obj.userData.door.svg.arc)
+	{
+		var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+		
+		if(openId == 0 || openId == 1)
+		{
+			var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+		}
+	}
+
+	// svg полотно
 	if(obj.userData.door.svg.path)
 	{
 		var minZ = (bound.min.z < -0.05) ? -0.05 : bound.min.z;
@@ -374,6 +411,7 @@ function calcSvgFormWD(cdm)
 		v[2] = new THREE.Vector3(bound.min.x, 0, minZ);	
 		v[3] = new THREE.Vector3(bound.max.x, 0, minZ); 
 		
+		// поворачиваем полотно
 		if(obj.userData.tag == 'door')
 		{
 			var dist = [];
@@ -382,15 +420,32 @@ function calcSvgFormWD(cdm)
 			dist[2] = bound.max.x - bound.min.x;
 			dist[3] = (maxZ - minZ)/2;
 			
-			var v0 = new THREE.Vector3((bound.max.x - bound.min.x) + bound.min.x, 0, (maxZ - minZ)/2 + minZ);
+			var v0 = new THREE.Vector3((bound.max.x - bound.min.x)/2, 0, (maxZ - minZ)/2 + minZ);
+			var v1 = (maxZ - minZ)/2;
+			var offX = 0;
+			
+			if(openId == 2 || openId == 3)
+			{
+				var v0 = new THREE.Vector3((bound.max.x - bound.min.x)/2, 0, (maxZ - minZ)/2 + minZ);
+				var v1 = -(maxZ - minZ)/2;
+				var offX = bound.min.x * 2;
+			}
+			if(openId == 3)
+			{
+				var offX = 0;
+				var v1 = (maxZ - minZ)/2;
+			}
+			
 			
 			for(var i = 0; i < v.length; i++)
-			{
-				
+			{				
 				var radXZ = Math.atan2(v[i].x - v0.x, v[i].z - v0.z);
-				radXZ += Math.PI/2;
 				
-				v[i].x = Math.sin(radXZ)*dist[i] + v0.x - (maxZ - minZ)/2;
+				if(openId == 0) { radXZ += Math.PI/2; }
+				else if(openId == 1) { radXZ -= Math.PI/2; }
+				else { radXZ += Math.PI/2; }
+				
+				v[i].x = Math.sin(radXZ)*dist[i] + v0.x - v1 + offX;
 				v[i].z = Math.cos(radXZ)*dist[i] + v0.z;
 			}
 		}
@@ -404,11 +459,16 @@ function calcSvgFormWD(cdm)
 		updateSvgPath({el: obj.userData.door.svg.path, arrP: [v[0], v[1], v[3], v[2], v[0]]});
 	}
 	
-	
+	// svg дуга
 	if(obj.userData.door.svg.arc)
 	{
+		var param = {p2: v[2], p1: posOpen};
+		
+		if(openId == 0) { var param = {p2: v[2], p1: posOpen}; }
+		else if(openId == 1) { var param = {p2: posOpen, p1: v[2]}; }
+		
 		showElementSvg([obj.userData.door.svg.arc]);
-		updateSvgArc({el: obj.userData.door.svg.arc, param: {p2: v[2], p1: posOpen} });
+		updateSvgArc({el: obj.userData.door.svg.arc, param: param});
 	}
 }
 

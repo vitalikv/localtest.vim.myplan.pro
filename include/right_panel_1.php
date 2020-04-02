@@ -281,6 +281,25 @@
 						<div class="button1 button_gradient_1" nameId="rp_button_apply">Применить</div>
 					</div>
 					
+					<div class="flex_1" style="margin: 15px auto;">						
+						<div class="button1 button_gradient_1" nameId="sw_dw_1" style="height: 55px;">
+							<svg width="55" height="55" xmlns="http://www.w3.org/2000/svg">
+							 <g>
+							  <path id="svg_25" d="m8.636221,26.014259l18.863752,-24.89781l18.863754,24.89781z" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="#595959"/>
+							  <path transform="rotate(-180, 27.4995, 41.2721)" id="svg_23" d="m8.635712,53.719929l18.863752,-24.89781l18.863752,24.89781z" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="#595959"/>
+							 </g>
+							</svg>	
+						</div>	
+						<div class="button1 button_gradient_1" nameId="sw_dw_2" style="height: 55px;">
+							<svg width="55" height="55" xmlns="http://www.w3.org/2000/svg">
+							 <g>
+							  <path transform="rotate(90, 41.4493, 27.5012)" id="svg_25" d="m22.585522,39.94907l18.86375,-24.89781l18.863754,24.89781z" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="#595959"/>
+							  <path transform="rotate(-90, 13.6147, 27.4983)" id="svg_23" d="m-5.249556,39.948669l18.863752,-24.897808l18.863754,24.897808z" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="1.5" stroke="#000" fill="#595959"/>
+							 </g>
+							</svg>	
+						</div>							
+					</div>					
+					
 					<div>
 						<div class="button1 button_gradient_1" data-action="deleteObj">Удалить</div>
 					</div>

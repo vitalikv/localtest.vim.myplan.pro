@@ -18,7 +18,8 @@ $('[nameId="button_wrap_list_obj"]').mousedown(function () { changeRightMenuUI_1
 $('[nameId="button_wrap_object"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 $('[nameId="button_wrap_plan"]').mousedown(function () { changeRightMenuUI_1({el: this}); });
 
-	
+$('[nameId="sw_dw_1"]').mousedown(function () { swSetDW_1({obj: clickO.last_obj, type: 'r-l'}); }); 
+$('[nameId="sw_dw_2"]').mousedown(function () { swSetDW_1({obj: clickO.last_obj, type: 't-b'}); });	
 
 $('[nameId="obj_rotate_reset"]').mousedown(function () { objRotateReset(); });	
 $('[nameId="button_copy_obj"]').mousedown(function () { copyObj(); });
