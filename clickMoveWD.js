@@ -338,6 +338,8 @@ function inputWidthHeightWD(wd)
 	showRulerWD(wd);	// показываем линейки и контроллеры для окна/двери	
 	showTableWD(wd);	// обновляем меню
 	
+	calcSvgFormWD({obj: wd});
+	
 	renderCamera();
 }
 
@@ -357,7 +359,7 @@ function сhangeSizePosWD( wd, pos, x, y )
 	{
 		v[i].x = v2[i].x * scale.x;
 		v[i].y = v2[i].y * scale.y;
-		//v[i].z *= objPop.scale.z;
+		//v[i].z *= obj3D.scale.z;
 	}		
 
 	wd.geometry.verticesNeedUpdate = true;
@@ -368,7 +370,7 @@ function сhangeSizePosWD( wd, pos, x, y )
 	
 	 
 	// изменяем у ПОП объекта ширину/высоту/центрируем 
-	if(wd.userData.door.objPop)
+	if(wd.userData.door.obj3D)
 	{
 		wd.updateMatrixWorld();
 		wd.geometry.computeBoundingBox();
@@ -376,13 +378,13 @@ function сhangeSizePosWD( wd, pos, x, y )
 		var x = wd.geometry.boundingBox.max.x - wd.geometry.boundingBox.min.x;
 		var y = wd.geometry.boundingBox.max.y - wd.geometry.boundingBox.min.y;		
 		
-		var objPop = wd.userData.door.objPop;
+		var obj3D = wd.userData.door.obj3D;
 		
-		objPop.geometry.computeBoundingBox();		
-		var dX = objPop.geometry.boundingBox.max.x - objPop.geometry.boundingBox.min.x;
-		var dY = objPop.geometry.boundingBox.max.y - objPop.geometry.boundingBox.min.y;				
+		obj3D.geometry.computeBoundingBox();		
+		var dX = obj3D.geometry.boundingBox.max.x - obj3D.geometry.boundingBox.min.x;
+		var dY = obj3D.geometry.boundingBox.max.y - obj3D.geometry.boundingBox.min.y;				
 		
-		objPop.scale.set(x/dX, y/dY, 1);			
+		obj3D.scale.set(x/dX, y/dY, 1);			
 	}	
 }
 

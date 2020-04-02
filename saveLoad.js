@@ -435,7 +435,8 @@ function saveWindows(wall)
 			arr.id = wd.userData.id;							
 			arr.lotid  = wd.userData.door.lotid;				  
 			arr.size = {x: dX, y: dY};									
-			arr.pos = {x: x, y: y};								
+			arr.pos = {x: x, y: y};
+			arr.openId = wd.userData.door.openId;
 			
 			if(wd.userData.tag == 'window') { windows[windows.length] = arr; }
 			else if(wd.userData.tag == 'door') { doors[doors.length] = arr; }			
@@ -621,6 +622,7 @@ async function loadFilePL(arr)
 			wall[i].arrO[i2].pos = new THREE.Vector3(arrO[i2].pos.x, arrO[i2].pos.y, 0);
 			wall[i].arrO[i2].size = new THREE.Vector2(arrO[i2].size.x, arrO[i2].size.y);
 			wall[i].arrO[i2].type = arrO[i2].type;
+			wall[i].arrO[i2].openId = (arrO[i2].openId !== undefined) ? arrO[i2].openId : 0;
 		} 	
 	}
 		
@@ -702,7 +704,7 @@ async function loadFilePL(arr)
 			
 			var intP = obj.localToWorld( wall[i].arrO[i2].pos.clone() );  						
 
-			var inf = { status : 'load', id : wall[i].arrO[i2].id, pos : intP, wall : obj, type : wall[i].arrO[i2].type };	 		
+			var inf = { status: 'load', id: wall[i].arrO[i2].id, pos: intP, wall: obj, type: wall[i].arrO[i2].type, openId: wall[i].arrO[i2].openId };	 		
 			if(wall[i].arrO[i2].size) { inf.size = wall[i].arrO[i2].size; }				
 						
 			createEmptyFormWD_1(inf);

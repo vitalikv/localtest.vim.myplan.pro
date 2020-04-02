@@ -107,7 +107,8 @@ function createEmptyFormWD_1(cdm)
 	obj.userData.door.last = { pos : new THREE.Vector3(), rot : new THREE.Vector3(), x : 0, y : 0 };
 	obj.userData.door.topMenu = true;
 	obj.userData.door.lotid = (cdm.lotid)? cdm.lotid : null;
-	obj.userData.door.openId = 0;
+	obj.userData.door.obj3D = null;
+	obj.userData.door.openId = (cdm.openId !== undefined) ? cdm.openId : 0;
 	obj.userData.door.svg = {};
 	obj.userData.door.svg.el = createSvgPath({count: 1, color: infProject.settings.svg.scaleBox.color, fill: '#ffffff', stroke_width: "1px"})[0];
 	
@@ -340,7 +341,7 @@ function addWD( cdm )
 
 
 
-// меняем положение wd
+// переключаем положение(вращаем) wd 
 function swSetDW_1(cdm)
 {
 	var obj = cdm.obj;
@@ -350,18 +351,33 @@ function swSetDW_1(cdm)
 	
 	if(type == 'r-l')
 	{		
-		obj.userData.door.openId = (obj.userData.door.openId == 0) ? 1 : 0;
+		if(obj.userData.door.openId == 0 || obj.userData.door.openId == 1)
+		{
+			obj.userData.door.openId = (obj.userData.door.openId == 0) ? 1 : 0;
+		}
+		else if(obj.userData.door.openId == 2 || obj.userData.door.openId == 3)
+		{
+			obj.userData.door.openId = (obj.userData.door.openId == 3) ? 2 : 3;
+		}		
 	}
 	else if(type == 't-b')
 	{
-		obj.userData.door.openId = (obj.userData.door.openId == 2) ? 3 : 2;
+		if(obj.userData.door.openId == 2 || obj.userData.door.openId == 3)
+		{
+			obj.userData.door.openId = (obj.userData.door.openId == 2) ? 0 : 1;
+		}
+		else if(obj.userData.door.openId == 0 || obj.userData.door.openId == 1)
+		{
+			obj.userData.door.openId = (obj.userData.door.openId == 0) ? 2 : 3;
+		}		
 	}
 	
-	console.log(333, obj.userData.door.openId);
+	console.log(333, type, obj.userData.door.openId);
 	calcSvgFormWD({obj: obj});
 	
 	renderCamera();
 }
+
 
 
 
@@ -392,11 +408,11 @@ function calcSvgFormWD(cdm)
 	// центр открытия двери 
 	if(obj.userData.door.svg.arc)
 	{
-		var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+		var posArcStart = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
 		
-		if(openId == 0 || openId == 1)
+		if(openId == 2 || openId == 3)
 		{
-			var posOpen = new THREE.Vector3().subVectors( v[0], v[2] ).divideScalar( 2 ).add(v[2]);
+			var posArcStart = new THREE.Vector3().subVectors( v[1], v[3] ).divideScalar( 2 ).add(v[3]);
 		}
 	}
 
@@ -430,11 +446,6 @@ function calcSvgFormWD(cdm)
 				var v1 = -(maxZ - minZ)/2;
 				var offX = bound.min.x * 2;
 			}
-			if(openId == 3)
-			{
-				var offX = 0;
-				var v1 = (maxZ - minZ)/2;
-			}
 			
 			
 			for(var i = 0; i < v.length; i++)
@@ -443,7 +454,8 @@ function calcSvgFormWD(cdm)
 				
 				if(openId == 0) { radXZ += Math.PI/2; }
 				else if(openId == 1) { radXZ -= Math.PI/2; }
-				else { radXZ += Math.PI/2; }
+				else if(openId == 2) { radXZ += Math.PI/2; }
+				else if(openId == 3) { radXZ -= Math.PI/2; }
 				
 				v[i].x = Math.sin(radXZ)*dist[i] + v0.x - v1 + offX;
 				v[i].z = Math.cos(radXZ)*dist[i] + v0.z;
@@ -457,55 +469,101 @@ function calcSvgFormWD(cdm)
 		
 		showElementSvg([obj.userData.door.svg.path]); 		
 		updateSvgPath({el: obj.userData.door.svg.path, arrP: [v[0], v[1], v[3], v[2], v[0]]});
+		
+		
+		var posArcEnd = v[2].clone();
+		
+		if(openId == 1 || openId == 2)
+		{
+			var posArcEnd = v[0].clone();
+		}
 	}
 	
 	// svg дуга
 	if(obj.userData.door.svg.arc)
 	{
-		var param = {p2: v[2], p1: posOpen};
+		var param = {p2: posArcEnd, p1: posArcStart};
 		
-		if(openId == 0) { var param = {p2: v[2], p1: posOpen}; }
-		else if(openId == 1) { var param = {p2: posOpen, p1: v[2]}; }
+		if(openId == 0 || openId == 3) { var param = {p2: posArcEnd, p1: posArcStart}; }
+		else if(openId == 1 || openId == 2) { var param = {p2: posArcStart, p1: posArcEnd}; }
 		
 		showElementSvg([obj.userData.door.svg.arc]);
 		updateSvgArc({el: obj.userData.door.svg.arc, param: param});
 	}
+	
+	setPosWD_Obj3D({wd: obj});
 }
 
 
 
-// вставляем в wd 3D объект окна/двери
+// устанавливаем (поварачиваем) 3D объект wd 
+function setPosWD_Obj3D(cdm)
+{
+	var wd = cdm.wd;		
+	var obj3D = wd.userData.door.obj3D;
+	
+	if(!obj3D) return;
+		
+	//wd.geometry.computeBoundingBox();	
+	var openId = wd.userData.door.openId;	
+	
+	//if(openId == 0 || openId == 1) { obj3D.scale.x = Math.abs(obj3D.scale.x); }	
+	//else { obj3D.scale.x = -Math.abs(obj3D.scale.x); }
+
+	if(openId == 0)
+	{
+		obj3D.scale.set(Math.abs(obj3D.scale.x), obj3D.scale.y, Math.abs(obj3D.scale.z)); 
+	}
+	else if(openId == 1) 
+	{ 
+		obj3D.scale.set(Math.abs(obj3D.scale.x), obj3D.scale.y, -Math.abs(obj3D.scale.z)); 
+	}
+	else if(openId == 2) 
+	{ 
+		obj3D.scale.set(-Math.abs(obj3D.scale.x), obj3D.scale.y, Math.abs(obj3D.scale.z)); 
+	}
+	else if(openId == 3) 
+	{ 
+		obj3D.scale.set(-Math.abs(obj3D.scale.x), obj3D.scale.y, -Math.abs(obj3D.scale.z)); 
+	}		
+	 
+	console.log(openId);	
+}
+
+
+
+// вставляем в wd(форму) 3D объект окна/двери
 function setObjInWD(inf, cdm)
 {
 	var wd = cdm.wd;
-	var objPop = inf.obj;
+	var obj3D = inf.obj;
 	
-	objPop.material.visible = false;
+	obj3D.material.visible = false;
 	
-	wd.add( objPop );
+	wd.add( obj3D );
 	
 	// CubeCamera
 	checkReflectionMaterial({obj: wd});	
 	
-	wd.userData.door.objPop = objPop;
+	wd.userData.door.obj3D = obj3D;
 	
 	wd.updateMatrixWorld();
 	var centerWD = wd.geometry.boundingSphere.center.clone();	
 
-	objPop.updateMatrixWorld();
-	objPop.geometry.computeBoundingBox();
-	objPop.geometry.computeBoundingSphere();
+	obj3D.updateMatrixWorld();
+	obj3D.geometry.computeBoundingBox();
+	obj3D.geometry.computeBoundingSphere();
 	
-	var center = objPop.geometry.boundingSphere.center;	
+	var center = obj3D.geometry.boundingSphere.center;	
 	
-	objPop.position.set(0,0,0);
-	objPop.rotation.set(0,0,0);
-	//objPop.position.set(center.x/objPop.scale.x, center.y/objPop.scale.y, center.z/objPop.scale.z);
-	//objPop.position.copy(centerWD);
+	obj3D.position.set(0,0,0);
+	obj3D.rotation.set(0,0,0);
+	//obj3D.position.set(center.x/objPop.scale.x, center.y/objPop.scale.y, center.z/objPop.scale.z);
+	//obj3D.position.copy(centerWD);
 	
 	if(camera == cameraTop)
 	{
-		objPop.visible = false;
+		obj3D.visible = false;
 	}
 
 	// изменяем у ПОП объекта ширину/высоту/центрируем 
@@ -517,12 +575,14 @@ function setObjInWD(inf, cdm)
 		var x = wd.geometry.boundingBox.max.x - wd.geometry.boundingBox.min.x;
 		var y = wd.geometry.boundingBox.max.y - wd.geometry.boundingBox.min.y;		
 		
-		objPop.geometry.computeBoundingBox();		
-		var dX = objPop.geometry.boundingBox.max.x - objPop.geometry.boundingBox.min.x;
-		var dY = objPop.geometry.boundingBox.max.y - objPop.geometry.boundingBox.min.y;				
+		obj3D.geometry.computeBoundingBox();		
+		var dX = obj3D.geometry.boundingBox.max.x - obj3D.geometry.boundingBox.min.x;
+		var dY = obj3D.geometry.boundingBox.max.y - obj3D.geometry.boundingBox.min.y;				
 		
-		objPop.scale.set(x/dX, y/dY, 1);			
+		obj3D.scale.set(x/dX, y/dY, 1);			
 	}
+	
+	setPosWD_Obj3D({wd: wd});
 }
 
 
