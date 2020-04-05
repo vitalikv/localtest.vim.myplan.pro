@@ -6,7 +6,7 @@ var newCameraPosition = null;
 function updateKeyDown() 
 {
 	//if(docReady) if(infProject.activeInput) return;
-	
+	if(infProject.settings.blockKeyCode) return;
 	var flag = false;
 	
 	var keys = clickO.keys;  

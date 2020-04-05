@@ -149,6 +149,7 @@ infProject.settings.active = { pg: 'pivot' };
 infProject.settings.door = { width: 1, height: 2.2 };
 infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
 infProject.settings.room = { type: [] };
+infProject.settings.blockKeyCode = false;
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
 infProject.scene.block = { key : { scroll : false } };		// блокировка действий/клавишь
@@ -1348,6 +1349,7 @@ function crtW( cdm )
 
 
 
+// показываем/скрываем html размеры стен
 function showHideLabelSizeWall(cdm) 
 {
 	if(!cdm) { cdm = {}; }
@@ -1412,6 +1414,17 @@ function showHideLabelSizeWall(cdm)
 	}
 }
 
+
+
+function blockKeyCode(cdm)
+{	
+	if(!cdm) { cdm = {}; }
+	
+	if(cdm.block !== undefined)
+	{
+		infProject.settings.blockKeyCode = cdm.block;
+	}	
+}
 
 
 function getMousePosition( event )
@@ -1853,6 +1866,7 @@ containerF.addEventListener('mousewheel', onDocumentMouseWheel, false);
 
 document.addEventListener("keydown", function (e) 
 { 
+	if(infProject.settings.blockKeyCode) return;
 	if(clickO.keys[e.keyCode]) return;
 	
 	if(infProject.activeInput) 
@@ -1909,14 +1923,17 @@ document.addEventListener("keydown", function (e)
 
 document.addEventListener("keydown", function (e) 
 { 
+	if(infProject.settings.blockKeyCode) return;
 	clickO.keys[e.keyCode] = true;
 	if(e.keyCode == 61) { zoomLoop = 'zoomIn'; }
 	if(e.keyCode == 173) { zoomLoop = 'zoomOut'; }
 	if(e.keyCode == 187) { zoomLoop = 'zoomIn'; }
 	if(e.keyCode == 189) { zoomLoop = 'zoomOut'; }	
 });
+
 document.addEventListener("keyup", function (e) 
 { 
+	if(infProject.settings.blockKeyCode) return;
 	clickO.keys[e.keyCode] = false;
 	if(e.keyCode == 173) { zoomLoop = ''; }
 	if(e.keyCode == 61) { zoomLoop = ''; }
