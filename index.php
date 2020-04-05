@@ -1,5 +1,5 @@
 <? require_once("include/bd.php");  ?>
-<?php $vrs = '=27' ?>
+<?php $vrs = '=28' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,9 +90,10 @@
 	</style>	
 
 	<script>
-		function getLotIdObject3D(id)
+		function getLotIdObject3D(object)
 		{
-			console.log(id)
+			console.log(object.lotid);
+			console.log(object.size);
 		}
 	</script>
 	

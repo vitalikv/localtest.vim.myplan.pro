@@ -1347,6 +1347,73 @@ function crtW( cdm )
 }
 
 
+
+function showHideLabelSizeWall(cdm) 
+{
+	if(!cdm) { cdm = {}; }
+	
+	if(cdm.switch)
+	{
+		infProject.settings.html.fonts.wall.show = !infProject.settings.html.fonts.wall.show;		
+	}
+	else if(cdm.show)
+	{
+		infProject.settings.html.fonts.wall.show = true;
+	}
+	else if(cdm.hide)
+	{
+		infProject.settings.html.fonts.wall.show = false;
+	}
+	else 
+	{
+		return;
+	}
+	
+	
+	var wall = infProject.scene.array.wall;
+	
+	// удаляем html размеры стен
+	for ( var i = 0; i < wall.length; i++ )
+	{ 		
+		if(wall[i].userData.wall.html.label)
+		{
+			for ( var i2 = 0; i2 < wall[i].userData.wall.html.label.length; i2++ )
+			{
+				//infProject.html.wd[i].style.display = 'none';
+				deleteValueFromArrya({arr: infProject.html.label, o: wall[i].userData.wall.html.label[i2]});
+				wall[i].userData.wall.html.label[i2].remove();
+			}
+		}					 
+	}
+
+
+	// создаем html размеры стен
+	if(infProject.settings.html.fonts.wall.show)
+	{
+		
+		for ( var i = 0; i < wall.length; i++ )
+		{ 		
+			wall[i].userData.wall.html.label = createHtmlLabelWall({count: 2, tag: 'elem_wall_size'});				
+		}
+		
+		var label = [];
+		for ( var i = 0; i < wall.length; i++ )
+		{ 		
+			if(!wall[i].userData.wall.html.label) continue;
+			
+			for ( var i2 = 0; i2 <  wall[i].userData.wall.html.label.length; i2++ )
+			{
+				label[label.length] = wall[i].userData.wall.html.label[i2];  
+			}					 
+		}
+		 
+		showElementHtml(label);
+		upLabelPlan_1(wall, true);
+	}
+}
+
+
+
 function getMousePosition( event )
 {
 	var x = ( ( event.clientX - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
@@ -1833,6 +1900,7 @@ document.addEventListener("keydown", function (e)
 		}
 	}  
 	
+	if(e.keyCode == 56) { showHideLabelSizeWall({switch: true}); }
 	if(e.keyCode == 66) { switchCamera3D(); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
 	if(e.keyCode == 89 && !e.ctrlKey) { saveFile({txt: true}); } 			// y

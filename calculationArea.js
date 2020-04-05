@@ -44,10 +44,6 @@ function calculationSpaceWall( wall, index )
 // считаем и показываем длину стены
 function upLabelPlan_1(arrWall, Zoom)
 {
-	
-	if(Zoom){}
-	else if(typeof Zoom !== "undefined") { Zoom = false; }
-	
 	for ( var i = 0; i < arrWall.length; i ++ )
 	{
 		var wall = arrWall[i];		
@@ -57,20 +53,15 @@ function upLabelPlan_1(arrWall, Zoom)
 		
 		if(wall.userData.wall.html.label)
 		{
-			var p1 = wall.userData.wall.p[0].position;
-			var p2 = wall.userData.wall.p[1].position;
+			var d1 = Math.abs( v[6].x - v[0].x );		
+			var d2 = Math.abs( v[10].x - v[4].x );
 
-			
-			if(!Zoom)
-			{
-				var v = wall.geometry.vertices;
-				var d1 = Math.abs( v[6].x - v[0].x );		
-				var d2 = Math.abs( v[10].x - v[4].x );
-
-				wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100;
-				wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100;			
-			}		
+			wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100;
+			wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100;			
+	
 			 
+			var p1 = wall.userData.wall.p[0].position;
+			var p2 = wall.userData.wall.p[1].position;			 
 			var dir = new THREE.Vector3().subVectors( p2, p1 );
 			var rotY = Math.atan2(dir.x, dir.z);
 			var pos = dir.divideScalar ( 2 ).add( p1 );
@@ -82,42 +73,29 @@ function upLabelPlan_1(arrWall, Zoom)
 			var x1 = p2.z - p1.z;
 			var z1 = p1.x - p2.x;		 		 
 			 
-			if(infProject.settings.wall.label == 'outside' || infProject.settings.wall.label == 'inside')
-			{			
-				var side = (infProject.settings.wall.label == 'outside') ? 1 : 2;
-				
-				if(wall.userData.wall.room.side2[side])
-				{ 
-					var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z );
-				}
-				else
-				{
-					var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z );
-				}						
-			}
-			else
-			{
-				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - 0.08 );
-				var pos1 = new THREE.Vector3().addVectors( pos, dir );
+			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[0].z - 0.08 );
+			var pos1 = new THREE.Vector3().addVectors( pos, dir );
 
-				var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + 0.08 );
-				var pos2 = new THREE.Vector3().addVectors( pos, dir );
-			 
-				wall.userData.wall.html.label[0].userData.elem.pos = pos1;
-				wall.userData.wall.html.label[1].userData.elem.pos = pos2;
-				
-				wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
-				wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
-				
-				upPosLabels_2({elem: wall.userData.wall.html.label[0]});
-				upPosLabels_2({elem: wall.userData.wall.html.label[1]});
-				//console.log(wall.userData.wall.html.label[0], wall.userData.wall.html.label[0].style.transform);  
-			}		 
+			var dir = new THREE.Vector3().addScaledVector( new THREE.Vector3(x1, 0, z1).normalize(), -v[4].z + 0.08 );
+			var pos2 = new THREE.Vector3().addVectors( pos, dir );
+		 
+			wall.userData.wall.html.label[0].userData.elem.pos = pos1;
+			wall.userData.wall.html.label[1].userData.elem.pos = pos2;
+			
+			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
+			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
+			
+			upPosLabels_2({elem: wall.userData.wall.html.label[0]});
+			upPosLabels_2({elem: wall.userData.wall.html.label[1]});
+			//console.log(wall.userData.wall.html.label[0], wall.userData.wall.html.label[0].style.transform);  
+		 
 		}
 
 		if(!Zoom)	// если это не zoom, то обновляем значения
 		{
-			var v = wall.geometry.vertices; wall.geometry.verticesNeedUpdate = true;
+			var v = wall.geometry.vertices; 
+			wall.geometry.verticesNeedUpdate = true;
+			
 			for ( var i2 = 0; i2 < v.length; i2++ ) { wall.userData.wall.v[i2] = v[i2].clone(); }	// обновляем vertices		
 		}
 	}
@@ -136,8 +114,8 @@ function getCalcWall(cdm)
 
 	if(wall.userData.wall.html.label)
 	{
-		wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100 + ' м';
-		wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100 + ' м';
+		wall.userData.wall.html.label[0].textContent = Math.round(d1 * 100) / 100;
+		wall.userData.wall.html.label[1].textContent = Math.round(d2 * 100) / 100;
 					
 		upPosLabels_2({elem: wall.userData.wall.html.label[0]});
 		upPosLabels_2({elem: wall.userData.wall.html.label[1]});
