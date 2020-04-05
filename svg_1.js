@@ -26,16 +26,23 @@ function createSvgLine(cdm)
 		line.setAttribute("x2", x2);
 		line.setAttribute("y2", y2);
 		line.setAttribute("stroke-width", "2px");
+		line.setAttribute("stroke", "rgb(255, 162, 23)");
+		line.setAttribute("display", "none");
 		
 		if(cdm.dasharray)
 		{
 			line.setAttribute("stroke-dasharray", "20 10");
 		}		
 		
-		if(cdm.color){ line.setAttribute("stroke", cdm.color); }
-		else { line.setAttribute("stroke", "rgb(255, 162, 23)"); }	
+		if(cdm.color)
+		{ 
+			line.setAttribute("stroke", cdm.color); 
+		}	
 		
-		line.setAttribute("display", "none");
+		if(cdm.display)
+		{
+			line.setAttribute("display", cdm.display);
+		}
 		
 		line.userData = {};
 		line.userData.svg = {};
@@ -113,6 +120,20 @@ function createSvgPath(cdm)
 		el.setAttribute("stroke-width", "2px");		
 		el.setAttribute("fill", "none");
 		el.setAttribute("stroke", "rgb(255, 162, 23)");
+		el.setAttribute("display", "none");
+		
+		
+		if(cdm.arrS)
+		{
+			var path = 'M';
+			
+			for ( var i2 = 0; i2 < cdm.arrS.length; i2++ )
+			{
+				path += cdm.arrS[i2].x+' '+cdm.arrS[i2].y+','; 
+			}
+
+			el.setAttribute("d", path);
+		}
 		
 		if(cdm.dasharray)
 		{
@@ -129,15 +150,21 @@ function createSvgPath(cdm)
 			el.setAttribute("fill", cdm.fill); 
 		}
 		
-		if(cdm.color){ el.setAttribute("stroke", cdm.color); }	
+		if(cdm.color)
+		{ 
+			el.setAttribute("stroke", cdm.color); 
+		}	
 		
-		el.setAttribute("display", "none");
+		if(cdm.display)
+		{
+			el.setAttribute("display", cdm.display);
+		}		
 		
 		el.userData = {};
 		el.userData.svg = {};
 		el.userData.svg.path = {};
 		el.userData.svg.path.arrP = [];		
-		el.userData.svg.path.arrS = [];
+		el.userData.svg.path.arrS = (cdm.arrS) ? cdm.arrS : [];
 		
 		svg.appendChild(el);
 		
@@ -210,7 +237,7 @@ function createSvgArc(cdm)
 
 
 
-// обновляем положение svg на экране
+// обновляем положение svg на экране (конвертируем из 3D в screen)
 function updateSvgLine(cdm)
 {
 	var el = cdm.el;	
@@ -245,7 +272,7 @@ function updateSvgLine(cdm)
 
 
 
-// обновляем положение svg на экране
+// обновляем положение svg на экране (конвертируем из 3D в screen)	
 function updateSvgCircle(cdm)
 {
 	var el = cdm.el;
@@ -269,7 +296,7 @@ function updateSvgCircle(cdm)
 
 
 
-// обновляем положение svg на экране
+// обновляем положение svg на экране (конвертируем из 3D в screen)
 function updateSvgPath(cdm)
 {
 	var el = cdm.el;
@@ -307,7 +334,7 @@ function updateSvgPath(cdm)
 
 
 
-// обновляем svg дугу
+// обновляем svg дугу (конвертируем из 3D в screen)
 function updateSvgArc(cdm)
 {
 	var el = cdm.el;
@@ -341,9 +368,9 @@ function updateSvgArc(cdm)
 
 
 
+ 
 
-
-// обновляем значение svg в 3D сцене
+// конвертируем позицию svg из screen в 3D сцену
 function upSvgLinePosScene(cdm)
 {
 	var el = cdm.el;
@@ -365,6 +392,34 @@ function upSvgLinePosScene(cdm)
 }
 
 
+
+// конвертируем позицию svg из screen в 3D сцену
+function upSvgPathPosScene(cdm)
+{
+	var el = cdm.el;
+	
+	for ( var i = 0; i < el.length; i++ )
+	{
+		var arrP = [];
+		
+		for ( var i2 = 0; i2 < el[i].userData.svg.path.arrS.length; i2++ )
+		{
+			var arrS = el[i].userData.svg.path.arrS[i2];
+			
+			var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
+			var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
+			var A = new THREE.Vector3(x, y, -1);
+			A.unproject(camera);
+
+			arrP[arrP.length] = A;
+		}	
+				
+		//arrP[arrP.length] = arrP[0];
+		
+		el[i].userData.svg.path.arrP = arrP;	 
+	}
+
+}
 
 
 

@@ -207,10 +207,7 @@ infProject.tools.selectionBox = { msdown : false, coords : new THREE.Vector2(), 
 	
 
 console.log(infProject); 
-
-
  
-
 
 
 var planeMath = createPlaneMath();
@@ -373,8 +370,21 @@ if(1==2)
 
 
 
+if(1==2)
+{
+	var svgline = createSvgLine({count: 1, x1: 400, y1: 700, x2: 800, y2: 700, display: "block"})[0]; 
+	upSvgLinePosScene({el: [svgline]});
+	updateSvgLine({el: svgline});
+
+	var svgline2 = createSvgPath({count: 1, arrS: [new THREE.Vector2(420, 710), new THREE.Vector2(400, 700), new THREE.Vector2(420, 690)], stroke_width: "2px", display: "block"})[0];
+	upSvgPathPosScene({el: [svgline2]});  
+
+	console.log(55555, svgline);
+	console.log(55555, svgline2); 
+}
 
 
+// создаем круг (объект), для обозначения куда смотрит камера в 3D режиме
 function createCenterCamObj()
 {
 	var n = 0;
@@ -1914,7 +1924,7 @@ document.addEventListener("keydown", function (e)
 		}
 	}  
 	
-	if(e.keyCode == 56) { showHideLabelSizeWall({switch: true}); }
+	//if(e.keyCode == 56) { showHideLabelSizeWall({switch: true}); }
 	if(e.keyCode == 66) { switchCamera3D(); } 	// b
 	//if(e.keyCode == 86) { switchLight({switch: true}); } 	// v
 	if(e.keyCode == 89 && !e.ctrlKey) { saveFile({txt: true}); } 			// y

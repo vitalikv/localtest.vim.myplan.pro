@@ -185,8 +185,6 @@ function updateShapeFloor(arrRoom)
 
 		geometry.dispose();
 	}
-	
-	//getSkeleton_1(arrRoom);
 }
 
 

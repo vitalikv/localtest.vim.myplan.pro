@@ -715,7 +715,7 @@ async function loadFilePL(arr)
 	// устанавливаем окна/двери
 	
 
-	// получаем все текстуры в один массив и отправляем на утсановку
+	// получаем все текстуры в один массив и отправляем на установку
 	{
 		var arrTexture = [];
 		for ( var i = 0; i < walls.length; i++ )
@@ -735,19 +735,12 @@ async function loadFilePL(arr)
 		loadTextureInBase({arr: arrTexture});
 	}
 	
-	
+	  
 	assignListRoomTypesApi({arr: rooms});	// получаем типы помещений, добавляем в меню и назначаем всем построеннным комнатам тип помещения
 	
 	loadObjInBase({furn: furn});
-
 	
-	readyProject();
-	cameraZoomTop( camera.zoom );
-	centerCamera2D();
-
-	renderCamera();
-	
-	//getSkeleton_1(room); 
+	readyProject(); 
 }
 
 
@@ -892,7 +885,9 @@ function readyProject(cdm)
 	console.log('READY', countId);
 	
 	changeCamera(cameraTop);
-	centerCamera2D();	
+	centerCamera2D();
+	cameraZoomTop( camera.zoom );
+	renderCamera();
 }
 
 

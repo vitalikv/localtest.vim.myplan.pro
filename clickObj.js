@@ -198,7 +198,7 @@ function clickMouseUpObject(obj)
 					
 					for ( var i = 0; i < box2.userData.svg.path.arrS.length; i++ )
 					{
-						var arrS = box1.userData.svg.path.arrS[i];
+						var arrS = box2.userData.svg.path.arrS[i];
 						
 						var x = ( ( arrS.x - containerF.offsetLeft ) / containerF.clientWidth ) * 2 - 1;
 						var y = - ( ( arrS.y - containerF.offsetTop ) / containerF.clientHeight ) * 2 + 1;	
