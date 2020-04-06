@@ -251,7 +251,7 @@ function showRulerWD_2D(wd)
 		line[i].position.copy(pos).add(arrP[i].offset);
 		line[i].rotation.copy(wall.rotation);		
 					
-		label_2[i].textContent = Math.round(d * 100) / 100 + ' м';
+		label_2[i].textContent = Math.round(d * 100) / 100;
 		label_2[i].userData.elem.pos = pos.clone().add(arrP[i].offset.clone().multiplyScalar( 2 ));		
 		label_2[i].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-ang2)+'deg)';
 		label_2[i].style.display = 'block';

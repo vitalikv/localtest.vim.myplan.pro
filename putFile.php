@@ -109,6 +109,14 @@ for ($i = 0; $i < count($arrF); $i++)
 	{
 		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
 	}
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'showHideLabelSizeWall')) 
+	{
+		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
+	}
+	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'blockKeyCode')) 
+	{
+		echo "Пропускаем <br>". $arrF[$i]."<br><br>";
+	}	
 	else if (preg_match('#\b'.$arrF[$i].'\b#Us', 'switchCamera3D')) 
 	{
 		echo "Вхождение найдено <br>". $arrF[$i]."<br><br>";		

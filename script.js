@@ -1425,7 +1425,7 @@ function showHideLabelSizeWall(cdm)
 }
 
 
-
+// блокируем/разблокируем клавиатуру 
 function blockKeyCode(cdm)
 {	
 	if(!cdm) { cdm = {}; }

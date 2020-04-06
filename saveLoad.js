@@ -858,8 +858,7 @@ function loadObjFromBase(cdm)
 			
 			if(infProject.project.load.furn.length == infProject.project.file.object.length)
 			{ 
-				readyProject();
-				$('[nameId="menu_loader_slider_UI"]').hide();
+				readyProject();				
 			}
 		}
 	}	
@@ -883,6 +882,9 @@ function readyProject(cdm)
 	// восстанавливаем countId		
 	
 	console.log('READY', countId);
+	
+	if(infProject.project.file.object.length == 0) { $('[nameId="menu_loader_slider_UI"]').hide(); }
+	else if(infProject.project.load.furn.length == infProject.project.file.object.length) { $('[nameId="menu_loader_slider_UI"]').hide(); }
 	
 	changeCamera(cameraTop);
 	centerCamera2D();
