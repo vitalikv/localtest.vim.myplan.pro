@@ -126,7 +126,7 @@ function clickRayHit(event)
 { 
 	var rayhit = null;	
 				
-	
+	return null;
 	if(infProject.tools.pivot.visible)
 	{
 		var ray = rayIntersect( event, infProject.tools.pivot.children, 'arr' );

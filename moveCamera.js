@@ -37,7 +37,7 @@ function updateKeyDown()
 	}
 	else if ( camera == camera3D ) 
 	{
-		var kof = (camera3D.userData.camera.type == 'fly') ? 0.1 : 0.03;
+		var kof = (camera3D.userData.camera.type == 'fly') ? 0.1 : 0.1;
 		
 		if ( keys[ 87 ] || keys[ 38 ] ) 
 		{
