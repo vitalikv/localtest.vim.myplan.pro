@@ -36,6 +36,7 @@ svg_1.js
 html_1.js
 selectionBox.js
 undoRedo.js
+getScreenshot.js
 ';
 
 $arrF = array();

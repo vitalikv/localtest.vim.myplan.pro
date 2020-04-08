@@ -123,6 +123,7 @@
 	<script src="<?=$path?>svg_1.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>html_1.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>selectionBox.js?<?=$vrs?>"></script>
+	<script src="<?=$path?>getScreenshot.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>undoRedo.js?<?=$vrs?>"></script>
 	
 	<script src="<?=$path?>hideWall.js?<?=$vrs?>"></script>
