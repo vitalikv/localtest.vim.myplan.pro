@@ -1912,7 +1912,6 @@ document.addEventListener("keydown", function (e)
 	
 	if(clickO.keys[18] && e.keyCode == 90) 	// alt + z
 	{ 
-		//exportToObj();
 		exportToGLB();
 		return;
 	}	
@@ -2121,60 +2120,6 @@ $(document).ready(function ()
 });
 
 
-
-
-
-function exportToObj() 
-{
-	console.log(111);
-
-	var group = new THREE.Group();
-	var wall = infProject.scene.array.wall;
-	var window = infProject.scene.array.window;
-	var door = infProject.scene.array.door;
-	var obj = infProject.scene.array.obj;
-	var floor = infProject.scene.array.floor;
-	
-	
-	for ( var i = 0; i < wall.length; i++ )
-	{ 		
-		group.add(wall[i]); 
-	}		
-	
-	for ( var i = 0; i < window.length; i++ )
-	{ 
-		group.add(window[i].children[0]);
-	}
-	
-	for ( var i = 0; i < door.length; i++ )
-	{ 
-		group.add(door[i].children[0]);
-	}		
-	
-	for ( var i = 0; i < floor.length; i++ )
-	{		
-		group.add(floor[i]);
-	}
-	
-	for ( var i = 0; i < obj.length; i++ )
-	{ 
-		group.add(obj[i]);
-	}	
-	
-	console.log(group);
-	
-	var exporter = new THREE.OBJExporter();
-	var result = exporter.parse( group );	
-	
-	var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(result);	
-	
-	var link = document.createElement('a');
-	document.body.appendChild(link);
-	link.href = csvData;
-	link.target = '_blank';
-	link.download = 'file.obj';
-	link.click();
-}
 
 
 function exportToGLB()
