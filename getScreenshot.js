@@ -5,7 +5,8 @@
 // screenshot
 function saveAsImage() 
 { 
-
+createImage();
+return;
 
 	try 
 	{	
@@ -114,20 +115,37 @@ function convertImgToBase64(src, callback)
 
 function createImage(dataURL) 
 {
-    var canvas = document.createElement("canvas");
-    canvas.width = 900;
-    canvas.height = 900;
-	
-    var context = canvas.getContext('2d');
-    var croppedImage = new Image();
 
-    croppedImage.onload = function() 
+	var svg = document.querySelector('#svgFrame');
+	svg.setAttribute('width', svg.clientWidth);
+	svg.setAttribute('height', svg.clientHeight);
+	var svgString = new XMLSerializer().serializeToString(svg);
+
+	console.log(svgString);
+
+	var canvas = document.createElement("canvas");
+	canvas.width = svg.clientWidth;
+	canvas.height = svg.clientHeight;
+	var ctx = canvas.getContext("2d");
+	var DOMURL = self.URL || self.webkitURL || self;
+	var img = new Image();
+	var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+	var url = DOMURL.createObjectURL(svg);
+
+	img.onload = function() 
 	{
-        context.drawImage(croppedImage, 10, 23, 300, 300, 0, 0, 500, 500);
+		ctx.drawImage(img, 0, 0);
+		
+		var strMime = "image/png";
+		var imgData = canvas.toDataURL(strMime);	
+		console.log(imgData);
 
-        console.log(canvas.toDataURL());
-    };
-    //croppedImage.src = dataURL; 
+		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");	
+
+		//DOMURL.revokeObjectURL(png);
+	};
+	img.src = url;	
+
 }
 
 
