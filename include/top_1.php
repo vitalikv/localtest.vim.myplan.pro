@@ -26,7 +26,9 @@
 				+
 			</div>	
 		</div>
-		
+		<div class="button1-wrap-1">
+			<div nameId='screenshot' class="button1 button_gradient_1"><img src="img/screenshot.png"></div>
+		</div>		
 	</div> 
 	
 	<div class="tp_right_1">

@@ -30,7 +30,7 @@ $('[data-action="wall"]').mousedown(function () { clickInterface({button:'point_
 $('[data-action="create_wd_2"]').mousedown(function () { clickInterface({button:'create_wd_2'}); });
 $('[data-action="create_wd_3"]').mousedown(function () { clickInterface({button:'create_wd_3'}); });
 $('[add_lotid]').mousedown(function () { clickInterface({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
-$('[data-action="screenshot"]').mousedown(function () { saveAsImage(); return false; }); 				
+$('[nameId="screenshot"]').mousedown(function () { saveAsImage(); }); 				
 
 
 $('[nameId="zoom_camera_butt_m"]').mousedown(function () { zoomLoop = 'zoomOut'; });

@@ -1,5 +1,5 @@
 <? require_once("include/bd.php");  ?>
-<?php $vrs = '=28' ?>
+<?php $vrs = '=29' ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,9 +42,11 @@
 	<script src="<?=$path?>js/loader/inflate.min.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>js/loader/FBXLoader.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>js/loader/STLExporter.js?<?=$vrs?>"></script>
-	<script src="<?=$path?>js/loader/GLTFLoader.js?<?=$vrs?>"></script>
+	<script src="<?=$path?>js/loader/GLTFLoader.js?<?=$vrs?>"></script>	
 	<script src="<?=$path?>js/BufferGeometryUtils.js?<?=$vrs?>"></script>
 	<script src="<?=$path?>js/export/GLTFExporter.js?<?=$vrs?>"></script>
+	<script src="<?=$path?>js/export/OBJExporter.js?<?=$vrs?>"></script>
+	
 	
 	<div id="canvasFrame" style="position: fixed; width: 100%; height: 100%; top: 0; right: 0; overflow: hidden;">
 		<div class="frame">

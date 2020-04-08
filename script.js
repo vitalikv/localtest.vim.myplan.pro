@@ -150,6 +150,7 @@ infProject.settings.door = { width: 1, height: 2.2 };
 infProject.settings.wind = { width: 1, height: 1, h1: 1.0 };
 infProject.settings.room = { type: [] };
 infProject.settings.blockKeyCode = false;
+infProject.scene.grid = backgroundPlane();
 infProject.scene.light = {global: {}, lamp: []}; 
 infProject.scene.array = resetPop.infProjectSceneArray();
 infProject.scene.block = { key : { scroll : false } };		// блокировка действий/клавишь
@@ -275,7 +276,8 @@ var ccc = new THREE.Color().setHex( '0x'+infProject.settings.profile.color );
 		composer.addPass( saoPass );		
 	}
 	
-	if(infProject.settings.shader.fxaaPass !== undefined)
+	//if(infProject.settings.shader.fxaaPass !== undefined)
+	if(1 == 1)	
 	{
 		var fxaaPass = new THREE.ShaderPass( THREE.FXAAShader );	
 		fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( containerF.clientWidth * window.devicePixelRatio );
@@ -314,8 +316,7 @@ var ccc = new THREE.Color().setHex( '0x'+infProject.settings.profile.color );
 
 
 // cdm
-{
-	backgroundPlane();
+{	
 	startPosCamera3D({radious: infProject.settings.cam3D, theta: 90, phi: 35});		// стартовое положение 3D камеры
 	//addObjInCatalogUI_1();			// наполняем каталог объектов UI
 	addTextureInCatalogUI_1();		// наполняем каталог текстур UI
@@ -705,6 +706,7 @@ function backgroundPlane()
 		renderCamera();
 	});		
 	
+	return planeMath;
 }
 
 
@@ -1732,14 +1734,21 @@ function quaternionDirection(dir1)
 function saveAsImage() 
 { 
 	try 
-	{		
-		renderer.antialias = true;
+	{	
+		var background = scene.background.clone();
+		scene.background = new THREE.Color( 0xffffff );
+		infProject.scene.grid.visible = false;
+		infProject.settings.shader.fxaaPass.enabled = true;
+		//renderer.antialias = true;
 		renderer.render( scene, camera );
 		
 		var strMime = "image/png";
 		var imgData = renderer.domElement.toDataURL(strMime);	
 
-		renderer.antialias = false;
+		//renderer.antialias = false;
+		scene.background = background;
+		infProject.scene.grid.visible = true;
+		infProject.settings.shader.fxaaPass.enabled = false;
 		renderer.render( scene, camera );
  
 		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");
@@ -1782,15 +1791,15 @@ function saveAsImagePreview()
 // открыть или сохранить screenshot
 var openFileImage = function (strData, filename) 
 {
-	var link = containerF.createElement('a');
+	var link = document.createElement('a');
 	
 	if(typeof link.download === 'string') 
 	{		
-		containerF.appendChild(link); //Firefox requires the link to be in the body
+		document.body.appendChild(link); //Firefox requires the link to be in the body
 		link.download = filename;
 		link.href = strData;
 		link.click();
-		containerF.removeChild(link); //remove the link when done
+		document.body.removeChild(link); //remove the link when done
 	} 
 	else 
 	{
@@ -1900,6 +1909,13 @@ document.addEventListener("keydown", function (e)
 		 
 		return; 
 	}
+	
+	if(clickO.keys[18] && e.keyCode == 90) 	// alt + z
+	{ 
+		//exportToObj();
+		exportToGLB();
+		return;
+	}	
 
 
 	if(e.keyCode == 46 || e.keyCode == 8) { detectDeleteObj(); }
@@ -2108,11 +2124,146 @@ $(document).ready(function ()
 
 
 
+function exportToObj() 
+{
+	console.log(111);
+
+	var group = new THREE.Group();
+	var wall = infProject.scene.array.wall;
+	var window = infProject.scene.array.window;
+	var door = infProject.scene.array.door;
+	var obj = infProject.scene.array.obj;
+	var floor = infProject.scene.array.floor;
+	
+	
+	for ( var i = 0; i < wall.length; i++ )
+	{ 		
+		group.add(wall[i]); 
+	}		
+	
+	for ( var i = 0; i < window.length; i++ )
+	{ 
+		group.add(window[i].children[0]);
+	}
+	
+	for ( var i = 0; i < door.length; i++ )
+	{ 
+		group.add(door[i].children[0]);
+	}		
+	
+	for ( var i = 0; i < floor.length; i++ )
+	{		
+		group.add(floor[i]);
+	}
+	
+	for ( var i = 0; i < obj.length; i++ )
+	{ 
+		group.add(obj[i]);
+	}	
+	
+	console.log(group);
+	
+	var exporter = new THREE.OBJExporter();
+	var result = exporter.parse( group );	
+	
+	var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(result);	
+	
+	var link = document.createElement('a');
+	document.body.appendChild(link);
+	link.href = csvData;
+	link.target = '_blank';
+	link.download = 'file.obj';
+	link.click();
+}
 
 
+function exportToGLB()
+{
+	var arr = [];
+	
+	var wall = infProject.scene.array.wall;
+	var window = infProject.scene.array.window;
+	var door = infProject.scene.array.door;
+	var obj = infProject.scene.array.obj;
+	var floor = infProject.scene.array.floor;
+	
+	
+	for ( var i = 0; i < wall.length; i++ )
+	{ 		
+		arr[arr.length] = wall[i]; 
+	}		
+	
+	for ( var i = 0; i < window.length; i++ )
+	{ 
+		window[i].material.opacity = 0;
+		window[i].material.transparent = true;
+		window[i].children[0].material.opacity = 0;
+		window[i].children[0].material.transparent = true;		
+		arr[arr.length] = window[i];
+	}
+	
+	for ( var i = 0; i < door.length; i++ )
+	{ 
+		door[i].material.opacity = 0;
+		door[i].material.transparent = true;
+		door[i].children[0].material.opacity = 0;
+		door[i].children[0].material.transparent = true;		
+		arr[arr.length] = door[i];
+	}		
+	
+	for ( var i = 0; i < floor.length; i++ )
+	{		
+		arr[arr.length] = floor[i];
+	}
+	
+	for ( var i = 0; i < obj.length; i++ )
+	{ 
+		obj[i].material.opacity = 0;
+		obj[i].material.transparent = true;
+		arr[arr.length] = obj[i];
+	}	
+	
+	var options = 
+	{
+		trs: true,
+		onlyVisible: false,
+		truncateDrawRange: true,
+		binary: true,
+		forceIndices: false,
+		forcePowerOfTwoTextures: false,
+		maxTextureSize: Number( 20000 ) 
+	};
 
+	var exporter = new THREE.GLTFExporter();
 
+	// Parse the input and generate the glTF output
+	exporter.parse( arr, function ( gltf ) 
+	{
+		
+		var link = document.createElement( 'a' );
+		link.style.display = 'none';
+		document.body.appendChild( link );			
+		
+		if ( gltf instanceof ArrayBuffer ) 
+		{ 
+			console.log( gltf ); 
+			link.href = URL.createObjectURL( new Blob( [ gltf ], { type: 'application/octet-stream' } ) );
+			link.download = 'file.glb';	
+		}
+		else
+		{
+			console.log( gltf );
+			var gltf = JSON.stringify( gltf, null, 2 );
+			
+			link.href = URL.createObjectURL( new Blob( [ gltf ], { type: 'text/plain' } ) );
+			link.download = 'file.gltf';
+		}
 
+		link.click();			
+		
+	}, options );
+	
+}
 
 
 
