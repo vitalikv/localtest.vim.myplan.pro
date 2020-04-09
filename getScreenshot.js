@@ -116,18 +116,68 @@ function convertImgToBase64(src, callback)
 function createImage() 
 {
 
-	var svgString = document.querySelector('#htmlBlock').textContent;
+	var svg = document.querySelector('#svgFrame');
 
-	//var svgString = new XMLSerializer().serializeToString(svg);
+	var wall = infProject.scene.array.wall;
+	
+	for ( var i = 0; i < wall.length; i++ )
+	{ 		
+		if(wall[i].userData.wall.html.label)
+		{
+			for ( var i2 = 0; i2 < wall[i].userData.wall.html.label.length; i2++ )
+			{
+				var label = wall[i].userData.wall.html.label[i2]
+				//wall[i].userData.wall.html.label[i2].remove();
+				var txt  = document.createElementNS(infProject.settings.svg.tag, "text");
+				
+				
+				
+				var x = label.userData.elem.x;
+				var y = label.userData.elem.y;
+				
+				
+				var translate = 'translate('+ ((label.clientWidth/2)*-1) +',0)';
+				var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+(x+(label.clientWidth/2)*-1)+','+(y+label.clientHeight/2)+')';
+				
+				var transform = translate;
+				var str = label.innerText;
+				
+				
+				
+				txt.setAttribute('x', x);
+				txt.setAttribute('y', y);
+				txt.setAttribute('fill', '#000');
+				txt.setAttribute('transform', transform);
+				txt.setAttribute('dominant-baseline', 'baseline');
+				txt.textContent = str;
+
+				svg.appendChild(txt);
+			}
+		}					
+	}
+
+	console.log(wall[0].userData.wall.html.label[0]);
+	console.log(wall[0].userData.wall.html.label[0].style.transform);
+	console.log(wall[0].userData.wall.html.label[0].style.top);
+	console.log(wall[0].userData.wall.html.label[0].innerText);
+	console.log(wall[0].userData.wall.html.label[0].offsetLeft);
+	console.log(wall[0].userData.wall.html.label[0].offsetTop);
+
+
+	var svg = document.querySelector('#svgFrame');
+	svg.setAttribute('width', svg.clientWidth);
+	svg.setAttribute('height', svg.clientHeight);
+	var svgString = new XMLSerializer().serializeToString(svg);
 
 	console.log(svgString);
 
 	var canvas = document.createElement("canvas");
-
+	canvas.width = svg.clientWidth;
+	canvas.height = svg.clientHeight;
 	var ctx = canvas.getContext("2d");
 	var DOMURL = self.URL || self.webkitURL || self;
 	var img = new Image();
-	var svg = new Blob([svgString], {type: "text/html;charset=utf-8"});
+	var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
 	var url = DOMURL.createObjectURL(svg);
 
 	img.onload = function() 
@@ -140,7 +190,7 @@ function createImage()
 
 		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");	
 
-		DOMURL.revokeObjectURL(png);
+		DOMURL.revokeObjectURL(imgData);
 	};
 	img.src = url;	
 
@@ -178,7 +228,7 @@ function createImageFromSvg()
 
 		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");	
 
-		DOMURL.revokeObjectURL(png);
+		DOMURL.revokeObjectURL(imgData);
 	};
 	img.src = url;	
 

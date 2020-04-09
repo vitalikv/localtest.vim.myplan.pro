@@ -537,7 +537,10 @@ function upPosLabels_2(cdm)
 	//elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;		
 	
 	elem.style.top = `${y}px`;
-	elem.style.left = `${x}px`;		
+	elem.style.left = `${x}px`;
+
+	elem.userData.elem.x = x;
+	elem.userData.elem.y = y;	
 }
 
 

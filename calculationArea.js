@@ -81,6 +81,8 @@ function upLabelPlan_1(arrWall, Zoom)
 		 
 			wall.userData.wall.html.label[0].userData.elem.pos = pos1;
 			wall.userData.wall.html.label[1].userData.elem.pos = pos2;
+			wall.userData.wall.html.label[0].userData.elem.rot = -rotY;
+			wall.userData.wall.html.label[1].userData.elem.rot = -rotY;
 			
 			wall.userData.wall.html.label[0].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
 			wall.userData.wall.html.label[1].style.transform = 'translate(-50%, -50%) rotate('+THREE.Math.radToDeg(-rotY)+'deg)';
