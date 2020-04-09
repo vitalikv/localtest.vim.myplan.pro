@@ -113,7 +113,43 @@ function convertImgToBase64(src, callback)
 
 
 
-function createImage(dataURL) 
+function createImage() 
+{
+
+	var svgString = document.querySelector('#htmlBlock').textContent;
+
+	//var svgString = new XMLSerializer().serializeToString(svg);
+
+	console.log(svgString);
+
+	var canvas = document.createElement("canvas");
+
+	var ctx = canvas.getContext("2d");
+	var DOMURL = self.URL || self.webkitURL || self;
+	var img = new Image();
+	var svg = new Blob([svgString], {type: "text/html;charset=utf-8"});
+	var url = DOMURL.createObjectURL(svg);
+
+	img.onload = function() 
+	{
+		ctx.drawImage(img, 0, 0);
+		
+		var strMime = "image/png";
+		var imgData = canvas.toDataURL(strMime);	
+		console.log(imgData);
+
+		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");	
+
+		DOMURL.revokeObjectURL(png);
+	};
+	img.src = url;	
+
+}
+
+
+
+// создаем изображение из svg элемнтов на странице
+function createImageFromSvg() 
 {
 
 	var svg = document.querySelector('#svgFrame');
@@ -142,7 +178,7 @@ function createImage(dataURL)
 
 		openFileImage(imgData.replace(strMime, "image/octet-stream"), "screenshot.png");	
 
-		//DOMURL.revokeObjectURL(png);
+		DOMURL.revokeObjectURL(png);
 	};
 	img.src = url;	
 
