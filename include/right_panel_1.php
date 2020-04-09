@@ -318,7 +318,47 @@
 							<div class="bl_circle_handle" nameId="sun_intensity_handle"></div>
 						</div>	 	
 					</div>
-				
+
+					
+					<div class="flex_column_1" nameId="rp_bl_set_obj_xyz" style="display: block; margin-bottom: 40px;">
+						<div class="flex_1">
+							<div class="flex_1 align_items">
+								<div class="rp_label_plane">
+									длина
+								</div>
+							</div>
+							<div class="flex_1 align_items" style="width: auto;">
+								<input type="text" style="width: 90%; margin:5px 5px;" nameId="size-obj-length" value="0">
+							</div>
+						</div>
+						
+						<div class="flex_1">
+							<div class="flex_1 align_items">
+								<div class="rp_label_plane">
+									ширина
+								</div>
+							</div>
+							<div class="flex_1 align_items" style="width: auto;">
+								<input type="text" style="width: 90%; margin:5px 5px;" nameId="size-obj-width" value="0">
+							</div>
+						</div>
+
+						<div class="flex_1">
+							<div class="flex_1 align_items">
+								<div class="rp_label_plane">
+									высота
+								</div>
+							</div>
+							<div class="flex_1 align_items" style="width: auto;">
+								<input type="text" style="width: 90%; margin:5px 5px;" nameId="size-obj-height" value="0">
+							</div>
+						</div>						
+						
+						<div>
+							<div class="button1 button_gradient_1" nameId="rp_button_apply">Применить</div>
+						</div>
+					</div>						
+					
 				
 					<div class="button1 button_gradient_1" nameId="obj_rotate_reset" style="display: none;">
 						reset	

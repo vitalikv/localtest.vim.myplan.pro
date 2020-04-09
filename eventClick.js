@@ -132,6 +132,10 @@ $('[nameId="rp_button_apply"]').mousedown(function ()
 	else if(obj.userData.tag == 'door')
 	{
 		inputWidthHeightWD(clickO.last_obj);
+	}
+	else if(obj.userData.tag == 'obj')
+	{
+		inputScaleObjPop({obj: clickO.last_obj});
 	}	
 });
 

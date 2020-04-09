@@ -261,6 +261,8 @@ function moveElementBoxScale2D(e)
 	
 	showSvgSizeObj({obj: obj});
 	
+	uiInfoObj({obj: obj});
+	
 	e.stopPropagation();	
 }
 
@@ -937,4 +939,66 @@ function getAllObjRoom(cdm)
 
 
 
+// меняем ширину/длину/высоту объекта через input
+function inputScaleObjPop(cdm)
+{
+	var obj = cdm.obj;
+	
+	if(!obj) return; 
+	
+ 	
+	obj.geometry.computeBoundingBox();
+	var x = (Math.abs(obj.geometry.boundingBox.max.x) + Math.abs(obj.geometry.boundingBox.min.x));
+	var y = (Math.abs(obj.geometry.boundingBox.max.y) + Math.abs(obj.geometry.boundingBox.min.y));
+	var z = (Math.abs(obj.geometry.boundingBox.max.z) + Math.abs(obj.geometry.boundingBox.min.z));
+	// поправка на масштаб объекта
+	x *= obj.scale.x;
+	y *= obj.scale.y;
+	z *= obj.scale.z;		
+
+
+	var x2 = $('[nameId="size-obj-length"]').val();
+	var y2 = $('[nameId="size-obj-height"]').val();
+	var z2 = $('[nameId="size-obj-width"]').val(); 
+
+	x2 = x2.replace(",", ".");
+	y2 = y2.replace(",", ".");
+	z2 = z2.replace(",", ".");	
+	
+	x2 = (!isNumeric(x2)) ? x : Number(x2);
+	y2 = (!isNumeric(y2)) ? y : Number(y2);
+	z2 = (!isNumeric(z2)) ? z : Number(z2);		
+
+	
+	//var limit = obj.userData.obj3D.sizeMinMaxLimit;
+	
+	if(!limit)
+	{		
+		var limit = { x_min : 0.01, x_max : 100, y_min : 0.01, y_max : 100, z_min : 0.01, z_max : 100 };				
+	}
+	
+	if(x2 < limit.x_min) { x2 = limit.x_min; }
+	else if(x2 > limit.x_max) { x2 = limit.x_max; }
+	
+	if(y2 < limit.y_min) { y2 = limit.y_min; }
+	else if(y2 > limit.y_max) { y2 = limit.y_max; }
+
+	if(z2 < limit.z_min) { z2 = limit.z_min; }
+	else if(z2 > limit.z_max) { z2 = limit.z_max; }			
+	
+	
+	var box = obj.userData.obj3D.box; 
+	 
+	obj.scale.set(x2/box.x, y2/box.y, z2/box.z);	
+	obj.updateMatrixWorld();
+	
+	if(camera == cameraTop)
+	{
+		showSvgSizeObj({obj: obj, boxCircle: true, getObjRoom: true, resetPos: true});
+	}
+	
+	uiInfoObj({obj: obj});
+	
+	renderCamera();
+}
 

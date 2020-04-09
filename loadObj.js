@@ -673,8 +673,9 @@ function addObjInScene(inf, cdm)
 	if(1==1)
 	{
 		var x = obj.geometry.boundingBox.max.x - obj.geometry.boundingBox.min.x;
+		var y = obj.geometry.boundingBox.max.y - obj.geometry.boundingBox.min.y;
 		var z = obj.geometry.boundingBox.max.z - obj.geometry.boundingBox.min.z;	
-		obj.userData.obj3D.box = new THREE.Vector3(x, 1, z);
+		obj.userData.obj3D.box = new THREE.Vector3(x, y, z);
 	}	
 	
 

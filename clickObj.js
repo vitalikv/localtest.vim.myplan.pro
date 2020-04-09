@@ -95,7 +95,35 @@ function clickObject3D(cdm)
 		
 		getInfoEvent25({obj: obj});		// undo/redo
 	}
+	
+	uiInfoObj({obj: obj});
 }
+
+
+
+// обновляем меню
+function uiInfoObj(cdm)
+{			
+	var obj = cdm.obj;
+	
+	obj.geometry.computeBoundingBox();
+	
+	var minX = obj.geometry.boundingBox.min.x;
+	var maxX = obj.geometry.boundingBox.max.x;
+	var minY = obj.geometry.boundingBox.min.y;
+	var maxY = obj.geometry.boundingBox.max.y;	
+	var minZ = obj.geometry.boundingBox.min.z;
+	var maxZ = obj.geometry.boundingBox.max.z;
+
+	var x = Math.abs( (maxX - minX) * obj.scale.x );
+	var y = Math.abs( (maxY - minY) * obj.scale.y );
+	var z = Math.abs( (maxZ - minZ) * obj.scale.z );			
+	
+	$('[nameId="size-obj-length"]').val(Math.round(x * 100) / 100);
+	$('[nameId="size-obj-height"]').val(Math.round(y * 100) / 100);
+	$('[nameId="size-obj-width"]').val(Math.round(z * 100) / 100);	
+}
+
 
 
 
