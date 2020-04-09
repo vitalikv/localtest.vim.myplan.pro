@@ -334,7 +334,7 @@ function compileJsonFile()
 		
 		rooms[i].material = [floor[i].userData.material, ceiling[i].userData.material];	
 
-		rooms[i].zone = floor[i].userData.room.zone.id;
+		rooms[i].zone = (floor[i].userData.room.zone.id == -1) ? null : floor[i].userData.room.zone.id;
 	}
 	
 
@@ -757,6 +757,7 @@ async function getListRoomTypesApi()
 
 	var response = await fetch(url, { method: 'GET' });
 	var json = await response.json();
+	json.unshift({id: -1, title: "Без функции"});
 
 	infProject.settings.room.type = json;	
 	

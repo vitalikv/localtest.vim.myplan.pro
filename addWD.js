@@ -381,7 +381,7 @@ function swSetDW_1(cdm)
 
 
 
-//обновляем svg форму wd
+//обновляем форму и положение wd svg
 function calcSvgFormWD(cdm)
 {
 	if(camera != cameraTop) return;

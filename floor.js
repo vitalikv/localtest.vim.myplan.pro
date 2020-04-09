@@ -45,8 +45,8 @@ function createFloor(cdm)
 	floor.userData.room.p = floor.p;
 	floor.userData.room.w = floor.w;
 	floor.userData.room.s = floor.s;
-	floor.userData.room.zone = { id: 0, name: '' };
-	floor.userData.room.zone.id = undefined;
+	floor.userData.room.zone = { id: undefined, name: '' };
+	floor.userData.room.zone.id = -1;
 	floor.userData.room.contour = [];
 	floor.userData.room.height = infProject.settings.floor.height;
 	floor.userData.room.html = {};
@@ -77,7 +77,7 @@ function createFloor(cdm)
 		
 		if(infProject.settings.floor.label.visible) 
 		{ 
-			//assignRoomType({id: floor.userData.room.zone.id, obj: floor});			 
+			assignRoomType({id: floor.userData.room.zone.id, obj: floor});			 
 		} 
 			
 		getYardageSpace([floor]); 

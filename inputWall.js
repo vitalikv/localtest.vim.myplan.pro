@@ -234,6 +234,7 @@ function updateWall(wall, cdm)
 			for ( var i = 0; i < wall.userData.wall.arrO.length; i++ )
 			{
 				wall.userData.wall.arrO[i].position.add(offset);
+				calcSvgFormWD({obj: wall.userData.wall.arrO[i]});
 			}
 			
 			return;

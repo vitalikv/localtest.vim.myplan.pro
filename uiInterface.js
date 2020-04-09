@@ -333,6 +333,8 @@ function assignListRoomTypesApi(cdm)
 		{
 			if(arr[i].id !== floor[i2].userData.id) continue;
 			
+			if(arr[i].zone == undefined){ arr[i].zone = -1; };
+			
 			floor[i].userData.room.zone.id = arr[i].zone;
 			
 			if(infProject.settings.floor.label.visible)  
