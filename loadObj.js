@@ -555,6 +555,8 @@ function addObjInBase(cdm)
 }
 
 
+
+// создаем слепок объекта
 function createSpotObj(inf, cdm)
 { 
 	if(!inf.spot) return;
@@ -566,8 +568,15 @@ function createSpotObj(inf, cdm)
 	var point = [];
 	for ( var i = 0; i < v.length - 1; i++ ) 
 	{  
-		point[i] = new THREE.Vector2 ( v[i][0], v[i][1] );		
-	}	 	
+		point[i] = new THREE.Vector2 ( v[i][0], v[i][1] );
+		if(cdm.scale)
+		{
+			point[i].x *= cdm.scale.x;
+			point[i].y *= cdm.scale.z;
+		}
+	}
+
+	if(cdm.scale) { height *= cdm.scale.y; }
 	
 	var geometry = new THREE.ExtrudeGeometry( new THREE.Shape(point), { bevelEnabled: false, depth: height } );
 	geometry.rotateX(-Math.PI / 2);
@@ -678,6 +687,7 @@ function addObjInScene(inf, cdm)
 		obj.userData.obj3D.box = new THREE.Vector3(x, y, z);
 	}	
 	
+	if(cdm.scale){ obj.scale.set(cdm.scale.x, cdm.scale.y, cdm.scale.z); }
 
 	if(inf.type)
 	{
