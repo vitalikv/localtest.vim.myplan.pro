@@ -67,7 +67,7 @@ function showHidePoint(cdm)
 	
 	for( var i = 0; i < point.length; i++ )
 	{
-		point.visible = cdm.visible;
+		point[i].visible = cdm.visible;
 	}
 }
 
@@ -173,7 +173,7 @@ function createImageSvg()
 				var translate = 'translate('+ ((label.clientWidth/2)*-1) +',0)';
 				var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+(x+(label.clientWidth/2)*-1)+','+(y+label.clientHeight/2)+')';
 				
-				var transform = translate;
+				var transform = translate+' '+rotate;
 				var str = label.innerText;
 				
 				txt.setAttribute('x', x);
