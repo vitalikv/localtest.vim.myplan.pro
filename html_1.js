@@ -50,6 +50,7 @@ function createHtmlLabelWall(cdm)
 		elem.userData.tag = cdm.tag;
 		elem.userData.elem = {};
 		elem.userData.elem.pos = new THREE.Vector3();
+		elem.userData.elem.rot = 0;
 		elem.userData.elem.show = true;
 		
 		infProject.html.label[infProject.html.label.length] = elem;	
