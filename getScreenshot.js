@@ -170,28 +170,38 @@ function createImageSvg()
 				var x = label.userData.elem.x;
 				var y = label.userData.elem.y;				
 				
-				var translate = 'translate('+ ((label.clientWidth/2)*-1) +',0)';
-				var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+(x+(label.clientWidth/2)*-1)+','+(y+label.clientHeight/2)+')';
+				var translate = 'translate('+ ((label.clientWidth/2)*-1) +','+ ((label.clientHeight/2)*1) +')';
+				var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+x+','+y+')';
 				
-				var transform = translate+' '+rotate;
+				var transform = rotate;
+				//var transform = translate;
 				var str = label.innerText;
 				
 				txt.setAttribute('x', x);
 				txt.setAttribute('y', y);
-				txt.setAttribute('fill', '#000');
+				txt.setAttribute('dx', (label.clientWidth/2)*-1);
+				txt.setAttribute('dy', label.clientHeight/2);				
+				//txt.setAttribute('fill', '#000');
+				txt.setAttribute('fill', 'rgba(0,0,0,0.4)');
 				txt.setAttribute('transform', transform);
-				txt.setAttribute('dominant-baseline', 'baseline');
-				txt.textContent = str;
 
-				svg.appendChild(txt);
+				txt.style.cssText += infProject.settings.html.fonts.wall.size; 
+				txt.style.cssText += infProject.settings.html.fonts.wall.type;
+				
+				txt.textContent = str;
 				
 				arr[arr.length] = txt;
+
+				svg.appendChild(txt);
 			}
 		}					
-	}
+	}		
 
 
+	console.log(txt);
+	console.log(label);
 
+//return;
 	
 	svg.setAttribute('width', svg.clientWidth);
 	svg.setAttribute('height', svg.clientHeight);
