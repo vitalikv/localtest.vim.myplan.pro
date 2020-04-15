@@ -230,32 +230,35 @@ function createImageSvg()
 		for ( var i = 0; i < arr.length; i++ )
 		{
 			var label = arr[i];
-			
-			
 			var x = label.userData.elem.x;
 			var y = label.userData.elem.y;			
-			//<rect x="0" y="0" width="200" height="100" stroke="red" stroke-width="3px" fill="white"/>
-			
-			var txt = document.createElementNS(infProject.settings.svg.tag, "rect");
-			
-			var translate = 'translate('+ ((label.clientWidth/2)*-1) +','+ ((label.clientHeight/2)*-1) +')';
-			var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+(x)+','+(y)+')';
-			
-			txt.setAttribute('x', x);
-			txt.setAttribute('y', y);
-			txt.setAttribute('transform', translate+rotate);				
-			txt.setAttribute('width', label.clientWidth);
-			txt.setAttribute('height', label.clientHeight);
-			txt.setAttribute('stroke', '#ff0000');
-			txt.setAttribute('fill', '#ffffff');
-			//txt.setAttribute('transform-origin', '50% 50%');
-			//txt.style.transformOrigin = '50% 50%';
 			
 			
-			//console.log(txt.style);
-			
-			svg.appendChild(txt); 
-			arr_2[arr_2.length] = txt;
+			if(1==2)
+			{
+				//<rect x="0" y="0" width="200" height="100" stroke="red" stroke-width="3px" fill="white"/>
+				
+				var txt = document.createElementNS(infProject.settings.svg.tag, "rect");
+				
+				var translate = 'translate('+ ((label.clientWidth/2)*-1) +','+ ((label.clientHeight/2)*-1) +')';
+				var rotate = 'rotate('+THREE.Math.radToDeg(label.userData.elem.rot)+','+(x)+','+(y)+')';
+				
+				txt.setAttribute('x', x);
+				txt.setAttribute('y', y);
+				txt.setAttribute('transform', translate+rotate);				
+				txt.setAttribute('width', label.clientWidth);
+				txt.setAttribute('height', label.clientHeight);
+				txt.setAttribute('stroke', '#ff0000');
+				txt.setAttribute('fill', '#ffffff');
+				//txt.setAttribute('transform-origin', '50% 50%');
+				//txt.style.transformOrigin = '50% 50%';
+				
+				
+				//console.log(txt.style);
+				
+				svg.appendChild(txt); 
+				arr_2[arr_2.length] = txt;
+			}
 			
 			var txt = document.createElementNS(infProject.settings.svg.tag, "text");															
 			
@@ -266,8 +269,8 @@ function createImageSvg()
 			txt.setAttribute('y', y);
 			//txt.setAttribute('dx', (label.clientWidth/2)*-1);
 			//txt.setAttribute('dy', label.clientHeight/2);				
-			txt.setAttribute('fill', '#ff0000');
-			//txt.setAttribute('fill', 'rgba(0,0,0,0.4)');
+			//txt.setAttribute('fill', '#ff0000');
+			txt.setAttribute('fill', 'rgba(0,0,0,0.4)');
 			txt.setAttribute('transform', rotate);
 			txt.setAttribute('dominant-baseline', 'middle');
 			txt.setAttribute('text-anchor', 'middle');
