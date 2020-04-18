@@ -28,7 +28,7 @@ async function getListObjTypesApi()
 	{
 		arr[arr.length] =
 		{
-			lotid : 32,
+			lotid : 257,
 			url : infProject.path+'import/glb/wd/okno1x1.glb', 
 			name : 'окно 1',
 			type: 'wd',
@@ -39,7 +39,7 @@ async function getListObjTypesApi()
 
 		arr[arr.length] =
 		{
-			lotid : 33,
+			lotid : 256,
 			url : infProject.path+'import/glb/wd/dver2x1.glb', 
 			name : 'дверь',
 			type: 'wd',
@@ -63,7 +63,7 @@ async function getListObjTypesApi()
 
 	arr[arr.length] =
 	{
-		lotid : 8,
+		lotid : 255,
 		url : infProject.path+'import/vm_light_point_1.fbx', 
 		name : 'светильник',
 		type: 'light point',
