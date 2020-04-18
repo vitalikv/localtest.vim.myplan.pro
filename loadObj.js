@@ -3,7 +3,7 @@
 
 async function getListObjTypesApi()
 {
-	var url = infProject.settings.api.list;
+	var url = infProject.settings.api.list_1;
 	
 	var arr = [];
 
@@ -14,11 +14,13 @@ async function getListObjTypesApi()
 	
 	for(var i = 0; i < json.length; i++)
 	{		
-		var url_2 = infProject.settings.api.models+json[i].model;
+		var url_2 = infProject.settings.api.models+json[i].lotObject;
 		
-		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
+		//if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
+		//var response = await fetch(url, { method: 'GET' });
+		//var json = await response.json();		
 		
-		arr[i] = { lotid: json[i].id, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
+		arr[i] = { lotid: json[i].lotObject, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
 	}		
 
 	
