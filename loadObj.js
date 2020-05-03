@@ -3,7 +3,7 @@
 
 async function getListObjTypesApi()
 {
-	var url = infProject.settings.api.list_1;
+	var url = infProject.settings.api.list;
 	
 	var arr = [];
 
@@ -14,13 +14,11 @@ async function getListObjTypesApi()
 	
 	for(var i = 0; i < json.length; i++)
 	{		
-		var url_2 = infProject.settings.api.models+json[i].lotObject;
+		var url_2 = infProject.settings.api.models+json[i].model;
 		
-		//if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
-		//var response = await fetch(url, { method: 'GET' });
-		//var json = await response.json();		
+		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url_2 = 'import/catalog/'+json[i].model; }
 		
-		arr[i] = { lotid: json[i].lotObject, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
+		arr[i] = { lotid: json[i].id, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
 	}		
 
 	
@@ -30,7 +28,7 @@ async function getListObjTypesApi()
 	{
 		arr[arr.length] =
 		{
-			lotid : 257,
+			lotid : 32,
 			url : infProject.path+'import/glb/wd/okno1x1.glb', 
 			name : 'окно 1',
 			type: 'wd',
@@ -41,7 +39,7 @@ async function getListObjTypesApi()
 
 		arr[arr.length] =
 		{
-			lotid : 256,
+			lotid : 33,
 			url : infProject.path+'import/glb/wd/dver2x1.glb', 
 			name : 'дверь',
 			type: 'wd',
@@ -65,7 +63,7 @@ async function getListObjTypesApi()
 
 	arr[arr.length] =
 	{
-		lotid : 255,
+		lotid : 8,
 		url : infProject.path+'import/vm_light_point_1.fbx', 
 		name : 'светильник',
 		type: 'light point',
@@ -392,9 +390,21 @@ function loadObjServer(cdm)
 	
 	var lotid = cdm.lotid;
 	
-	var inf = getInfoObj({lotid: lotid});
+	if(cdm.wd)
+	{
+		var url = infProject.settings.api.list;
+		
+		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_model.json'; }
+		
+		var response = await fetch(url, { method: 'GET' });
+		var json = await response.json();		
+	}
+	else
+	{
+		var inf = getInfoObj({lotid: lotid});
 
-	if(!inf) return;	// объект не существует в API/каталоге
+		if(!inf) return;	// объект не существует в API/каталоге		
+	}
 	
 	var obj = getObjFromBase({lotid: lotid});
 	
@@ -432,29 +442,6 @@ function loadObjServer(cdm)
 					addObjInScene(inf, cdm);							
 				}
 			});				
-		}
-		else
-		{
-			var loader = new THREE.FBXLoader();
-			loader.load( inf.url, function ( object ) 						
-			{ 
-				//object.scale.set(0.1, 0.1, 0.1);
-				
-				var obj = object.children[0];
-				
-				var obj = addObjInBase({lotid: lotid, inf: inf, obj: obj});
-				
-				if(cdm.loadFromFile)	// загрузка из сохраненного файла json 
-				{
-					loadObjFromBase({lotid: lotid, furn: cdm.furn});
-				}
-				else					// добавляем объект в сцену 
-				{
-					inf.obj = obj;
-					
-					addObjInScene(inf, cdm);							
-				}
-			});			
 		}	
 	}
 	
