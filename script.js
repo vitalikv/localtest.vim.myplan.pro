@@ -484,7 +484,7 @@ function upPosLabels_1(cdm)
 		{
 			if(elem.userData.tag == "elem_type_room")
 			{ 
-				if(cameraTop.zoom < 0.1) { elem.style.display = 'none'; }
+				if(cameraTop.zoom < 0.3) { elem.style.display = 'none'; }
 				else { elem.style.display = 'block'; }					
 			}
 			else 
