@@ -483,17 +483,35 @@ function centerCamera2D()
 
 function centerCamera3D()
 {
-	if ( camera != camera3D ) return;
+	//if ( camera = camera3D ) return;
 
 	var pos = new THREE.Vector3();
 
 	if ( obj_point.length > 0 )
-	{
-		for ( var i = 0; i < obj_point.length; i++ ) { pos.add( obj_point[ i ].position ); }
-		pos.divideScalar( obj_point.length );
+	{		
+		var minX = obj_point[0].position.x; 
+		var maxX = obj_point[0].position.x;
+		var minZ = obj_point[0].position.z; 
+		var maxZ = obj_point[0].position.z;		
+
+		for ( var i = 0; i < obj_point.length; i++ )
+		{
+			if(obj_point[i].position.x < minX) { minX = obj_point[i].position.x; }
+			if(obj_point[i].position.x > maxX) { maxX = obj_point[i].position.x; }
+			if(obj_point[i].position.z < minZ) { minZ = obj_point[i].position.z; }
+			if(obj_point[i].position.z > maxZ) { maxZ = obj_point[i].position.z; }
+		}				
+		
+		pos = new THREE.Vector3((maxX - minX)/2 + minX, 0, (maxZ - minZ)/2 + minZ);		
 	}
 
-	newCameraPosition = { position3D: new THREE.Vector3( pos.x, 0, pos.z )};
+			
+	infProject.camera.d3.targetO.position.x = pos.x;
+	infProject.camera.d3.targetO.position.z = pos.z;
+	camera3D.position.x += pos.x;
+	camera3D.position.z += pos.z;
+	
+	newCameraPosition = null;
 
 }
 

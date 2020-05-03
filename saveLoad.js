@@ -889,6 +889,7 @@ function readyProject(cdm)
 	
 	changeCamera(cameraTop);
 	centerCamera2D();
+	centerCamera3D();
 	cameraZoomTop( camera.zoom );
 	renderCamera();
 }

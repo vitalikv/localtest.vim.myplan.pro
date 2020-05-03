@@ -390,14 +390,14 @@ function loadObjServer(cdm)
 	
 	var lotid = cdm.lotid;
 	
-	if(cdm.wd)
+	if(cdm.wd && 1==2)
 	{
 		var url = infProject.settings.api.list;
 		
 		if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_model.json'; }
 		
-		var response = await fetch(url, { method: 'GET' });
-		var json = await response.json();		
+		//var response = await fetch(url, { method: 'GET' });
+		//var json = await response.json();		
 	}
 	else
 	{

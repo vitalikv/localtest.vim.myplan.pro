@@ -482,8 +482,16 @@ function upPosLabels_1(cdm)
 		
 		if(elem.userData.elem.show)
 		{
-			if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; }
-			else { elem.style.display = 'block'; }			
+			if(elem.userData.tag == "elem_type_room")
+			{ 
+				if(cameraTop.zoom < 0.1) { elem.style.display = 'none'; }
+				else { elem.style.display = 'block'; }					
+			}
+			else 
+			{
+				if(cameraTop.zoom < 0.7) { elem.style.display = 'none'; }
+				else { elem.style.display = 'block'; }							
+			}
 		}
 		else
 		{
@@ -1468,7 +1476,7 @@ function rayIntersect( event, obj, t )
 	
 	var intersects = null;
 	if(t == 'one'){ intersects = raycaster.intersectObject( obj ); } 
-	else if(t == 'arr'){ intersects = raycaster.intersectObjects( obj,true ); }
+	else if(t == 'arr'){ intersects = raycaster.intersectObjects( obj ); }
 	
 	return intersects;
 }
