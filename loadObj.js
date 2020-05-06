@@ -111,7 +111,7 @@ async function loadObjServer(cdm)
 	
 	var inf = await getObjFromBase({lotid: lotid});
 	
-	console.log(11111111, inf);
+	//console.log(11111111, inf, cdm);
 	
 	if(cdm.loadFromFile){ inf.obj = null; }
 	
@@ -125,8 +125,14 @@ async function loadObjServer(cdm)
 	}
 	else		// объекта нет в кэше
 	{
+		var fl = false;
+		if(cdm.type)
+		{
+			if(cdm.type == 'wd'){ fl = true; }
+		}
 		
 		if(cdm.loadFromFile){}
+		else if (fl) {}
 		else { createSpotObj(inf, cdm); }
 		
 		var loader = new THREE.GLTFLoader();
