@@ -829,9 +829,6 @@ function loadObjInBase(cdm)
 	{
 		lotid[lotid.length] = Number(furn[i].lotid);
 
-		var inf = getInfoObj({lotid: furn[i].lotid}); 
-		if(!inf) continue;	// объект не существует в API
-
 		createSpotObj(inf, furn[i]);
 	}
 	

@@ -27,9 +27,12 @@ $('[nameId="button_delete_obj"]').mousedown(function () { deleteObjectPop(); });
 
 
 $('[data-action="wall"]').mousedown(function () { clickInterface({button:'point_1'}); });
-$('[data-action="create_wd_2"]').mousedown(function () { clickInterface({button:'create_wd_2'}); });
-$('[data-action="create_wd_3"]').mousedown(function () { clickInterface({button:'create_wd_3'}); });
-$('[add_lotid]').mousedown(function () { clickInterface({button: 'add_lotid', value: this.attributes.add_lotid.value}); });
+$('[add_lotid]').mousedown(function () 
+{ 
+	var inf = {button: 'add_lotid', value: this.attributes.add_lotid.value, type: ""};
+	if(this.attributes.type) inf.type = this.attributes.type.value;
+	clickInterface(inf);  
+});
 $('[nameId="screenshot"]').mousedown(function () { createImageSvg(); createImageScene(); }); 				
 
 

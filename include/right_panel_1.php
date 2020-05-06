@@ -78,7 +78,7 @@
 				</div>				
 				
 				<div>
-					<div data-action ='create_wd_2' class="button1 button_gradient_1">Дверь</div>
+					<div add_lotid = '256' type='door' class="button1 button_gradient_1">Дверь</div>
 				</div>
 			</div>
 
@@ -117,7 +117,7 @@
 				</div>					
 				
 				<div>
-					<div data-action ='create_wd_3' class="button1 button_gradient_1">Окно</div>
+					<div add_lotid = '257' type='window' class="button1 button_gradient_1">Окно</div>
 				</div>
 			</div>			
 					

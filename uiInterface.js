@@ -12,8 +12,12 @@ function addObjInCatalogUI_1(cdm)
 		
 		if(o.stopUI) continue;
 		
+		var type = '';
+		
+		if(o.type) type = 'type="'+o.type+'"'; 
+		
 		var str = 
-		'<div class="right_panel_1_1_list_item" add_lotid="'+o.lotid+'">\
+		'<div class="right_panel_1_1_list_item" add_lotid="'+o.lotid+'" '+type+'>\
 			<div class="right_panel_1_1_list_item_text">'
 			+o.name+
 			'</div>\
@@ -22,10 +26,11 @@ function addObjInCatalogUI_1(cdm)
 		
 		var el = $(str).appendTo('[list_ui="catalog"]');
 		var n = o.lotid;
-		(function(n) 
+		var type = o.type;
+		(function(n, type) 
 		{
-			el.on('mousedown', function(){ clickInterface({button: 'add_lotid', value: n}); });	
-		}(n));		
+			el.on('mousedown', function(){ clickInterface({button: 'add_lotid', value: n, type: type}); });	
+		}(n, type));		
 	}
 	
 }

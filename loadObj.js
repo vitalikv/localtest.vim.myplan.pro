@@ -2,24 +2,42 @@
 
 
 async function getListObjTypesApi()
-{
-	var url = infProject.settings.api.list;
-	
-	var arr = [];
+{	
+	var arr = [];		
 
-	if(window.location.hostname == 'localtest.vim.myplan.pro' || window.location.hostname == 'remstok'){ var url = 't/list_model.json'; }
-	
-	var response = await fetch(url, { method: 'GET' });
-	var json = await response.json();
-	
-	for(var i = 0; i < json.length; i++)
-	{		
-		var url_2 = infProject.settings.api.models+json[i].model;
+	if(1==1)
+	{
+		arr[arr.length] =
+		{
+			lotid : 257,
+			name : 'окно 1',
+			type: 'window', 
+			planeMath : 1.5, 
+		};
+
+		arr[arr.length] =
+		{
+			lotid : 256,
+			name : 'дверь',
+			type: 'door',
+			planeMath : 0.1,
+		};
 		
-		arr[i] = { lotid: json[i].id, name: json[i].title, url: url_2, planeMath : 0.0, glb : true, spot: json[i].spot, height: json[i].height };		
-	}		
+		arr[arr.length] =
+		{
+			lotid : 255,
+			name : 'light',
+			type: 'light point',
+			planeMath : 0.1,
+		};		
 
-	
+		arr[arr.length] =
+		{
+			lotid : 257,
+			name : 'окно 22',
+			planeMath : 1.5,
+		};		
+	};	
 
 	
 	infProject.catalog.obj = arr;
@@ -78,22 +96,6 @@ function infoListTexture()
 }
 
 
-// получаем параметры объекта из базы
-function getInfoObj(cdm)
-{
-	var lotid = cdm.lotid;
-	
-	
-	for(var i = 0; i < infProject.catalog.obj.length; i++)
-	{
-		if(lotid == infProject.catalog.obj[i].lotid)
-		{  
-			return infProject.catalog.obj[i];
-		}
-	}
-	
-	return null;
-}
 
 
 
@@ -109,15 +111,17 @@ async function loadObjServer(cdm)
 	
 	var inf = await getObjFromBase({lotid: lotid});
 	
-	
+	console.log(11111111, inf);
 	
 	if(cdm.loadFromFile){ inf.obj = null; }
 	
-	if(inf.obj && 1==2)		// объект есть в кэше
-	{ 
-		//inf.obj = obj.clone();
-		
-		if(infobj) { addObjInScene(inf, cdm); }
+	if(inf.obj)		// объект есть в кэше
+	{ 		
+		if(inf.obj) 
+		{ 
+			inf.obj = inf.obj.clone(); 
+			addObjInScene(inf, cdm); 
+		}
 	}
 	else		// объекта нет в кэше
 	{
@@ -125,31 +129,24 @@ async function loadObjServer(cdm)
 		if(cdm.loadFromFile){}
 		else { createSpotObj(inf, cdm); }
 		
-		if(inf.glb)
+		var loader = new THREE.GLTFLoader();
+		loader.load( inf.url, function ( object ) 						
 		{ 
-	
-	
-			var loader = new THREE.GLTFLoader();
-			loader.load( inf.url, function ( object ) 						
-			{ 
-				var obj = object.scene.children[0];
+			var obj = object.scene.children[0];				
+			
+			var obj = addObjInBase(inf, obj);
+			
+			if(cdm.loadFromFile && 1==2)	// загрузка из сохраненного файла json 
+			{
+				loadObjFromBase({lotid: lotid, furn: cdm.furn});
+			}
+			else					// добавляем объект в сцену 
+			{
+				inf.obj = obj;
 				
-				console.log(11111111, inf, obj);
-				
-				var obj = addObjInBase({lotid: lotid, inf: inf, obj: obj});
-				
-				if(cdm.loadFromFile && 1==2)	// загрузка из сохраненного файла json 
-				{
-					loadObjFromBase({lotid: lotid, furn: cdm.furn});
-				}
-				else					// добавляем объект в сцену 
-				{
-					inf.obj = obj;
-					
-					addObjInScene(inf, cdm);							
-				}
-			});				
-		}	
+				addObjInScene(inf, cdm);							
+			}
+		});					
 	}
 	
 	
@@ -163,13 +160,13 @@ async function loadObjServer(cdm)
 async function getObjFromBase(cdm)
 {
 	var lotid = cdm.lotid;								// объекты в сцене 
-	var arrObj = infProject.scene.array.base;		// объекты в памяти	
+	var base = infProject.scene.array.base;		// объекты в памяти	
 	
-	for(var i = 0; i < arrObj.length; i++)
+	for(var i = 0; i < base.length; i++)
 	{
-		if(arrObj[i].lotid == lotid)
+		if(base[i].lotid == lotid)
 		{
-			//return arrObj[i].obj;
+			return base[i];
 		}
 	}
 	
@@ -179,17 +176,8 @@ async function getObjFromBase(cdm)
 	var response = await fetch(url, { method: 'GET' });
 	var json = await response.json();
 		
-	var inf = { lotid: lotid, planeMath : 0.0, glb : true, spot: json.spot, height: json.height, url: infProject.settings.api.inf.models+json.model };
+	var inf = { lotid: lotid, planeMath : 0.0, spot: json.spot, height: json.height, url: infProject.settings.api.inf.models+json.model };
 	
-	if(1==2)
-	{
-	var url = infProject.settings.api.inf.models+json.model+'/';
-	
-	var response = await fetch(url, { method: 'GET' });
-	var json = await response.json();
-	
-	inf.obj = json;		
-	}
 	
 	return inf;
 }
@@ -197,73 +185,31 @@ async function getObjFromBase(cdm)
 
 
 // добавляем новый объект в базу объектов (добавляются только уникальные объекты, кторых нет в базе)
-function addObjInBase(cdm)
+function addObjInBase(inf, obj)
 {
-	var lotid = cdm.lotid;								// объекты в сцене
-	var obj = cdm.obj;
-	var base = infProject.scene.array.base;			// объекты в памяти	
-	
-	for(var i = 0; i < base.length; i++)
-	{
-		if(base[i].lotid == lotid)
-		{  
-			return obj;
-		}
-	}
-	
-	
 	obj.geometry.computeBoundingBox();	
-	
-	var geometries = [];
 	
 	// накладываем на материал объекта lightMap
 	obj.traverse(function(child) 
 	{
 		if(child.isMesh) 
-		{ 
-			if(1==2)
-			{
-				child.updateMatrix();
-				child.updateMatrixWorld();
-				child.parent.updateMatrixWorld();							
-				
-				var geometry = child.geometry.clone();
-				geometry.applyMatrix4(child.parent.matrixWorld);
-				geometries.push(geometry);										
-			}
-			
+		{ 			
 			if(infProject.settings.obj.material.texture == 'none')
 			{
 				child.material.map = null;
 				child.material.color = new THREE.Color(infProject.settings.obj.material.color);				
 			}
-			if(child.material.map) 
-			{
-				//console.log(222222, child.material, THREE.sRGBEncoding, child.material.map.encoding);
-				//child.material.map.encoding = THREE.sRGBEncoding;
-			}
+
 			child.castShadow = true;	
 			child.receiveShadow = true;				
 		}
 	});	
 	
+	var inf_2 = JSON.parse( JSON.stringify( inf ) );
+	inf_2.obj = obj.clone();
 	
-	if(1==2)
-	{
-		var mergedGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries([obj.geometry]); 
-		var mergedGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries([obj.children[0].geometry]);
-		console.log(111111, lotid, geometries, obj);
-		
-		//var objF = new THREE.Mesh( mergedGeometry, new THREE.MeshLambertMaterial({ color : 0xff0000, transparent: true, opacity: 0.5 }) ); 
-
-		//objF.add(obj);
-		//scene.add(objF);
-		
-		//obj = objF;		
-	}
+	infProject.scene.array.base[infProject.scene.array.base.length] = inf_2;
 	
-	base[base.length] = {lotid: lotid, obj: obj.clone()};
-
 	return obj;
 }
 

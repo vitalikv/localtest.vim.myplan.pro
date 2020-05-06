@@ -1590,33 +1590,25 @@ function clickButton( event )
 			point.position.y = 0;
 			point.userData.point.type = clickO.button; 
 			clickO.move = point;				
-		}
-		else if(clickO.button == 'create_wd_2')
-		{
-			createEmptyFormWD_1({type:'door', lotid: 256}); 
-		}
-		else if(clickO.button == 'create_wd_3')
-		{
-			createEmptyFormWD_1({type:'window', lotid: 257});
-		}			
+		}		
 		else if(clickO.button == 'add_lotid')
-		{
-			loadObjServer({lotid: clickO.options, cursor: true});
+		{ 
+			if(clickO.options.type == 'window' || clickO.options.type == 'door')
+			{
+				createEmptyFormWD_1({type: clickO.options.type, lotid: clickO.options.lotid});
+			}
+			else
+			{
+				loadObjServer({lotid: clickO.options.lotid, cursor: true});
+			}			
 		}		
 	}
 	else if(camera == camera3D)
 	{
 		if(clickO.button == 'add_lotid')
 		{
-			loadObjServer({lotid: clickO.options, cursor: true});
+			loadObjServer({lotid: clickO.options.lotid, cursor: true});
 		}		
-	}
-	else if(camera == cameraWall)
-	{
-		if(clickO.button == 'create_wd_3')
-		{
-			createEmptyFormWD_1({type:'window'});
-		}
 	}
 	
 	clickO.buttonAct = clickO.button;
@@ -1648,19 +1640,11 @@ function clickInterface(cdm)
 		else if(cdm.button == 'point_1')
 		{
 			clickO.button = 'create_wall';
-		}
-		else if(cdm.button == 'create_wd_2')
-		{
-			clickO.button = 'create_wd_2';
-		}
-		else if(cdm.button == 'create_wd_3')
-		{
-			clickO.button = 'create_wd_3';
 		}		
 		else if(cdm.button == 'add_lotid')
 		{
 			clickO.button = 'add_lotid';
-			clickO.options = cdm.value;
+			clickO.options = { lotid: cdm.value, type: cdm.type };
 		}					
 	}
 
