@@ -1593,11 +1593,11 @@ function clickButton( event )
 		}
 		else if(clickO.button == 'create_wd_2')
 		{
-			createEmptyFormWD_1({type:'door', lotid: 4});
+			createEmptyFormWD_1({type:'door', lotid: 256}); 
 		}
 		else if(clickO.button == 'create_wd_3')
 		{
-			createEmptyFormWD_1({type:'window', lotid: 1});
+			createEmptyFormWD_1({type:'window', lotid: 257});
 		}			
 		else if(clickO.button == 'add_lotid')
 		{

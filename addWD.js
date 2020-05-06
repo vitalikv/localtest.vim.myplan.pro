@@ -9,9 +9,6 @@ function createEmptyFormWD_1(cdm)
 	
 	var color = infProject.listColor.door2D;
 	
-	if(type == 'window'){ color = infProject.listColor.window2D; }
-	else if(type == 'door'){ color = infProject.listColor.door2D; }
-	
 	var material = new THREE.MeshLambertMaterial({ color: color, transparent: true, opacity: 1.0, depthTest: false, lightMap : lightMap_1 });
 	
 	
@@ -320,9 +317,6 @@ function addWD( cdm )
 	
 	obj.geometry.computeBoundingBox();
 	obj.geometry.computeBoundingSphere();
-	
-	if(obj.userData.tag == 'window') { obj.userData.door.lotid = 32; }
-	else { obj.userData.door.lotid = 33; }
 	
 	if(obj.userData.door.lotid)
 	{

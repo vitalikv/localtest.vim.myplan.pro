@@ -259,7 +259,7 @@ function showRulerWD_2D(wd)
 		
 		upPosLabels_2({elem: label_2[i]});		
 		
-		line[i].visible = true;			
+		line[i].visible = false;			
 		line[i].updateMatrixWorld();
 		
 		for ( var i2 = 0; i2 < line[i].userData.rulerwd.cone.length; i2++ )
@@ -275,7 +275,7 @@ function showRulerWD_2D(wd)
 			cone.position.copy(pos);
 			cone.rotation.set(-Math.PI/2, 0, wall.rotation.y-zr);
 			
-			cone.visible = true;
+			cone.visible = false;
 		}
 	}
 		
