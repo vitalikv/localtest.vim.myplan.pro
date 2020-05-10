@@ -829,7 +829,7 @@ function loadObjInBase(cdm)
 	{
 		lotid[lotid.length] = Number(furn[i].lotid);
 
-		createSpotObj(inf, furn[i]);
+		//createSpotObj(inf, furn[i]);
 	}
 	
 	lotid = [...new Set(lotid)];  
