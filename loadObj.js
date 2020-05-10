@@ -5,6 +5,24 @@ async function getListObjTypesApi()
 {	
 	var arr = [];		
 
+	var url = infProject.settings.api.list.furn;
+	var url = infProject.settings.api.list.wd;
+	
+	var response = await fetch(url, { method: 'GET' });
+	var json = await response.json();
+	//https://vim2.myplan.pro/placer/api/ae/lot.obj/list/?rqi=63
+	console.log(json);
+	
+	for(var i = 0; i < json.length; i++)
+	{
+		arr[arr.length] =
+		{
+			lotid : json[i].id,
+			name : json[i].id, 
+			planeMath : 0, 
+		};		
+	}
+
 	if(1==1)
 	{
 		arr[arr.length] =

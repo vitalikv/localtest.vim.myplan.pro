@@ -220,11 +220,13 @@ function createImageSvg()
 		
 		for ( var i = 0; i < size.length; i++ )
 		{
+			if(size[i].display == 'none') continue;
 			arr[arr.length] = size[i];
 		}
 		
 		for ( var i = 0; i < offset.length; i++ )
 		{
+			if(offset[i].style.display == 'none') continue;
 			arr[arr.length] = offset[i];
 		}
 
